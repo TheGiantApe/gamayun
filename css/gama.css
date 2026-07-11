@@ -137,8 +137,10 @@ a:hover, a:focus {
 .right-deck { border-right: none; border-left: 1px solid var(--phosphor-faint); }
 
 /* Raven-and-key seal: not a nav icon anymore, a faint watermark bled off
-   the lower-left corner of the whole page. Fixed so it sits in place while
-   the page scrolls. z-index: 0, not negative - body has its own explicit
+   the lower-right corner of the whole page - kept off the left corner so
+   it doesn't collide with GAMA, who lives there and started reading as
+   the raven's head when the two overlapped. Fixed so it sits in place
+   while the page scrolls. z-index: 0, not negative - body has its own explicit
    background (see html,body rule above), which disqualifies it from the
    CSS canvas-background propagation trick, so a negative z-index here
    would paint behind that opaque body background and never be seen. 0
@@ -146,7 +148,7 @@ a:hover, a:focus {
    in the document. */
 .raven-watermark {
   position: fixed;
-  left: -6vw;
+  right: -6vw;
   bottom: -6vw;
   width: 22vw;
   min-width: 220px;
