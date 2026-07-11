@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+Disallow: /pages/gndn.html
+Sitemap: https://gamayun.site/sitemap.xml

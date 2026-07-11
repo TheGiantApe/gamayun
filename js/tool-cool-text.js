@@ -1,0 +1,91 @@
+/* COOL_TEXT — converts plain ASCII text into Unicode "fancy font" lookalikes,
+   using the Mathematical Alphanumeric Symbols block and friends. Pure Unicode,
+   no images/fonts needed - works anywhere Unicode renders.
+
+   NOTE: several of these Unicode blocks have intentional gaps ("holes") where
+   Unicode reused pre-existing Letterlike Symbols codepoints instead of adding
+   duplicates - verified against the actual Unicode charts, not assumed. Any
+   naive "just add an offset" implementation silently produces unassigned
+   codepoints (invisible boxes) for those specific letters. */
+
+const A_LOWER = "abcdefghijklmnopqrstuvwxyz";
+const A_UPPER = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+const A_DIGIT = "0123456789";
+
+function buildMap(lowerStart, upperStart, digitStart, exceptions) {
+  const map = {};
+  if (lowerStart !== null) [...A_LOWER].forEach((c, i) => map[c] = String.fromCodePoint(lowerStart + i));
+  if (upperStart !== null) [...A_UPPER].forEach((c, i) => map[c] = String.fromCodePoint(upperStart + i));
+  if (digitStart !== null) [...A_DIGIT].forEach((c, i) => map[c] = String.fromCodePoint(digitStart + i));
+  if (exceptions) Object.assign(map, exceptions);
+  return map;
+}
+
+// Verified holes in Mathematical Script (italic-script), filled with the
+// pre-existing Letterlike Symbols block codepoints Unicode actually uses.
+const SCRIPT_EXCEPTIONS = {
+  B: "ℬ", E: "ℰ", F: "ℱ", H: "ℋ", I: "ℐ", L: "ℒ", M: "ℳ", R: "ℛ",
+  e: "ℯ", g: "ℊ", o: "ℴ"
+};
+// Verified holes in Mathematical Double-Struck, same story.
+const DOUBLE_STRUCK_EXCEPTIONS = {
+  C: "ℂ", H: "ℍ", N: "ℕ", P: "ℙ", Q: "ℚ", R: "ℝ", Z: "ℤ"
+};
+// Verified holes in Mathematical Fraktur, same story.
+const FRAKTUR_EXCEPTIONS = {
+  C: "ℭ", H: "ℌ", I: "ℑ", R: "ℜ", Z: "ℨ"
+};
+
+const STYLES = {
+  "Bold": buildMap(0x1D41A, 0x1D400, 0x1D7CE, null),
+  "Italic": buildMap(0x1D44E, 0x1D434, null, { h: "ℎ" }), // italic small h is also a hole
+  "Bold Italic": buildMap(0x1D482, 0x1D468, null, null),
+  "Script": buildMap(0x1D4B6, 0x1D49C, null, SCRIPT_EXCEPTIONS),
+  "Double-Struck": buildMap(0x1D552, 0x1D538, 0x1D7D8, DOUBLE_STRUCK_EXCEPTIONS),
+  "Monospace": buildMap(0x1D68A, 0x1D670, 0x1D7F6, null),
+  "Fraktur": buildMap(0x1D51E, 0x1D504, null, FRAKTUR_EXCEPTIONS),
+};
+
+// Circled letters/digits: digits 1-9 live at U+2460-2468, but 0 is NOT
+// contiguous with them (it's U+24EA) - handled as an explicit exception
+// rather than an offset, since the offset approach shifts every digit by one.
+function circled(text) {
+  const upperBase = 0x24B6, lowerBase = 0x24D0, digitBase = 0x2460; // digitBase = circled "1"
+  return [...text].map((c) => {
+    if (c === "0") return "⓪";
+    if (/[1-9]/.test(c)) return String.fromCodePoint(digitBase + (c.charCodeAt(0) - "1".charCodeAt(0)));
+    if (/[A-Z]/.test(c)) return String.fromCodePoint(upperBase + (c.charCodeAt(0) - 65));
+    if (/[a-z]/.test(c)) return String.fromCodePoint(lowerBase + (c.charCodeAt(0) - 97));
+    return c;
+  }).join("");
+}
+
+const SMALL_CAPS_MAP = {
+  a:"ᴀ",b:"ʙ",c:"ᴄ",d:"ᴅ",e:"ᴇ",f:"ꜰ",g:"ɢ",h:"ʜ",i:"ɪ",j:"ᴊ",k:"ᴋ",l:"ʟ",m:"ᴍ",
+  n:"ɴ",o:"ᴏ",p:"ᴘ",q:"ǫ",r:"ʀ",s:"s",t:"ᴛ",u:"ᴜ",v:"ᴠ",w:"ᴡ",x:"x",y:"ʏ",z:"ᴢ"
+};
+
+function convert(text, styleName) {
+  if (styleName === "Small Caps") return [...text].map((c) => SMALL_CAPS_MAP[c.toLowerCase()] || c).join("");
+  if (styleName === "Circled") return circled(text);
+  const map = STYLES[styleName];
+  return [...text].map((c) => map[c] || c).join("");
+}
+
+const STYLE_NAMES = [...Object.keys(STYLES), "Small Caps", "Circled"];
+
+function executeCoolText() {
+  const raw = document.getElementById("cooltext-input").value;
+  const out = document.getElementById("cooltext-result");
+  if (!raw.trim()) { GAMA.say("idle"); out.innerHTML = ""; return; }
+  GAMA.say("working");
+  setTimeout(() => {
+    out.innerHTML = STYLE_NAMES.map((name) => {
+      const converted = convert(raw, name);
+      return `<div style="margin-bottom:0.4rem;"><span style="color:var(--phosphor-dim); font-size:0.75rem;">${name}:</span><br>
+        <span style="font-size:1.1rem; cursor:pointer;" onclick="navigator.clipboard.writeText(this.textContent); GAMA.log('Copied: ${name}')" title="click to copy">${converted}</span></div>`;
+    }).join("");
+    GAMA.say("success");
+    GAMA.log(`Rendered "${raw}" in ${STYLE_NAMES.length} phosphor variants`);
+  }, 100);
+}

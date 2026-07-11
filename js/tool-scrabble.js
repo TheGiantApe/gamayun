@@ -1,0 +1,66 @@
+/* SCRABBLE_SOLVER — given a rack of letters (+ optional ? wildcards), find every
+   valid word makeable from them. Depends on WORD_LIST from data-words.js. */
+
+function canForm(word, rackCounts) {
+  const need = {};
+  for (const ch of word) need[ch] = (need[ch] || 0) + 1;
+  let wildcardsUsed = 0;
+  for (const ch in need) {
+    const have = rackCounts[ch] || 0;
+    if (have < need[ch]) {
+      wildcardsUsed += need[ch] - have;
+      if (wildcardsUsed > (rackCounts["?"] || 0)) return false;
+    }
+  }
+  return true;
+}
+
+function solveScrabble(rackRaw) {
+  const rack = rackRaw.toLowerCase().replace(/[^a-z?]/g, "");
+  if (!rack) return [];
+  const counts = {};
+  for (const ch of rack) counts[ch] = (counts[ch] || 0) + 1;
+  const maxLen = rack.length;
+  const results = WORD_LIST.filter((w) => w.length <= maxLen && w.length >= 2 && canForm(w, counts));
+  results.sort((a, b) => b.length - a.length || a.localeCompare(b));
+  return results;
+}
+
+// Standard Scrabble point values, for score display.
+const SCRABBLE_POINTS = {
+  a:1,e:1,i:1,o:1,u:1,l:1,n:1,s:1,t:1,r:1,
+  d:2,g:2,
+  b:3,c:3,m:3,p:3,
+  f:4,h:4,v:4,w:4,y:4,
+  k:5,
+  j:8,x:8,
+  q:10,z:10
+};
+function scoreWord(w) {
+  let s = 0;
+  for (const ch of w) s += SCRABBLE_POINTS[ch] || 0;
+  return s;
+}
+
+function executeScrabble() {
+  const input = document.getElementById("rack-input");
+  const out = document.getElementById("scrabble-result");
+  const raw = input.value;
+  if (!raw.trim()) { GAMA.say("idle"); return; }
+  GAMA.say("working");
+  setTimeout(() => {
+    const results = solveScrabble(raw);
+    if (results.length === 0) {
+      GAMA.say("error");
+      out.textContent = "// nothing formable from that rack";
+      return;
+    }
+    GAMA.say("success");
+    const top = results.slice(0, 60);
+    out.innerHTML = `<div style="color:var(--phosphor-dim); margin-bottom:0.5rem;">${results.length} word(s) found, highest value first:</div>` +
+      top.sort((a,b) => scoreWord(b)-scoreWord(a) || b.length-a.length)
+         .map(w => `<span style="display:inline-block;margin:0.15rem 0.6rem 0.15rem 0;">${w.toUpperCase()} <span style="color:var(--phosphor-dim);font-size:0.8em;">(${scoreWord(w)})</span></span>`)
+         .join("");
+    GAMA.log(`Rack "${raw}" -> ${results.length} valid words`);
+  }, 150);
+}

@@ -30,6 +30,31 @@ PAGES = [
     ("pages/number-spell.html", "number-spell.html", "What Does My Number Spell",
      "Decode any phone number against a 52,000-word dictionary via classic T9 mapping.",
      "../", "NAV_SPELL", ["data-words.js", "tool-number-spell.js"]),
+    ("pages/scrabble.html", "scrabble.html", "Scrabble Solver",
+     "Find every valid word from a letter rack, including blank tiles, sorted by point value.",
+     "../", "", ["data-words.js", "tool-scrabble.js"]),
+    ("pages/text-case.html", "text-case.html", "Case Converter",
+     "Convert text to upper/lower/title/sentence/camel/snake/kebab case.",
+     "../", "", ["tool-text-case.js"]),
+    ("pages/letter-counter.html", "letter-counter.html", "Letter & Word Counter",
+     "Character, word, sentence, and line counts plus reading time estimate.",
+     "../", "", ["tool-letter-counter.js"]),
+    ("pages/cool-text.html", "cool-text.html", "Cool Text Generator",
+     "Convert text into Unicode bold, italic, script, double-struck, and other fancy variants.",
+     "../", "", ["tool-cool-text.js"]),
+    ("pages/calc-bmi.html", "calc-bmi.html", "BMI Calculator", "Body mass index calculator.", "../", "", ["tool-calculators.js"]),
+    ("pages/calc-percentage.html", "calc-percentage.html", "Percentage Calculator", "What percent is X of Y.", "../", "", ["tool-calculators.js"]),
+    ("pages/calc-tip.html", "calc-tip.html", "Tip Calculator", "Tip amount and per-person split.", "../", "", ["tool-calculators.js"]),
+    ("pages/calc-age.html", "calc-age.html", "Age Calculator", "Exact age in years, months, and days from a birthdate.", "../", "", ["tool-calculators.js"]),
+    ("pages/base64.html", "base64.html", "Base64 Codec",
+     "Encode or decode Base64, UTF-8 safe including emoji.",
+     "../", "", ["tool-base64.js"]),
+    ("pages/ascii-art.html", "ascii-art.html", "ASCII Banner Generator",
+     "Render any text as ASCII density art via canvas sampling.",
+     "../", "", ["tool-ascii-art.js"]),
+    ("pages/symbol-glossary.html", "symbol-glossary.html", "Symbol Glossary",
+     "Common HTML entities and Unicode symbols, click to copy.",
+     "../", "", ["tool-symbol-glossary.js"]),
     ("pages/about.html", "about.html", "Origin Log",
      "Who is G.A.M.A., and what happened to G.A.R.R.Y.",
      "../", "NAV_ABOUT", []),
@@ -82,6 +107,41 @@ def build():
         count += 1
         print(f"  built {out_rel}")
     print(f"\n{count} pages built.")
+    build_sitemap_xml()
+    build_robots_txt()
+
+def build_sitemap_xml():
+    """Machine-readable sitemap for search engines - separate from the
+    human-readable pages/sitemap.html. Auto-derived from PAGES so it can't
+    drift out of sync. This is the exact thing the yoyotools.com creator
+    skipped and then couldn't get indexed for 3 months."""
+    domain = "https://gamayun.site"
+    urls = []
+    for out_rel, fragment, title, desc, root, nav_active, extra_js in PAGES:
+        if out_rel.endswith("404.html") or out_rel.endswith("gndn.html"):
+            continue  # don't invite crawlers to index the error page or the easter egg
+        loc = f"{domain}/{out_rel}"
+        urls.append(f"  <url>\n    <loc>{loc}</loc>\n  </url>")
+    xml = (
+        '<?xml version="1.0" encoding="UTF-8"?>\n'
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+        + "\n".join(urls) +
+        "\n</urlset>\n"
+    )
+    with open(os.path.join(ROOT_DIR, "sitemap.xml"), "w", encoding="utf-8") as f:
+        f.write(xml)
+    print(f"  built sitemap.xml ({len(urls)} urls)")
+
+def build_robots_txt():
+    content = (
+        "User-agent: *\n"
+        "Allow: /\n"
+        "Disallow: /pages/gndn.html\n"
+        "Sitemap: https://gamayun.site/sitemap.xml\n"
+    )
+    with open(os.path.join(ROOT_DIR, "robots.txt"), "w", encoding="utf-8") as f:
+        f.write(content)
+    print("  built robots.txt")
 
 if __name__ == "__main__":
     build()
