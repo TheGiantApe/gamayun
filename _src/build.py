@@ -27,6 +27,9 @@ PAGES = [
     ("pages/time-logic.html", "time-logic.html", "Date Stamp Recon",
      "Convert human timestamps to ISO 8601, Unix epoch, filename-safe stamps.",
      "../", "NAV_TIME", ["tool-date-stamp.js"]),
+    ("pages/number-spell.html", "number-spell.html", "What Does My Number Spell",
+     "Decode any phone number against a 52,000-word dictionary via classic T9 mapping.",
+     "../", "NAV_SPELL", ["data-words.js", "tool-number-spell.js"]),
     ("pages/about.html", "about.html", "Origin Log",
      "Who is G.A.M.A., and what happened to G.A.R.R.Y.",
      "../", "NAV_ABOUT", []),
@@ -50,7 +53,7 @@ PAGES = [
      "../", "", []),
 ]
 
-NAV_KEYS = ["NAV_HOME", "NAV_LINKS", "NAV_TIME", "NAV_ABOUT", "NAV_WIKI"]
+NAV_KEYS = ["NAV_HOME", "NAV_LINKS", "NAV_TIME", "NAV_SPELL", "NAV_ABOUT", "NAV_WIKI"]
 
 def build():
     count = 0

@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Date Stamp Recon // GAMAYUN</title>
-    <meta name="description" content="Convert human timestamps to ISO 8601, Unix epoch, filename-safe stamps.">
+    <title>What Does My Number Spell // GAMAYUN</title>
+    <meta name="description" content="Decode any phone number against a 52,000-word dictionary via classic T9 mapping.">
     <link href="https://fonts.googleapis.com/css2?family=VT323&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/gama.css">
 </head>
@@ -23,8 +23,8 @@
                 <div class="nav-section-label">[ SALVAGE INDEX ]</div>
                 <a href="../index.html" class="nav-link ">&gt; DECK_LAUNCHER</a>
                 <a href="../pages/links.html" class="nav-link ">&gt; LINK_PURGE</a>
-                <a href="../pages/time-logic.html" class="nav-link active">&gt; DATE_STAMP_RECON</a>
-                <a href="../pages/number-spell.html" class="nav-link ">&gt; NUM_SPELL</a>
+                <a href="../pages/time-logic.html" class="nav-link ">&gt; DATE_STAMP_RECON</a>
+                <a href="../pages/number-spell.html" class="nav-link active">&gt; NUM_SPELL</a>
                 <div class="nav-section-label">[ CODE VAULT ]</div>
                 <a href="../pages/about.html" class="nav-link ">&gt; ORIGIN_LOG</a>
                 <a href="../pages/wiki-index.html" class="nav-link ">&gt; CHRONO_WIKI</a>
@@ -34,19 +34,13 @@
         <main class="center-viewport" id="active-tool-zone">
             <section class="tool-card">
                 <div class="badge-clientside">&#128274; 100% CLIENT-SIDE</div>
-                <h2>&gt; DATE_STAMP_RECON</h2>
-                <p style="color:var(--phosphor-dim); font-size:0.85rem;">Paste any human-readable date. Get back ISO 8601, Unix epoch, and a filename-safe YYYYMMDD stamp.</p>
+                <h2>&gt; NUM_SPELL</h2>
+                <p style="color:var(--phosphor-dim); font-size:0.85rem;">What does your phone number spell? Classic T9 keypad mapping, checked against a ~52,000-word dictionary. Longest matches surface first.</p>
                 <div class="tool-workspace">
-                    <input type="text" id="date-input" placeholder="e.g. the 7th day of October, 2024">
-                    <button onclick="executeDateStamp()">&gt; CONVERT</button>
+                    <input type="text" id="phone-input" placeholder="e.g. 555-1234 or 8005551212">
+                    <button onclick="executeNumberSpell()">&gt; DECODE</button>
                 </div>
-                <div class="result-block" id="date-result"></div>
-            </section>
-
-            <section class="prose" style="padding-left:0;padding-right:0;">
-                <h2>&gt; CHRONOLOGICAL WARFARE, A PRIMER</h2>
-                <p>Machines don't experience time the way you do. They count seconds from a fixed point — the Unix Epoch, January 1, 1970, 00:00:00 UTC — and everything since is just an incrementing integer. ISO 8601 (<code>YYYY-MM-DDTHH:MM:SSZ</code>) is the closest thing to a universal human-readable machine format. Most of the timestamp bugs you'll ever encounter come from someone assuming a format that wasn't actually guaranteed.</p>
-                <p>Full breakdown, including the upcoming 32-bit rollover (the "Year 2038 problem"), lives in the <a href="wiki-index.html">Chrono-Wiki</a>.</p>
+                <div class="result-block" id="spell-result"></div>
             </section>
 
         </main>
@@ -83,7 +77,8 @@
     </footer>
 
     <script src="../js/gama-core.js"></script>
-    <script src="../js/tool-date-stamp.js"></script>
+    <script src="../js/data-words.js"></script>
+    <script src="../js/tool-number-spell.js"></script>
     <script>document.getElementById("footer-year").textContent = new Date().getFullYear();</script>
 </body>
 </html>
