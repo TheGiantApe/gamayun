@@ -235,6 +235,29 @@ button:hover, .btn:hover {
   text-align: center;
   margin-bottom: 1rem;
 }
+.gama-portrait {
+  width: 100%;
+  max-width: 160px;
+  margin: 0 auto;
+  display: block;
+  filter: drop-shadow(0 0 8px rgba(0,255,102,0.35));
+  animation: gama-idle-float 4s ease-in-out infinite;
+}
+.gama-portrait.impatient { animation: gama-idle-float 4s ease-in-out infinite, gama-impatient-shake 0.5s ease-in-out; }
+@keyframes gama-idle-float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-4px) rotate(-1deg); }
+}
+@keyframes gama-impatient-shake {
+  0%, 100% { transform: translateY(-2px) rotate(0deg); }
+  20% { transform: translateY(-2px) rotate(-3deg); }
+  40% { transform: translateY(-2px) rotate(3deg); }
+  60% { transform: translateY(-2px) rotate(-2deg); }
+  80% { transform: translateY(-2px) rotate(2deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .gama-portrait, .gama-portrait.impatient { animation: none; }
+}
 .aperture-eye {
   font-family: var(--font-mono);
   font-size: 2.5rem;

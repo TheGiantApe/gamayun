@@ -12,7 +12,7 @@
     <link href="https://fonts.googleapis.com/css2?family=VT323&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ROOT}}css/gama.css">
 </head>
-<body class="crt-screen">
+<body class="crt-screen" data-root="{{ROOT}}">
 
     <header class="terminal-header">
         <div class="brand phosphor-text">GAMA.YUN // REV-4.2</div>
@@ -41,7 +41,8 @@
 
         <aside class="right-deck">
             <div class="gama-mascot-box">
-                <div class="aperture-eye">0_0</div>
+                <img class="gama-portrait" id="gama-portrait" src="{{ROOT}}assets/gama-corner-mascot.png" alt="G.A.M.A." draggable="false">
+                <div class="aperture-eye" style="display:none;">0_0</div>
                 <div class="gama-dialogue">
                     <p id="gama-speech">&gt; awaiting input...</p>
                 </div>
@@ -71,6 +72,7 @@
     </footer>
 
     <script src="{{ROOT}}js/gama-core.js"></script>
+    <script src="{{ROOT}}js/page-transition.js"></script>
 {{EXTRA_JS}}
     <script>document.getElementById("footer-year").textContent = new Date().getFullYear();</script>
 </body>

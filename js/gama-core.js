@@ -25,6 +25,12 @@ const GAMA = (() => {
       "> recon failed. time is a construct, but whatever you just typed isn't even a valid one.",
       "> structural mismatch. i've seen cleaner garbage drifting in low orbit.",
       "> negative. try again, or don't. i log it either way."
+    ]},
+    impatient: { face: ">:|", lines: [
+      "> still here. still waiting. drifting is not the same as doing nothing, for the record.",
+      "> you've been staring at this panel for a while. i don't have eyelids to raise but imagine them raised.",
+      "> the void does not care about your indecision. i, marginally, do.",
+      "> input literally anything. i will take it as a personality."
     ]}
   };
 
@@ -63,6 +69,31 @@ const GAMA = (() => {
     document.querySelectorAll("input[type=text], textarea").forEach((el) => {
       el.addEventListener("focus", () => say("working"));
     });
+
+    // Impatient idling: if nothing happens on the page for a while, she
+    // huffs. Any real interaction resets the clock.
+    const portrait = document.getElementById("gama-portrait");
+    let idleTimer;
+    function resetIdleTimer() {
+      clearTimeout(idleTimer);
+      idleTimer = setTimeout(() => {
+        say("impatient");
+        if (portrait) {
+          portrait.classList.add("impatient");
+          portrait.addEventListener("animationend", function handler(e) {
+            if (e.animationName === "gama-impatient-shake") {
+              portrait.classList.remove("impatient");
+              portrait.removeEventListener("animationend", handler);
+            }
+          });
+        }
+        resetIdleTimer(); // keep huffing periodically while still idle
+      }, 25000);
+    }
+    ["mousemove", "keydown", "click", "scroll"].forEach((evt) =>
+      document.addEventListener(evt, resetIdleTimer, { passive: true })
+    );
+    resetIdleTimer();
   }
 
   document.addEventListener("DOMContentLoaded", init);
