@@ -147,6 +147,11 @@ a:hover, a:focus {
   font-family: var(--font-mono);
   font-size: 3rem;
   color: var(--phosphor-dim);
+  overflow: hidden;
+}
+.raven-seal img {
+  filter: brightness(0.55) saturate(0.85);
+  transform: rotate(-7deg) translate(-8%, 6%) scale(1.15);
 }
 
 .terminal-nav { display: flex; flex-direction: column; gap: 0.25rem; }
@@ -234,6 +239,21 @@ button:hover, .btn:hover {
   padding: 1rem;
   text-align: center;
   margin-bottom: 1rem;
+}
+/* Desktop: G.A.M.A. detaches from the right-deck column and floats fixed
+   in the bottom-right corner, so she stays put while the page scrolls
+   instead of drifting off with the rest of the ad column. */
+@media (min-width: 901px) {
+  .gama-mascot-box {
+    position: fixed;
+    right: 1.25rem;
+    bottom: 6.5rem; /* clears the two-row site footer so it never covers the nav links */
+    width: 200px;
+    background: var(--void-raised);
+    box-shadow: 0 4px 24px rgba(0,0,0,0.6), 0 0 16px rgba(0,255,102,0.12);
+    z-index: 500;
+    margin-bottom: 0;
+  }
 }
 .gama-portrait {
   width: 100%;
@@ -343,6 +363,30 @@ button:hover, .btn:hover {
   position: relative;
   display: inline-block;
   animation: flicker-in 1.8s steps(2, end) 1, glitch-trail 6s ease-in-out infinite 2s;
+}
+.hero-wordmark-logo {
+  max-width: min(560px, 90%);
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 0 20px rgba(0,255,102,0.25));
+  animation: flicker-in 1.8s steps(2, end) 1;
+}
+/* Glitch pulse is applied/removed by JS on a randomized timer (see
+   gama-core.js) rather than looping on a fixed CSS cycle, so it doesn't
+   read as a predictable metronome. */
+.hero-wordmark-logo.glitching {
+  animation: flicker-in 1.8s steps(2, end) 1, wordmark-glitch 0.35s steps(2, end) 1;
+}
+@keyframes wordmark-glitch {
+  0%   { transform: translate(0, 0); filter: drop-shadow(0 0 20px rgba(0,255,102,0.25)); }
+  20%  { transform: translate(-4px, 1px); filter: hue-rotate(25deg) saturate(2); clip-path: inset(10% 0 60% 0); }
+  40%  { transform: translate(3px, -1px); filter: hue-rotate(-20deg) saturate(2); clip-path: inset(55% 0 15% 0); }
+  60%  { transform: translate(-2px, 0); filter: hue-rotate(10deg) saturate(1.5); clip-path: inset(30% 0 40% 0); }
+  80%  { transform: translate(2px, 1px); filter: none; clip-path: inset(0 0 0 0); }
+  100% { transform: translate(0, 0); filter: drop-shadow(0 0 20px rgba(0,255,102,0.25)); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-wordmark-logo, .hero-wordmark-logo.glitching { animation: none; }
 }
 .hero-tagline {
   margin-top: 0.75rem;

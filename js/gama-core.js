@@ -94,6 +94,27 @@ const GAMA = (() => {
       document.addEventListener(evt, resetIdleTimer, { passive: true })
     );
     resetIdleTimer();
+
+    // Hero logo (home page only): random glitch pulses instead of a fixed
+    // loop, so it reads as an unstable signal rather than a metronome.
+    const heroLogo = document.getElementById("hero-wordmark-logo");
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (heroLogo && !reduceMotion) {
+      const scheduleGlitch = () => {
+        const delay = 3000 + Math.random() * 9000; // 3-12s between pulses
+        setTimeout(() => {
+          heroLogo.classList.add("glitching");
+          heroLogo.addEventListener("animationend", function handler(e) {
+            if (e.animationName === "wordmark-glitch") {
+              heroLogo.classList.remove("glitching");
+              heroLogo.removeEventListener("animationend", handler);
+            }
+          });
+          scheduleGlitch();
+        }, delay);
+      };
+      scheduleGlitch();
+    }
   }
 
   document.addEventListener("DOMContentLoaded", init);

@@ -1,53 +1,60 @@
-/* ASCII_BANNER — renders text to a hidden canvas, samples pixel brightness
-   per grid cell, maps to ASCII density characters. Works for any text the
-   browser's font can render (including non-Latin scripts), unlike a
-   hand-authored bitmap font which would only cover the letters I bothered
-   to draw. Browser-only (Canvas 2D) - not unit-testable outside a browser,
-   unlike the rest of the tools here. */
+/* ASCII_BANNER — FIGlet-style renderer using the embedded SmSlant font
+   (js/data-figlet-smslant.js). Glyphs are kerned (slid together until they'd
+   touch, not overlap) rather than laid out full-width, which is what makes
+   FIGlet banners look tight instead of gappy. Pure logic, no canvas/DOM,
+   unlike the old density-sampling version - testable with plain `node -e`. */
 
-const DENSITY = " .:-=+*#%@";
-
-function textToAscii(text, fontSize = 40, charWidthPx = 8, charHeightPx = 16) {
-  const canvas = document.createElement("canvas");
-  const ctx = canvas.getContext("2d");
-  ctx.font = `bold ${fontSize}px monospace`;
-  const metrics = ctx.measureText(text);
-  const width = Math.ceil(metrics.width) + 20;
-  const height = fontSize * 1.6;
-  canvas.width = width;
-  canvas.height = height;
-
-  ctx.fillStyle = "black";
-  ctx.fillRect(0, 0, width, height);
-  ctx.fillStyle = "white";
-  ctx.font = `bold ${fontSize}px monospace`;
-  ctx.textBaseline = "top";
-  ctx.fillText(text, 10, fontSize * 0.2);
-
-  const imgData = ctx.getImageData(0, 0, width, height).data;
-  const cols = Math.floor(width / charWidthPx);
-  const rows = Math.floor(height / charHeightPx);
-  let lines = [];
-  for (let row = 0; row < rows; row++) {
-    let line = "";
-    for (let col = 0; col < cols; col++) {
-      let sum = 0, count = 0;
-      for (let y = row * charHeightPx; y < (row + 1) * charHeightPx; y++) {
-        for (let x = col * charWidthPx; x < (col + 1) * charWidthPx; x++) {
-          const idx = (y * width + x) * 4;
-          if (idx < imgData.length) { sum += imgData[idx]; count++; }
-        }
-      }
-      const brightness = count ? sum / count / 255 : 0;
-      const charIdx = Math.min(DENSITY.length - 1, Math.floor(brightness * DENSITY.length));
-      line += DENSITY[charIdx];
-    }
-    lines.push(line.replace(/\s+$/, ""));
+function figletKernAmount(leftRows, rightRows) {
+  let amount = null;
+  for (let i = 0; i < leftRows.length; i++) {
+    const l = leftRows[i], r = rightRows[i];
+    const lTrim = l.length - l.replace(/ +$/, "").length;
+    const rTrim = r.length - r.replace(/^ +/, "").length;
+    const rowAmount = lTrim + rTrim;
+    if (amount === null || rowAmount < amount) amount = rowAmount;
   }
-  // trim fully-blank leading/trailing lines
-  while (lines.length && lines[0].trim() === "") lines.shift();
-  while (lines.length && lines[lines.length - 1].trim() === "") lines.pop();
-  return lines.join("\n");
+  return amount || 0;
+}
+
+function figletRender(text, font = FIGLET_SMSLANT) {
+  const height = font.height;
+  let rows = new Array(height).fill("");
+  let prevGlyph = null;
+  let prevChar = null;
+
+  for (const ch of text) {
+    const code = ch.charCodeAt(0);
+    const glyph = font.chars[code] || font.chars[63] || font.chars[32];
+
+    let smush = 0;
+    if (prevGlyph && ch !== " " && prevChar !== " ") {
+      smush = figletKernAmount(prevGlyph, glyph);
+      const cap = Math.min(...prevGlyph.map((r) => r.length), ...glyph.map((r) => r.length)) - 1;
+      smush = Math.max(0, Math.min(smush, cap));
+    }
+
+    const merged = new Array(height);
+    for (let i = 0; i < height; i++) {
+      const fullRow = rows[i];
+      const gRow = glyph[i];
+      if (smush > 0) {
+        const take = Math.min(smush, fullRow.length - fullRow.replace(/ +$/, "").length);
+        const remaining = smush - take;
+        const fullRowTrim = take ? fullRow.slice(0, fullRow.length - take) : fullRow;
+        merged[i] = fullRowTrim + gRow.slice(remaining);
+      } else {
+        merged[i] = fullRow + gRow;
+      }
+    }
+    rows = merged;
+    prevGlyph = glyph;
+    prevChar = ch;
+  }
+
+  // trim fully-blank leading/trailing rows (e.g. descender row with no descenders in this text)
+  while (rows.length && rows[0].trim() === "") rows.shift();
+  while (rows.length && rows[rows.length - 1].trim() === "") rows.pop();
+  return rows.join("\n");
 }
 
 function executeAsciiArt() {
@@ -57,10 +64,10 @@ function executeAsciiArt() {
   GAMA.say("working");
   setTimeout(() => {
     try {
-      const art = textToAscii(raw);
+      const art = figletRender(raw);
       out.textContent = art;
       GAMA.say("success");
-      GAMA.log(`Rasterized "${raw}" to ASCII density map`);
+      GAMA.log(`Rendered "${raw}" in SmSlant`);
     } catch (e) {
       GAMA.say("error");
       out.textContent = "// rendering failed: " + e.message;
