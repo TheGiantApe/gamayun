@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Date Stamp Recon // GAMAYUN</title>
-    <meta name="description" content="Convert human timestamps to ISO 8601, Unix epoch, filename-safe stamps.">
-    <meta property="og:title" content="Date Stamp Recon // GAMAYUN">
-    <meta property="og:description" content="Convert human timestamps to ISO 8601, Unix epoch, filename-safe stamps.">
+    <title>Maintenance Log // GAMAYUN</title>
+    <meta name="description" content="G.A.M.A.'s patch history - what got added or changed, and when.">
+    <meta property="og:title" content="Maintenance Log // GAMAYUN">
+    <meta property="og:description" content="G.A.M.A.'s patch history - what got added or changed, and when.">
     <meta property="og:type" content="website">
     <meta name="twitter:card" content="summary">
     <link href="https://fonts.googleapis.com/css2?family=VT323&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
@@ -27,7 +27,7 @@
                 <div class="nav-section-label">[ SALVAGE INDEX ]</div>
                 <a href="../index.html" class="nav-link ">&gt; DECK_LAUNCHER</a>
                 <a href="../pages/links.html" class="nav-link ">&gt; LINK_PURGE</a>
-                <a href="../pages/time-logic.html" class="nav-link active">&gt; DATE_STAMP_RECON</a>
+                <a href="../pages/time-logic.html" class="nav-link ">&gt; DATE_STAMP_RECON</a>
                 <a href="../pages/number-spell.html" class="nav-link ">&gt; NUM_SPELL</a>
                 <div class="nav-section-label">[ CODE VAULT ]</div>
                 <a href="../pages/about.html" class="nav-link ">&gt; ORIGIN_LOG</a>
@@ -36,22 +36,28 @@
         </aside>
 
         <main class="center-viewport" id="active-tool-zone">
-            <section class="tool-card">
-                <div class="badge-clientside">&#128274; 100% CLIENT-SIDE</div>
-                <h2>&gt; DATE_STAMP_RECON</h2>
-                <p style="color:var(--phosphor-dim); font-size:0.85rem;">Paste any human-readable date. Get back ISO 8601, Unix epoch, and a filename-safe YYYYMMDD stamp.</p>
-                <div class="tool-workspace">
-                    <input type="text" id="date-input" placeholder="e.g. the 7th day of October, 2024">
-                    <button onclick="executeDateStamp()">&gt; CONVERT</button>
-                </div>
-                <div class="result-block" id="date-result"></div>
-            </section>
+            <article class="prose">
+                <h1>&gt; MAINTENANCE_LOG</h1>
+                <p style="color:var(--phosphor-dim); font-size:0.9rem;">G.A.M.A. logs her own patch history. Newest first.</p>
 
-            <section class="prose" style="padding-left:0;padding-right:0;">
-                <h2>&gt; CHRONOLOGICAL WARFARE, A PRIMER</h2>
-                <p>Machines don't experience time the way you do. They count seconds from a fixed point — the Unix Epoch, January 1, 1970, 00:00:00 UTC — and everything since is just an incrementing integer. ISO 8601 (<code>YYYY-MM-DDTHH:MM:SSZ</code>) is the closest thing to a universal human-readable machine format. Most of the timestamp bugs you'll ever encounter come from someone assuming a format that wasn't actually guaranteed.</p>
-                <p>Full breakdown, including the upcoming 32-bit rollover (the "Year 2038 problem"), lives in the <a href="wiki-index.html">Chrono-Wiki</a>.</p>
-            </section>
+                <h2>2026-07-11</h2>
+                <ul>
+                    <li>Added a real corner-idle mascot: floating animation, and a genuine impatience system — 25 seconds of no interaction and she shakes and switches to irritated dialogue.</li>
+                    <li>Added the glitch page-transition — internal links now trigger a brief filtered "signal interruption" overlay using AI-animated footage before landing on the next page. Skips for external links and respects reduced-motion.</li>
+                    <li>Added this changelog.</li>
+                </ul>
+
+                <h2>2026-07-10</h2>
+                <ul>
+                    <li>Added 10 tools: Scrabble Solver, Case Converter, Letter/Word Counter, Cool Text Generator, 4 calculators (BMI/Percentage/Tip/Age), Base64 Codec, ASCII Banner Generator, Symbol Glossary.</li>
+                    <li>Added real <code>sitemap.xml</code> and <code>robots.txt</code> — auto-generated from the page list so they can't drift out of sync.</li>
+                    <li>Pulled the actual brand palette and fonts from the official brand kit (phosphor green, indigo, copper, wordmark-red accent, Eurostile/VT323) — replacing earlier improvised colors.</li>
+                    <li>Added the real raven-and-key seal graphic, replacing the placeholder glyph.</li>
+                    <li>Added <code>NUM_SPELL</code> (what does your number spell), checked against a 52,000-word dictionary.</li>
+                    <li>Fixed body-copy readability (font size, line height, softened the scanline overlay).</li>
+                    <li>Initial site skeleton: build system, CRT visual system, Link Purge, Date Stamp Recon, core pages (About, Legal, Contact, Chrono-Wiki).</li>
+                </ul>
+            </article>
 
         </main>
 
@@ -90,7 +96,7 @@
 
     <script src="../js/gama-core.js"></script>
     <script src="../js/page-transition.js"></script>
-    <script src="../js/tool-date-stamp.js"></script>
+
     <script>document.getElementById("footer-year").textContent = new Date().getFullYear();</script>
 </body>
 </html>
