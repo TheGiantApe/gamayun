@@ -1,0 +1,27 @@
+/* JSON_FORMATTER — beautify or minify, with a real error message pointing
+   at where it broke (not just "invalid JSON"). */
+
+function formatJson(raw, mode) {
+  let parsed;
+  try {
+    parsed = JSON.parse(raw);
+  } catch (e) {
+    return { ok: false, error: e.message };
+  }
+  const out = mode === "minify" ? JSON.stringify(parsed) : JSON.stringify(parsed, null, 2);
+  return { ok: true, result: out };
+}
+
+function executeJsonFormat(mode) {
+  const raw = document.getElementById("json-input").value;
+  const out = document.getElementById("json-result");
+  if (!raw.trim()) { GAMA.say("idle"); out.textContent = ""; return; }
+  const res = formatJson(raw, mode);
+  if (!res.ok) {
+    GAMA.say("error");
+    out.textContent = "// " + res.error;
+    return;
+  }
+  GAMA.say("success");
+  out.textContent = res.result;
+}

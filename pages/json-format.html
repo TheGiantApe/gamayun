@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Maintenance Log // GAMAYUN</title>
-    <meta name="description" content="G.A.M.A.'s patch history - what got added or changed, and when.">
-    <meta property="og:title" content="Maintenance Log // GAMAYUN">
-    <meta property="og:description" content="G.A.M.A.'s patch history - what got added or changed, and when.">
+    <title>JSON Formatter // GAMAYUN</title>
+    <meta name="description" content="Beautify or minify JSON with real error messages.">
+    <meta property="og:title" content="JSON Formatter // GAMAYUN">
+    <meta property="og:description" content="Beautify or minify JSON with real error messages.">
     <meta property="og:type" content="website">
     <meta name="twitter:card" content="summary">
     <link href="https://fonts.googleapis.com/css2?family=VT323&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
@@ -36,29 +36,19 @@
         </aside>
 
         <main class="center-viewport" id="active-tool-zone">
-            <article class="prose">
-                <h1>&gt; MAINTENANCE_LOG</h1>
-                <p style="color:var(--phosphor-dim); font-size:0.9rem;">G.A.M.A. logs her own patch history. Newest first.</p>
-
-                <h2>2026-07-11</h2>
-                <ul>
-                    <li>Added 4 more tools: Color Converter (hex/RGB-int/RGB-float/HSL in one shot), JSON Formatter, UUID Generator, Hash Generator (SHA-1/256/384/512).</li>
-                    <li>Added a real corner-idle mascot: floating animation, and a genuine impatience system — 25 seconds of no interaction and she shakes and switches to irritated dialogue.</li>
-                    <li>Added the glitch page-transition — internal links now trigger a brief filtered "signal interruption" overlay using AI-animated footage before landing on the next page. Skips for external links and respects reduced-motion.</li>
-                    <li>Added this changelog.</li>
-                </ul>
-
-                <h2>2026-07-10</h2>
-                <ul>
-                    <li>Added 10 tools: Scrabble Solver, Case Converter, Letter/Word Counter, Cool Text Generator, 4 calculators (BMI/Percentage/Tip/Age), Base64 Codec, ASCII Banner Generator, Symbol Glossary.</li>
-                    <li>Added real <code>sitemap.xml</code> and <code>robots.txt</code> — auto-generated from the page list so they can't drift out of sync.</li>
-                    <li>Pulled the actual brand palette and fonts from the official brand kit (phosphor green, indigo, copper, wordmark-red accent, Eurostile/VT323) — replacing earlier improvised colors.</li>
-                    <li>Added the real raven-and-key seal graphic, replacing the placeholder glyph.</li>
-                    <li>Added <code>NUM_SPELL</code> (what does your number spell), checked against a 52,000-word dictionary.</li>
-                    <li>Fixed body-copy readability (font size, line height, softened the scanline overlay).</li>
-                    <li>Initial site skeleton: build system, CRT visual system, Link Purge, Date Stamp Recon, core pages (About, Legal, Contact, Chrono-Wiki).</li>
-                </ul>
-            </article>
+            <section class="tool-card">
+                <div class="badge-clientside">&#128274; 100% CLIENT-SIDE</div>
+                <h2>&gt; JSON_FORMATTER</h2>
+                <div class="tool-workspace">
+                    <textarea id="json-input" placeholder='{"paste":"json here"}'></textarea>
+                </div>
+                <div style="margin-top:0.5rem;">
+                    <button onclick="executeJsonFormat('beautify')">&gt; BEAUTIFY</button>
+                    <button onclick="executeJsonFormat('minify')">&gt; MINIFY</button>
+                </div>
+                <pre class="result-block" id="json-result" style="overflow-x:auto;"></pre>
+            </section>
+            <p style="padding:0 1.5rem; font-size:0.85rem;"><span style="color:var(--phosphor-dim)">See also:</span> <a href="base64.html">Base64 Codec</a></p>
 
         </main>
 
@@ -97,7 +87,7 @@
 
     <script src="../js/gama-core.js"></script>
     <script src="../js/page-transition.js"></script>
-
+    <script src="../js/tool-json.js"></script>
     <script>document.getElementById("footer-year").textContent = new Date().getFullYear();</script>
 </body>
 </html>
