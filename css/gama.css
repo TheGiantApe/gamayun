@@ -136,22 +136,30 @@ a:hover, a:focus {
 }
 .right-deck { border-right: none; border-left: 1px solid var(--phosphor-faint); }
 
-.raven-seal {
-  width: 100%;
-  aspect-ratio: 1;
-  border: 1px solid var(--phosphor-dim);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 1rem;
-  font-family: var(--font-mono);
-  font-size: 3rem;
-  color: var(--phosphor-dim);
-  overflow: hidden;
+/* Raven-and-key seal: not a nav icon anymore, a faint watermark bled off
+   the lower-left corner of the whole page. Fixed so it sits in place while
+   the page scrolls. z-index: 0, not negative - body has its own explicit
+   background (see html,body rule above), which disqualifies it from the
+   CSS canvas-background propagation trick, so a negative z-index here
+   would paint behind that opaque body background and never be seen. 0
+   still sits behind every real (non-positioned) UI element painted later
+   in the document. */
+.raven-watermark {
+  position: fixed;
+  left: -6vw;
+  bottom: -6vw;
+  width: 22vw;
+  min-width: 220px;
+  max-width: 420px;
+  height: auto;
+  transform: rotate(-11deg);
+  filter: brightness(0.4) saturate(0.7);
+  opacity: 0.35;
+  z-index: 0;
+  pointer-events: none;
 }
-.raven-seal img {
-  filter: brightness(0.55) saturate(0.85);
-  transform: rotate(-7deg) translate(-8%, 6%) scale(1.15);
+@media (max-width: 900px) {
+  .raven-watermark { width: 34vw; opacity: 0.25; }
 }
 
 .terminal-nav { display: flex; flex-direction: column; gap: 0.25rem; }
@@ -234,25 +242,30 @@ button:hover, .btn:hover {
 }
 
 /* ---- Mascot / log deck (right pane) ---- */
+/* No border, no panel - she just sits on the page rather than living in a
+   UI box. The radial gradient is only there to keep her dialogue readable
+   over whatever's behind her; it fades to nothing at the edges so it never
+   reads as a container. */
 .gama-mascot-box {
-  border: 1px solid var(--phosphor-dim);
   padding: 1rem;
   text-align: center;
   margin-bottom: 1rem;
 }
-/* Desktop: G.A.M.A. detaches from the right-deck column and floats fixed
-   in the bottom-right corner, so she stays put while the page scrolls
-   instead of drifting off with the rest of the ad column. */
+/* Desktop: GAMA detaches from the right-deck column and floats fixed
+   in the bottom-left corner (closer to where eyes actually land than the
+   far right edge), so she stays put while the page scrolls. She sits
+   above the raven watermark, which shares that corner as a background
+   flourish. */
 @media (min-width: 901px) {
   .gama-mascot-box {
     position: fixed;
-    right: 1.25rem;
+    left: 1.25rem;
     bottom: 6.5rem; /* clears the two-row site footer so it never covers the nav links */
     width: 200px;
-    background: var(--void-raised);
-    box-shadow: 0 4px 24px rgba(0,0,0,0.6), 0 0 16px rgba(0,255,102,0.12);
+    background: radial-gradient(ellipse at 50% 60%, rgba(10,10,10,0.55) 0%, rgba(10,10,10,0.28) 50%, rgba(10,10,10,0) 75%);
     z-index: 500;
     margin-bottom: 0;
+    pointer-events: none;
   }
 }
 .gama-portrait {
@@ -285,7 +298,8 @@ button:hover, .btn:hover {
   color: var(--phosphor);
   text-shadow: 0 0 6px var(--phosphor);
 }
-.gama-dialogue { font-size: 0.85rem; line-height: 1.4; margin-top: 0.5rem; min-height: 3em; }
+/* Dialogue sits above the portrait now, so the spacing goes below it. */
+.gama-dialogue { font-size: 0.85rem; line-height: 1.4; margin-bottom: 0.5rem; min-height: 3em; }
 
 .corporate-debris-billboard {
   border: 1px dashed var(--amber);
@@ -297,6 +311,29 @@ button:hover, .btn:hover {
   margin-bottom: 0.5rem;
   text-align: center;
 }
+
+/* ---- Site updates / transmission log (right pane, replaces the old
+   in-column mascot slot) ---- */
+.site-updates-box {
+  border: 1px solid var(--phosphor-dim);
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  font-size: 0.85rem;
+}
+.site-updates-box .wireframe-header {
+  color: var(--phosphor);
+  text-align: left;
+}
+.update-entry { margin-bottom: 0.5rem; }
+.update-date {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--phosphor-dim);
+  margin-bottom: 0.25rem;
+}
+.update-entry p { margin: 0; line-height: 1.4; color: var(--phosphor-dim); }
+.updates-link { font-size: 0.8rem; display: inline-block; }
 .adsense-slot {
   min-height: 250px;
   border: 1px solid var(--phosphor-faint);
@@ -347,7 +384,7 @@ button:hover, .btn:hover {
 
 /* ---- Landing hero / logo animation ---- */
 .hero {
-  padding: 3rem 1.5rem;
+  padding: 3rem 0;
   text-align: center;
   border-bottom: 1px solid var(--phosphor-dim);
 }
@@ -364,11 +401,19 @@ button:hover, .btn:hover {
   display: inline-block;
   animation: flicker-in 1.8s steps(2, end) 1, glitch-trail 6s ease-in-out infinite 2s;
 }
+/* The source art (assets/gama-wordmark-logo.png) has been keyed to real alpha
+   transparency around the letterforms - no rectangular frame or vignette
+   baked into the pixels, so it sits directly on the page with no edge to
+   see. The filter recolors the original red/white print to the site's
+   phosphor-green palette (grayscale first so hue-rotate has something
+   uniform to rotate, then sepia+hue-rotate+saturate does the tinting). */
 .hero-wordmark-logo {
-  max-width: min(560px, 90%);
   width: 100%;
+  max-width: 100%;
   height: auto;
-  filter: drop-shadow(0 0 20px rgba(0,255,102,0.25));
+  display: block;
+  margin: 0 auto;
+  filter: grayscale(1) sepia(1) hue-rotate(65deg) saturate(8) brightness(0.95) drop-shadow(0 0 18px rgba(0,255,102,0.45));
   animation: flicker-in 1.8s steps(2, end) 1;
 }
 /* Glitch pulse is applied/removed by JS on a randomized timer (see
@@ -378,18 +423,19 @@ button:hover, .btn:hover {
   animation: flicker-in 1.8s steps(2, end) 1, wordmark-glitch 0.35s steps(2, end) 1;
 }
 @keyframes wordmark-glitch {
-  0%   { transform: translate(0, 0); filter: drop-shadow(0 0 20px rgba(0,255,102,0.25)); }
-  20%  { transform: translate(-4px, 1px); filter: hue-rotate(25deg) saturate(2); clip-path: inset(10% 0 60% 0); }
-  40%  { transform: translate(3px, -1px); filter: hue-rotate(-20deg) saturate(2); clip-path: inset(55% 0 15% 0); }
-  60%  { transform: translate(-2px, 0); filter: hue-rotate(10deg) saturate(1.5); clip-path: inset(30% 0 40% 0); }
-  80%  { transform: translate(2px, 1px); filter: none; clip-path: inset(0 0 0 0); }
-  100% { transform: translate(0, 0); filter: drop-shadow(0 0 20px rgba(0,255,102,0.25)); }
+  0%   { transform: translate(0, 0); filter: grayscale(1) sepia(1) hue-rotate(65deg) saturate(8) brightness(0.95) drop-shadow(0 0 18px rgba(0,255,102,0.45)); }
+  20%  { transform: translate(-4px, 1px); filter: grayscale(1) sepia(1) hue-rotate(90deg) saturate(14) brightness(1.1) drop-shadow(0 0 18px rgba(0,255,102,0.45)); clip-path: inset(10% 0 60% 0); }
+  40%  { transform: translate(3px, -1px); filter: grayscale(1) sepia(1) hue-rotate(45deg) saturate(14) brightness(1.1) drop-shadow(0 0 18px rgba(0,255,102,0.45)); clip-path: inset(55% 0 15% 0); }
+  60%  { transform: translate(-2px, 0); filter: grayscale(1) sepia(1) hue-rotate(75deg) saturate(11) brightness(1) drop-shadow(0 0 18px rgba(0,255,102,0.45)); clip-path: inset(30% 0 40% 0); }
+  80%  { transform: translate(2px, 1px); filter: grayscale(1) sepia(1) hue-rotate(65deg) saturate(8) brightness(0.95) drop-shadow(0 0 18px rgba(0,255,102,0.45)); clip-path: inset(0 0 0 0); }
+  100% { transform: translate(0, 0); filter: grayscale(1) sepia(1) hue-rotate(65deg) saturate(8) brightness(0.95) drop-shadow(0 0 18px rgba(0,255,102,0.45)); }
 }
 @media (prefers-reduced-motion: reduce) {
   .hero-wordmark-logo, .hero-wordmark-logo.glitching { animation: none; }
 }
 .hero-tagline {
   margin-top: 0.75rem;
+  padding: 0 1.5rem;
   color: var(--phosphor-dim);
   font-size: 0.95rem;
 }

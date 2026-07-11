@@ -1,6 +1,6 @@
 /* ==========================================================================
    GAMAYUN // gama-core.js
-   Global state manager: G.A.M.A.'s expression matrix, log ticker, clock.
+   Global state manager: GAMA's expression matrix, log ticker, clock.
    Zero dependencies. Every tool script calls into GAMA.say() / GAMA.log().
    ========================================================================== */
 
@@ -65,7 +65,7 @@ const GAMA = (() => {
     tickClock();
     setInterval(tickClock, 1000);
 
-    // Any input field on the page nudges G.A.M.A. to "working" on focus.
+    // Any input field on the page nudges GAMA to "working" on focus.
     document.querySelectorAll("input[type=text], textarea").forEach((el) => {
       el.addEventListener("focus", () => say("working"));
     });
@@ -101,7 +101,7 @@ const GAMA = (() => {
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (heroLogo && !reduceMotion) {
       const scheduleGlitch = () => {
-        const delay = 3000 + Math.random() * 9000; // 3-12s between pulses
+        const delay = 2000 + Math.random() * 4000; // 2-6s between pulses
         setTimeout(() => {
           heroLogo.classList.add("glitching");
           heroLogo.addEventListener("animationend", function handler(e) {
