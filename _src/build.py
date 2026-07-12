@@ -25,6 +25,7 @@ CATEGORIES = [
     ("TEXT_OPS", "TEXT_OPS"),
     ("NUMBER_CRUNCH", "NUMBER_CRUNCH"),
     ("LOOKUP_DECK", "LOOKUP_DECK"),
+    ("FILE_SALVAGE", "FILE_SALVAGE"),
     ("DEV_VAULT", "DEV_VAULT"),
     ("GAMES_CURIOS", "GAMES & CURIOS"),
     ("SHIPS_LOG", "SHIP'S LOG"),
@@ -99,6 +100,10 @@ PAGES = [
          desc="Chat shorthand, dev jargon, and fact-checked fictional acronyms, searchable.",
          root="../", code="ACRONYM_INDEX", category="LOOKUP_DECK",
          js=["data-acronyms.js", "tool-acronym-index.js"]),
+
+    dict(out="pages/image-tools.html", fragment="image-tools.html", title="Image Salvage",
+         desc="Read EXIF metadata (including GPS location) before it leaks, then strip it, resize, and convert format.",
+         root="../", code="IMAGE_SALVAGE", category="FILE_SALVAGE", js=["tool-image-tools.js"]),
 
     dict(out="pages/json-format.html", fragment="json-format.html", title="JSON Formatter",
          desc="Beautify or minify JSON with real error messages.",

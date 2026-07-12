@@ -572,6 +572,39 @@ button:hover, .btn:hover {
 .acronym-expansion { font-size: 0.9rem; }
 .acronym-note { font-size: 0.78rem; color: var(--phosphor-dim-text); margin-top: 0.3rem; line-height: 1.4; }
 
+/* ---- Image salvage (EXIF read/strip, resize, convert) ---- */
+.img-dropzone {
+  border: 1px dashed var(--phosphor-dim);
+  padding: 2rem 1rem;
+  text-align: center;
+  cursor: pointer;
+  margin-top: 1rem;
+}
+.img-dropzone:hover, .img-dropzone.dragover {
+  background: var(--phosphor-faint);
+  border-color: var(--phosphor);
+}
+.exif-table { border: 1px solid var(--phosphor-dim); }
+.exif-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.4rem 0.7rem;
+  border-bottom: 1px solid var(--phosphor-faint);
+  font-size: 0.85rem;
+}
+.exif-row:last-child { border-bottom: none; }
+.exif-row-gps { color: var(--amber); }
+.exif-key { color: var(--phosphor-dim-text); }
+.exif-row-gps .exif-key { color: var(--amber); }
+.exif-gps-warning {
+  border: 1px dashed var(--amber);
+  color: var(--amber);
+  padding: 0.6rem 0.8rem;
+  font-size: 0.85rem;
+  margin-bottom: 0.75rem;
+}
+
 /* ---- Prose pages (about/legal/wiki) ---- */
 .prose { padding: 1.5rem; max-width: 68ch; line-height: 1.7; font-size: 1.05rem; }
 .prose h1, .prose h2 { font-family: var(--font-display); }

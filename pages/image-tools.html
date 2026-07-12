@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hash Generator // GAMAYUN⁺</title>
-    <meta name="description" content="SHA-1/256/384/512 via the browser's native crypto API.">
-    <meta property="og:title" content="Hash Generator // GAMAYUN⁺">
-    <meta property="og:description" content="SHA-1/256/384/512 via the browser's native crypto API.">
+    <title>Image Salvage // GAMAYUN⁺</title>
+    <meta name="description" content="Read EXIF metadata (including GPS location) before it leaks, then strip it, resize, and convert format.">
+    <meta property="og:title" content="Image Salvage // GAMAYUN⁺">
+    <meta property="og:description" content="Read EXIF metadata (including GPS location) before it leaks, then strip it, resize, and convert format.">
     <meta property="og:type" content="website">
     <meta name="twitter:card" content="summary">
     <link href="https://fonts.googleapis.com/css2?family=VT323&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
@@ -46,11 +46,11 @@
                 <a href="../pages/emoji-index.html" class="nav-link">&gt; EMOJI_INDEX</a>
                 <a href="../pages/acronym-index.html" class="nav-link">&gt; ACRONYM_INDEX</a>
                 <div class="nav-section-label">[ FILE_SALVAGE ]</div>
-                <a href="../pages/image-tools.html" class="nav-link">&gt; IMAGE_SALVAGE</a>
+                <a href="../pages/image-tools.html" class="nav-link active">&gt; IMAGE_SALVAGE</a>
                 <div class="nav-section-label">[ DEV_VAULT ]</div>
                 <a href="../pages/json-format.html" class="nav-link">&gt; JSON_FORMATTER</a>
                 <a href="../pages/uuid.html" class="nav-link">&gt; UUID_GEN</a>
-                <a href="../pages/hash.html" class="nav-link active">&gt; HASH_GEN</a>
+                <a href="../pages/hash.html" class="nav-link">&gt; HASH_GEN</a>
                 <div class="nav-section-label">[ GAMES & CURIOS ]</div>
                 <a href="../pages/scrabble.html" class="nav-link">&gt; SCRABBLE_SOLVER</a>
                 <a href="../pages/number-spell.html" class="nav-link">&gt; NUM_SPELL</a>
@@ -61,17 +61,40 @@
         </aside>
 
         <main class="center-viewport" id="active-tool-zone">
-            <div class="breadcrumb">&gt; <a href="../index.html">DECK_LAUNCHER</a> <span class="breadcrumb-sep">/</span> DEV_VAULT <span class="breadcrumb-sep">/</span> HASH_GEN</div>
+            <div class="breadcrumb">&gt; <a href="../index.html">DECK_LAUNCHER</a> <span class="breadcrumb-sep">/</span> FILE_SALVAGE <span class="breadcrumb-sep">/</span> IMAGE_SALVAGE</div>
             <section class="tool-card">
                 <div class="badge-clientside">&#128274; 100% CLIENT-SIDE</div>
-                <h2>&gt; HASH_GEN</h2>
-                <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">SHA-1, SHA-256, SHA-384, SHA-512. No MD5 — it's cryptographically broken and isn't in the browser's native crypto API on purpose.</p>
-                <div class="tool-workspace">
-                    <input type="text" id="hash-input" placeholder="text to hash..." oninput="executeHash()">
+                <h2>&gt; IMAGE_SALVAGE</h2>
+                <p style="color: var(--phosphor-dim-text); font-size:0.9rem;">See what a photo is actually leaking (camera model, GPS location) before it leaves your machine, then resize/convert/strip it. Nothing is uploaded anywhere — the file never leaves your browser.</p>
+
+                <div class="img-dropzone" id="img-dropzone">
+                    <p>&gt; drop an image here, or click to choose one</p>
+                    <input type="file" id="img-file-input" accept="image/*" style="display:none;">
                 </div>
-                <div class="result-block" id="hash-result"></div>
+                <p id="img-filename" style="color: var(--phosphor-dim-text); font-size:0.85rem; margin-top:0.5rem;"></p>
+
+                <h3 style="font-family:var(--font-display); font-size:1rem; margin:1.5rem 0 0.5rem;">&gt; METADATA_SCAN</h3>
+                <div id="img-metadata"><p style="color: var(--phosphor-dim-text);">// waiting for a file...</p></div>
+
+                <h3 style="font-family:var(--font-display); font-size:1rem; margin:1.5rem 0 0.5rem;">&gt; RE-ENCODE</h3>
+                <div class="tool-workspace">
+                    <label style="font-size:0.85rem; color:var(--phosphor-dim-text);">max dimension (px):
+                        <input type="number" id="img-maxdim" value="2000" min="16" style="width:100px;">
+                    </label>
+                    <label style="font-size:0.85rem; color:var(--phosphor-dim-text);">format:
+                        <select id="img-format">
+                            <option value="jpeg">JPEG</option>
+                            <option value="png">PNG</option>
+                            <option value="webp">WebP</option>
+                        </select>
+                    </label>
+                    <button id="img-process-btn">&gt; STRIP &amp; RE-ENCODE</button>
+                </div>
+                <div id="img-download-row" style="display:none; margin-top:1rem;">
+                    <a id="img-download-link" class="btn" download>&gt; DOWNLOAD RESULT</a>
+                    <p id="img-download-info" style="color: var(--phosphor-dim-text); font-size:0.8rem; margin-top:0.5rem;"></p>
+                </div>
             </section>
-            <p style="padding:0 1.5rem; font-size:0.85rem;"><span style="color: var(--phosphor-dim-text)">See also:</span> <a href="uuid.html">UUID Generator</a> &middot; <a href="base64.html">Base64 Codec</a></p>
 
         </main>
 
@@ -119,7 +142,7 @@
 
     <script src="../js/gama-core.js"></script>
     <script src="../js/page-transition.js"></script>
-    <script src="../js/tool-hash.js"></script>
+    <script src="../js/tool-image-tools.js"></script>
     <script>document.getElementById("footer-year").textContent = new Date().getFullYear();</script>
 </body>
 </html>

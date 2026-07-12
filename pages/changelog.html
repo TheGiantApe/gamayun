@@ -45,6 +45,8 @@
                 <a href="../pages/symbol-index.html" class="nav-link">&gt; SYMBOL_INDEX</a>
                 <a href="../pages/emoji-index.html" class="nav-link">&gt; EMOJI_INDEX</a>
                 <a href="../pages/acronym-index.html" class="nav-link">&gt; ACRONYM_INDEX</a>
+                <div class="nav-section-label">[ FILE_SALVAGE ]</div>
+                <a href="../pages/image-tools.html" class="nav-link">&gt; IMAGE_SALVAGE</a>
                 <div class="nav-section-label">[ DEV_VAULT ]</div>
                 <a href="../pages/json-format.html" class="nav-link">&gt; JSON_FORMATTER</a>
                 <a href="../pages/uuid.html" class="nav-link">&gt; UUID_GEN</a>
@@ -66,9 +68,15 @@
 
                 <h2>2026-07-11</h2>
                 <ul>
-                    <li>Added 4 more tools: Color Converter (hex/RGB-int/RGB-float/HSL in one shot), JSON Formatter, UUID Generator, Hash Generator (SHA-1/256/384/512).</li>
+                    <li>Added 3 new lookup tools: Symbol Index (rebuilt from the old Symbol Glossary — 349 symbols, searchable by name/glyph/codepoint), Emoji Index (816 emoji, searchable by name), Acronym Index (chat/dev jargon plus fact-checked fictional acronyms — yes, NERV really isn't a backronym).</li>
+                    <li>Added Image Salvage, the site's first file-processing tool: reads EXIF metadata (camera make/model, GPS coordinates) out of a photo before stripping it, plus resize and format conversion. Everything via Canvas/File API, nothing leaves the browser.</li>
+                    <li>Rebuilt ASCII_BANNER as a real FIGlet-style renderer (SmSlant font, proper glyph kerning) instead of canvas pixel-density sampling.</li>
+                    <li>Nav and the homepage tool grid are now grouped into categories (RECON_OPS, TEXT_OPS, NUMBER_CRUNCH, LOOKUP_DECK, FILE_SALVAGE, DEV_VAULT, GAMES_&amp;_CURIOS, SHIP'S LOG) generated from one source of truth instead of a flat hand-maintained list. Every page now has a breadcrumb trail. <code>pages/sitemap.html</code> is auto-generated too now.</li>
+                    <li>Reworked the hero banner (real wordmark logo art instead of a CSS text glitch effect), the raven-and-key seal (now a page watermark instead of a small nav icon), and GAMA's on-page presence (no border/box, sits bottom-left with her dialogue above her).</li>
+                    <li>Fixed body-text contrast — secondary/dim text was only hitting ~3:1 against the void background, under the 4.5:1 AA floor.</li>
+                    <li>Branding: she's <code>GAMA⁺</code> / <code>GAMAYUN⁺</code> now, not <code>G.A.M.A.</code></li>
                     <li>Added a real corner-idle mascot: floating animation, and a genuine impatience system — 25 seconds of no interaction and she shakes and switches to irritated dialogue.</li>
-                    <li>Added the glitch page-transition — internal links now trigger a brief filtered "signal interruption" overlay using AI-animated footage before landing on the next page. Skips for external links and respects reduced-motion.</li>
+                    <li>Added the glitch page-transition — internal links now trigger a brief filtered "signal interruption" overlay using AI-animated footage before landing on the next page (now gated to ~35% of navigations instead of every single one). Skips for external links and respects reduced-motion.</li>
                     <li>Added this changelog.</li>
                 </ul>
 
