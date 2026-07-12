@@ -71,7 +71,7 @@ a:hover, a:focus {
   display: block;
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
-  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.14) 50%);
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.08) 50%);
   background-size: 100% 4px;
   z-index: 9999;
   pointer-events: none;
@@ -142,35 +142,45 @@ a:hover, a:focus {
 }
 .right-deck { border-right: none; border-left: 1px solid var(--phosphor-faint); }
 
-/* Raven-and-key seal: not a nav icon anymore, a faint watermark bled off
-   the lower-right corner of the whole page - kept off the left corner so
-   it doesn't collide with GAMA, who lives there and started reading as
-   the raven's head when the two overlapped. Fixed so it sits in place
-   while the page scrolls. z-index: 0, not negative - body has its own explicit
-   background (see html,body rule above), which disqualifies it from the
-   CSS canvas-background propagation trick, so a negative z-index here
-   would paint behind that opaque body background and never be seen. 0
-   still sits behind every real (non-positioned) UI element painted later
-   in the document. */
+/* Raven-and-key seal: a faint watermark bled toward the lower-right of
+   the whole page (kept off the left corner so it doesn't collide with
+   GAMA). The source PNG used to be a fully opaque rectangle (dark
+   near-black "background" baked into the pixels, alpha always 255) -
+   that's what was actually bleeding through the ad box, not a z-index
+   problem. Re-exported with real alpha (background keyed to transparent
+   by luminance) so only the linework itself is visible now. Fixed so it
+   sits in place while the page scrolls. z-index: 0, not negative - body
+   has its own explicit background (see html,body rule above), which
+   disqualifies it from the CSS canvas-background propagation trick, so a
+   negative z-index here would paint behind that opaque body background
+   and never be seen. 0 still sits behind every real (non-positioned) UI
+   element painted later in the document. */
 .raven-watermark {
   position: fixed;
-  right: -1vw;
-  bottom: 1vw;
-  width: 32vw;
-  min-width: 300px;
-  max-width: 560px;
+  right: 2vw;
+  bottom: 3vw;
+  width: 30vw;
+  min-width: 280px;
+  max-width: 520px;
   height: auto;
   transform: rotate(-11deg);
   filter: brightness(0.5) saturate(0.8);
-  opacity: 0.45;
+  opacity: 0.22;
   z-index: 0;
   pointer-events: none;
 }
 @media (max-width: 900px) {
-  .raven-watermark { width: 42vw; bottom: -1vw; opacity: 0.3; }
+  .raven-watermark { width: 40vw; right: 1vw; bottom: 1vw; opacity: 0.18; }
 }
 
-.terminal-nav { display: flex; flex-direction: column; gap: 0.25rem; }
+.terminal-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  border: 1px solid var(--phosphor-faint);
+  background: var(--void-raised);
+  padding: 0.75rem;
+}
 /* Desktop: the nav now lists every tool grouped by category, which is
    tall enough to run under GAMA's fixed corner spot. Give it its own
    scroll region that stops short of her instead of overlapping. */
@@ -316,8 +326,32 @@ button:hover, .btn:hover {
   color: var(--phosphor);
   text-shadow: 0 0 6px var(--phosphor);
 }
-/* Dialogue sits above the portrait now, so the spacing goes below it. */
-.gama-dialogue { font-size: 0.85rem; line-height: 1.4; margin-bottom: 0.5rem; min-height: 3em; }
+/* 90s-RPG-style speech bubble: bordered box with a tail pointing down at
+   her portrait, instead of bare floating text. The tail is two stacked
+   CSS triangles (outer border-colored, inner background-colored, slightly
+   smaller/lower) - the classic cheap way to fake a bordered pointer. */
+.gama-dialogue {
+  position: relative;
+  background: var(--void-raised);
+  border: 2px solid var(--phosphor);
+  padding: 0.6rem 0.7rem;
+  margin-bottom: 1.1rem;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  min-height: 3em;
+  box-shadow: 0 0 10px rgba(0, 255, 102, 0.15);
+}
+.gama-dialogue::after,
+.gama-dialogue::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  border-left: 9px solid transparent;
+  border-right: 9px solid transparent;
+}
+.gama-dialogue::after { bottom: -11px; border-top: 11px solid var(--phosphor); }
+.gama-dialogue::before { bottom: -8px; border-top: 9px solid var(--void-raised); z-index: 1; }
 
 .corporate-debris-billboard {
   border: 1px dashed var(--amber);

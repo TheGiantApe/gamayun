@@ -1,24 +1,5 @@
-/* CALC_DECK — BMI, Percentage, Tip, Age. Four small calculators, one file. */
-
-function calcBMI(kg, cm) {
-  const m = cm / 100;
-  const bmi = kg / (m * m);
-  let category;
-  if (bmi < 18.5) category = "underweight";
-  else if (bmi < 25) category = "normal range";
-  else if (bmi < 30) category = "overweight";
-  else category = "obese range";
-  return { bmi: Math.round(bmi * 10) / 10, category };
-}
-function executeBMI() {
-  const kg = parseFloat(document.getElementById("bmi-kg").value);
-  const cm = parseFloat(document.getElementById("bmi-cm").value);
-  const out = document.getElementById("bmi-result");
-  if (!kg || !cm) { GAMA.say("idle"); out.textContent = ""; return; }
-  const { bmi, category } = calcBMI(kg, cm);
-  out.textContent = `BMI: ${bmi} (${category})`;
-  GAMA.say("success");
-}
+/* CALC_DECK — Percentage, Tip, Age. Three small calculators, one file.
+   (BMI calc was retired - see tool-iifym.js for its replacement.) */
 
 function executePercentage() {
   const a = parseFloat(document.getElementById("pct-x").value);

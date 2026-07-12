@@ -12,6 +12,7 @@
   if (REDUCE_MOTION) return;
 
   const TRANSITION_CHANCE = 0.35; // ~1 in 3 internal navigations
+  const CLIPS = ["gama-transition.mp4", "gama-transition-2.mp4", "gama-transition-3.mp4"];
 
   function buildOverlay() {
     const overlay = document.createElement("div");
@@ -22,7 +23,8 @@
       opacity: 0; pointer-events: none; transition: opacity 0.15s linear;
     `;
     const video = document.createElement("video");
-    video.src = (document.body.dataset.root || "") + "assets/gama-transition.mp4";
+    const clip = CLIPS[Math.floor(Math.random() * CLIPS.length)];
+    video.src = (document.body.dataset.root || "") + "assets/" + clip;
     video.muted = true;
     video.playsInline = true;
     video.style.cssText = `
