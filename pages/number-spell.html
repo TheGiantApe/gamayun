@@ -25,22 +25,43 @@
 
         <aside class="left-deck">
             <nav class="terminal-nav">
-                <div class="nav-section-label">[ SALVAGE INDEX ]</div>
-                <a href="../index.html" class="nav-link ">&gt; DECK_LAUNCHER</a>
-                <a href="../pages/links.html" class="nav-link ">&gt; LINK_PURGE</a>
-                <a href="../pages/time-logic.html" class="nav-link ">&gt; DATE_STAMP_RECON</a>
+                <a href="../index.html" class="nav-link">&gt; DECK_LAUNCHER</a>
+                <div class="nav-section-label">[ RECON_OPS ]</div>
+                <a href="../pages/links.html" class="nav-link">&gt; LINK_PURGE</a>
+                <a href="../pages/time-logic.html" class="nav-link">&gt; DATE_STAMP_RECON</a>
+                <div class="nav-section-label">[ TEXT_OPS ]</div>
+                <a href="../pages/text-case.html" class="nav-link">&gt; CASE_CONVERTER</a>
+                <a href="../pages/letter-counter.html" class="nav-link">&gt; LETTER_COUNTER</a>
+                <a href="../pages/cool-text.html" class="nav-link">&gt; COOL_TEXT</a>
+                <a href="../pages/ascii-art.html" class="nav-link">&gt; ASCII_BANNER</a>
+                <a href="../pages/base64.html" class="nav-link">&gt; BASE64_CODEC</a>
+                <div class="nav-section-label">[ NUMBER_CRUNCH ]</div>
+                <a href="../pages/calc-bmi.html" class="nav-link">&gt; BMI_CALC</a>
+                <a href="../pages/calc-percentage.html" class="nav-link">&gt; PERCENT_CALC</a>
+                <a href="../pages/calc-tip.html" class="nav-link">&gt; TIP_CALC</a>
+                <a href="../pages/calc-age.html" class="nav-link">&gt; AGE_CALC</a>
+                <a href="../pages/color.html" class="nav-link">&gt; COLOR_CONVERTER</a>
+                <div class="nav-section-label">[ LOOKUP_DECK ]</div>
+                <a href="../pages/symbol-glossary.html" class="nav-link">&gt; SYMBOL_GLOSSARY</a>
+                <div class="nav-section-label">[ DEV_VAULT ]</div>
+                <a href="../pages/json-format.html" class="nav-link">&gt; JSON_FORMATTER</a>
+                <a href="../pages/uuid.html" class="nav-link">&gt; UUID_GEN</a>
+                <a href="../pages/hash.html" class="nav-link">&gt; HASH_GEN</a>
+                <div class="nav-section-label">[ GAMES & CURIOS ]</div>
+                <a href="../pages/scrabble.html" class="nav-link">&gt; SCRABBLE_SOLVER</a>
                 <a href="../pages/number-spell.html" class="nav-link active">&gt; NUM_SPELL</a>
-                <div class="nav-section-label">[ CODE VAULT ]</div>
-                <a href="../pages/about.html" class="nav-link ">&gt; ORIGIN_LOG</a>
-                <a href="../pages/wiki-index.html" class="nav-link ">&gt; CHRONO_WIKI</a>
+                <div class="nav-section-label">[ SHIP'S LOG ]</div>
+                <a href="../pages/about.html" class="nav-link">&gt; ORIGIN_LOG</a>
+                <a href="../pages/wiki-index.html" class="nav-link">&gt; CHRONO_WIKI</a>
             </nav>
         </aside>
 
         <main class="center-viewport" id="active-tool-zone">
+            <div class="breadcrumb">&gt; <a href="../index.html">DECK_LAUNCHER</a> <span class="breadcrumb-sep">/</span> GAMES & CURIOS <span class="breadcrumb-sep">/</span> NUM_SPELL</div>
             <section class="tool-card">
                 <div class="badge-clientside">&#128274; 100% CLIENT-SIDE</div>
                 <h2>&gt; NUM_SPELL</h2>
-                <p style="color:var(--phosphor-dim); font-size:0.85rem;">What does your phone number spell? Classic T9 keypad mapping, checked against a ~52,000-word dictionary. Longest matches surface first.</p>
+                <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">What does your phone number spell? Classic T9 keypad mapping, checked against a ~52,000-word dictionary. Longest matches surface first.</p>
                 <div class="tool-workspace">
                     <input type="text" id="phone-input" placeholder="e.g. 555-1234 or 8005551212">
                     <button onclick="executeNumberSpell()">&gt; DECODE</button>

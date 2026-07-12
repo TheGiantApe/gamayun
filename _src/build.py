@@ -5,7 +5,7 @@ Assembles _src/templates/base.html + _src/content/*.html fragments
 into the final static site. Output is plain HTML/CSS/JS - nothing
 about the shipped site depends on this script running again.
 
-To add a new page: drop a fragment in _src/content/, add one line
+To add a new page: drop a fragment in _src/content/, add one entry
 to PAGES below, run this script.
 """
 import os
@@ -16,114 +16,226 @@ ROOT_DIR = os.path.dirname(SRC)
 with open(os.path.join(SRC, "templates", "base.html"), encoding="utf-8") as f:
     BASE = f.read()
 
-# (output relative path, content fragment, title, description, root prefix, nav key, [extra js files])
-PAGES = [
-    ("index.html", "home.html", "Orbital Salvage Archive",
-     "Free client-side web tools. No uploads, no tracking, no server.",
-     "", "NAV_HOME", []),
-    ("pages/links.html", "links.html", "Link Purge",
-     "Strip tracking parameters from any URL, entirely client-side.",
-     "../", "NAV_LINKS", ["tool-link-cleaner.js"]),
-    ("pages/time-logic.html", "time-logic.html", "Date Stamp Recon",
-     "Convert human timestamps to ISO 8601, Unix epoch, filename-safe stamps.",
-     "../", "NAV_TIME", ["tool-date-stamp.js"]),
-    ("pages/number-spell.html", "number-spell.html", "What Does My Number Spell",
-     "Decode any phone number against a 52,000-word dictionary via classic T9 mapping.",
-     "../", "NAV_SPELL", ["data-words.js", "tool-number-spell.js"]),
-    ("pages/scrabble.html", "scrabble.html", "Scrabble Solver",
-     "Find every valid word from a letter rack, including blank tiles, sorted by point value.",
-     "../", "", ["data-words.js", "tool-scrabble.js"]),
-    ("pages/text-case.html", "text-case.html", "Case Converter",
-     "Convert text to upper/lower/title/sentence/camel/snake/kebab case.",
-     "../", "", ["tool-text-case.js"]),
-    ("pages/letter-counter.html", "letter-counter.html", "Letter & Word Counter",
-     "Character, word, sentence, and line counts plus reading time estimate.",
-     "../", "", ["tool-letter-counter.js"]),
-    ("pages/cool-text.html", "cool-text.html", "Cool Text Generator",
-     "Convert text into Unicode bold, italic, script, double-struck, and other fancy variants.",
-     "../", "", ["tool-cool-text.js"]),
-    ("pages/calc-bmi.html", "calc-bmi.html", "BMI Calculator", "Body mass index calculator.", "../", "", ["tool-calculators.js"]),
-    ("pages/calc-percentage.html", "calc-percentage.html", "Percentage Calculator", "What percent is X of Y.", "../", "", ["tool-calculators.js"]),
-    ("pages/calc-tip.html", "calc-tip.html", "Tip Calculator", "Tip amount and per-person split.", "../", "", ["tool-calculators.js"]),
-    ("pages/calc-age.html", "calc-age.html", "Age Calculator", "Exact age in years, months, and days from a birthdate.", "../", "", ["tool-calculators.js"]),
-    ("pages/base64.html", "base64.html", "Base64 Codec",
-     "Encode or decode Base64, UTF-8 safe including emoji.",
-     "../", "", ["tool-base64.js"]),
-    ("pages/ascii-art.html", "ascii-art.html", "ASCII Banner Generator",
-     "Render text as a FIGlet-style ASCII banner (SmSlant font).",
-     "../", "", ["data-figlet-smslant.js", "tool-ascii-art.js"]),
-    ("pages/symbol-glossary.html", "symbol-glossary.html", "Symbol Glossary",
-     "Common HTML entities and Unicode symbols, click to copy.",
-     "../", "", ["tool-symbol-glossary.js"]),
-    ("pages/color.html", "color.html", "Color Converter",
-     "Hex, RGB integer, RGB float, and HSL, all at once.",
-     "../", "", ["tool-color.js"]),
-    ("pages/json-format.html", "json-format.html", "JSON Formatter",
-     "Beautify or minify JSON with real error messages.",
-     "../", "", ["tool-json.js"]),
-    ("pages/uuid.html", "uuid.html", "UUID Generator",
-     "Cryptographically random v4 UUIDs.",
-     "../", "", ["tool-uuid.js"]),
-    ("pages/hash.html", "hash.html", "Hash Generator",
-     "SHA-1/256/384/512 via the browser's native crypto API.",
-     "../", "", ["tool-hash.js"]),
-    ("pages/about.html", "about.html", "Origin Log",
-     "Who is GAMA⁺, and what happened to G.A.R.R.Y.",
-     "../", "NAV_ABOUT", []),
-    ("pages/legal.html", "legal.html", "Legal & Privacy",
-     "Privacy policy, terms of use, advertising disclosure.",
-     "../", "", []),
-    ("pages/contact.html", "contact.html", "Contact",
-     "Get in touch.",
-     "../", "", []),
-    ("pages/wiki-index.html", "wiki-index.html", "Chrono-Wiki",
-     "A technical archive on how machines keep time.",
-     "../", "NAV_WIKI", []),
-    ("pages/sitemap.html", "sitemap.html", "Sitemap",
-     "Full index of every page on this ship.",
-     "../", "", []),
-    ("pages/changelog.html", "changelog.html", "Maintenance Log",
-     "GAMA⁺'s patch history - what got added or changed, and when.",
-     "../", "", []),
-    ("pages/gndn.html", "gndn.html", "GNDN",
-     "Goes nowhere, does nothing. Yet.",
-     "../", "", []),
-    ("pages/404.html", "404.html", "Signal Lost",
-     "Page not found.",
-     "../", "", []),
+# Category display order + bracketed nav-section labels. A page's
+# "category" field must be one of these keys, or None for pages that
+# don't appear in the sidebar nav / tool grid (legal, contact, sitemap,
+# changelog, gndn, 404) but still get a breadcrumb via breadcrumb_cat.
+CATEGORIES = [
+    ("RECON_OPS", "RECON_OPS"),
+    ("TEXT_OPS", "TEXT_OPS"),
+    ("NUMBER_CRUNCH", "NUMBER_CRUNCH"),
+    ("LOOKUP_DECK", "LOOKUP_DECK"),
+    ("DEV_VAULT", "DEV_VAULT"),
+    ("GAMES_CURIOS", "GAMES & CURIOS"),
+    ("SHIPS_LOG", "SHIP'S LOG"),
 ]
 
-NAV_KEYS = ["NAV_HOME", "NAV_LINKS", "NAV_TIME", "NAV_SPELL", "NAV_ABOUT", "NAV_WIKI"]
+# Each page: out (output path), fragment (content file), title, desc,
+# root (path prefix back to site root), code (short nav/breadcrumb label,
+# None = not in nav), category (key into CATEGORIES, or None),
+# breadcrumb_cat (override label for breadcrumb only, e.g. utility pages
+# that aren't in the visible nav but still get a breadcrumb trail), js.
+PAGES = [
+    dict(out="index.html", fragment="home.html", title="Orbital Salvage Archive",
+         desc="Free client-side web tools. No uploads, no tracking, no server.",
+         root="", code="DECK_LAUNCHER", category=None, js=[]),
+
+    dict(out="pages/links.html", fragment="links.html", title="Link Purge",
+         desc="Strip tracking parameters from any URL, entirely client-side.",
+         root="../", code="LINK_PURGE", category="RECON_OPS",
+         js=["tool-link-cleaner.js"]),
+    dict(out="pages/time-logic.html", fragment="time-logic.html", title="Date Stamp Recon",
+         desc="Convert human timestamps to ISO 8601, Unix epoch, filename-safe stamps.",
+         root="../", code="DATE_STAMP_RECON", category="RECON_OPS",
+         js=["tool-date-stamp.js"]),
+
+    dict(out="pages/text-case.html", fragment="text-case.html", title="Case Converter",
+         desc="Convert text to upper/lower/title/sentence/camel/snake/kebab case.",
+         root="../", code="CASE_CONVERTER", category="TEXT_OPS",
+         js=["tool-text-case.js"]),
+    dict(out="pages/letter-counter.html", fragment="letter-counter.html", title="Letter & Word Counter",
+         desc="Character, word, sentence, and line counts plus reading time estimate.",
+         root="../", code="LETTER_COUNTER", category="TEXT_OPS",
+         js=["tool-letter-counter.js"]),
+    dict(out="pages/cool-text.html", fragment="cool-text.html", title="Cool Text Generator",
+         desc="Convert text into Unicode bold, italic, script, double-struck, and other fancy variants.",
+         root="../", code="COOL_TEXT", category="TEXT_OPS",
+         js=["tool-cool-text.js"]),
+    dict(out="pages/ascii-art.html", fragment="ascii-art.html", title="ASCII Banner Generator",
+         desc="Render text as a FIGlet-style ASCII banner (SmSlant font).",
+         root="../", code="ASCII_BANNER", category="TEXT_OPS",
+         js=["data-figlet-smslant.js", "tool-ascii-art.js"]),
+    dict(out="pages/base64.html", fragment="base64.html", title="Base64 Codec",
+         desc="Encode or decode Base64, UTF-8 safe including emoji.",
+         root="../", code="BASE64_CODEC", category="TEXT_OPS",
+         js=["tool-base64.js"]),
+
+    dict(out="pages/calc-bmi.html", fragment="calc-bmi.html", title="BMI Calculator",
+         desc="Body mass index calculator.", root="../", code="BMI_CALC",
+         category="NUMBER_CRUNCH", js=["tool-calculators.js"]),
+    dict(out="pages/calc-percentage.html", fragment="calc-percentage.html", title="Percentage Calculator",
+         desc="What percent is X of Y.", root="../", code="PERCENT_CALC",
+         category="NUMBER_CRUNCH", js=["tool-calculators.js"]),
+    dict(out="pages/calc-tip.html", fragment="calc-tip.html", title="Tip Calculator",
+         desc="Tip amount and per-person split.", root="../", code="TIP_CALC",
+         category="NUMBER_CRUNCH", js=["tool-calculators.js"]),
+    dict(out="pages/calc-age.html", fragment="calc-age.html", title="Age Calculator",
+         desc="Exact age in years, months, and days from a birthdate.", root="../", code="AGE_CALC",
+         category="NUMBER_CRUNCH", js=["tool-calculators.js"]),
+    dict(out="pages/color.html", fragment="color.html", title="Color Converter",
+         desc="Hex, RGB integer, RGB float, and HSL, all at once.",
+         root="../", code="COLOR_CONVERTER", category="NUMBER_CRUNCH",
+         js=["tool-color.js"]),
+
+    dict(out="pages/symbol-glossary.html", fragment="symbol-glossary.html", title="Symbol Glossary",
+         desc="Common HTML entities and Unicode symbols, click to copy.",
+         root="../", code="SYMBOL_GLOSSARY", category="LOOKUP_DECK",
+         js=["tool-symbol-glossary.js"]),
+
+    dict(out="pages/json-format.html", fragment="json-format.html", title="JSON Formatter",
+         desc="Beautify or minify JSON with real error messages.",
+         root="../", code="JSON_FORMATTER", category="DEV_VAULT",
+         js=["tool-json.js"]),
+    dict(out="pages/uuid.html", fragment="uuid.html", title="UUID Generator",
+         desc="Cryptographically random v4 UUIDs.",
+         root="../", code="UUID_GEN", category="DEV_VAULT",
+         js=["tool-uuid.js"]),
+    dict(out="pages/hash.html", fragment="hash.html", title="Hash Generator",
+         desc="SHA-1/256/384/512 via the browser's native crypto API.",
+         root="../", code="HASH_GEN", category="DEV_VAULT",
+         js=["tool-hash.js"]),
+
+    dict(out="pages/scrabble.html", fragment="scrabble.html", title="Scrabble Solver",
+         desc="Find every valid word from a letter rack, including blank tiles, sorted by point value.",
+         root="../", code="SCRABBLE_SOLVER", category="GAMES_CURIOS",
+         js=["data-words.js", "tool-scrabble.js"]),
+    dict(out="pages/number-spell.html", fragment="number-spell.html", title="What Does My Number Spell",
+         desc="Decode any phone number against a 52,000-word dictionary via classic T9 mapping.",
+         root="../", code="NUM_SPELL", category="GAMES_CURIOS",
+         js=["data-words.js", "tool-number-spell.js"]),
+
+    dict(out="pages/about.html", fragment="about.html", title="Origin Log",
+         desc="Who is GAMA⁺, and what happened to G.A.R.R.Y.",
+         root="../", code="ORIGIN_LOG", category="SHIPS_LOG", js=[]),
+    dict(out="pages/wiki-index.html", fragment="wiki-index.html", title="Chrono-Wiki",
+         desc="A technical archive on how machines keep time.",
+         root="../", code="CHRONO_WIKI", category="SHIPS_LOG", js=[]),
+
+    # Utility/meta pages: footer-only, not in the sidebar nav or tool grid,
+    # but still get a breadcrumb via breadcrumb_cat.
+    dict(out="pages/legal.html", fragment="legal.html", title="Legal & Privacy",
+         desc="Privacy policy, terms of use, advertising disclosure.",
+         root="../", code="LEGAL", category=None, breadcrumb_cat="SYSTEM", js=[]),
+    dict(out="pages/contact.html", fragment="contact.html", title="Contact",
+         desc="Get in touch.", root="../", code="CONTACT", category=None,
+         breadcrumb_cat="SYSTEM", js=[]),
+    dict(out="pages/sitemap.html", fragment="sitemap.html", title="Sitemap",
+         desc="Full index of every page on this ship.", root="../", code="SITEMAP",
+         category=None, breadcrumb_cat="SYSTEM", js=[]),
+    dict(out="pages/changelog.html", fragment="changelog.html", title="Maintenance Log",
+         desc="GAMA⁺'s patch history - what got added or changed, and when.",
+         root="../", code="MAINTENANCE_LOG", category=None, breadcrumb_cat="SYSTEM", js=[]),
+
+    # Special pages: no breadcrumb (keeps the easter egg an easter egg /
+    # a 404 doesn't need to explain where it is).
+    dict(out="pages/gndn.html", fragment="gndn.html", title="GNDN",
+         desc="Goes nowhere, does nothing. Yet.", root="../", code=None,
+         category=None, js=[]),
+    dict(out="pages/404.html", fragment="404.html", title="Signal Lost",
+         desc="Page not found.", root="../", code=None, category=None, js=[]),
+]
+
+
+def build_nav_html(current_out, root):
+    """Grouped sidebar nav: DECK_LAUNCHER standalone up top, then every
+    category with a page in it, in CATEGORIES order. `root` is interpolated
+    directly (not left as a {{ROOT}} token) since this HTML is spliced in
+    after the base template's own {{ROOT}} substitution pass already ran."""
+    home = PAGES[0]
+    lines = []
+    active = " active" if current_out == home["out"] else ""
+    lines.append(f'                <a href="{root}index.html" class="nav-link{active}">&gt; {home["code"]}</a>')
+    for cat_key, cat_label in CATEGORIES:
+        pages_in_cat = [p for p in PAGES if p.get("category") == cat_key]
+        if not pages_in_cat:
+            continue
+        lines.append(f'                <div class="nav-section-label">[ {cat_label} ]</div>')
+        for p in pages_in_cat:
+            active = " active" if p["out"] == current_out else ""
+            lines.append(f'                <a href="{root}{p["out"]}" class="nav-link{active}">&gt; {p["code"]}</a>')
+    return "\n".join(lines)
+
+
+def build_breadcrumb_html(page, root):
+    """'> DECK_LAUNCHER / CATEGORY / PAGE_CODE' trail. Omitted for the
+    homepage and pages with no code/category at all (special pages)."""
+    if page["out"] == "index.html" or not page.get("code"):
+        return ""
+    cat_label = None
+    if page.get("category"):
+        cat_label = dict(CATEGORIES)[page["category"]]
+    elif page.get("breadcrumb_cat"):
+        cat_label = page["breadcrumb_cat"]
+    crumbs = [f'<a href="{root}index.html">DECK_LAUNCHER</a>']
+    if cat_label:
+        crumbs.append(cat_label)
+    crumbs.append(page["code"])
+    return '            <div class="breadcrumb">&gt; ' + ' <span class="breadcrumb-sep">/</span> '.join(crumbs) + '</div>'
+
+
+def build_tool_grid_html():
+    """Homepage tool grid, grouped into the same categories as the nav."""
+    sections = []
+    for cat_key, cat_label in CATEGORIES:
+        pages_in_cat = [p for p in PAGES if p.get("category") == cat_key]
+        if not pages_in_cat:
+            continue
+        items = []
+        for p in pages_in_cat:
+            items.append(
+                f'                <a class="tool-grid-item" href="pages/{os.path.basename(p["out"])}">\n'
+                f'                    <div class="tool-name">&gt; {p["code"]}</div>\n'
+                f'                    <div class="tool-desc">{p["desc"]}</div>\n'
+                f'                </a>'
+            )
+        sections.append(
+            f'                <div class="grid-section-label">[ {cat_label} ]</div>\n'
+            f'                <div class="tool-grid-row">\n' + "\n".join(items) + "\n                </div>"
+        )
+    return "\n".join(sections)
+
 
 def build():
     count = 0
-    for out_rel, fragment, title, desc, root, nav_active, extra_js in PAGES:
-        with open(os.path.join(SRC, "content", fragment), encoding="utf-8") as f:
+    tool_grid_html = build_tool_grid_html()
+    for page in PAGES:
+        with open(os.path.join(SRC, "content", page["fragment"]), encoding="utf-8") as f:
             content = f.read()
+        content = content.replace("{{TOOL_GRID}}", tool_grid_html)
 
-        page = BASE
-        page = page.replace("{{TITLE}}", title)
-        page = page.replace("{{DESCRIPTION}}", desc)
-        page = page.replace("{{ROOT}}", root)
-        page = page.replace("{{CONTENT}}", content)
+        out = BASE
+        out = out.replace("{{TITLE}}", page["title"])
+        out = out.replace("{{DESCRIPTION}}", page["desc"])
+        out = out.replace("{{ROOT}}", page["root"])
+        out = out.replace("{{NAV}}", build_nav_html(page["out"], page["root"]))
+        out = out.replace("{{BREADCRUMB}}", build_breadcrumb_html(page, page["root"]))
+        out = out.replace("{{CONTENT}}", content)
 
         extra_js_html = "\n".join(
-            f'    <script src="{root}js/{fname}"></script>' for fname in extra_js
+            f'    <script src="{page["root"]}js/{fname}"></script>' for fname in page["js"]
         )
-        page = page.replace("{{EXTRA_JS}}", extra_js_html)
+        out = out.replace("{{EXTRA_JS}}", extra_js_html)
 
-        for key in NAV_KEYS:
-            page = page.replace("{{" + key + "}}", "active" if key == nav_active else "")
-
-        out_path = os.path.join(ROOT_DIR, out_rel)
+        out_path = os.path.join(ROOT_DIR, page["out"])
         os.makedirs(os.path.dirname(out_path), exist_ok=True)
         with open(out_path, "w", encoding="utf-8") as f:
-            f.write(page)
+            f.write(out)
         count += 1
-        print(f"  built {out_rel}")
+        print(f"  built {page['out']}")
     print(f"\n{count} pages built.")
     build_sitemap_xml()
     build_robots_txt()
+
 
 def build_sitemap_xml():
     """Machine-readable sitemap for search engines - separate from the
@@ -132,11 +244,10 @@ def build_sitemap_xml():
     skipped and then couldn't get indexed for 3 months."""
     domain = "https://gamayun.site"
     urls = []
-    for out_rel, fragment, title, desc, root, nav_active, extra_js in PAGES:
-        if out_rel.endswith("404.html") or out_rel.endswith("gndn.html"):
+    for page in PAGES:
+        if page["out"].endswith("404.html") or page["out"].endswith("gndn.html"):
             continue  # don't invite crawlers to index the error page or the easter egg
-        loc = f"{domain}/{out_rel}"
-        urls.append(f"  <url>\n    <loc>{loc}</loc>\n  </url>")
+        urls.append(f'  <url>\n    <loc>{domain}/{page["out"]}</loc>\n  </url>')
     xml = (
         '<?xml version="1.0" encoding="UTF-8"?>\n'
         '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
@@ -146,6 +257,7 @@ def build_sitemap_xml():
     with open(os.path.join(ROOT_DIR, "sitemap.xml"), "w", encoding="utf-8") as f:
         f.write(xml)
     print(f"  built sitemap.xml ({len(urls)} urls)")
+
 
 def build_robots_txt():
     content = (
@@ -157,6 +269,7 @@ def build_robots_txt():
     with open(os.path.join(ROOT_DIR, "robots.txt"), "w", encoding="utf-8") as f:
         f.write(content)
     print("  built robots.txt")
+
 
 if __name__ == "__main__":
     build()

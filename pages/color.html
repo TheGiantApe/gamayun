@@ -25,29 +25,50 @@
 
         <aside class="left-deck">
             <nav class="terminal-nav">
-                <div class="nav-section-label">[ SALVAGE INDEX ]</div>
-                <a href="../index.html" class="nav-link ">&gt; DECK_LAUNCHER</a>
-                <a href="../pages/links.html" class="nav-link ">&gt; LINK_PURGE</a>
-                <a href="../pages/time-logic.html" class="nav-link ">&gt; DATE_STAMP_RECON</a>
-                <a href="../pages/number-spell.html" class="nav-link ">&gt; NUM_SPELL</a>
-                <div class="nav-section-label">[ CODE VAULT ]</div>
-                <a href="../pages/about.html" class="nav-link ">&gt; ORIGIN_LOG</a>
-                <a href="../pages/wiki-index.html" class="nav-link ">&gt; CHRONO_WIKI</a>
+                <a href="../index.html" class="nav-link">&gt; DECK_LAUNCHER</a>
+                <div class="nav-section-label">[ RECON_OPS ]</div>
+                <a href="../pages/links.html" class="nav-link">&gt; LINK_PURGE</a>
+                <a href="../pages/time-logic.html" class="nav-link">&gt; DATE_STAMP_RECON</a>
+                <div class="nav-section-label">[ TEXT_OPS ]</div>
+                <a href="../pages/text-case.html" class="nav-link">&gt; CASE_CONVERTER</a>
+                <a href="../pages/letter-counter.html" class="nav-link">&gt; LETTER_COUNTER</a>
+                <a href="../pages/cool-text.html" class="nav-link">&gt; COOL_TEXT</a>
+                <a href="../pages/ascii-art.html" class="nav-link">&gt; ASCII_BANNER</a>
+                <a href="../pages/base64.html" class="nav-link">&gt; BASE64_CODEC</a>
+                <div class="nav-section-label">[ NUMBER_CRUNCH ]</div>
+                <a href="../pages/calc-bmi.html" class="nav-link">&gt; BMI_CALC</a>
+                <a href="../pages/calc-percentage.html" class="nav-link">&gt; PERCENT_CALC</a>
+                <a href="../pages/calc-tip.html" class="nav-link">&gt; TIP_CALC</a>
+                <a href="../pages/calc-age.html" class="nav-link">&gt; AGE_CALC</a>
+                <a href="../pages/color.html" class="nav-link active">&gt; COLOR_CONVERTER</a>
+                <div class="nav-section-label">[ LOOKUP_DECK ]</div>
+                <a href="../pages/symbol-glossary.html" class="nav-link">&gt; SYMBOL_GLOSSARY</a>
+                <div class="nav-section-label">[ DEV_VAULT ]</div>
+                <a href="../pages/json-format.html" class="nav-link">&gt; JSON_FORMATTER</a>
+                <a href="../pages/uuid.html" class="nav-link">&gt; UUID_GEN</a>
+                <a href="../pages/hash.html" class="nav-link">&gt; HASH_GEN</a>
+                <div class="nav-section-label">[ GAMES & CURIOS ]</div>
+                <a href="../pages/scrabble.html" class="nav-link">&gt; SCRABBLE_SOLVER</a>
+                <a href="../pages/number-spell.html" class="nav-link">&gt; NUM_SPELL</a>
+                <div class="nav-section-label">[ SHIP'S LOG ]</div>
+                <a href="../pages/about.html" class="nav-link">&gt; ORIGIN_LOG</a>
+                <a href="../pages/wiki-index.html" class="nav-link">&gt; CHRONO_WIKI</a>
             </nav>
         </aside>
 
         <main class="center-viewport" id="active-tool-zone">
+            <div class="breadcrumb">&gt; <a href="../index.html">DECK_LAUNCHER</a> <span class="breadcrumb-sep">/</span> NUMBER_CRUNCH <span class="breadcrumb-sep">/</span> COLOR_CONVERTER</div>
             <section class="tool-card">
                 <div class="badge-clientside">&#128274; 100% CLIENT-SIDE</div>
                 <h2>&gt; COLOR_CONVERTER</h2>
-                <p style="color:var(--phosphor-dim); font-size:0.85rem;">Hex, RGB integer, RGB float (0-1, for shaders/OpenGL), and HSL, all at once.</p>
+                <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">Hex, RGB integer, RGB float (0-1, for shaders/OpenGL), and HSL, all at once.</p>
                 <div class="tool-workspace">
                     <input type="text" id="color-input" placeholder="#935757 or 147,87,87" oninput="executeColorConvert()">
                     <div id="color-swatch" style="width:40px; height:40px; border:1px solid var(--phosphor-dim); flex-shrink:0;"></div>
                 </div>
                 <div class="result-block" id="color-result"></div>
             </section>
-            <p style="padding:0 1.5rem; font-size:0.85rem;"><span style="color:var(--phosphor-dim)">See also:</span> <a href="symbol-glossary.html">Symbol Glossary</a></p>
+            <p style="padding:0 1.5rem; font-size:0.85rem;"><span style="color: var(--phosphor-dim-text)">See also:</span> <a href="symbol-glossary.html">Symbol Glossary</a></p>
 
         </main>
 

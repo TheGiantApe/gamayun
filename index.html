@@ -25,75 +25,114 @@
 
         <aside class="left-deck">
             <nav class="terminal-nav">
-                <div class="nav-section-label">[ SALVAGE INDEX ]</div>
                 <a href="index.html" class="nav-link active">&gt; DECK_LAUNCHER</a>
-                <a href="pages/links.html" class="nav-link ">&gt; LINK_PURGE</a>
-                <a href="pages/time-logic.html" class="nav-link ">&gt; DATE_STAMP_RECON</a>
-                <a href="pages/number-spell.html" class="nav-link ">&gt; NUM_SPELL</a>
-                <div class="nav-section-label">[ CODE VAULT ]</div>
-                <a href="pages/about.html" class="nav-link ">&gt; ORIGIN_LOG</a>
-                <a href="pages/wiki-index.html" class="nav-link ">&gt; CHRONO_WIKI</a>
+                <div class="nav-section-label">[ RECON_OPS ]</div>
+                <a href="pages/links.html" class="nav-link">&gt; LINK_PURGE</a>
+                <a href="pages/time-logic.html" class="nav-link">&gt; DATE_STAMP_RECON</a>
+                <div class="nav-section-label">[ TEXT_OPS ]</div>
+                <a href="pages/text-case.html" class="nav-link">&gt; CASE_CONVERTER</a>
+                <a href="pages/letter-counter.html" class="nav-link">&gt; LETTER_COUNTER</a>
+                <a href="pages/cool-text.html" class="nav-link">&gt; COOL_TEXT</a>
+                <a href="pages/ascii-art.html" class="nav-link">&gt; ASCII_BANNER</a>
+                <a href="pages/base64.html" class="nav-link">&gt; BASE64_CODEC</a>
+                <div class="nav-section-label">[ NUMBER_CRUNCH ]</div>
+                <a href="pages/calc-bmi.html" class="nav-link">&gt; BMI_CALC</a>
+                <a href="pages/calc-percentage.html" class="nav-link">&gt; PERCENT_CALC</a>
+                <a href="pages/calc-tip.html" class="nav-link">&gt; TIP_CALC</a>
+                <a href="pages/calc-age.html" class="nav-link">&gt; AGE_CALC</a>
+                <a href="pages/color.html" class="nav-link">&gt; COLOR_CONVERTER</a>
+                <div class="nav-section-label">[ LOOKUP_DECK ]</div>
+                <a href="pages/symbol-glossary.html" class="nav-link">&gt; SYMBOL_GLOSSARY</a>
+                <div class="nav-section-label">[ DEV_VAULT ]</div>
+                <a href="pages/json-format.html" class="nav-link">&gt; JSON_FORMATTER</a>
+                <a href="pages/uuid.html" class="nav-link">&gt; UUID_GEN</a>
+                <a href="pages/hash.html" class="nav-link">&gt; HASH_GEN</a>
+                <div class="nav-section-label">[ GAMES & CURIOS ]</div>
+                <a href="pages/scrabble.html" class="nav-link">&gt; SCRABBLE_SOLVER</a>
+                <a href="pages/number-spell.html" class="nav-link">&gt; NUM_SPELL</a>
+                <div class="nav-section-label">[ SHIP'S LOG ]</div>
+                <a href="pages/about.html" class="nav-link">&gt; ORIGIN_LOG</a>
+                <a href="pages/wiki-index.html" class="nav-link">&gt; CHRONO_WIKI</a>
             </nav>
         </aside>
 
         <main class="center-viewport" id="active-tool-zone">
+
             <div class="hero">
                 <img class="hero-wordmark-logo" id="hero-wordmark-logo" src="assets/gama-wordmark-logo.png" alt="PROJECT GAMA (GAMAYUN⁺) — wordmark logo">
                 <p class="hero-tagline">&gt; orbital salvage archive // metadata recovered from the corporate wasteland, free of charge</p>
             </div>
 
             <section class="tool-grid">
+                <div class="grid-section-label">[ RECON_OPS ]</div>
+                <div class="tool-grid-row">
                 <a class="tool-grid-item" href="pages/links.html">
                     <div class="tool-name">&gt; LINK_PURGE</div>
-                    <div class="tool-desc">Strip tracking parameters from any URL. Nothing leaves your browser.</div>
+                    <div class="tool-desc">Strip tracking parameters from any URL, entirely client-side.</div>
                 </a>
                 <a class="tool-grid-item" href="pages/time-logic.html">
                     <div class="tool-name">&gt; DATE_STAMP_RECON</div>
-                    <div class="tool-desc">Convert messy human timestamps into ISO 8601, Unix epoch, filename-safe stamps.</div>
+                    <div class="tool-desc">Convert human timestamps to ISO 8601, Unix epoch, filename-safe stamps.</div>
                 </a>
-                <a class="tool-grid-item" href="pages/number-spell.html">
-                    <div class="tool-name">&gt; NUM_SPELL</div>
-                    <div class="tool-desc">What does your phone number spell? 52,000-word dictionary, checked instantly.</div>
-                </a>
-                <a class="tool-grid-item" href="pages/scrabble.html">
-                    <div class="tool-name">&gt; SCRABBLE_SOLVER</div>
-                    <div class="tool-desc">Every valid word from a letter rack, blanks included, sorted by point value.</div>
-                </a>
-                <a class="tool-grid-item" href="pages/cool-text.html">
-                    <div class="tool-name">&gt; COOL_TEXT</div>
-                    <div class="tool-desc">Bold, italic, script, double-struck Unicode text. Copy-paste anywhere.</div>
-                </a>
-                <a class="tool-grid-item" href="pages/ascii-art.html">
-                    <div class="tool-name">&gt; ASCII_BANNER</div>
-                    <div class="tool-desc">Turn any text into ASCII density art.</div>
-                </a>
+                </div>
+                <div class="grid-section-label">[ TEXT_OPS ]</div>
+                <div class="tool-grid-row">
                 <a class="tool-grid-item" href="pages/text-case.html">
                     <div class="tool-name">&gt; CASE_CONVERTER</div>
-                    <div class="tool-desc">UPPER, lower, Title, snake_case, camelCase, kebab-case.</div>
+                    <div class="tool-desc">Convert text to upper/lower/title/sentence/camel/snake/kebab case.</div>
                 </a>
                 <a class="tool-grid-item" href="pages/letter-counter.html">
                     <div class="tool-name">&gt; LETTER_COUNTER</div>
-                    <div class="tool-desc">Characters, words, sentences, reading time.</div>
+                    <div class="tool-desc">Character, word, sentence, and line counts plus reading time estimate.</div>
+                </a>
+                <a class="tool-grid-item" href="pages/cool-text.html">
+                    <div class="tool-name">&gt; COOL_TEXT</div>
+                    <div class="tool-desc">Convert text into Unicode bold, italic, script, double-struck, and other fancy variants.</div>
+                </a>
+                <a class="tool-grid-item" href="pages/ascii-art.html">
+                    <div class="tool-name">&gt; ASCII_BANNER</div>
+                    <div class="tool-desc">Render text as a FIGlet-style ASCII banner (SmSlant font).</div>
                 </a>
                 <a class="tool-grid-item" href="pages/base64.html">
                     <div class="tool-name">&gt; BASE64_CODEC</div>
-                    <div class="tool-desc">Encode/decode, UTF-8 and emoji safe.</div>
+                    <div class="tool-desc">Encode or decode Base64, UTF-8 safe including emoji.</div>
                 </a>
+                </div>
+                <div class="grid-section-label">[ NUMBER_CRUNCH ]</div>
+                <div class="tool-grid-row">
+                <a class="tool-grid-item" href="pages/calc-bmi.html">
+                    <div class="tool-name">&gt; BMI_CALC</div>
+                    <div class="tool-desc">Body mass index calculator.</div>
+                </a>
+                <a class="tool-grid-item" href="pages/calc-percentage.html">
+                    <div class="tool-name">&gt; PERCENT_CALC</div>
+                    <div class="tool-desc">What percent is X of Y.</div>
+                </a>
+                <a class="tool-grid-item" href="pages/calc-tip.html">
+                    <div class="tool-name">&gt; TIP_CALC</div>
+                    <div class="tool-desc">Tip amount and per-person split.</div>
+                </a>
+                <a class="tool-grid-item" href="pages/calc-age.html">
+                    <div class="tool-name">&gt; AGE_CALC</div>
+                    <div class="tool-desc">Exact age in years, months, and days from a birthdate.</div>
+                </a>
+                <a class="tool-grid-item" href="pages/color.html">
+                    <div class="tool-name">&gt; COLOR_CONVERTER</div>
+                    <div class="tool-desc">Hex, RGB integer, RGB float, and HSL, all at once.</div>
+                </a>
+                </div>
+                <div class="grid-section-label">[ LOOKUP_DECK ]</div>
+                <div class="tool-grid-row">
                 <a class="tool-grid-item" href="pages/symbol-glossary.html">
                     <div class="tool-name">&gt; SYMBOL_GLOSSARY</div>
                     <div class="tool-desc">Common HTML entities and Unicode symbols, click to copy.</div>
                 </a>
-                <a class="tool-grid-item" href="pages/calc-bmi.html">
-                    <div class="tool-name">&gt; CALC_DECK</div>
-                    <div class="tool-desc">BMI, percentage, tip, and age calculators.</div>
-                </a>
-                <a class="tool-grid-item" href="pages/color.html">
-                    <div class="tool-name">&gt; COLOR_CONVERTER</div>
-                    <div class="tool-desc">Hex, RGB int, RGB float, HSL — all at once.</div>
-                </a>
+                </div>
+                <div class="grid-section-label">[ DEV_VAULT ]</div>
+                <div class="tool-grid-row">
                 <a class="tool-grid-item" href="pages/json-format.html">
                     <div class="tool-name">&gt; JSON_FORMATTER</div>
-                    <div class="tool-desc">Beautify or minify, real error messages.</div>
+                    <div class="tool-desc">Beautify or minify JSON with real error messages.</div>
                 </a>
                 <a class="tool-grid-item" href="pages/uuid.html">
                     <div class="tool-name">&gt; UUID_GEN</div>
@@ -101,16 +140,31 @@
                 </a>
                 <a class="tool-grid-item" href="pages/hash.html">
                     <div class="tool-name">&gt; HASH_GEN</div>
-                    <div class="tool-desc">SHA-1/256/384/512, native crypto API.</div>
+                    <div class="tool-desc">SHA-1/256/384/512 via the browser's native crypto API.</div>
                 </a>
+                </div>
+                <div class="grid-section-label">[ GAMES & CURIOS ]</div>
+                <div class="tool-grid-row">
+                <a class="tool-grid-item" href="pages/scrabble.html">
+                    <div class="tool-name">&gt; SCRABBLE_SOLVER</div>
+                    <div class="tool-desc">Find every valid word from a letter rack, including blank tiles, sorted by point value.</div>
+                </a>
+                <a class="tool-grid-item" href="pages/number-spell.html">
+                    <div class="tool-name">&gt; NUM_SPELL</div>
+                    <div class="tool-desc">Decode any phone number against a 52,000-word dictionary via classic T9 mapping.</div>
+                </a>
+                </div>
+                <div class="grid-section-label">[ SHIP'S LOG ]</div>
+                <div class="tool-grid-row">
                 <a class="tool-grid-item" href="pages/about.html">
                     <div class="tool-name">&gt; ORIGIN_LOG</div>
-                    <div class="tool-desc">Who — or what — is GAMA<sup>+</sup>, and why is she salvaging your metadata.</div>
+                    <div class="tool-desc">Who is GAMA⁺, and what happened to G.A.R.R.Y.</div>
                 </a>
                 <a class="tool-grid-item" href="pages/wiki-index.html">
                     <div class="tool-name">&gt; CHRONO_WIKI</div>
-                    <div class="tool-desc">A technical archive of how machines keep time, and how it breaks.</div>
+                    <div class="tool-desc">A technical archive on how machines keep time.</div>
                 </a>
+                </div>
             </section>
 
         </main>

@@ -11,6 +11,12 @@
   --phosphor: #00FF66;
   --phosphor-dim: rgba(0, 255, 102, 0.4);
   --phosphor-faint: rgba(0, 255, 102, 0.15);
+  /* Solid (not alpha-blended) muted green for secondary/dim BODY TEXT.
+     --phosphor-dim reads fine as a border/divider color, but at 0.4 alpha
+     over --void it only hits ~3:1 contrast - well under the 4.5:1 AA floor
+     for normal-size text, which is why subtext was hard to read. This hits
+     ~5.4:1 while still reading as visually "dimmer" than full phosphor. */
+  --phosphor-dim-text: #3C965F;
   --amber: #ff9500;
   --wordmark-red: #D32027;           /* use sparingly: accent only, never the full logo treatment */
   --deep-indigo: #1A2333;
@@ -110,7 +116,7 @@ a:hover, a:focus {
 }
 .terminal-header .system-status {
   font-size: 0.8rem;
-  color: var(--phosphor-dim);
+  color: var(--phosphor-dim-text);
 }
 .terminal-header .system-status .clock { color: var(--phosphor); }
 
@@ -148,26 +154,36 @@ a:hover, a:focus {
    in the document. */
 .raven-watermark {
   position: fixed;
-  right: -6vw;
-  bottom: -6vw;
-  width: 22vw;
-  min-width: 220px;
-  max-width: 420px;
+  right: -1vw;
+  bottom: 1vw;
+  width: 32vw;
+  min-width: 300px;
+  max-width: 560px;
   height: auto;
   transform: rotate(-11deg);
-  filter: brightness(0.4) saturate(0.7);
-  opacity: 0.35;
+  filter: brightness(0.5) saturate(0.8);
+  opacity: 0.45;
   z-index: 0;
   pointer-events: none;
 }
 @media (max-width: 900px) {
-  .raven-watermark { width: 34vw; opacity: 0.25; }
+  .raven-watermark { width: 42vw; bottom: -1vw; opacity: 0.3; }
 }
 
 .terminal-nav { display: flex; flex-direction: column; gap: 0.25rem; }
+/* Desktop: the nav now lists every tool grouped by category, which is
+   tall enough to run under GAMA's fixed corner spot. Give it its own
+   scroll region that stops short of her instead of overlapping. */
+@media (min-width: 901px) {
+  .terminal-nav {
+    max-height: calc(100vh - var(--header-h) - 2rem - 24rem);
+    overflow-y: auto;
+    padding-right: 0.25rem;
+  }
+}
 .nav-section-label {
   font-size: 0.7rem;
-  color: var(--phosphor-dim);
+  color: var(--phosphor-dim-text);
   letter-spacing: 0.1em;
   margin: 0.75rem 0 0.25rem;
 }
@@ -331,10 +347,10 @@ button:hover, .btn:hover {
   display: block;
   font-family: var(--font-mono);
   font-size: 0.85rem;
-  color: var(--phosphor-dim);
+  color: var(--phosphor-dim-text);
   margin-bottom: 0.25rem;
 }
-.update-entry p { margin: 0; line-height: 1.4; color: var(--phosphor-dim); }
+.update-entry p { margin: 0; line-height: 1.4; color: var(--phosphor-dim-text); }
 .updates-link { font-size: 0.8rem; display: inline-block; }
 .adsense-slot {
   min-height: 250px;
@@ -343,7 +359,7 @@ button:hover, .btn:hover {
   align-items: center;
   justify-content: center;
   font-size: 0.7rem;
-  color: var(--phosphor-dim);
+  color: var(--phosphor-dim-text);
 }
 
 /* ---- Footer ---- */
@@ -355,7 +371,7 @@ button:hover, .btn:hover {
 .log-stream {
   white-space: nowrap;
   font-size: 0.75rem;
-  color: var(--phosphor-dim);
+  color: var(--phosphor-dim-text);
   padding: 0.35rem 0;
   animation: ticker 40s linear infinite;
 }
@@ -371,7 +387,7 @@ button:hover, .btn:hover {
   border-top: 1px solid var(--phosphor-dim);
   padding: 1.5rem 1rem;
   font-size: 0.8rem;
-  color: var(--phosphor-dim);
+  color: var(--phosphor-dim-text);
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
@@ -386,7 +402,7 @@ button:hover, .btn:hover {
 
 /* ---- Landing hero / logo animation ---- */
 .hero {
-  padding: 3rem 0;
+  padding: 0.75rem 0 1.25rem;
   text-align: center;
   border-bottom: 1px solid var(--phosphor-dim);
 }
@@ -438,7 +454,7 @@ button:hover, .btn:hover {
 .hero-tagline {
   margin-top: 0.75rem;
   padding: 0 1.5rem;
-  color: var(--phosphor-dim);
+  color: var(--phosphor-dim-text);
   font-size: 0.95rem;
 }
 @keyframes flicker-in {
@@ -460,21 +476,43 @@ button:hover, .btn:hover {
   .hero-logo { animation: none; }
 }
 
-/* ---- Tool grid on landing ---- */
-.tool-grid {
+/* ---- Tool grid on landing, grouped by category ---- */
+.tool-grid { padding: 1.5rem; }
+.grid-section-label {
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  letter-spacing: 0.12em;
+  color: var(--phosphor-dim-text);
+  border-bottom: 1px solid var(--phosphor-faint);
+  padding-bottom: 0.35rem;
+  margin: 2rem 0 0.85rem;
+}
+.grid-section-label:first-child { margin-top: 0; }
+.tool-grid-row {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: 1rem;
-  padding: 1.5rem;
 }
 .tool-grid-item {
   border: 1px solid var(--phosphor-dim);
   padding: 1rem;
   display: block;
+  overflow-wrap: break-word;
+  min-width: 0;
 }
 .tool-grid-item:hover { background: var(--phosphor-faint); color: var(--phosphor); border-bottom: 1px solid var(--phosphor-dim); }
 .tool-grid-item .tool-name { font-family: var(--font-mono); font-size: 1.1rem; }
-.tool-grid-item .tool-desc { font-size: 0.8rem; color: var(--phosphor-dim); margin-top: 0.3rem; }
+.tool-grid-item .tool-desc { font-size: 0.8rem; color: var(--phosphor-dim-text); margin-top: 0.3rem; }
+
+/* ---- Breadcrumb trail (tool/lore pages, not home) ---- */
+.breadcrumb {
+  font-size: 0.8rem;
+  color: var(--phosphor-dim-text);
+  margin-bottom: 1rem;
+}
+.breadcrumb a { border-bottom: none; color: var(--phosphor-dim-text); }
+.breadcrumb a:hover { color: var(--void); background: var(--phosphor-dim-text); }
+.breadcrumb-sep { color: var(--phosphor-faint); }
 
 /* ---- Prose pages (about/legal/wiki) ---- */
 .prose { padding: 1.5rem; max-width: 68ch; line-height: 1.7; font-size: 1.05rem; }
