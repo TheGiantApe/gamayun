@@ -1,0 +1,67 @@
+/* EMOJI_INDEX — searchable emoji lookup over EMOJI_DATA (js/data-emoji.js).
+   Same shape/approach as tool-symbol-index.js: pure filter function,
+   grouped-by-category render, click-to-copy. */
+
+function filterEmoji(query, data = EMOJI_DATA) {
+  const q = query.trim().toLowerCase();
+  if (!q) return data;
+  const out = [];
+  for (const [category, items] of data) {
+    const matched = items.filter(([glyph, name]) => {
+      if (glyph === query) return true;
+      return name.toLowerCase().includes(q);
+    });
+    if (matched.length) out.push([category, matched]);
+  }
+  return out;
+}
+
+function renderEmojiIndex(query) {
+  const container = document.getElementById("emoji-index-results");
+  if (!container) return;
+  const filtered = filterEmoji(query);
+  const count = filtered.reduce((sum, [, items]) => sum + items.length, 0);
+
+  const countEl = document.getElementById("emoji-index-count");
+  if (countEl) countEl.textContent = query.trim()
+    ? `${count} match${count === 1 ? "" : "es"} for "${query.trim()}"`
+    : `${count} emoji, ${filtered.length} categories`;
+
+  if (!filtered.length) {
+    container.innerHTML = `<p style="color:var(--phosphor-dim-text);">// nothing matched that. try "face", "heart", "pizza", "cat"...</p>`;
+    return;
+  }
+
+  container.innerHTML = filtered.map(([category, items]) => `
+    <h3 class="symbol-cat-label">${category}</h3>
+    <div class="symbol-grid emoji-grid">
+      ${items.map(([glyph, name]) => `
+        <button type="button" class="symbol-tile emoji-tile" data-glyph="${glyph}" data-name="${name.replace(/"/g, "&quot;")}" title="${name} — click to copy">
+          <span class="emoji-glyph">${glyph}</span>
+          <span class="symbol-meta">${name}</span>
+        </button>
+      `).join("")}
+    </div>
+  `).join("");
+}
+
+function copyEmoji(glyph, name) {
+  navigator.clipboard.writeText(glyph);
+  GAMA.say("success");
+  GAMA.log(`Copied ${glyph} (${name})`);
+}
+
+function initEmojiIndex() {
+  const input = document.getElementById("emoji-index-search");
+  const container = document.getElementById("emoji-index-results");
+  if (!input || !container) return;
+
+  input.addEventListener("input", () => renderEmojiIndex(input.value));
+  container.addEventListener("click", (e) => {
+    const tile = e.target.closest(".emoji-tile");
+    if (!tile) return;
+    copyEmoji(tile.dataset.glyph, tile.dataset.name);
+  });
+  renderEmojiIndex("");
+}
+document.addEventListener("DOMContentLoaded", initEmojiIndex);

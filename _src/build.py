@@ -87,10 +87,14 @@ PAGES = [
          root="../", code="COLOR_CONVERTER", category="NUMBER_CRUNCH",
          js=["tool-color.js"]),
 
-    dict(out="pages/symbol-glossary.html", fragment="symbol-glossary.html", title="Symbol Glossary",
-         desc="Common HTML entities and Unicode symbols, click to copy.",
-         root="../", code="SYMBOL_GLOSSARY", category="LOOKUP_DECK",
-         js=["tool-symbol-glossary.js"]),
+    dict(out="pages/symbol-index.html", fragment="symbol-index.html", title="Symbol Index",
+         desc="349 searchable Unicode symbols with names and codepoints, click to copy.",
+         root="../", code="SYMBOL_INDEX", category="LOOKUP_DECK",
+         js=["data-symbols.js", "tool-symbol-index.js"]),
+    dict(out="pages/emoji-index.html", fragment="emoji-index.html", title="Emoji Index",
+         desc="816 searchable emoji by name, click to copy.",
+         root="../", code="EMOJI_INDEX", category="LOOKUP_DECK",
+         js=["data-emoji.js", "tool-emoji-index.js"]),
 
     dict(out="pages/json-format.html", fragment="json-format.html", title="JSON Formatter",
          desc="Beautify or minify JSON with real error messages.",
@@ -205,13 +209,41 @@ def build_tool_grid_html():
     return "\n".join(sections)
 
 
+def build_human_sitemap_html():
+    """Human-readable sitemap (pages/sitemap.html), grouped the same way as
+    the nav/tool grid, plus a final section for the footer-only utility
+    pages. Auto-derived from PAGES so it can't go stale like the old
+    hand-typed version did."""
+    sections = []
+    for cat_key, cat_label in CATEGORIES:
+        pages_in_cat = [p for p in PAGES if p.get("category") == cat_key]
+        if not pages_in_cat:
+            continue
+        items = "\n".join(
+            f'                    <li><a href="{os.path.basename(p["out"])}">{p["title"]}</a></li>'
+            for p in pages_in_cat
+        )
+        sections.append(f'                <h2>{cat_label}</h2>\n                <ul>\n{items}\n                </ul>')
+
+    utility_pages = [p for p in PAGES if p.get("breadcrumb_cat") == "SYSTEM" and p["out"] != "pages/sitemap.html"]
+    if utility_pages:
+        items = "\n".join(
+            f'                    <li><a href="{os.path.basename(p["out"])}">{p["title"]}</a></li>'
+            for p in utility_pages
+        )
+        sections.append(f'                <h2>Site & Legal</h2>\n                <ul>\n{items}\n                </ul>')
+    return "\n".join(sections)
+
+
 def build():
     count = 0
     tool_grid_html = build_tool_grid_html()
+    human_sitemap_html = build_human_sitemap_html()
     for page in PAGES:
         with open(os.path.join(SRC, "content", page["fragment"]), encoding="utf-8") as f:
             content = f.read()
         content = content.replace("{{TOOL_GRID}}", tool_grid_html)
+        content = content.replace("{{HUMAN_SITEMAP}}", human_sitemap_html)
 
         out = BASE
         out = out.replace("{{TITLE}}", page["title"])

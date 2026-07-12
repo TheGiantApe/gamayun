@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Symbol Glossary // GAMAYUN⁺</title>
-    <meta name="description" content="Common HTML entities and Unicode symbols, click to copy.">
-    <meta property="og:title" content="Symbol Glossary // GAMAYUN⁺">
-    <meta property="og:description" content="Common HTML entities and Unicode symbols, click to copy.">
+    <title>Emoji Index // GAMAYUN⁺</title>
+    <meta name="description" content="816 searchable emoji by name, click to copy.">
+    <meta property="og:title" content="Emoji Index // GAMAYUN⁺">
+    <meta property="og:description" content="816 searchable emoji by name, click to copy.">
     <meta property="og:type" content="website">
     <meta name="twitter:card" content="summary">
     <link href="https://fonts.googleapis.com/css2?family=VT323&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
@@ -42,7 +42,8 @@
                 <a href="../pages/calc-age.html" class="nav-link">&gt; AGE_CALC</a>
                 <a href="../pages/color.html" class="nav-link">&gt; COLOR_CONVERTER</a>
                 <div class="nav-section-label">[ LOOKUP_DECK ]</div>
-                <a href="../pages/symbol-glossary.html" class="nav-link active">&gt; SYMBOL_GLOSSARY</a>
+                <a href="../pages/symbol-index.html" class="nav-link">&gt; SYMBOL_INDEX</a>
+                <a href="../pages/emoji-index.html" class="nav-link active">&gt; EMOJI_INDEX</a>
                 <div class="nav-section-label">[ DEV_VAULT ]</div>
                 <a href="../pages/json-format.html" class="nav-link">&gt; JSON_FORMATTER</a>
                 <a href="../pages/uuid.html" class="nav-link">&gt; UUID_GEN</a>
@@ -57,13 +58,18 @@
         </aside>
 
         <main class="center-viewport" id="active-tool-zone">
-            <div class="breadcrumb">&gt; <a href="../index.html">DECK_LAUNCHER</a> <span class="breadcrumb-sep">/</span> LOOKUP_DECK <span class="breadcrumb-sep">/</span> SYMBOL_GLOSSARY</div>
-            <article class="prose" style="max-width:100%;">
-                <h1>&gt; SYMBOL_GLOSSARY</h1>
-                <p style="color: var(--phosphor-dim-text); font-size:0.9rem;">Common HTML entities and Unicode symbols. Click any tile to copy the raw glyph.</p>
-                <div id="symbol-glossary"></div>
-            </article>
-            <p style="padding:0 1.5rem; font-size:0.85rem;"><span style="color: var(--phosphor-dim-text)">See also:</span> <a href="cool-text.html">Cool Text Generator</a> &middot; <a href="base64.html">Base64 Codec</a></p>
+            <div class="breadcrumb">&gt; <a href="../index.html">DECK_LAUNCHER</a> <span class="breadcrumb-sep">/</span> LOOKUP_DECK <span class="breadcrumb-sep">/</span> EMOJI_INDEX</div>
+            <section class="tool-card">
+                <div class="badge-clientside">&#128274; 100% CLIENT-SIDE</div>
+                <h2>&gt; EMOJI_INDEX</h2>
+                <p style="color: var(--phosphor-dim-text); font-size:0.9rem;">816 emoji, searchable by name. Click any tile to copy the raw character.</p>
+                <div class="tool-workspace">
+                    <input type="text" id="emoji-index-search" placeholder="search: &quot;face&quot;, &quot;heart&quot;, &quot;pizza&quot;, &quot;cat&quot;...">
+                </div>
+                <p id="emoji-index-count" style="color: var(--phosphor-dim-text); font-size:0.8rem; margin-top:0.5rem;"></p>
+                <div id="emoji-index-results"></div>
+            </section>
+            <p style="padding:0 1.5rem; font-size:0.85rem;"><span style="color: var(--phosphor-dim-text)">See also:</span> <a href="symbol-index.html">Symbol Index</a> &middot; <a href="cool-text.html">Cool Text Generator</a></p>
 
         </main>
 
@@ -111,7 +117,8 @@
 
     <script src="../js/gama-core.js"></script>
     <script src="../js/page-transition.js"></script>
-    <script src="../js/tool-symbol-glossary.js"></script>
+    <script src="../js/data-emoji.js"></script>
+    <script src="../js/tool-emoji-index.js"></script>
     <script>document.getElementById("footer-year").textContent = new Date().getFullYear();</script>
 </body>
 </html>
