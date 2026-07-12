@@ -95,6 +95,10 @@ PAGES = [
          desc="816 searchable emoji by name, click to copy.",
          root="../", code="EMOJI_INDEX", category="LOOKUP_DECK",
          js=["data-emoji.js", "tool-emoji-index.js"]),
+    dict(out="pages/acronym-index.html", fragment="acronym-index.html", title="Acronym Index",
+         desc="Chat shorthand, dev jargon, and fact-checked fictional acronyms, searchable.",
+         root="../", code="ACRONYM_INDEX", category="LOOKUP_DECK",
+         js=["data-acronyms.js", "tool-acronym-index.js"]),
 
     dict(out="pages/json-format.html", fragment="json-format.html", title="JSON Formatter",
          desc="Beautify or minify JSON with real error messages.",

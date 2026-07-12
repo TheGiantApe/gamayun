@@ -547,6 +547,31 @@ button:hover, .btn:hover {
 .symbol-meta { font-size: 0.7rem; color: var(--phosphor-dim-text); line-height: 1.3; }
 .emoji-glyph { font-size: 2rem; line-height: 1; }
 
+/* ---- Acronym index ---- */
+.acronym-list { display: flex; flex-direction: column; gap: 0.5rem; }
+.acronym-entry {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  border: 1px solid var(--phosphor-dim);
+  padding: 0.6rem 0.8rem;
+}
+.acronym-term {
+  background: transparent;
+  border: none;
+  color: var(--phosphor);
+  font-family: var(--font-mono);
+  font-size: 1.1rem;
+  cursor: pointer;
+  flex-shrink: 0;
+  min-width: 7ch;
+  text-align: left;
+  padding: 0;
+}
+.acronym-term:hover { text-decoration: underline; }
+.acronym-expansion { font-size: 0.9rem; }
+.acronym-note { font-size: 0.78rem; color: var(--phosphor-dim-text); margin-top: 0.3rem; line-height: 1.4; }
+
 /* ---- Prose pages (about/legal/wiki) ---- */
 .prose { padding: 1.5rem; max-width: 68ch; line-height: 1.7; font-size: 1.05rem; }
 .prose h1, .prose h2 { font-family: var(--font-display); }

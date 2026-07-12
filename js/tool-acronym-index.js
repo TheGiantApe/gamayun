@@ -1,0 +1,72 @@
+/* ACRONYM_INDEX — searchable acronym lookup over ACRONYM_DATA
+   (js/data-acronyms.js). Filters on the acronym itself or its expansion. */
+
+function filterAcronyms(query, data = ACRONYM_DATA) {
+  const q = query.trim().toLowerCase();
+  if (!q) return data;
+  const out = [];
+  for (const [category, items] of data) {
+    const matched = items.filter(([acronym, expansion, note]) => {
+      // Strip periods/spaces so "shield" still matches "S.H.I.E.L.D."
+      const bareAcronym = acronym.toLowerCase().replace(/[.\s]/g, "");
+      return bareAcronym.includes(q.replace(/[.\s]/g, "")) ||
+        expansion.toLowerCase().includes(q) ||
+        note.toLowerCase().includes(q);
+    });
+    if (matched.length) out.push([category, matched]);
+  }
+  return out;
+}
+
+function renderAcronymIndex(query) {
+  const container = document.getElementById("acronym-index-results");
+  if (!container) return;
+  const filtered = filterAcronyms(query);
+  const count = filtered.reduce((sum, [, items]) => sum + items.length, 0);
+
+  const countEl = document.getElementById("acronym-index-count");
+  if (countEl) countEl.textContent = query.trim()
+    ? `${count} match${count === 1 ? "" : "es"} for "${query.trim()}"`
+    : `${count} acronyms, ${filtered.length} categories`;
+
+  if (!filtered.length) {
+    container.innerHTML = `<p style="color:var(--phosphor-dim-text);">// nothing matched that.</p>`;
+    return;
+  }
+
+  container.innerHTML = filtered.map(([category, items]) => `
+    <h3 class="symbol-cat-label">${category}</h3>
+    <div class="acronym-list">
+      ${items.map(([acronym, expansion, note]) => `
+        <div class="acronym-entry">
+          <button type="button" class="acronym-term" data-acronym="${acronym.replace(/"/g, "&quot;")}" title="click to copy">${acronym}</button>
+          <div class="acronym-body">
+            <div class="acronym-expansion">${expansion}</div>
+            ${note ? `<div class="acronym-note">${note}</div>` : ""}
+          </div>
+        </div>
+      `).join("")}
+    </div>
+  `).join("");
+}
+
+function copyAcronym(acronym) {
+  navigator.clipboard.writeText(acronym);
+  GAMA.say("success");
+  GAMA.log(`Copied ${acronym}`);
+}
+
+function initAcronymIndex() {
+  const input = document.getElementById("acronym-index-search");
+  const container = document.getElementById("acronym-index-results");
+  if (!input || !container) return;
+
+  input.addEventListener("input", () => renderAcronymIndex(input.value));
+  container.addEventListener("click", (e) => {
+    const term = e.target.closest(".acronym-term");
+    if (!term) return;
+    copyAcronym(term.dataset.acronym);
+  });
+  renderAcronymIndex("");
+}
+document.addEventListener("DOMContentLoaded", initAcronymIndex);
