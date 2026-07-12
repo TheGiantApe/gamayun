@@ -71,9 +71,10 @@ PAGES = [
          root="../", code="BASE64_CODEC", category="TEXT_OPS",
          js=["tool-base64.js"]),
 
-    dict(out="pages/calc-bmi.html", fragment="calc-bmi.html", title="BMI Calculator",
-         desc="Body mass index calculator.", root="../", code="BMI_CALC",
-         category="NUMBER_CRUNCH", js=["tool-calculators.js"]),
+    dict(out="pages/calc-iifym.html", fragment="calc-iifym.html", title="IIFYM Calculator",
+         desc="Daily calorie target and protein/fat/carb macro split from your stats, activity, and goal.",
+         root="../", code="IIFYM_CALC",
+         category="NUMBER_CRUNCH", js=["tool-iifym.js"]),
     dict(out="pages/calc-percentage.html", fragment="calc-percentage.html", title="Percentage Calculator",
          desc="What percent is X of Y.", root="../", code="PERCENT_CALC",
          category="NUMBER_CRUNCH", js=["tool-calculators.js"]),

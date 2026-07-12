@@ -288,7 +288,7 @@ button:hover, .btn:hover {
   .gama-mascot-box {
     position: fixed;
     left: 1.25rem;
-    bottom: 6.5rem; /* clears the two-row site footer so it never covers the nav links */
+    bottom: 13rem; /* clears the leaderboard ad banner + two-row site footer stacked below it */
     width: 200px;
     background: radial-gradient(ellipse at 50% 60%, rgba(10,10,10,0.55) 0%, rgba(10,10,10,0.28) 50%, rgba(10,10,10,0) 75%);
     z-index: 500;
@@ -395,6 +395,27 @@ button:hover, .btn:hover {
   font-size: 0.7rem;
   color: var(--phosphor-dim-text);
 }
+
+/* ---- Ad format variants: leaderboard (wide banner, sitewide above the
+   footer) and native (in-content card, homepage between hero and grid).
+   Same "corporate debris" ironic framing as the sidebar unit, different
+   shapes so there's more than one slot format to actually sell/fill. */
+.ad-leaderboard {
+  margin: 0 1.5rem 1.5rem;
+  border: 1px dashed var(--amber);
+  padding: 0.5rem;
+}
+.ad-leaderboard .adsense-slot { min-height: 90px; }
+.ad-native {
+  margin: 0 1.5rem 1.5rem;
+  border: 1px dashed var(--amber);
+  padding: 0.75rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.ad-native .wireframe-header { margin-bottom: 0; text-align: left; white-space: nowrap; }
+.ad-native .adsense-slot { flex: 1; min-height: 60px; }
 
 /* ---- Footer ---- */
 .archival-log-footer {
@@ -637,6 +658,39 @@ button:hover, .btn:hover {
   padding: 0.6rem 0.8rem;
   font-size: 0.85rem;
   margin-bottom: 0.75rem;
+}
+
+/* ---- IIFYM macro calculator result ---- */
+.iifym-summary, .iifym-macros {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+.iifym-stat, .iifym-macro {
+  border: 1px solid var(--phosphor-dim);
+  padding: 0.6rem;
+  text-align: center;
+}
+.iifym-stat-label, .iifym-macro-label {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--phosphor-dim-text);
+  letter-spacing: 0.05em;
+}
+.iifym-stat-val, .iifym-macro-val {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 1.3rem;
+  margin-top: 0.2rem;
+}
+.iifym-macro { border-color: var(--phosphor); }
+.iifym-warning {
+  border: 1px dashed var(--amber);
+  color: var(--amber);
+  padding: 0.6rem 0.8rem;
+  font-size: 0.85rem;
+  margin-top: 0.75rem;
 }
 
 /* ---- Prose pages (about/legal/wiki) ---- */

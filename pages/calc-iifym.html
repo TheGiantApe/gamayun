@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Symbol Index // GAMAYUN⁺</title>
-    <meta name="description" content="349 searchable Unicode symbols with names and codepoints, click to copy.">
-    <meta property="og:title" content="Symbol Index // GAMAYUN⁺">
-    <meta property="og:description" content="349 searchable Unicode symbols with names and codepoints, click to copy.">
+    <title>IIFYM Calculator // GAMAYUN⁺</title>
+    <meta name="description" content="Daily calorie target and protein/fat/carb macro split from your stats, activity, and goal.">
+    <meta property="og:title" content="IIFYM Calculator // GAMAYUN⁺">
+    <meta property="og:description" content="Daily calorie target and protein/fat/carb macro split from your stats, activity, and goal.">
     <meta property="og:type" content="website">
     <meta name="twitter:card" content="summary">
     <link href="https://fonts.googleapis.com/css2?family=VT323&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
@@ -36,13 +36,13 @@
                 <a href="../pages/ascii-art.html" class="nav-link">&gt; ASCII_BANNER</a>
                 <a href="../pages/base64.html" class="nav-link">&gt; BASE64_CODEC</a>
                 <div class="nav-section-label">[ NUMBER_CRUNCH ]</div>
-                <a href="../pages/calc-iifym.html" class="nav-link">&gt; IIFYM_CALC</a>
+                <a href="../pages/calc-iifym.html" class="nav-link active">&gt; IIFYM_CALC</a>
                 <a href="../pages/calc-percentage.html" class="nav-link">&gt; PERCENT_CALC</a>
                 <a href="../pages/calc-tip.html" class="nav-link">&gt; TIP_CALC</a>
                 <a href="../pages/calc-age.html" class="nav-link">&gt; AGE_CALC</a>
                 <a href="../pages/color.html" class="nav-link">&gt; COLOR_CONVERTER</a>
                 <div class="nav-section-label">[ LOOKUP_DECK ]</div>
-                <a href="../pages/symbol-index.html" class="nav-link active">&gt; SYMBOL_INDEX</a>
+                <a href="../pages/symbol-index.html" class="nav-link">&gt; SYMBOL_INDEX</a>
                 <a href="../pages/emoji-index.html" class="nav-link">&gt; EMOJI_INDEX</a>
                 <a href="../pages/acronym-index.html" class="nav-link">&gt; ACRONYM_INDEX</a>
                 <div class="nav-section-label">[ FILE_SALVAGE ]</div>
@@ -61,18 +61,46 @@
         </aside>
 
         <main class="center-viewport" id="active-tool-zone">
-            <div class="breadcrumb">&gt; <a href="../index.html">DECK_LAUNCHER</a> <span class="breadcrumb-sep">/</span> LOOKUP_DECK <span class="breadcrumb-sep">/</span> SYMBOL_INDEX</div>
+            <div class="breadcrumb">&gt; <a href="../index.html">DECK_LAUNCHER</a> <span class="breadcrumb-sep">/</span> NUMBER_CRUNCH <span class="breadcrumb-sep">/</span> IIFYM_CALC</div>
             <section class="tool-card">
                 <div class="badge-clientside">&#128274; 100% CLIENT-SIDE</div>
-                <h2>&gt; SYMBOL_INDEX</h2>
-                <p style="color: var(--phosphor-dim-text); font-size:0.9rem;">349 common Unicode symbols, searchable by name, glyph, or codepoint. Click any tile to copy the raw character.</p>
+                <h2>&gt; IIFYM_CALC</h2>
+                <p style="color: var(--phosphor-dim-text); font-size:0.9rem;">"If It Fits Your Macros." Estimates your daily calorie target and a protein/fat/carb split from your stats, activity level, and goal.</p>
                 <div class="tool-workspace">
-                    <input type="text" id="symbol-index-search" placeholder="search: &quot;arrow&quot;, &quot;heart&quot;, 2192, U+2192...">
+                    <select id="iifym-sex" onchange="executeIifym()">
+                        <option value="male">male</option>
+                        <option value="female">female</option>
+                    </select>
+                    <input type="number" id="iifym-weight" placeholder="weight (lb)" oninput="executeIifym()" style="max-width:140px;">
+                    <input type="number" id="iifym-height" placeholder="height (cm)" oninput="executeIifym()" style="max-width:140px;">
+                    <input type="number" id="iifym-age" placeholder="age" oninput="executeIifym()" style="max-width:90px;">
                 </div>
-                <p id="symbol-index-count" style="color: var(--phosphor-dim-text); font-size:0.8rem; margin-top:0.5rem;"></p>
-                <div id="symbol-index-results"></div>
+                <div class="tool-workspace" style="margin-top:0.5rem;">
+                    <select id="iifym-activity" onchange="executeIifym()">
+                        <option value="sedentary">sedentary (little/no exercise)</option>
+                        <option value="light">light (1-3 days/wk)</option>
+                        <option value="moderate" selected>moderate (3-5 days/wk)</option>
+                        <option value="active">active (6-7 days/wk)</option>
+                        <option value="very_active">very active (training + physical job)</option>
+                    </select>
+                    <select id="iifym-goal" onchange="executeIifym()">
+                        <option value="cut">cut (-20%)</option>
+                        <option value="maintain" selected>maintain</option>
+                        <option value="bulk">bulk (+10%)</option>
+                    </select>
+                </div>
+                <div id="iifym-result"></div>
             </section>
-            <p style="padding:0 1.5rem; font-size:0.85rem;"><span style="color: var(--phosphor-dim-text)">See also:</span> <a href="emoji-index.html">Emoji Index</a> &middot; <a href="cool-text.html">Cool Text Generator</a> &middot; <a href="base64.html">Base64 Codec</a></p>
+
+            <section class="tool-card">
+                <h3 style="font-family:var(--font-display); font-size:1.05rem; margin-top:0;">&gt; WHY_NOT_BMI</h3>
+                <p>Used to run a BMI calculator here. Pulled it. Here's why, and what you're getting instead:</p>
+                <p>BMI is just weight divided by height squared - a formula a 19th-century Belgian statistician cooked up to describe <em>populations</em>, not individuals. It cannot tell the difference between 180 lbs of muscle and 180 lbs of anything else. It doesn't know your frame size, your body fat distribution, your age, or whether you can deadlift a car. Plenty of visibly lean, healthy people clear "overweight" on a BMI chart the moment they have real muscle mass. It's a screening tool for epidemiologists sorting large groups, not a verdict on you specifically. Every doctor who actually uses it knows this and still orders real bloodwork before saying anything useful.</p>
+                <p>Macros at least tell you something you can act on - a specific number of grams to eat, aimed at a specific goal. That's still just <strong>arithmetic</strong>, not medicine, but it's more honest about what it is.</p>
+                <p style="color: var(--amber);">&#9888; None of this is medical or nutritional advice. It's a spreadsheet formula wearing a robot costume. If your weight, diet, or health is something you're genuinely worried about, go talk to an actual doctor or registered dietitian - not a client-side calculator built by a decommissioned recon drone. I'll be here doing arithmetic either way.</p>
+            </section>
+
+            <p style="padding:0 1.5rem; font-size:0.85rem;"><span style="color: var(--phosphor-dim-text)">See also:</span> <a href="calc-percentage.html">Percentage Calculator</a> &middot; <a href="calc-age.html">Age Calculator</a></p>
 
         </main>
 
@@ -125,8 +153,7 @@
 
     <script src="../js/gama-core.js"></script>
     <script src="../js/page-transition.js"></script>
-    <script src="../js/data-symbols.js"></script>
-    <script src="../js/tool-symbol-index.js"></script>
+    <script src="../js/tool-iifym.js"></script>
     <script>document.getElementById("footer-year").textContent = new Date().getFullYear();</script>
 </body>
 </html>
