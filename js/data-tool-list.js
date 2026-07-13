@@ -236,7 +236,7 @@ const TOOL_LIST = [
   },
   {
     "title": "Chrono-Wiki",
-    "desc": "A technical archive on how machines keep time.",
+    "desc": "Technical trivia and dumb conversation-enders, filed as they get salvaged.",
     "code": "CHRONO_WIKI",
     "url": "pages/wiki-index.html"
   }

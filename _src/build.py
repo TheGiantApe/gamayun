@@ -202,7 +202,7 @@ PAGES = [
          desc="GAMA⁺, in her own words. Not exactly a straight answer.",
          root="../", code="ORIGIN_LOG", category="SHIPS_LOG", js=[]),
     dict(out="pages/wiki-index.html", fragment="wiki-index.html", title="Chrono-Wiki",
-         desc="A technical archive on how machines keep time.",
+         desc="Technical trivia and dumb conversation-enders, filed as they get salvaged.",
          root="../", code="CHRONO_WIKI", category="SHIPS_LOG", js=[]),
 
     # Utility/meta pages: footer-only, not in the sidebar nav or tool grid,
