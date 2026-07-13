@@ -6,6 +6,14 @@
                 <ul>
                     <li>Fixed two real layout bugs the previous entry's fixes didn't actually finish (both confirmed live in a browser this time, not just reasoned through): her fixed corner box was landing directly on top of the sitewide ad-leaderboard unit at full scroll — clearance was only measuring the ticker + footer, not the ad unit stacked above them — and her dialogue box (which grows and shrinks with every line she says) could grow tall enough to cover the nav's own text, since the nav's scroll cap was computed once on page load instead of every time she spoke.</li>
                     <li>Added <code>PIG_LATIN</code>, <code>NATO_PHONETIC</code> (both directions, digits included), <code>ANAGRAM_SOLVER</code> (exact anagrams plus sub-word matches, reusing the 52,000-word dictionary <code>SCRABBLE_SOLVER</code> and <code>NUM_SPELL</code> already had loaded), and <code>WU_NAME</code> (deterministic first-letter name generator).</li>
+                    <li><strong>Live at gamayun.site.</strong> Deployed via GitHub Pages, HTTPS enforced, custom domain pointed correctly at the root (not www).</li>
+                    <li>Added Google AdSense verification, <code>ads.txt</code>, and Google Analytics — all live sitewide.</li>
+                    <li>Updated the privacy copy to match reality now that analytics/ads exist: dropped the "no tracking" claim that stopped being true, kept the one that's still true and matters more (your tool input never leaves your browser), and named Analytics/AdSense explicitly on the Legal &amp; Privacy page instead of staying quiet about it.</li>
+                    <li>Set the contact page's email — it had been sitting live with a literal "set a contact address before launch" placeholder.</li>
+                    <li>Desktop layout rework: the ticker, footer, nav, and side deck are now a fixed frame that doesn't move — only the actual tool content scrolls. Simplified GAMA's own positioning code in the process (she no longer needs to react to scroll position at all).</li>
+                    <li><code>DATE_STAMP_RECON</code> now converts in reverse too (a bare number is read as a Unix epoch) and loads showing the current moment instead of an empty form.</li>
+                    <li><code>COOL_TEXT</code>: added Strikethrough and Underline.</li>
+                    <li>Rewrote the Origin Log in her own voice. If you're looking for the old explanation of where she came from, that's on purpose - it's not there anymore.</li>
                 </ul>
 
                 <h2>2026-07-12</h2>
