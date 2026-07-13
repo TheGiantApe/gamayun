@@ -38,10 +38,43 @@ const GAMA = (() => {
 
   function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
 
+  // Per-device tally of completed tool actions, not a real cross-visitor
+  // count - there's no backend to count visitors with, and implying
+  // otherwise would be dishonest. localStorage-only, so it resets if the
+  // user clears site data or switches browsers/devices. Wrapped in
+  // try/catch since localStorage can throw (private browsing in some
+  // browsers, quota, disabled entirely) - a vanity counter failing
+  // silently is fine, it's not worth surfacing an error for.
+  const TALLY_KEY = "gamayun_salvage_tally";
+
+  function getTally() {
+    try {
+      return parseInt(localStorage.getItem(TALLY_KEY), 10) || 0;
+    } catch (e) {
+      return 0;
+    }
+  }
+
+  function renderTally(n) {
+    const el = document.getElementById("salvage-tally-count");
+    if (el) el.textContent = n.toLocaleString();
+  }
+
+  function bumpTally() {
+    try {
+      const next = getTally() + 1;
+      localStorage.setItem(TALLY_KEY, String(next));
+      renderTally(next);
+    } catch (e) {
+      // localStorage unavailable - tally just won't persist this session.
+    }
+  }
+
   function say(stateKey) {
     const state = STATES[stateKey] || STATES.idle;
     if (faceEl) faceEl.textContent = state.face;
     if (speechEl) speechEl.textContent = pick(state.lines);
+    if (stateKey === "success") bumpTally();
     // Dialogue lines vary a lot in length, so her box's real height (and
     // therefore how far up she reaches) changes with every line - not just
     // on load/resize like the ticker/footer/ad stack below her. Recompute
@@ -106,6 +139,7 @@ const GAMA = (() => {
     speechEl = document.getElementById("gama-speech");
     clockEl = document.getElementById("system-clock");
     say("idle");
+    renderTally(getTally());
     tickClock();
     setInterval(tickClock, 1000);
 
