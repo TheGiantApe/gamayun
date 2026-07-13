@@ -60,6 +60,14 @@ function circled(text) {
   }).join("");
 }
 
+// Strikethrough/underline aren't a substitute alphabet like the styles
+// above - they're a combining mark (U+0336 / U+0332) stacked onto every
+// character, including spaces, so the line reads as continuous across a
+// whole phrase rather than breaking at each word gap.
+function combiningOverlay(text, mark) {
+  return [...text].map((c) => c + mark).join("");
+}
+
 const SMALL_CAPS_MAP = {
   a:"ᴀ",b:"ʙ",c:"ᴄ",d:"ᴅ",e:"ᴇ",f:"ꜰ",g:"ɢ",h:"ʜ",i:"ɪ",j:"ᴊ",k:"ᴋ",l:"ʟ",m:"ᴍ",
   n:"ɴ",o:"ᴏ",p:"ᴘ",q:"ǫ",r:"ʀ",s:"s",t:"ᴛ",u:"ᴜ",v:"ᴠ",w:"ᴡ",x:"x",y:"ʏ",z:"ᴢ"
@@ -68,11 +76,13 @@ const SMALL_CAPS_MAP = {
 function convert(text, styleName) {
   if (styleName === "Small Caps") return [...text].map((c) => SMALL_CAPS_MAP[c.toLowerCase()] || c).join("");
   if (styleName === "Circled") return circled(text);
+  if (styleName === "Strikethrough") return combiningOverlay(text, "̶");
+  if (styleName === "Underline") return combiningOverlay(text, "̲");
   const map = STYLES[styleName];
   return [...text].map((c) => map[c] || c).join("");
 }
 
-const STYLE_NAMES = [...Object.keys(STYLES), "Small Caps", "Circled"];
+const STYLE_NAMES = [...Object.keys(STYLES), "Small Caps", "Circled", "Strikethrough", "Underline"];
 
 function executeCoolText() {
   const raw = document.getElementById("cooltext-input").value;
