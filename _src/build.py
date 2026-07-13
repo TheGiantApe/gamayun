@@ -186,7 +186,7 @@ PAGES = [
          js=["tool-runes.js"]),
 
     dict(out="pages/about.html", fragment="about.html", title="Origin Log",
-         desc="Who is GAMA⁺, and what happened to G.A.R.R.Y.",
+         desc="GAMA⁺, in her own words. Not exactly a straight answer.",
          root="../", code="ORIGIN_LOG", category="SHIPS_LOG", js=[]),
     dict(out="pages/wiki-index.html", fragment="wiki-index.html", title="Chrono-Wiki",
          desc="A technical archive on how machines keep time.",
