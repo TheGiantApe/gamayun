@@ -204,6 +204,10 @@ PAGES = [
     dict(out="pages/wiki-index.html", fragment="wiki-index.html", title="Chrono-Wiki",
          desc="Technical trivia and dumb conversation-enders, filed as they get salvaged.",
          root="../", code="CHRONO_WIKI", category="SHIPS_LOG", js=[]),
+    dict(out="pages/bluesky-feed.html", fragment="bluesky-feed.html", title="Social Feed",
+         desc="Live Bluesky posts, fetched client-side straight from the public API.",
+         root="../", code="SOCIAL_FEED", category="SHIPS_LOG",
+         js=["tool-bluesky-feed.js"]),
 
     # Utility/meta pages: footer-only, not in the sidebar nav or tool grid,
     # but still get a breadcrumb via breadcrumb_cat.

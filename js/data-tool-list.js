@@ -239,5 +239,11 @@ const TOOL_LIST = [
     "desc": "Technical trivia and dumb conversation-enders, filed as they get salvaged.",
     "code": "CHRONO_WIKI",
     "url": "pages/wiki-index.html"
+  },
+  {
+    "title": "Social Feed",
+    "desc": "Live Bluesky posts, fetched client-side straight from the public API.",
+    "code": "SOCIAL_FEED",
+    "url": "pages/bluesky-feed.html"
   }
 ];

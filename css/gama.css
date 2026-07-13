@@ -829,3 +829,19 @@ button:hover, .btn:hover {
 .prose { padding: 1.5rem; max-width: 68ch; line-height: 1.7; font-size: 1.05rem; }
 .prose h1, .prose h2 { font-family: var(--font-display); }
 .prose p { margin: 1em 0; }
+
+/* ---- Bluesky feed ---- */
+.bluesky-post {
+  border: 1px solid var(--phosphor-dim);
+  padding: 0.9rem;
+  margin-bottom: 1rem;
+}
+.bluesky-post-text { margin: 0; white-space: pre-wrap; }
+.bluesky-post-meta {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 0.6rem;
+  font-size: 0.8rem;
+  color: var(--phosphor-dim-text);
+}
