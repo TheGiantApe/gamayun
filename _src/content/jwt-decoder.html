@@ -1,0 +1,9 @@
+            <section class="tool-card">
+                <div class="badge-clientside">&#128274; 100% CLIENT-SIDE</div>
+                <h2>&gt; JWT_DECODER</h2>
+                <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">Decodes a JSON Web Token's header and payload. Does not verify the signature - that needs the secret key, which should never be pasted into a browser tab. Flags exp/iat/nbf claims as human-readable dates, and calls out an expired token.</p>
+                <div class="tool-workspace">
+                    <textarea id="jwt-input" placeholder="eyJhbGciOi...header.eyJzdWIi...payload.signature" oninput="executeJwtDecode()"></textarea>
+                </div>
+                <div class="result-block" id="jwt-result"></div>
+            </section>
