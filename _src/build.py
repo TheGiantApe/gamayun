@@ -38,7 +38,7 @@ CATEGORIES = [
 # that aren't in the visible nav but still get a breadcrumb trail), js.
 PAGES = [
     dict(out="index.html", fragment="home.html", title="Orbital Salvage Archive",
-         desc="Free client-side web tools. No uploads, no tracking, no server.",
+         desc="Free client-side web tools. Your input never leaves your browser. No accounts, nothing for sale.",
          root="", code="DECK_LAUNCHER", category=None, js=[]),
 
     dict(out="pages/links.html", fragment="links.html", title="Link Purge",
