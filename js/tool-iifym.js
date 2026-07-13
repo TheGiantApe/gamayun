@@ -1,8 +1,9 @@
-/* IIFYM_CALC — "If It Fits Your Macros" calculator. BMR via Mifflin-St
-   Jeor, TDEE via activity multiplier, calorie target via goal adjustment,
-   then macros split by the standard IIFYM community convention (protein
-   and fat pinned to bodyweight, carbs fill the rest). Replaced the old
-   BMI calculator - see calc-iifym.html for the disclaimer on why. */
+/* MACRO_CALC — flexible-dieting macro calculator (the method some corners
+   of fitness call "IIFYM," which is likely someone's trade name - keeping
+   this tool's own branding generic). BMR via Mifflin-St Jeor, TDEE via
+   activity multiplier, calorie target via goal adjustment, then macros
+   split protein/fat pinned to bodyweight, carbs fill the rest. Replaced
+   the old BMI calculator - see calc-iifym.html for the disclaimer on why. */
 
 const ACTIVITY_MULTIPLIERS = {
   sedentary: 1.2,

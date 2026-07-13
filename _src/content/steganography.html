@@ -1,0 +1,30 @@
+            <section class="tool-card">
+                <div class="badge-clientside">&#128274; 100% CLIENT-SIDE</div>
+                <h2>&gt; STEGANOGRAPHY</h2>
+                <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">Hide a text message inside an image's pixel data (LSB encoding - one bit per color channel, invisible to the eye). Output is always PNG: JPEG's lossy recompression destroys the hidden bits, so re-saving or re-uploading a stego image anywhere that re-encodes it as JPEG will wipe the message.</p>
+
+                <h3 style="font-family:var(--font-display); font-size:1rem; margin:1.5rem 0 0.5rem;">&gt; EMBED</h3>
+                <div class="img-dropzone" id="stego-encode-dropzone">
+                    <p>&gt; drop a carrier image here, or click to choose one</p>
+                    <input type="file" id="stego-encode-file-input" accept="image/*" style="display:none;">
+                </div>
+                <p id="stego-encode-filename" style="color: var(--phosphor-dim-text); font-size:0.85rem; margin-top:0.5rem;"></p>
+                <p id="stego-capacity" style="color: var(--phosphor-dim-text); font-size:0.8rem;"></p>
+                <div class="tool-workspace">
+                    <textarea id="stego-message" placeholder="the message to hide..."></textarea>
+                </div>
+                <div style="margin-top:0.5rem;">
+                    <button onclick="executeStegoEncode()">&gt; EMBED &amp; ENCODE</button>
+                </div>
+                <div class="result-block" id="stego-encode-result"></div>
+                <a id="stego-download-link" class="btn" download style="display:none; margin-top:0.75rem;">&gt; DOWNLOAD PNG</a>
+
+                <h3 style="font-family:var(--font-display); font-size:1rem; margin:2rem 0 0.5rem;">&gt; EXTRACT</h3>
+                <div class="img-dropzone" id="stego-decode-dropzone">
+                    <p>&gt; drop a stego image here, or click to choose one</p>
+                    <input type="file" id="stego-decode-file-input" accept="image/*" style="display:none;">
+                </div>
+                <p id="stego-decode-filename" style="color: var(--phosphor-dim-text); font-size:0.85rem; margin-top:0.5rem;"></p>
+                <pre class="result-block" id="stego-decode-result"></pre>
+            </section>
+            <p style="padding:0 1.5rem; font-size:0.85rem;"><span style="color: var(--phosphor-dim-text)">See also:</span> <a href="image-tools.html">Image Salvage</a></p>

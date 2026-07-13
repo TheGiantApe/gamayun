@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moon Phase // GAMAYUN⁺</title>
+    <meta name="description" content="Phase, illumination %, and days to full/new moon for any date.">
+    <meta property="og:title" content="Moon Phase // GAMAYUN⁺">
+    <meta property="og:description" content="Phase, illumination %, and days to full/new moon for any date.">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary">
+    <link href="https://fonts.googleapis.com/css2?family=VT323&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/gama.css">
+</head>
+<body class="crt-screen" data-root="../">
+
+    <img class="raven-watermark" src="../assets/raven-key-seal.png" alt="" aria-hidden="true">
+
+    <header class="terminal-header">
+        <div class="brand phosphor-text">GAMAYUN<sup>+</sup> // REV-4.2</div>
+        <div class="system-status">LINK: STABLE // MAG-LOCK: ENGAGED // <span id="system-clock" class="clock"></span></div>
+    </header>
+
+    <div class="command-bridge-grid">
+
+        <aside class="left-deck">
+            <nav class="terminal-nav">
+                <a href="../index.html" class="nav-link">&gt; DECK_LAUNCHER</a>
+                <div class="nav-section-label">[ RECON_OPS ]</div>
+                <a href="../pages/links.html" class="nav-link">&gt; LINK_PURGE</a>
+                <a href="../pages/time-logic.html" class="nav-link">&gt; DATE_STAMP_RECON</a>
+                <a href="../pages/qr-code.html" class="nav-link">&gt; QR_GEN</a>
+                <div class="nav-section-label">[ TEXT_OPS ]</div>
+                <a href="../pages/text-case.html" class="nav-link">&gt; CASE_CONVERTER</a>
+                <a href="../pages/letter-counter.html" class="nav-link">&gt; LETTER_COUNTER</a>
+                <a href="../pages/cool-text.html" class="nav-link">&gt; COOL_TEXT</a>
+                <a href="../pages/ascii-art.html" class="nav-link">&gt; ASCII_BANNER</a>
+                <a href="../pages/base64.html" class="nav-link">&gt; BASE64_CODEC</a>
+                <a href="../pages/url-encode.html" class="nav-link">&gt; URL_CODEC</a>
+                <a href="../pages/html-entities.html" class="nav-link">&gt; HTML_ENTITY_CODEC</a>
+                <a href="../pages/text-diff.html" class="nav-link">&gt; TEXT_DIFF</a>
+                <a href="../pages/pig-latin.html" class="nav-link">&gt; PIG_LATIN</a>
+                <a href="../pages/nato-phonetic.html" class="nav-link">&gt; NATO_PHONETIC</a>
+                <div class="nav-section-label">[ NUMBER_CRUNCH ]</div>
+                <a href="../pages/calc-iifym.html" class="nav-link">&gt; MACRO_CALC</a>
+                <a href="../pages/calc-percentage.html" class="nav-link">&gt; PERCENT_CALC</a>
+                <a href="../pages/calc-tip.html" class="nav-link">&gt; TIP_CALC</a>
+                <a href="../pages/calc-age.html" class="nav-link">&gt; AGE_CALC</a>
+                <a href="../pages/color.html" class="nav-link">&gt; COLOR_CONVERTER</a>
+                <div class="nav-section-label">[ LOOKUP_DECK ]</div>
+                <a href="../pages/symbol-index.html" class="nav-link">&gt; SYMBOL_INDEX</a>
+                <a href="../pages/emoji-index.html" class="nav-link">&gt; EMOJI_INDEX</a>
+                <a href="../pages/acronym-index.html" class="nav-link">&gt; ACRONYM_INDEX</a>
+                <div class="nav-section-label">[ FILE_SALVAGE ]</div>
+                <a href="../pages/image-tools.html" class="nav-link">&gt; IMAGE_SALVAGE</a>
+                <a href="../pages/steganography.html" class="nav-link">&gt; STEGANOGRAPHY</a>
+                <div class="nav-section-label">[ DEV_VAULT ]</div>
+                <a href="../pages/json-format.html" class="nav-link">&gt; JSON_FORMATTER</a>
+                <a href="../pages/uuid.html" class="nav-link">&gt; UUID_GEN</a>
+                <a href="../pages/hash.html" class="nav-link">&gt; HASH_GEN</a>
+                <a href="../pages/password-gen.html" class="nav-link">&gt; PASSWORD_GEN</a>
+                <div class="nav-section-label">[ GAMES & CURIOS ]</div>
+                <a href="../pages/cipher-deck.html" class="nav-link">&gt; CIPHER_DECK</a>
+                <a href="../pages/scrabble.html" class="nav-link">&gt; SCRABBLE_SOLVER</a>
+                <a href="../pages/anagram-solver.html" class="nav-link">&gt; ANAGRAM_SOLVER</a>
+                <a href="../pages/wu-name.html" class="nav-link">&gt; WU_NAME</a>
+                <a href="../pages/number-spell.html" class="nav-link">&gt; NUM_SPELL</a>
+                <a href="../pages/iching.html" class="nav-link">&gt; I_CHING</a>
+                <a href="../pages/moon-phase.html" class="nav-link active">&gt; MOON_PHASE</a>
+                <a href="../pages/runes.html" class="nav-link">&gt; RUNES</a>
+                <div class="nav-section-label">[ SHIP'S LOG ]</div>
+                <a href="../pages/about.html" class="nav-link">&gt; ORIGIN_LOG</a>
+                <a href="../pages/wiki-index.html" class="nav-link">&gt; CHRONO_WIKI</a>
+            </nav>
+        </aside>
+
+        <main class="center-viewport" id="active-tool-zone">
+            <div class="breadcrumb">&gt; <a href="../index.html">DECK_LAUNCHER</a> <span class="breadcrumb-sep">/</span> GAMES & CURIOS <span class="breadcrumb-sep">/</span> MOON_PHASE</div>
+            <section class="tool-card">
+                <div class="badge-clientside">&#128274; 100% CLIENT-SIDE</div>
+                <h2>&gt; MOON_PHASE</h2>
+                <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">Phase, illumination %, and days to the next full/new moon for any date. Mean synodic-month approximation - accurate to within about a percentage point of illumination, not eclipse-prediction grade.</p>
+                <div class="tool-workspace">
+                    <input type="date" id="moon-date" onchange="executeMoonPhase()">
+                </div>
+                <div id="moon-result" style="margin-top:1rem;"></div>
+            </section>
+
+        </main>
+
+        <aside class="right-deck">
+            <div class="site-updates-box">
+                <div class="wireframe-header">// TRANSMISSION LOG</div>
+                <div class="update-entry">
+                    <span class="update-date">2026-07-13</span>
+                    <p>Fixed GAMA overlapping the ad unit and nav text at full scroll. Added PIG_LATIN, NATO_PHONETIC, ANAGRAM_SOLVER, and WU_NAME.</p>
+                </div>
+                <a href="../pages/changelog.html" class="updates-link">&gt; full maintenance log</a>
+            </div>
+
+            <div class="site-updates-box support-widget">
+                <div class="wireframe-header">// SUPPLY REQUISITION</div>
+                <p style="margin:0 0 0.75rem; color:var(--phosphor-dim-text); font-size:0.85rem;">Salvage runs aren't free. If a tool saved you a headache:</p>
+                <script type="text/javascript" src="https://storage.ko-fi.com/cdn/widget/Widget_2.js"></script>
+                <script type="text/javascript">kofiwidget2.init('Feed the Archive', '#1B2B34', 'I3L1232069');kofiwidget2.draw();</script>
+            </div>
+
+            <div class="corporate-debris-billboard">
+                <div class="wireframe-header">&#9888; INTERCEPTED CORPORATE DEBRIS</div>
+                <div class="adsense-slot">[ AD UNIT — SALVAGED INTEL BRIEF ]</div>
+            </div>
+
+            <div class="gama-mascot-box">
+                <div class="gama-dialogue">
+                    <p id="gama-speech">&gt; awaiting input...</p>
+                </div>
+                <img class="gama-portrait" id="gama-portrait" src="../assets/gama-corner-mascot.png" alt="GAMA⁺" draggable="false">
+                <div class="aperture-eye" style="display:none;">0_0</div>
+            </div>
+        </aside>
+
+    </div>
+
+    <div class="ad-leaderboard">
+        <div class="wireframe-header">&#9888; INTERCEPTED CORPORATE DEBRIS — WIDE-BAND TRANSMISSION</div>
+        <div class="adsense-slot">[ AD UNIT — LEADERBOARD ]</div>
+    </div>
+
+    <footer class="archival-log-footer">
+        <div class="log-stream" id="log-stream-feed">[00:00:00] recon deck online...</div>
+    </footer>
+
+    <footer class="site-footer">
+        <div>&copy; <span id="footer-year"></span> GAMAYUN.SITE — orbital salvage archive. all tools 100% client-side.</div>
+        <nav>
+            <a href="../pages/about.html">About / Origin Log</a>
+            <a href="../pages/legal.html">Legal &amp; Privacy</a>
+            <a href="../pages/contact.html">Contact</a>
+            <a href="../pages/wiki-index.html">Chrono-Wiki</a>
+            <a href="../pages/sitemap.html">Sitemap</a>
+            <a href="../pages/changelog.html">Maintenance Log</a>
+            <a href="https://www.youtube.com/channel/UCybFHs2sMguHvRv0AKME-nA" target="_blank" rel="noopener">YouTube</a>
+            <a href="https://bsky.app/profile/project-gamayun.bsky.social" target="_blank" rel="noopener">Bluesky</a>
+        </nav>
+    </footer>
+
+    <script src="../js/gama-core.js"></script>
+    <script src="../js/page-transition.js"></script>
+    <script src="../js/tool-moon-phase.js"></script>
+    <script>document.getElementById("footer-year").textContent = new Date().getFullYear();</script>
+</body>
+</html>

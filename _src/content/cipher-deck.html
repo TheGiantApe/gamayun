@@ -1,0 +1,41 @@
+            <section class="tool-card">
+                <div class="badge-clientside">&#128274; 100% CLIENT-SIDE</div>
+                <h2>&gt; CIPHER_DECK</h2>
+                <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">Three classic field ciphers. None of these are secure by modern standards - they're puzzle/hobby-grade, not for anything that actually needs to stay secret.</p>
+
+                <h3 style="font-family:var(--font-display); font-size:1rem; margin:1.5rem 0 0.5rem;">&gt; CAESAR_SHIFT</h3>
+                <div class="tool-workspace">
+                    <textarea id="cipher-caesar-input" placeholder="text to shift..." oninput="executeCaesar()"></textarea>
+                </div>
+                <div style="margin-top:0.5rem; display:flex; align-items:center; gap:1rem; flex-wrap:wrap;">
+                    <label style="font-size:0.85rem; color:var(--phosphor-dim-text);">shift:
+                        <input type="number" id="cipher-caesar-shift" value="3" min="-25" max="25" style="max-width:80px;" oninput="executeCaesar()">
+                    </label>
+                    <label style="font-size:0.85rem; color:var(--phosphor-dim-text);">
+                        <input type="checkbox" id="cipher-caesar-brute" onchange="executeCaesar()"> brute-force all 25 shifts
+                    </label>
+                </div>
+                <pre class="result-block" id="cipher-caesar-result"></pre>
+
+                <h3 style="font-family:var(--font-display); font-size:1rem; margin:2rem 0 0.5rem;">&gt; VIGENERE</h3>
+                <div class="tool-workspace">
+                    <textarea id="cipher-vig-input" placeholder="text..."></textarea>
+                </div>
+                <div style="margin-top:0.5rem;">
+                    <input type="text" id="cipher-vig-key" placeholder="key (letters only)" style="max-width:200px;">
+                    <button onclick="executeVigenere(false)">&gt; ENCODE</button>
+                    <button onclick="executeVigenere(true)">&gt; DECODE</button>
+                </div>
+                <pre class="result-block" id="cipher-vig-result"></pre>
+
+                <h3 style="font-family:var(--font-display); font-size:1rem; margin:2rem 0 0.5rem;">&gt; MORSE</h3>
+                <div class="tool-workspace">
+                    <textarea id="cipher-morse-input" placeholder="text, or morse code (. - / space)..."></textarea>
+                </div>
+                <div style="margin-top:0.5rem;">
+                    <button onclick="executeMorseEncode()">&gt; TEXT&nbsp;&rarr;&nbsp;MORSE</button>
+                    <button onclick="executeMorseDecode()">&gt; MORSE&nbsp;&rarr;&nbsp;TEXT</button>
+                    <button onclick="executeMorsePlay()">&gt; &#128266; PLAY</button>
+                </div>
+                <pre class="result-block" id="cipher-morse-result"></pre>
+            </section>

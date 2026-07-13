@@ -64,13 +64,26 @@ function executeAsciiArt() {
   GAMA.say("working");
   setTimeout(() => {
     try {
-      const art = figletRender(raw);
+      const fontKey = document.getElementById("ascii-font").value;
+      const font = ASCII_FONTS[fontKey];
+      const art = figletRender(raw, font.data);
       out.textContent = art;
       GAMA.say("success");
-      GAMA.log(`Rendered "${raw}" in SmSlant`);
+      GAMA.log(`Rendered "${raw}" in ${font.label}`);
     } catch (e) {
       GAMA.say("error");
       out.textContent = "// rendering failed: " + e.message;
     }
   }, 100);
 }
+
+// Populated from the ASCII_FONTS registry once all data-figlet-*.js files
+// have loaded (they're plain <script> tags before this one - see build.py).
+const ASCII_FONTS = {
+  smslant: { label: "SmSlant", data: FIGLET_SMSLANT },
+  standard: { label: "Standard", data: FIGLET_STANDARD },
+  slant: { label: "Slant", data: FIGLET_SLANT },
+  small: { label: "Small", data: FIGLET_SMALL },
+  big: { label: "Big", data: FIGLET_BIG },
+  shadow: { label: "Shadow", data: FIGLET_SHADOW },
+};

@@ -1,0 +1,42 @@
+/* WU_NAME — classic "name generator" joke format (first letter of first
+   name + first letter of last name each index into a word table). Word
+   tables here are original, not lifted from any existing generator or
+   lyric - same public-domain-joke structure, different words, so the same
+   input always maps to the same result (that determinism is half the fun -
+   people compare what they got). */
+
+const WU_ADJECTIVES = {
+  a: "Ancient", b: "Blazing", c: "Crimson", d: "Dusty", e: "Electric",
+  f: "Feral", g: "Ghost", h: "Hollow", i: "Iron", j: "Jade",
+  k: "Kinetic", l: "Lunar", m: "Molten", n: "Nocturnal", o: "Onyx",
+  p: "Phantom", q: "Quiet", r: "Rusty", s: "Savage", t: "Twisted",
+  u: "Umbral", v: "Venomous", w: "Wandering", x: "Xenon", y: "Yellowed",
+  z: "Zealous",
+};
+
+const WU_NOUNS = {
+  a: "Assassin", b: "Blade", c: "Cobra", d: "Dragon", e: "Executioner",
+  f: "Fang", g: "Ghost", h: "Hawk", i: "Inferno", j: "Jackal",
+  k: "Kraken", l: "Lotus", m: "Mantis", n: "Ninja", o: "Oracle",
+  p: "Panther", q: "Quicksilver", r: "Raven", s: "Scorpion", t: "Tiger",
+  u: "Undertaker", v: "Viper", w: "Wolf", x: "Xiphos", y: "Yeti", z: "Zephyr",
+};
+
+function generateWuName(first, last) {
+  const f = (first || "").trim().toLowerCase()[0];
+  const l = (last || "").trim().toLowerCase()[0];
+  if (!f || !l) return null;
+  const adj = WU_ADJECTIVES[f] || WU_ADJECTIVES.a;
+  const noun = WU_NOUNS[l] || WU_NOUNS.a;
+  return `${adj} ${noun}`;
+}
+
+function executeWuName() {
+  const first = document.getElementById("wu-first").value;
+  const last = document.getElementById("wu-last").value;
+  const out = document.getElementById("wu-result");
+  const name = generateWuName(first, last);
+  if (!name) { out.textContent = ""; GAMA.say("idle"); return; }
+  out.textContent = name;
+  GAMA.say("success");
+}

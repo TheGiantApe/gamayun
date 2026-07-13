@@ -2,6 +2,27 @@
                 <h1>&gt; MAINTENANCE_LOG</h1>
                 <p style="color: var(--phosphor-dim-text); font-size:0.9rem;">GAMA<sup>+</sup> logs her own patch history. Newest first.</p>
 
+                <h2>2026-07-13</h2>
+                <ul>
+                    <li>Fixed two real layout bugs the previous entry's fixes didn't actually finish (both confirmed live in a browser this time, not just reasoned through): her fixed corner box was landing directly on top of the sitewide ad-leaderboard unit at full scroll — clearance was only measuring the ticker + footer, not the ad unit stacked above them — and her dialogue box (which grows and shrinks with every line she says) could grow tall enough to cover the nav's own text, since the nav's scroll cap was computed once on page load instead of every time she spoke.</li>
+                    <li>Added <code>PIG_LATIN</code>, <code>NATO_PHONETIC</code> (both directions, digits included), <code>ANAGRAM_SOLVER</code> (exact anagrams plus sub-word matches, reusing the 52,000-word dictionary <code>SCRABBLE_SOLVER</code> and <code>NUM_SPELL</code> already had loaded), and <code>WU_NAME</code> (deterministic first-letter name generator).</li>
+                </ul>
+
+                <h2>2026-07-12</h2>
+                <ul>
+                    <li>Added <code>QR_GEN</code>: a real ISO 18004 QR encoder (GF(256) Reed-Solomon error correction, BCH format/version info, all 8 mask patterns scored to pick the best one) — versions 1 through 40, all four error-correction levels. Not a wrapper around somebody else's image API.</li>
+                    <li>Added <code>URL_CODEC</code> (percent-encode/decode) and <code>HTML_ENTITY_CODEC</code> (escape/unescape, decode via a detached DOMParser document so nothing in the input ever executes).</li>
+                    <li>Added <code>PASSWORD_GEN</code>: rejection-sampled <code>crypto.getRandomValues</code> so character-set selection stays unbiased, plus a live entropy estimate.</li>
+                    <li>Added <code>TEXT_DIFF</code>: line-by-line comparison via classic LCS.</li>
+                    <li>Fixed GAMA's fixed-position corner box overlapping the nav on tall/wrapped footers (was a hardcoded offset, now measured live) and made the left nav column sticky so it stops scrolling away on long pages.</li>
+                    <li>Added a Ko-fi tip jar and YouTube/Bluesky links.</li>
+                    <li><code>ASCII_BANNER</code>: added Standard, Slant, Small, Big, and Shadow as font choices alongside SmSlant, and capped the result panel height so a tall banner doesn't blow the page height out and make the page-transition feel jarring.</li>
+                    <li>Renamed the IIFYM Calculator to <code>MACRO_CALC</code> - "IIFYM" is likely someone else's trade name, the math underneath isn't.</li>
+                    <li>Added <code>STEGANOGRAPHY</code>: hide a text message inside an image via LSB bit-encoding, or extract one that's already there. Output is always PNG since JPEG recompression destroys the hidden bits.</li>
+                    <li>Added <code>CIPHER_DECK</code>: Caesar shift (with a brute-force-all-25-shifts mode), Vigenere, and Morse code - including audible Morse playback via a raw oscillator, no audio files.</li>
+                    <li>Added <code>I_CHING</code> (three-coin hexagram casting, all 64 King Wen hexagrams - the binary line patterns and traditional names were cross-checked against two independent reference sources rather than typed from memory), <code>MOON_PHASE</code> (illumination % and days to full/new moon, validated against a real astronomical library), and <code>RUNES</code> (Elder Futhark transliteration).</li>
+                </ul>
+
                 <h2>2026-07-11</h2>
                 <ul>
                     <li>Added 3 new lookup tools: Symbol Index (rebuilt from the old Symbol Glossary — 349 symbols, searchable by name/glyph/codepoint), Emoji Index (816 emoji, searchable by name), Acronym Index (chat/dev jargon plus fact-checked fictional acronyms — yes, NERV really isn't a backronym).</li>

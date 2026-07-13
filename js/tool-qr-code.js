@@ -1,0 +1,523 @@
+/* QR_GEN — full ISO 18004 encoder ported from the reference `qrcode` Python
+   library's algorithm (GF(256) Reed-Solomon, BCH format/version info,
+   mask penalty scoring). Byte/alphanumeric/numeric modes, versions 1-40,
+   levels L/M/Q/H. Verified against a real zbar decoder during development
+   (numeric/alphanumeric/byte/multi-byte UTF-8, every EC level, versions
+   up to 23) - not just "looks like a QR code." */
+
+// ---- GF(256) tables ----
+const EXP_TABLE = new Array(256);
+const LOG_TABLE = new Array(256);
+for (let i = 0; i < 8; i++) EXP_TABLE[i] = 1 << i;
+for (let i = 8; i < 256; i++) {
+  EXP_TABLE[i] = EXP_TABLE[i - 4] ^ EXP_TABLE[i - 5] ^ EXP_TABLE[i - 6] ^ EXP_TABLE[i - 8];
+}
+for (let i = 0; i < 255; i++) LOG_TABLE[EXP_TABLE[i]] = i;
+function glog(n) { return LOG_TABLE[n]; }
+function gexp(n) { return EXP_TABLE[((n % 255) + 255) % 255]; }
+
+// ---- Polynomial (GF(256)) ----
+class Poly {
+  constructor(num, shift) {
+    let offset = 0;
+    while (offset < num.length - 1 && num[offset] === 0) offset++;
+    this.num = num.slice(offset).concat(new Array(shift).fill(0));
+  }
+  get length() { return this.num.length; }
+  mul(other) {
+    const num = new Array(this.length + other.length - 1).fill(0);
+    for (let i = 0; i < this.length; i++) {
+      for (let j = 0; j < other.length; j++) {
+        num[i + j] ^= gexp(glog(this.num[i]) + glog(other.num[j]));
+      }
+    }
+    return new Poly(num, 0);
+  }
+  mod(other) {
+    let cur = this;
+    while (cur.length - other.length >= 0) {
+      if (cur.num[0] === 0) { cur = new Poly(cur.num.slice(1), 0); continue; }
+      const ratio = glog(cur.num[0]) - glog(other.num[0]);
+      const num = cur.num.map((item, i) => {
+        const o = i < other.length ? other.num[i] : 0;
+        return item ^ gexp(glog(o) + ratio);
+      });
+      cur = new Poly(num, 0);
+    }
+    return cur;
+  }
+}
+
+// ---- RS block table: (count, total_count, data_count) triples per
+// version(1-40) x level(L,M,Q,H), ported verbatim from the reference impl ----
+const RS_BLOCK_TABLE = [
+  [1,26,19],[1,26,16],[1,26,13],[1,26,9],
+  [1,44,34],[1,44,28],[1,44,22],[1,44,16],
+  [1,70,55],[1,70,44],[2,35,17],[2,35,13],
+  [1,100,80],[2,50,32],[2,50,24],[4,25,9],
+  [1,134,108],[2,67,43],[2,33,15,2,34,16],[2,33,11,2,34,12],
+  [2,86,68],[4,43,27],[4,43,19],[4,43,15],
+  [2,98,78],[4,49,31],[2,32,14,4,33,15],[4,39,13,1,40,14],
+  [2,121,97],[2,60,38,2,61,39],[4,40,18,2,41,19],[4,40,14,2,41,15],
+  [2,146,116],[3,58,36,2,59,37],[4,36,16,4,37,17],[4,36,12,4,37,13],
+  [2,86,68,2,87,69],[4,69,43,1,70,44],[6,43,19,2,44,20],[6,43,15,2,44,16],
+  [4,101,81],[1,80,50,4,81,51],[4,50,22,4,51,23],[3,36,12,8,37,13],
+  [2,116,92,2,117,93],[6,58,36,2,59,37],[4,46,20,6,47,21],[7,42,14,4,43,15],
+  [4,133,107],[8,59,37,1,60,38],[8,44,20,4,45,21],[12,33,11,4,34,12],
+  [3,145,115,1,146,116],[4,64,40,5,65,41],[11,36,16,5,37,17],[11,36,12,5,37,13],
+  [5,109,87,1,110,88],[5,65,41,5,66,42],[5,54,24,7,55,25],[11,36,12,7,37,13],
+  [5,122,98,1,123,99],[7,73,45,3,74,46],[15,43,19,2,44,20],[3,45,15,13,46,16],
+  [1,135,107,5,136,108],[10,74,46,1,75,47],[1,50,22,15,51,23],[2,42,14,17,43,15],
+  [5,150,120,1,151,121],[9,69,43,4,70,44],[17,50,22,1,51,23],[2,42,14,19,43,15],
+  [3,141,113,4,142,114],[3,70,44,11,71,45],[17,47,21,4,48,22],[9,39,13,16,40,14],
+  [3,135,107,5,136,108],[3,67,41,13,68,42],[15,54,24,5,55,25],[15,43,15,10,44,16],
+  [4,144,116,4,145,117],[17,68,42],[17,50,22,6,51,23],[19,46,16,6,47,17],
+  [2,139,111,7,140,112],[17,74,46],[7,54,24,16,55,25],[34,37,13],
+  [4,151,121,5,152,122],[4,75,47,14,76,48],[11,54,24,14,55,25],[16,45,15,14,46,16],
+  [6,147,117,4,148,118],[6,73,45,14,74,46],[11,54,24,16,55,25],[30,46,16,2,47,17],
+  [8,132,106,4,133,107],[8,75,47,13,76,48],[7,54,24,22,55,25],[22,45,15,13,46,16],
+  [10,142,114,2,143,115],[19,74,46,4,75,47],[28,50,22,6,51,23],[33,46,16,4,47,17],
+  [8,152,122,4,153,123],[22,73,45,3,74,46],[8,53,23,26,54,24],[12,45,15,28,46,16],
+  [3,147,117,10,148,118],[3,73,45,23,74,46],[4,54,24,31,55,25],[11,45,15,31,46,16],
+  [7,146,116,7,147,117],[21,73,45,7,74,46],[1,53,23,37,54,24],[19,45,15,26,46,16],
+  [5,145,115,10,146,116],[19,75,47,10,76,48],[15,54,24,25,55,25],[23,45,15,25,46,16],
+  [13,145,115,3,146,116],[2,74,46,29,75,47],[42,54,24,1,55,25],[23,45,15,28,46,16],
+  [17,145,115],[10,74,46,23,75,47],[10,54,24,35,55,25],[19,45,15,35,46,16],
+  [17,145,115,1,146,116],[14,74,46,21,75,47],[29,54,24,19,55,25],[11,45,15,46,46,16],
+  [13,145,115,6,146,116],[14,74,46,23,75,47],[44,54,24,7,55,25],[59,46,16,1,47,17],
+  [12,151,121,7,152,122],[12,75,47,26,76,48],[39,54,24,14,55,25],[22,45,15,41,46,16],
+  [6,151,121,14,152,122],[6,75,47,34,76,48],[46,54,24,10,55,25],[2,45,15,64,46,16],
+  [17,152,122,4,153,123],[29,74,46,14,75,47],[49,54,24,10,55,25],[24,45,15,46,46,16],
+  [4,152,122,18,153,123],[13,74,46,32,75,47],[48,54,24,14,55,25],[42,45,15,32,46,16],
+  [20,147,117,4,148,118],[40,75,47,7,76,48],[43,54,24,22,55,25],[10,45,15,67,46,16],
+  [19,148,118,6,149,119],[18,75,47,31,76,48],[34,54,24,34,55,25],[20,45,15,61,46,16],
+];
+
+// Error correction level ints match the QR spec's format-info encoding -
+// NOT arbitrary, these exact values (L=1,M=0,Q=3,H=2) are baked into bchTypeInfo.
+const EC_L = 1, EC_M = 0, EC_Q = 3, EC_H = 2;
+const RS_BLOCK_OFFSET = { [EC_L]: 0, [EC_M]: 1, [EC_Q]: 2, [EC_H]: 3 };
+
+function rsBlocks(version, ec) {
+  const offset = RS_BLOCK_OFFSET[ec];
+  const row = RS_BLOCK_TABLE[(version - 1) * 4 + offset];
+  const blocks = [];
+  for (let i = 0; i < row.length; i += 3) {
+    const [count, total, data] = [row[i], row[i + 1], row[i + 2]];
+    for (let n = 0; n < count; n++) blocks.push({ total, data });
+  }
+  return blocks;
+}
+
+const BIT_LIMIT_TABLE = [EC_M, EC_L, EC_H, EC_Q].reduce((acc, ec) => {
+  acc[ec] = [0].concat(
+    Array.from({ length: 40 }, (_, i) => rsBlocks(i + 1, ec).reduce((s, b) => s + b.data, 0) * 8)
+  );
+  return acc;
+}, {});
+
+// ---- Modes ----
+const MODE_NUMBER = 1, MODE_ALPHA_NUM = 2, MODE_8BIT_BYTE = 4;
+const MODE_SIZE_SMALL = { [MODE_NUMBER]: 10, [MODE_ALPHA_NUM]: 9, [MODE_8BIT_BYTE]: 8 };
+const MODE_SIZE_MEDIUM = { [MODE_NUMBER]: 12, [MODE_ALPHA_NUM]: 11, [MODE_8BIT_BYTE]: 16 };
+const MODE_SIZE_LARGE = { [MODE_NUMBER]: 14, [MODE_ALPHA_NUM]: 13, [MODE_8BIT_BYTE]: 16 };
+function modeSizesForVersion(v) { return v < 10 ? MODE_SIZE_SMALL : v < 27 ? MODE_SIZE_MEDIUM : MODE_SIZE_LARGE; }
+function lengthInBits(mode, version) { return modeSizesForVersion(version)[mode]; }
+
+const ALPHA_NUM = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ $%*+-./:";
+function isNumeric(s) { return /^[0-9]+$/.test(s); }
+function isAlphaNum(s) { return s.length > 0 && [...s].every((c) => ALPHA_NUM.includes(c)); }
+function optimalMode(bytes) {
+  const s = String.fromCharCode(...bytes);
+  if (isNumeric(s)) return MODE_NUMBER;
+  if (isAlphaNum(s)) return MODE_ALPHA_NUM;
+  return MODE_8BIT_BYTE;
+}
+
+// ---- Bit buffer ----
+class BitBuffer {
+  constructor() { this.buffer = []; this.length = 0; }
+  put(num, length) {
+    for (let i = 0; i < length; i++) this.putBit(((num >> (length - i - 1)) & 1) === 1);
+  }
+  putBit(bit) {
+    const bufIndex = Math.floor(this.length / 8);
+    if (this.buffer.length <= bufIndex) this.buffer.push(0);
+    if (bit) this.buffer[bufIndex] |= 0x80 >> (this.length % 8);
+    this.length += 1;
+  }
+}
+
+function utf8Bytes(str) { return Array.from(new TextEncoder().encode(str)); }
+
+function writeData(buffer, mode, bytes) {
+  if (mode === MODE_NUMBER) {
+    const s = String.fromCharCode(...bytes);
+    for (let i = 0; i < s.length; i += 3) {
+      const chunk = s.slice(i, i + 3);
+      const bits = { 3: 10, 2: 7, 1: 4 }[chunk.length];
+      buffer.put(parseInt(chunk, 10), bits);
+    }
+  } else if (mode === MODE_ALPHA_NUM) {
+    const s = String.fromCharCode(...bytes);
+    for (let i = 0; i < s.length; i += 2) {
+      if (i + 1 < s.length) {
+        buffer.put(ALPHA_NUM.indexOf(s[i]) * 45 + ALPHA_NUM.indexOf(s[i + 1]), 11);
+      } else {
+        buffer.put(ALPHA_NUM.indexOf(s[i]), 6);
+      }
+    }
+  } else {
+    for (const b of bytes) buffer.put(b, 8);
+  }
+}
+
+const PAD0 = 0xec, PAD1 = 0x11;
+
+function createData(version, ec, mode, bytes) {
+  const buffer = new BitBuffer();
+  buffer.put(mode, 4);
+  buffer.put(bytes.length, lengthInBits(mode, version));
+  writeData(buffer, mode, bytes);
+
+  const blocks = rsBlocks(version, ec);
+  const bitLimit = blocks.reduce((s, b) => s + b.data * 8, 0);
+  if (buffer.length > bitLimit) {
+    throw new Error(`Data size (${buffer.length} bits) exceeds capacity (${bitLimit} bits) for this version/EC level`);
+  }
+  for (let i = 0; i < Math.min(bitLimit - buffer.length, 4); i++) buffer.putBit(false);
+  const delimit = buffer.length % 8;
+  if (delimit) for (let i = 0; i < 8 - delimit; i++) buffer.putBit(false);
+  const bytesToFill = Math.floor((bitLimit - buffer.length) / 8);
+  for (let i = 0; i < bytesToFill; i++) buffer.put(i % 2 === 0 ? PAD0 : PAD1, 8);
+
+  return createBytes(buffer, blocks);
+}
+
+function createBytes(buffer, blocks) {
+  let offset = 0;
+  let maxDc = 0, maxEc = 0;
+  const dcData = [], ecData = [];
+  for (const block of blocks) {
+    const dcCount = block.data;
+    const ecCount = block.total - dcCount;
+    maxDc = Math.max(maxDc, dcCount);
+    maxEc = Math.max(maxEc, ecCount);
+    const currentDc = [];
+    for (let i = 0; i < dcCount; i++) currentDc.push(buffer.buffer[i + offset] & 0xff);
+    offset += dcCount;
+
+    let rsPoly = new Poly([1], 0);
+    for (let i = 0; i < ecCount; i++) rsPoly = rsPoly.mul(new Poly([1, gexp(i)], 0));
+    const rawPoly = new Poly(currentDc, rsPoly.length - 1);
+    const modPoly = rawPoly.mod(rsPoly);
+    const currentEc = [];
+    const modOffset = modPoly.length - ecCount;
+    for (let i = 0; i < ecCount; i++) {
+      const idx = i + modOffset;
+      currentEc.push(idx >= 0 ? modPoly.num[idx] : 0);
+    }
+    dcData.push(currentDc);
+    ecData.push(currentEc);
+  }
+  const data = [];
+  for (let i = 0; i < maxDc; i++) for (const dc of dcData) if (i < dc.length) data.push(dc[i]);
+  for (let i = 0; i < maxEc; i++) for (const ec of ecData) if (i < ec.length) data.push(ec[i]);
+  return data;
+}
+
+// ---- Alignment pattern positions per version (1-40) ----
+const PATTERN_POSITION_TABLE = [
+  [],[6,18],[6,22],[6,26],[6,30],[6,34],[6,22,38],[6,24,42],[6,26,46],[6,28,50],
+  [6,30,54],[6,32,58],[6,34,62],[6,26,46,66],[6,26,48,70],[6,26,50,74],[6,30,54,78],
+  [6,30,56,82],[6,30,58,86],[6,34,62,90],[6,28,50,72,94],[6,26,50,74,98],[6,30,54,78,102],
+  [6,28,54,80,106],[6,32,58,84,110],[6,30,58,86,114],[6,34,62,90,118],[6,26,50,74,98,122],
+  [6,30,54,78,102,126],[6,26,52,78,104,130],[6,30,56,82,108,134],[6,34,60,86,112,138],
+  [6,30,58,86,114,142],[6,34,62,90,118,146],[6,30,54,78,102,126,150],[6,24,50,76,102,128,154],
+  [6,28,54,80,106,132,158],[6,32,58,84,110,136,162],[6,26,54,82,110,138,166],[6,30,58,86,114,142,170],
+];
+
+const G15 = (1<<10)|(1<<8)|(1<<5)|(1<<4)|(1<<2)|(1<<1)|(1<<0);
+const G18 = (1<<12)|(1<<11)|(1<<10)|(1<<9)|(1<<8)|(1<<5)|(1<<2)|(1<<0);
+const G15_MASK = (1<<14)|(1<<12)|(1<<10)|(1<<4)|(1<<1);
+
+function bchDigit(data) { let d = 0; while (data !== 0) { d++; data >>>= 1; } return d; }
+function bchTypeInfo(data) {
+  let d = data << 10;
+  while (bchDigit(d) - bchDigit(G15) >= 0) d ^= G15 << (bchDigit(d) - bchDigit(G15));
+  return ((data << 10) | d) ^ G15_MASK;
+}
+function bchTypeNumber(data) {
+  let d = data << 12;
+  while (bchDigit(d) - bchDigit(G18) >= 0) d ^= G18 << (bchDigit(d) - bchDigit(G18));
+  return (data << 12) | d;
+}
+
+function maskFunc(pattern) {
+  switch (pattern) {
+    case 0: return (i, j) => (i + j) % 2 === 0;
+    case 1: return (i) => i % 2 === 0;
+    case 2: return (i, j) => j % 3 === 0;
+    case 3: return (i, j) => (i + j) % 3 === 0;
+    case 4: return (i, j) => (Math.floor(i / 2) + Math.floor(j / 3)) % 2 === 0;
+    case 5: return (i, j) => ((i * j) % 2) + ((i * j) % 3) === 0;
+    case 6: return (i, j) => (((i * j) % 2) + ((i * j) % 3)) % 2 === 0;
+    case 7: return (i, j) => (((i * j) % 3) + ((i + j) % 2)) % 2 === 0;
+  }
+}
+
+// ---- Matrix builder ----
+class QrMatrix {
+  constructor(version, ec) {
+    this.version = version;
+    this.ec = ec;
+    this.count = version * 4 + 17;
+    this.modules = Array.from({ length: this.count }, () => new Array(this.count).fill(null));
+  }
+  setupFinder(row, col) {
+    for (let r = -1; r <= 7; r++) {
+      if (row + r <= -1 || this.count <= row + r) continue;
+      for (let c = -1; c <= 7; c++) {
+        if (col + c <= -1 || this.count <= col + c) continue;
+        const dark = (r >= 0 && r <= 6 && (c === 0 || c === 6)) ||
+                     (c >= 0 && c <= 6 && (r === 0 || r === 6)) ||
+                     (r >= 2 && r <= 4 && c >= 2 && c <= 4);
+        this.modules[row + r][col + c] = dark;
+      }
+    }
+  }
+  setupTiming() {
+    for (let r = 8; r < this.count - 8; r++) if (this.modules[r][6] === null) this.modules[r][6] = r % 2 === 0;
+    for (let c = 8; c < this.count - 8; c++) if (this.modules[6][c] === null) this.modules[6][c] = c % 2 === 0;
+  }
+  setupAlignment() {
+    const pos = PATTERN_POSITION_TABLE[this.version - 1];
+    for (const row of pos) {
+      for (const col of pos) {
+        if (this.modules[row][col] !== null) continue;
+        for (let r = -2; r <= 2; r++) {
+          for (let c = -2; c <= 2; c++) {
+            const dark = r === -2 || r === 2 || c === -2 || c === 2 || (r === 0 && c === 0);
+            this.modules[row + r][col + c] = dark;
+          }
+        }
+      }
+    }
+  }
+  setupTypeInfo(maskPattern) {
+    const data = (this.ec << 3) | maskPattern;
+    const bits = bchTypeInfo(data);
+    for (let i = 0; i < 15; i++) {
+      const mod = ((bits >> i) & 1) === 1;
+      if (i < 6) this.modules[i][8] = mod;
+      else if (i < 8) this.modules[i + 1][8] = mod;
+      else this.modules[this.count - 15 + i][8] = mod;
+    }
+    for (let i = 0; i < 15; i++) {
+      const mod = ((bits >> i) & 1) === 1;
+      if (i < 8) this.modules[8][this.count - i - 1] = mod;
+      else if (i < 9) this.modules[8][15 - i - 1 + 1] = mod;
+      else this.modules[8][15 - i - 1] = mod;
+    }
+    this.modules[this.count - 8][8] = true;
+  }
+  setupTypeNumber() {
+    const bits = bchTypeNumber(this.version);
+    for (let i = 0; i < 18; i++) {
+      const mod = ((bits >> i) & 1) === 1;
+      this.modules[Math.floor(i / 3)][(i % 3) + this.count - 8 - 3] = mod;
+    }
+    for (let i = 0; i < 18; i++) {
+      const mod = ((bits >> i) & 1) === 1;
+      this.modules[(i % 3) + this.count - 8 - 3][Math.floor(i / 3)] = mod;
+    }
+  }
+  mapData(data, maskPattern) {
+    let inc = -1;
+    let row = this.count - 1;
+    let bitIndex = 7, byteIndex = 0;
+    const mf = maskFunc(maskPattern);
+    const dataLen = data.length;
+    for (let col = this.count - 1; col > 0; col -= 2) {
+      if (col <= 6) col -= 1;
+      const colRange = [col, col - 1];
+      for (;;) {
+        for (const c of colRange) {
+          if (this.modules[row][c] === null) {
+            let dark = false;
+            if (byteIndex < dataLen) dark = ((data[byteIndex] >> bitIndex) & 1) === 1;
+            if (mf(row, c)) dark = !dark;
+            this.modules[row][c] = dark;
+            bitIndex -= 1;
+            if (bitIndex === -1) { byteIndex += 1; bitIndex = 7; }
+          }
+        }
+        row += inc;
+        if (row < 0 || this.count <= row) { row -= inc; inc = -inc; break; }
+      }
+    }
+  }
+}
+
+function lostPoint(modules) {
+  const n = modules.length;
+  let lp = 0;
+  const container = new Array(n + 1).fill(0);
+  for (let row = 0; row < n; row++) {
+    let prev = modules[row][0], len = 1;
+    for (let col = 1; col < n; col++) {
+      if (modules[row][col] === prev) len++;
+      else { if (len >= 5) container[len]++; len = 1; prev = modules[row][col]; }
+    }
+    if (len >= 5) container[len]++;
+  }
+  for (let col = 0; col < n; col++) {
+    let prev = modules[0][col], len = 1;
+    for (let row = 1; row < n; row++) {
+      if (modules[row][col] === prev) len++;
+      else { if (len >= 5) container[len]++; len = 1; prev = modules[row][col]; }
+    }
+    if (len >= 5) container[len]++;
+  }
+  for (let l = 5; l <= n; l++) lp += container[l] * (l - 2);
+
+  for (let row = 0; row < n - 1; row++) {
+    for (let col = 0; col < n - 1; col++) {
+      const c = modules[row][col];
+      if (c === modules[row][col + 1] && c === modules[row + 1][col] && c === modules[row + 1][col + 1]) lp += 3;
+    }
+  }
+
+  const patternHit = (get) => {
+    let hits = 0;
+    for (let i = 0; i <= n - 11; i++) {
+      const v = [];
+      for (let k = 0; k < 11; k++) v.push(get(i + k));
+      const p1 = !v[1] && v[4] && !v[5] && v[6] && !v[9] && v[0] && v[2] && v[3] && !v[7] && !v[8] && !v[10];
+      const p2 = !v[1] && v[4] && !v[5] && v[6] && !v[9] && !v[0] && !v[2] && !v[3] && v[7] && v[8] && v[10];
+      if (p1 || p2) hits++;
+    }
+    return hits;
+  };
+  for (let row = 0; row < n; row++) lp += 40 * patternHit((c) => modules[row][c]);
+  for (let col = 0; col < n; col++) lp += 40 * patternHit((r) => modules[r][col]);
+
+  let dark = 0;
+  for (let row = 0; row < n; row++) for (let col = 0; col < n; col++) if (modules[row][col]) dark++;
+  const percent = (dark / (n * n)) * 100;
+  lp += Math.floor(Math.abs(percent - 50) / 5) * 10;
+
+  return lp;
+}
+
+function bestFitVersion(mode, dataLen, ec, startVersion) {
+  for (let v = startVersion; v <= 40; v++) {
+    const sizes = modeSizesForVersion(v);
+    const headerBits = 4 + sizes[mode];
+    let dataBits;
+    if (mode === MODE_NUMBER) dataBits = Math.ceil(dataLen / 3) * 10 - (dataLen % 3 === 1 ? 6 : dataLen % 3 === 2 ? 3 : 0);
+    else if (mode === MODE_ALPHA_NUM) dataBits = Math.ceil(dataLen / 2) * 11 - (dataLen % 2 === 1 ? 5 : 0);
+    else dataBits = dataLen * 8;
+    const needed = headerBits + dataBits;
+    if (needed <= BIT_LIMIT_TABLE[ec][v]) return v;
+  }
+  return null;
+}
+
+function buildMatrix(version, ec, mode, bytes) {
+  const dataCodewords = createData(version, ec, mode, bytes);
+  let best = null, bestLp = Infinity;
+  for (let pattern = 0; pattern < 8; pattern++) {
+    const m = new QrMatrix(version, ec);
+    m.setupFinder(0, 0);
+    m.setupFinder(m.count - 7, 0);
+    m.setupFinder(0, m.count - 7);
+    m.setupAlignment();
+    m.setupTiming();
+    m.setupTypeInfo(pattern);
+    if (version >= 7) m.setupTypeNumber();
+    m.mapData(dataCodewords, pattern);
+    const lp = lostPoint(m.modules);
+    if (lp < bestLp) { bestLp = lp; best = m; }
+  }
+  return best;
+}
+
+function generateQr(text, ecLevel) {
+  const ec = { L: EC_L, M: EC_M, Q: EC_Q, H: EC_H }[ecLevel];
+  const bytes = utf8Bytes(text);
+  const mode = optimalMode(bytes);
+  const version = bestFitVersion(mode, bytes.length, ec, 1);
+  if (version === null) throw new Error("Text too long to encode, even at max version with lowest EC level.");
+  const matrix = buildMatrix(version, ec, mode, bytes);
+  return { version, modules: matrix.modules, count: matrix.count };
+}
+
+// ---- Rendering ----
+function renderQrSvg(modules, count) {
+  const box = 8, border = 4;
+  const size = (count + border * 2) * box;
+  let rects = "";
+  for (let row = 0; row < count; row++) {
+    for (let col = 0; col < count; col++) {
+      if (modules[row][col]) {
+        rects += `<rect x="${(col + border) * box}" y="${(row + border) * box}" width="${box}" height="${box}"/>`;
+      }
+    }
+  }
+  return `<svg id="qr-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${size} ${size}" width="${size}" height="${size}">` +
+    `<rect width="${size}" height="${size}" fill="#0A0A0A"/>` +
+    `<g fill="#00FF66">${rects}</g></svg>`;
+}
+
+let lastQrSvgSize = 0;
+
+function executeQrGen() {
+  const text = document.getElementById("qr-input").value;
+  const ecLevel = document.getElementById("qr-ec-level").value;
+  const out = document.getElementById("qr-result");
+  const downloadBtn = document.getElementById("qr-download-btn");
+  if (!text.trim()) {
+    GAMA.say("idle");
+    out.innerHTML = "";
+    downloadBtn.style.display = "none";
+    return;
+  }
+  try {
+    const { version, modules, count } = generateQr(text, ecLevel);
+    out.innerHTML = renderQrSvg(modules, count);
+    lastQrSvgSize = (count + 8) * 8;
+    downloadBtn.style.display = "inline-block";
+    GAMA.say("success");
+    GAMA.log(`Generated version-${version} QR (EC ${ecLevel}), ${count}x${count} modules`);
+  } catch (e) {
+    GAMA.say("error");
+    out.innerHTML = `<p style="color:var(--amber);padding:1rem;">// ${e.message}</p>`;
+    downloadBtn.style.display = "none";
+  }
+}
+
+function downloadQrPng() {
+  const svgEl = document.getElementById("qr-svg");
+  if (!svgEl) return;
+  const svgData = new XMLSerializer().serializeToString(svgEl);
+  const svgBlob = new Blob([svgData], { type: "image/svg+xml;charset=utf-8" });
+  const url = URL.createObjectURL(svgBlob);
+  const img = new Image();
+  img.onload = () => {
+    const canvas = document.createElement("canvas");
+    canvas.width = lastQrSvgSize;
+    canvas.height = lastQrSvgSize;
+    const ctx = canvas.getContext("2d");
+    ctx.drawImage(img, 0, 0);
+    URL.revokeObjectURL(url);
+    canvas.toBlob((blob) => {
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = "gamayun-qr.png";
+      a.click();
+      URL.revokeObjectURL(a.href);
+    });
+  };
+  img.src = url;
+}

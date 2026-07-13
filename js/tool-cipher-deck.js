@@ -1,0 +1,148 @@
+/* CIPHER_DECK — Caesar (with brute-force all-shifts), Vigenere, and
+   International Morse Code (with audible playback via an oscillator, no
+   audio files). Pure logic functions first, DOM wiring below. */
+
+/* ---- Caesar ---- */
+
+function caesarShift(text, shift) {
+  const n = ((shift % 26) + 26) % 26;
+  return [...text].map((ch) => {
+    const code = ch.charCodeAt(0);
+    if (code >= 65 && code <= 90) return String.fromCharCode(((code - 65 + n) % 26) + 65);
+    if (code >= 97 && code <= 122) return String.fromCharCode(((code - 97 + n) % 26) + 97);
+    return ch;
+  }).join("");
+}
+
+function caesarBruteForce(text) {
+  const out = [];
+  for (let shift = 1; shift <= 25; shift++) out.push({ shift, text: caesarShift(text, shift) });
+  return out;
+}
+
+/* ---- Vigenere ---- */
+
+function vigenere(text, key, decode) {
+  const cleanKey = key.replace(/[^a-zA-Z]/g, "");
+  if (!cleanKey) throw new Error("Key must contain at least one letter.");
+  let keyIndex = 0;
+  return [...text].map((ch) => {
+    const code = ch.charCodeAt(0);
+    let base;
+    if (code >= 65 && code <= 90) base = 65;
+    else if (code >= 97 && code <= 122) base = 97;
+    else return ch;
+    const keyCh = cleanKey[keyIndex % cleanKey.length].toUpperCase();
+    const keyShift = keyCh.charCodeAt(0) - 65;
+    keyIndex++;
+    const shift = decode ? -keyShift : keyShift;
+    return String.fromCharCode(((code - base + shift + 26) % 26) + base);
+  }).join("");
+}
+
+/* ---- Morse ---- */
+
+const MORSE_MAP = {
+  A: ".-", B: "-...", C: "-.-.", D: "-..", E: ".", F: "..-.", G: "--.",
+  H: "....", I: "..", J: ".---", K: "-.-", L: ".-..", M: "--", N: "-.",
+  O: "---", P: ".--.", Q: "--.-", R: ".-.", S: "...", T: "-", U: "..-",
+  V: "...-", W: ".--", X: "-..-", Y: "-.--", Z: "--..",
+  0: "-----", 1: ".----", 2: "..---", 3: "...--", 4: "....-",
+  5: ".....", 6: "-....", 7: "--...", 8: "---..", 9: "----.",
+  ".": ".-.-.-", ",": "--..--", "?": "..--..", "'": ".----.", "!": "-.-.--",
+  "/": "-..-.", "(": "-.--.", ")": "-.--.-", "&": ".-...", ":": "---...",
+  ";": "-.-.-.", "=": "-...-", "+": ".-.-.", "-": "-....-", "_": "..--.-",
+  '"': ".-..-.", "$": "...-..-", "@": ".--.-.",
+};
+const MORSE_MAP_REVERSE = Object.fromEntries(Object.entries(MORSE_MAP).map(([k, v]) => [v, k]));
+
+function textToMorse(text) {
+  return text.toUpperCase().split(" ").map((word) =>
+    [...word].map((ch) => MORSE_MAP[ch] || "").filter(Boolean).join(" ")
+  ).join(" / ");
+}
+
+function morseToText(morse) {
+  return morse.trim().split(" / ").map((word) =>
+    word.trim().split(/\s+/).map((code) => MORSE_MAP_REVERSE[code] || "").join("")
+  ).join(" ");
+}
+
+/* ---- Morse audio playback (Web Audio oscillator, no files) ---- */
+
+const MORSE_UNIT_MS = 80; // dot length; dash = 3x, inter-element gap = 1x, inter-char gap = 3x, inter-word gap = 7x
+
+function playMorse(morse) {
+  const ctx = new (window.AudioContext || window.webkitAudioContext)();
+  let t = ctx.currentTime + 0.1;
+  const osc = ctx.createOscillator();
+  const gain = ctx.createGain();
+  osc.type = "sine";
+  osc.frequency.value = 600;
+  gain.gain.value = 0;
+  osc.connect(gain).connect(ctx.destination);
+  osc.start();
+
+  const u = MORSE_UNIT_MS / 1000;
+  for (const symbol of morse) {
+    if (symbol === ".") {
+      gain.gain.setValueAtTime(0.2, t); gain.gain.setValueAtTime(0, t + u);
+      t += u * 2; // element + inter-element gap
+    } else if (symbol === "-") {
+      gain.gain.setValueAtTime(0.2, t); gain.gain.setValueAtTime(0, t + u * 3);
+      t += u * 4;
+    } else if (symbol === " ") {
+      t += u * 2; // total 3u between chars (1u already added after last element)
+    } else if (symbol === "/") {
+      t += u * 6; // total 7u between words
+    }
+  }
+  osc.stop(t + 0.1);
+}
+
+/* ---- UI wiring ---- */
+
+function executeCaesar() {
+  const text = document.getElementById("cipher-caesar-input").value;
+  const shift = parseInt(document.getElementById("cipher-caesar-shift").value, 10) || 0;
+  const bruteForce = document.getElementById("cipher-caesar-brute").checked;
+  const out = document.getElementById("cipher-caesar-result");
+  if (!text) { out.textContent = ""; return; }
+  if (bruteForce) {
+    out.textContent = caesarBruteForce(text).map((r) => `${String(r.shift).padStart(2, "0")}: ${r.text}`).join("\n");
+  } else {
+    out.textContent = caesarShift(text, shift);
+  }
+  GAMA.say("success");
+}
+
+function executeVigenere(decode) {
+  const text = document.getElementById("cipher-vig-input").value;
+  const key = document.getElementById("cipher-vig-key").value;
+  const out = document.getElementById("cipher-vig-result");
+  if (!text) { out.textContent = ""; return; }
+  try {
+    out.textContent = vigenere(text, key, decode);
+    GAMA.say("success");
+  } catch (e) {
+    GAMA.say("error");
+    out.textContent = "// " + e.message;
+  }
+}
+
+function executeMorseEncode() {
+  const text = document.getElementById("cipher-morse-input").value;
+  const out = document.getElementById("cipher-morse-result");
+  out.textContent = text ? textToMorse(text) : "";
+  GAMA.say(text ? "success" : "idle");
+}
+function executeMorseDecode() {
+  const morse = document.getElementById("cipher-morse-input").value;
+  const out = document.getElementById("cipher-morse-result");
+  out.textContent = morse ? morseToText(morse) : "";
+  GAMA.say(morse ? "success" : "idle");
+}
+function executeMorsePlay() {
+  const content = document.getElementById("cipher-morse-result").textContent || textToMorse(document.getElementById("cipher-morse-input").value);
+  if (content) playMorse(content);
+}

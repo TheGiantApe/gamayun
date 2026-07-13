@@ -141,6 +141,18 @@ a:hover, a:focus {
   padding: 1rem;
 }
 .right-deck { border-right: none; border-left: 1px solid var(--phosphor-faint); }
+/* The grid's default align-items:stretch was making .left-deck exactly as
+   tall as the tallest column (usually center-viewport), so on any page
+   longer than one screen it just scrolled away with everything else - the
+   nav bar was "connected to the body". align-self:start shrinks it to its
+   own content height so position:sticky actually has room to stick. */
+@media (min-width: 901px) {
+  .left-deck {
+    position: sticky;
+    top: var(--header-h);
+    align-self: start;
+  }
+}
 
 /* Raven-and-key seal: a faint watermark bled toward the lower-right of
    the whole page (kept off the left corner so it doesn't collide with
@@ -183,13 +195,23 @@ a:hover, a:focus {
 }
 /* Desktop: the nav now lists every tool grouped by category, which is
    tall enough to run under GAMA's fixed corner spot. Give it its own
-   scroll region that stops short of her instead of overlapping. */
+   scroll region that stops short of her instead of overlapping. The 24rem
+   below was a guessed constant for "GAMA's whole footprint" - same anti-
+   pattern as her old hardcoded 13rem bottom-clear - and drifted out of
+   sync as soon as her real clearance (ad-leaderboard + footer + ticker)
+   grew past what 24rem assumed. gama-core.js now measures her actual
+   on-screen top edge and sets --gama-nav-clear directly; 24rem is just the
+   pre-JS fallback for the first paint. */
 @media (min-width: 901px) {
   .terminal-nav {
-    max-height: calc(100vh - var(--header-h) - 2rem - 24rem);
+    max-height: var(--gama-nav-clear, calc(100vh - var(--header-h) - 2rem - 24rem));
     overflow-y: auto;
     padding-right: 0.25rem;
+    /* Fully invisible scrollbar - the nav still scrolls (wheel, drag, arrow
+       keys), it just never renders a bar. */
+    scrollbar-width: none; /* Firefox */
   }
+  .terminal-nav::-webkit-scrollbar { display: none; } /* Chrome/Safari/Edge */
 }
 .nav-section-label {
   font-size: 0.7rem;
@@ -288,7 +310,14 @@ button:hover, .btn:hover {
   .gama-mascot-box {
     position: fixed;
     left: 1.25rem;
-    bottom: 13rem; /* clears the leaderboard ad banner + two-row site footer stacked below it */
+    /* Was a hardcoded 13rem guessing at "ad banner + footer" height - broke
+       whenever the leaderboard ad wrapped to a second line or the footer
+       nav wrapped, pushing her up into the sidebar nav (or overlapping the
+       ad unit itself). gama-core.js now measures the real ticker+site-footer
+       +ad-leaderboard stack on load/resize and sets this var, so she always
+       sits exactly one gap above all three regardless of how any of them
+       wrap. 13rem is just the pre-JS fallback for the first paint. */
+    bottom: var(--gama-bottom-clear, 13rem);
     width: 200px;
     background: radial-gradient(ellipse at 50% 60%, rgba(10,10,10,0.55) 0%, rgba(10,10,10,0.28) 50%, rgba(10,10,10,0) 75%);
     z-index: 500;

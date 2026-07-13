@@ -42,6 +42,12 @@ const GAMA = (() => {
     const state = STATES[stateKey] || STATES.idle;
     if (faceEl) faceEl.textContent = state.face;
     if (speechEl) speechEl.textContent = pick(state.lines);
+    // Dialogue lines vary a lot in length, so her box's real height (and
+    // therefore how far up she reaches) changes with every line - not just
+    // on load/resize like the ticker/footer/ad stack below her. Recompute
+    // the nav's clearance every time she speaks so a long success message
+    // can't grow her box back over the nav text underneath it.
+    updateNavClearance();
   }
 
   function log(msg) {
@@ -56,6 +62,44 @@ const GAMA = (() => {
     clockEl.textContent = new Date().toTimeString().slice(0, 8);
   }
 
+  // GAMA's fixed corner box should clear the ticker + site-footer + the
+  // sitewide ad-leaderboard stacked above them - all three sit directly
+  // above the footer in document flow, so at full scroll they land in the
+  // same screen region as her fixed bottom-left box. Measuring all three
+  // real heights (not a guessed constant) means she never overlaps the ad
+  // unit - which matters once it's a live AdSense slot, not just a
+  // placeholder - and never ends up buried under the footer if any of them
+  // wraps to an extra line.
+  function updateGamaBottomClear() {
+    const ticker = document.querySelector(".archival-log-footer");
+    const siteFooter = document.querySelector(".site-footer");
+    const adLeaderboard = document.querySelector(".ad-leaderboard");
+    if (!ticker || !siteFooter) return;
+    const clear = ticker.offsetHeight + siteFooter.offsetHeight + (adLeaderboard ? adLeaderboard.offsetHeight : 0);
+    document.documentElement.style.setProperty("--gama-bottom-clear", `${clear}px`);
+  }
+
+  // The sidebar nav caps its own height so it scrolls internally instead of
+  // running under GAMA's fixed box (see .terminal-nav in gama.css). That cap
+  // used to be a guessed "24rem for her whole footprint" constant, which
+  // drifted out of sync the moment --gama-bottom-clear above grew past what
+  // 24rem assumed - nav text ended up rendering right under her dialogue
+  // box. Reading her actual rendered top edge (must run after
+  // updateGamaBottomClear, since that's what determines her position)
+  // keeps the two in sync regardless of what either one measures to.
+  // Below 901px she's not fixed-positioned and this max-height cap doesn't
+  // apply (see gama.css), so there's nothing to measure there.
+  function updateNavClearance() {
+    if (window.innerWidth < 901) return;
+    const nav = document.querySelector(".terminal-nav");
+    const gamaBox = document.querySelector(".gama-mascot-box");
+    if (!nav || !gamaBox) return;
+    const navTop = nav.getBoundingClientRect().top;
+    const gamaTop = gamaBox.getBoundingClientRect().top;
+    const clear = Math.max(160, gamaTop - navTop - 16);
+    document.documentElement.style.setProperty("--gama-nav-clear", `${clear}px`);
+  }
+
   function init() {
     logEl = document.getElementById("log-stream-feed");
     faceEl = document.querySelector(".aperture-eye");
@@ -64,6 +108,17 @@ const GAMA = (() => {
     say("idle");
     tickClock();
     setInterval(tickClock, 1000);
+
+    updateGamaBottomClear();
+    updateNavClearance();
+    let resizeTimer;
+    window.addEventListener("resize", () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        updateGamaBottomClear();
+        updateNavClearance();
+      }, 150);
+    });
 
     // Any input field on the page nudges GAMA to "working" on focus.
     document.querySelectorAll("input[type=text], textarea").forEach((el) => {

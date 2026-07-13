@@ -10,6 +10,9 @@
     <loc>https://gamayun.site/pages/time-logic.html</loc>
   </url>
   <url>
+    <loc>https://gamayun.site/pages/qr-code.html</loc>
+  </url>
+  <url>
     <loc>https://gamayun.site/pages/text-case.html</loc>
   </url>
   <url>
@@ -23,6 +26,21 @@
   </url>
   <url>
     <loc>https://gamayun.site/pages/base64.html</loc>
+  </url>
+  <url>
+    <loc>https://gamayun.site/pages/url-encode.html</loc>
+  </url>
+  <url>
+    <loc>https://gamayun.site/pages/html-entities.html</loc>
+  </url>
+  <url>
+    <loc>https://gamayun.site/pages/text-diff.html</loc>
+  </url>
+  <url>
+    <loc>https://gamayun.site/pages/pig-latin.html</loc>
+  </url>
+  <url>
+    <loc>https://gamayun.site/pages/nato-phonetic.html</loc>
   </url>
   <url>
     <loc>https://gamayun.site/pages/calc-iifym.html</loc>
@@ -52,6 +70,9 @@
     <loc>https://gamayun.site/pages/image-tools.html</loc>
   </url>
   <url>
+    <loc>https://gamayun.site/pages/steganography.html</loc>
+  </url>
+  <url>
     <loc>https://gamayun.site/pages/json-format.html</loc>
   </url>
   <url>
@@ -61,10 +82,31 @@
     <loc>https://gamayun.site/pages/hash.html</loc>
   </url>
   <url>
+    <loc>https://gamayun.site/pages/password-gen.html</loc>
+  </url>
+  <url>
+    <loc>https://gamayun.site/pages/cipher-deck.html</loc>
+  </url>
+  <url>
     <loc>https://gamayun.site/pages/scrabble.html</loc>
   </url>
   <url>
+    <loc>https://gamayun.site/pages/anagram-solver.html</loc>
+  </url>
+  <url>
+    <loc>https://gamayun.site/pages/wu-name.html</loc>
+  </url>
+  <url>
     <loc>https://gamayun.site/pages/number-spell.html</loc>
+  </url>
+  <url>
+    <loc>https://gamayun.site/pages/iching.html</loc>
+  </url>
+  <url>
+    <loc>https://gamayun.site/pages/moon-phase.html</loc>
+  </url>
+  <url>
+    <loc>https://gamayun.site/pages/runes.html</loc>
   </url>
   <url>
     <loc>https://gamayun.site/pages/about.html</loc>

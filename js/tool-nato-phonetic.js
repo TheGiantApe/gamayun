@@ -1,0 +1,46 @@
+/* NATO_PHONETIC — ICAO/NATO spelling alphabet, both directions. Digits get
+   their standalone spoken forms too (radio operators spell numbers digit by
+   digit, not as whole numbers). */
+
+const NATO_ALPHABET = {
+  a: "Alpha", b: "Bravo", c: "Charlie", d: "Delta", e: "Echo", f: "Foxtrot",
+  g: "Golf", h: "Hotel", i: "India", j: "Juliett", k: "Kilo", l: "Lima",
+  m: "Mike", n: "November", o: "Oscar", p: "Papa", q: "Quebec", r: "Romeo",
+  s: "Sierra", t: "Tango", u: "Uniform", v: "Victor", w: "Whiskey",
+  x: "X-ray", y: "Yankee", z: "Zulu",
+  "0": "Zero", "1": "One", "2": "Two", "3": "Three", "4": "Four",
+  "5": "Five", "6": "Six", "7": "Seven", "8": "Eight", "9": "Nine",
+};
+
+const NATO_TO_CHAR = Object.fromEntries(
+  Object.entries(NATO_ALPHABET).map(([ch, word]) => [word.toLowerCase(), ch])
+);
+
+function textToNato(text) {
+  return text
+    .split("")
+    .map((ch) => NATO_ALPHABET[ch.toLowerCase()] || (ch === " " ? "/" : ch))
+    .join(" ");
+}
+
+function natoToText(phonetic) {
+  return phonetic
+    .split(/\s+/)
+    .filter(Boolean)
+    .map((tok) => (tok === "/" ? " " : NATO_TO_CHAR[tok.toLowerCase()] || tok))
+    .join("");
+}
+
+function executeNatoEncode() {
+  const text = document.getElementById("nato-input").value;
+  const out = document.getElementById("nato-result");
+  out.textContent = text ? textToNato(text) : "";
+  GAMA.say(text ? "success" : "idle");
+}
+
+function executeNatoDecode() {
+  const text = document.getElementById("nato-input").value;
+  const out = document.getElementById("nato-result");
+  out.textContent = text ? natoToText(text) : "";
+  GAMA.say(text ? "success" : "idle");
+}
