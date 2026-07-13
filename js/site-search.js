@@ -1,0 +1,71 @@
+/* SITE_SEARCH — filters TOOL_LIST (from data-tool-list.js, auto-generated
+   by build.py) against the search box, and picks a random tool for the
+   "random" button. Pure client-side substring match against title/desc/
+   code - no need for anything fancier at this scale (under 50 tools). */
+
+function resolveToolUrl(url) {
+  const root = document.body.dataset.root || "";
+  return root + url;
+}
+
+function searchTools(query) {
+  const q = query.trim().toLowerCase();
+  if (!q) return [];
+  return TOOL_LIST.filter((t) =>
+    t.title.toLowerCase().includes(q) ||
+    t.desc.toLowerCase().includes(q) ||
+    t.code.toLowerCase().includes(q)
+  );
+}
+
+function renderSearchResults(results) {
+  const box = document.getElementById("site-search-results");
+  if (!box) return;
+  if (!results.length) {
+    box.innerHTML = '<div class="site-search-empty">// no matching tools</div>';
+    box.style.display = "block";
+    return;
+  }
+  box.innerHTML = results.slice(0, 8).map((t) =>
+    `<a href="${resolveToolUrl(t.url)}" class="site-search-result">
+       <span class="site-search-result-title">&gt; ${t.code}</span>
+       <span class="site-search-result-desc">${t.desc}</span>
+     </a>`
+  ).join("");
+  box.style.display = "block";
+}
+
+function executeSiteSearch() {
+  const input = document.getElementById("site-search-input");
+  if (!input) return;
+  const results = searchTools(input.value);
+  if (!input.value.trim()) {
+    hideSiteSearchResults();
+    return;
+  }
+  renderSearchResults(results);
+}
+
+function hideSiteSearchResults() {
+  const box = document.getElementById("site-search-results");
+  if (box) box.style.display = "none";
+}
+
+function goToRandomTool() {
+  const pool = TOOL_LIST.filter((t) => t.url !== window.location.pathname.split("/").slice(-2).join("/"));
+  const pick = (pool.length ? pool : TOOL_LIST)[Math.floor(Math.random() * (pool.length ? pool.length : TOOL_LIST.length))];
+  GAMA.log(`Random draw: ${pick.code}`);
+  window.location.href = resolveToolUrl(pick.url);
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  const input = document.getElementById("site-search-input");
+  if (!input) return;
+  input.addEventListener("focus", () => { if (input.value.trim()) renderSearchResults(searchTools(input.value)); });
+  document.addEventListener("click", (e) => {
+    if (!e.target.closest(".site-search-box")) hideSiteSearchResults();
+  });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") hideSiteSearchResults();
+  });
+});

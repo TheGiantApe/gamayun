@@ -34,6 +34,11 @@
     <div class="command-bridge-grid">
 
         <aside class="left-deck">
+            <div class="site-search-box">
+                <input type="text" id="site-search-input" placeholder="&gt; search tools..." oninput="executeSiteSearch()" autocomplete="off">
+                <div id="site-search-results" class="site-search-results"></div>
+            </div>
+            <button class="random-tool-btn" onclick="goToRandomTool()" title="Jump to a random tool">&gt; RANDOM_TOOL &#127922;</button>
             <nav class="terminal-nav">
                 <a href="../index.html" class="nav-link">&gt; DECK_LAUNCHER</a>
                 <div class="nav-section-label">[ RECON_OPS ]</div>
@@ -158,6 +163,8 @@
     </footer>
 
     <script src="../js/gama-core.js"></script>
+    <script src="../js/data-tool-list.js"></script>
+    <script src="../js/site-search.js"></script>
     <script src="../js/page-transition.js"></script>
     <script src="../js/tool-cron.js"></script>
     <script>document.getElementById("footer-year").textContent = new Date().getFullYear();</script>

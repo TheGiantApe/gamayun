@@ -34,6 +34,11 @@
     <div class="command-bridge-grid">
 
         <aside class="left-deck">
+            <div class="site-search-box">
+                <input type="text" id="site-search-input" placeholder="&gt; search tools..." oninput="executeSiteSearch()" autocomplete="off">
+                <div id="site-search-results" class="site-search-results"></div>
+            </div>
+            <button class="random-tool-btn" onclick="goToRandomTool()" title="Jump to a random tool">&gt; RANDOM_TOOL &#127922;</button>
             <nav class="terminal-nav">
 {{NAV}}
             </nav>
@@ -101,6 +106,8 @@
     </footer>
 
     <script src="{{ROOT}}js/gama-core.js"></script>
+    <script src="{{ROOT}}js/data-tool-list.js"></script>
+    <script src="{{ROOT}}js/site-search.js"></script>
     <script src="{{ROOT}}js/page-transition.js"></script>
 {{EXTRA_JS}}
     <script>document.getElementById("footer-year").textContent = new Date().getFullYear();</script>
