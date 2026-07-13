@@ -62,20 +62,20 @@ const GAMA = (() => {
     clockEl.textContent = new Date().toTimeString().slice(0, 8);
   }
 
-  // GAMA's fixed corner box should clear the ticker + site-footer + the
-  // sitewide ad-leaderboard stacked above them - all three sit directly
-  // above the footer in document flow, so at full scroll they land in the
-  // same screen region as her fixed bottom-left box. Measuring all three
-  // real heights (not a guessed constant) means she never overlaps the ad
-  // unit - which matters once it's a live AdSense slot, not just a
-  // placeholder - and never ends up buried under the footer if any of them
-  // wraps to an extra line.
+  // GAMA's fixed corner box should clear the ticker + site-footer stack
+  // below it. Used to also have to account for the ad-leaderboard unit,
+  // back when the whole page scrolled and the ad could end up stacked
+  // right above the footer at full scroll - now that the frame (header/
+  // nav/right-deck/footer/ticker) is pinned and only .center-viewport
+  // scrolls, the ad-leaderboard lives inside that scrolling content
+  // instead, so it's never actually adjacent to the footer on screen.
+  // Still measuring real heights (not a guessed constant) since the
+  // footer nav can wrap to an extra line at some widths.
   function updateGamaBottomClear() {
     const ticker = document.querySelector(".archival-log-footer");
     const siteFooter = document.querySelector(".site-footer");
-    const adLeaderboard = document.querySelector(".ad-leaderboard");
     if (!ticker || !siteFooter) return;
-    const clear = ticker.offsetHeight + siteFooter.offsetHeight + (adLeaderboard ? adLeaderboard.offsetHeight : 0);
+    const clear = ticker.offsetHeight + siteFooter.offsetHeight;
     document.documentElement.style.setProperty("--gama-bottom-clear", `${clear}px`);
   }
 

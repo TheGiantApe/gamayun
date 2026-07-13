@@ -50,6 +50,16 @@ body {
   flex-direction: column;
   min-height: 100vh;
 }
+/* Desktop: lock the page to the viewport - header/nav/right-deck/footer/
+   ticker form a fixed "frame" that never moves, and only .center-viewport
+   (the actual tool content) scrolls inside it. Mobile keeps the old
+   whole-page-scroll behavior (nothing below is worth it on a phone-width
+   single column). This is what makes GAMA's positioning simple again: she
+   doesn't need scroll-position math anymore, she just sits at the bottom
+   of a frame that can't move. */
+@media (min-width: 901px) {
+  body { height: 100vh; overflow: hidden; }
+}
 
 a {
   color: var(--phosphor);
@@ -232,6 +242,23 @@ a:hover, a:focus {
   padding: 1.5rem;
   min-width: 0;
 }
+@media (min-width: 901px) {
+  .center-viewport {
+    height: 100%;
+    min-height: 0;
+    overflow-y: auto;
+  }
+  /* .right-deck's own content (log/supply/ad widgets - GAMA is fixed and
+     out of this flow) can in principle run taller than the frame on a
+     short viewport; give it the same self-contained scroll .terminal-nav
+     already has instead of letting it get clipped by body's overflow:hidden. */
+  .right-deck {
+    height: 100%;
+    overflow-y: auto;
+    scrollbar-width: none;
+  }
+  .right-deck::-webkit-scrollbar { display: none; }
+}
 
 .tool-card {
   border: 1px solid var(--phosphor-dim);
@@ -303,7 +330,10 @@ button:hover, .btn:hover {
 }
 /* Desktop: GAMA detaches from the right-deck column and floats fixed
    in the bottom-left corner (closer to where eyes actually land than the
-   far right edge), so she stays put while the page scrolls. She sits
+   far right edge). With the frame now pinned (see body's overflow:hidden
+   above) she doesn't need to "stay put during scroll" anymore - the whole
+   frame just never moves - but fixed positioning is still how she escapes
+   right-deck's own box to sit in that specific bottom-left spot. She sits
    above the raven watermark, which shares that corner as a background
    flourish. */
 @media (min-width: 901px) {
@@ -311,12 +341,10 @@ button:hover, .btn:hover {
     position: fixed;
     left: 1.25rem;
     /* Was a hardcoded 13rem guessing at "ad banner + footer" height - broke
-       whenever the leaderboard ad wrapped to a second line or the footer
-       nav wrapped, pushing her up into the sidebar nav (or overlapping the
-       ad unit itself). gama-core.js now measures the real ticker+site-footer
-       +ad-leaderboard stack on load/resize and sets this var, so she always
-       sits exactly one gap above all three regardless of how any of them
-       wrap. 13rem is just the pre-JS fallback for the first paint. */
+       whenever the footer nav wrapped to an extra line, pushing her up
+       into the sidebar nav. gama-core.js measures the real ticker+site-
+       footer height on load/resize and sets this var. 13rem is just the
+       pre-JS fallback for the first paint. */
     bottom: var(--gama-bottom-clear, 13rem);
     width: 200px;
     background: radial-gradient(ellipse at 50% 60%, rgba(10,10,10,0.55) 0%, rgba(10,10,10,0.28) 50%, rgba(10,10,10,0) 75%);
@@ -425,12 +453,15 @@ button:hover, .btn:hover {
   color: var(--phosphor-dim-text);
 }
 
-/* ---- Ad format variants: leaderboard (wide banner, sitewide above the
-   footer) and native (in-content card, homepage between hero and grid).
-   Same "corporate debris" ironic framing as the sidebar unit, different
-   shapes so there's more than one slot format to actually sell/fill. */
+/* ---- Ad format variants: leaderboard (wide banner, appended at the end
+   of every page's scrollable content - lives inside .center-viewport, not
+   the fixed frame, since it's not one of the named frame pieces and
+   .center-viewport already supplies the left/right padding) and native
+   (in-content card, homepage between hero and grid). Same "corporate
+   debris" ironic framing as the sidebar unit, different shapes so there's
+   more than one slot format to actually sell/fill. */
 .ad-leaderboard {
-  margin: 0 1.5rem 1.5rem;
+  margin: 1.5rem 0 0;
   border: 1px dashed var(--amber);
   padding: 0.5rem;
 }
