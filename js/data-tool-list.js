@@ -26,7 +26,7 @@ const TOOL_LIST = [
   },
   {
     "title": "Letter & Word Counter",
-    "desc": "Character, word, sentence, and line counts plus reading time estimate.",
+    "desc": "Character, word, sentence, and line counts, reading time, and Flesch-Kincaid readability score.",
     "code": "LETTER_COUNTER",
     "url": "pages/letter-counter.html"
   },

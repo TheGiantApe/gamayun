@@ -60,7 +60,7 @@ PAGES = [
          root="../", code="CASE_CONVERTER", category="TEXT_OPS",
          js=["tool-text-case.js"]),
     dict(out="pages/letter-counter.html", fragment="letter-counter.html", title="Letter & Word Counter",
-         desc="Character, word, sentence, and line counts plus reading time estimate.",
+         desc="Character, word, sentence, and line counts, reading time, and Flesch-Kincaid readability score.",
          root="../", code="LETTER_COUNTER", category="TEXT_OPS",
          js=["tool-letter-counter.js"]),
     dict(out="pages/cool-text.html", fragment="cool-text.html", title="Cool Text Generator",

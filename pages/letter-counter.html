@@ -14,9 +14,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Letter & Word Counter // GAMAYUN⁺</title>
-    <meta name="description" content="Character, word, sentence, and line counts plus reading time estimate.">
+    <meta name="description" content="Character, word, sentence, and line counts, reading time, and Flesch-Kincaid readability score.">
     <meta property="og:title" content="Letter & Word Counter // GAMAYUN⁺">
-    <meta property="og:description" content="Character, word, sentence, and line counts plus reading time estimate.">
+    <meta property="og:description" content="Character, word, sentence, and line counts, reading time, and Flesch-Kincaid readability score.">
     <meta property="og:type" content="website">
     <meta name="twitter:card" content="summary">
     <link href="https://fonts.googleapis.com/css2?family=VT323&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
@@ -99,6 +99,7 @@
             <section class="tool-card">
                 <div class="badge-clientside">&#128274; 100% CLIENT-SIDE</div>
                 <h2>&gt; LETTER_COUNTER</h2>
+                <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">Chars, words, sentences, reading time, and a Flesch-Kincaid readability score.</p>
                 <div class="tool-workspace">
                     <textarea id="count-input" placeholder="paste text here..." oninput="executeLetterCount()"></textarea>
                 </div>
