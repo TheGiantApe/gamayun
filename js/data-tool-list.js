@@ -109,6 +109,12 @@ const TOOL_LIST = [
     "url": "pages/color.html"
   },
   {
+    "title": "Palette Forge",
+    "desc": "Generate a 5-color palette, lock the ones worth keeping, export as hex or CSS variables.",
+    "code": "PALETTE_FORGE",
+    "url": "pages/palette.html"
+  },
+  {
     "title": "Symbol Index",
     "desc": "349 searchable Unicode symbols with names and codepoints, click to copy.",
     "code": "SYMBOL_INDEX",

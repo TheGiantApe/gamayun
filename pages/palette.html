@@ -13,10 +13,10 @@
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9022981185791469" crossorigin="anonymous"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Privacy Policy // GAMAYUN⁺</title>
-    <meta name="description" content="How gamayun.site collects, uses, and discloses information, including Google AdSense and Analytics disclosures.">
-    <meta property="og:title" content="Privacy Policy // GAMAYUN⁺">
-    <meta property="og:description" content="How gamayun.site collects, uses, and discloses information, including Google AdSense and Analytics disclosures.">
+    <title>Palette Forge // GAMAYUN⁺</title>
+    <meta name="description" content="Generate a 5-color palette, lock the ones worth keeping, export as hex or CSS variables.">
+    <meta property="og:title" content="Palette Forge // GAMAYUN⁺">
+    <meta property="og:description" content="Generate a 5-color palette, lock the ones worth keeping, export as hex or CSS variables.">
     <meta property="og:type" content="website">
     <meta name="twitter:card" content="summary">
     <link href="https://fonts.googleapis.com/css2?family=VT323&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
@@ -62,7 +62,7 @@
                 <a href="../pages/calc-tip.html" class="nav-link">&gt; TIP_CALC</a>
                 <a href="../pages/calc-age.html" class="nav-link">&gt; AGE_CALC</a>
                 <a href="../pages/color.html" class="nav-link">&gt; COLOR_CONVERTER</a>
-                <a href="../pages/palette.html" class="nav-link">&gt; PALETTE_FORGE</a>
+                <a href="../pages/palette.html" class="nav-link active">&gt; PALETTE_FORGE</a>
                 <div class="nav-section-label">[ LOOKUP_DECK ]</div>
                 <a href="../pages/symbol-index.html" class="nav-link">&gt; SYMBOL_INDEX</a>
                 <a href="../pages/emoji-index.html" class="nav-link">&gt; EMOJI_INDEX</a>
@@ -95,39 +95,19 @@
         </aside>
 
         <main class="center-viewport" id="active-tool-zone">
-            <div class="breadcrumb">&gt; <a href="../index.html">DECK_LAUNCHER</a> <span class="breadcrumb-sep">/</span> SYSTEM <span class="breadcrumb-sep">/</span> PRIVACY</div>
-            <article class="prose">
-                <h1>Privacy Policy</h1>
-                <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">Last updated: July 15, 2026</p>
-
-                <p>This Privacy Policy explains how gamayun.site ("the Site") collects, uses, and discloses information when you visit or use it.</p>
-
-                <h2>Advertising &amp; Analytics</h2>
-                <p>This Site uses Google AdSense to serve advertisements and Google Analytics to measure usage. Google and its advertising partners may place and read cookies, use web beacons, and use your IP address to serve ads and collect usage data as a result of your visit to this Site and other sites across the internet.</p>
-                <ul>
-                    <li>Learn more about how Google uses data when you use sites or apps that use Google services: <a href="https://policies.google.com/technologies/partner-sites" target="_blank" rel="noopener">policies.google.com/technologies/partner-sites</a></li>
-                    <li>Manage or opt out of personalized advertising: <a href="https://adssettings.google.com" target="_blank" rel="noopener">Google Ads Settings</a></li>
-                    <li>Opt out of some third-party vendor cookies for personalized advertising: <a href="https://www.aboutads.info/choices/" target="_blank" rel="noopener">aboutads.info/choices</a></li>
-                </ul>
-
-                <h2>Cookies</h2>
-                <p>This Site and the third parties serving content on it (including Google) may use cookies and similar technologies to collect basic information such as browser type, pages visited, and time spent on the Site. This is used to operate the Site, understand usage patterns, and serve relevant advertising as described above. You can control or disable cookies through your browser settings. Doing so may affect ad personalization, but will not affect any tool's core functionality, since every tool on this Site runs entirely in your browser.</p>
-
-                <h2>What We Collect</h2>
-                <p>This Site requires no account or login to use. Any file, URL, or text you enter into a tool is processed locally in your browser and is not uploaded to or stored on any server we control. Standard web server logs (IP address, browser type, page requested) may be retained briefly by our hosting provider for security and abuse-prevention purposes.</p>
-
-                <h2>Data Sales and Sharing</h2>
-                <p>We do not sell your personal information for money. Google's advertising services may constitute a "sale" or "share" of information as those terms are broadly defined under the California Consumer Privacy Act (CCPA) and California Privacy Rights Act (CPRA), even without a direct payment for data. You can opt out of this at any time via the Google Ads Settings link above.</p>
-
-                <h2>Third Parties</h2>
-                <p>Google and other advertising or analytics partners may independently collect information about your visits to this Site and other websites. This Privacy Policy does not cover their independent data practices. See <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google's Privacy &amp; Terms</a> for details.</p>
-
-                <h2>Changes to This Policy</h2>
-                <p>This policy may be updated from time to time. Any changes will be posted on this page with a revised date.</p>
-
-                <h2>Contact</h2>
-                <p>Questions about this policy can be sent to <a href="mailto:hi.there@gamayun.site">hi.there@gamayun.site</a>.</p>
-            </article>
+            <div class="breadcrumb">&gt; <a href="../index.html">DECK_LAUNCHER</a> <span class="breadcrumb-sep">/</span> NUMBER_CRUNCH <span class="breadcrumb-sep">/</span> PALETTE_FORGE</div>
+            <section class="tool-card">
+                <div class="badge-clientside">&#128274; 100% CLIENT-SIDE</div>
+                <h2>&gt; PALETTE_FORGE</h2>
+                <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">Five colors at a time. Lock the ones worth keeping, reroll the rest. Click any swatch to copy its hex.</p>
+                <div class="tool-workspace">
+                    <button onclick="executePaletteGenerate()">&gt; GENERATE</button>
+                    <button onclick="executePaletteExport()">&gt; EXPORT</button>
+                </div>
+                <div id="palette-swatches" style="display:flex; gap:0; margin-top:1rem; height:140px; border:1px solid var(--phosphor-dim);"></div>
+                <pre class="result-block" id="palette-result"></pre>
+            </section>
+            <p style="padding:0 1.5rem; font-size:0.85rem;"><span style="color: var(--phosphor-dim-text)">See also:</span> <a href="color.html">Color Converter</a></p>
 
             <div class="ad-leaderboard">
                 <div class="wireframe-header">&#9888; INTERCEPTED CORPORATE DEBRIS — WIDE-BAND TRANSMISSION</div>
@@ -196,7 +176,7 @@
     <script src="../js/data-tool-list.js"></script>
     <script src="../js/site-search.js"></script>
     <script src="../js/page-transition.js"></script>
-
+    <script src="../js/tool-palette.js"></script>
     <script>document.getElementById("footer-year").textContent = new Date().getFullYear();</script>
 </body>
 </html>

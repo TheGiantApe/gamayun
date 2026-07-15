@@ -115,6 +115,10 @@ PAGES = [
          desc="Hex, RGB integer, RGB float, and HSL, all at once.",
          root="../", code="COLOR_CONVERTER", category="NUMBER_CRUNCH",
          js=["tool-color.js"]),
+    dict(out="pages/palette.html", fragment="palette.html", title="Palette Forge",
+         desc="Generate a 5-color palette, lock the ones worth keeping, export as hex or CSS variables.",
+         root="../", code="PALETTE_FORGE", category="NUMBER_CRUNCH",
+         js=["tool-palette.js"]),
 
     dict(out="pages/symbol-index.html", fragment="symbol-index.html", title="Symbol Index",
          desc="349 searchable Unicode symbols with names and codepoints, click to copy.",
