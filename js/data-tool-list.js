@@ -257,23 +257,5 @@ const TOOL_LIST = [
     "desc": "Transliterate text into Elder Futhark, the 24-rune Germanic alphabet.",
     "code": "RUNES",
     "url": "pages/runes.html"
-  },
-  {
-    "title": "Origin Log",
-    "desc": "GAMA\u207a, in her own words. Not exactly a straight answer.",
-    "code": "ORIGIN_LOG",
-    "url": "pages/about.html"
-  },
-  {
-    "title": "GAMA+ Wiki",
-    "desc": "Technical trivia, privacy/OSINT reference entries, and dumb conversation-enders, filed as they get salvaged.",
-    "code": "GAMA_WIKI",
-    "url": "pages/wiki-index.html"
-  },
-  {
-    "title": "Social Feed",
-    "desc": "Live Bluesky posts, fetched client-side straight from the public API.",
-    "code": "SOCIAL_FEED",
-    "url": "pages/bluesky-feed.html"
   }
 ];

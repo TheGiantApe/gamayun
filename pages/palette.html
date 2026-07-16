@@ -39,9 +39,17 @@
         <div class="system-status">LINK: STABLE // MAG-LOCK: ENGAGED // <span id="system-clock" class="clock"></span></div>
     </header>
 
+    <nav class="terminal-tabs">
+                    <a href="../index.html" class="tab-btn active" data-tab="tools">TOOLS</a>
+                    <a href="../pages/wiki-index.html" class="tab-btn" data-tab="wiki">WIKI</a>
+                    <a href="../pages/log.html" class="tab-btn" data-tab="log">LOG</a>
+                    <a href="../pages/about.html" class="tab-btn" data-tab="about">ABOUT</a>
+    </nav>
+
     <div class="command-bridge-grid">
 
         <aside class="left-deck">
+            <a href="javascript:location.href='https://gamayun.site/'" class="bookmarklet-slim" title="Drag me to your bookmarks bar">&gt; drag to bookmarks (or Ctrl+D). one-click orbital access.</a>
             <div class="site-search-box">
                 <input type="text" id="site-search-input" placeholder="&gt; search tools..." oninput="executeSiteSearch()" autocomplete="off">
                 <div id="site-search-results" class="site-search-results"></div>
@@ -116,19 +124,12 @@
                     <a href="../pages/moon-phase.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">MOON_PHASE</span></a>
                     <a href="../pages/runes.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">RUNES</span></a>
                 </details>
-                <details class="nav-section">
-                    <summary class="nav-section-label">[ SHIP'S LOG ]</summary>
-                    <a href="../pages/about.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">ORIGIN_LOG</span></a>
-                    <a href="../pages/wiki-index.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">GAMA_WIKI</span></a>
-                    <a href="../pages/bluesky-feed.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">SOCIAL_FEED</span></a>
-                </details>
             </nav>
         </aside>
 
         <main class="center-viewport" id="active-tool-zone">
             <div class="breadcrumb">&gt; <a href="../index.html">DECK_LAUNCHER</a> <span class="breadcrumb-sep">/</span> PAINT LOCKER <span class="breadcrumb-sep">/</span> PALETTE_FORGE</div>
             <section class="tool-card">
-                <div class="badge-clientside">&#128274; 100% CLIENT-SIDE</div>
                 <h2>&gt; PALETTE_FORGE</h2>
                 <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">Five colors at a time. Lock the ones worth keeping, reroll the rest. Click any swatch to copy its hex.</p>
                 <div class="tool-workspace">
@@ -189,7 +190,7 @@
 
     <footer class="site-footer">
         <div class="trust-block">
-            <span>&#128274; 100% client-side</span>
+            <span title="Runs in your browser. No accounts. No telemetry.">&#128274; 100% client-side</span>
             <span>&#128683; no accounts, ever</span>
             <a href="../pages/privacy.html">Privacy Policy</a>
             <a href="../pages/terms.html">Terms of Service</a>

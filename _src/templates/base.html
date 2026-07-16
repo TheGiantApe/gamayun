@@ -39,9 +39,14 @@
         <div class="system-status">LINK: STABLE // MAG-LOCK: ENGAGED // <span id="system-clock" class="clock"></span></div>
     </header>
 
+    <nav class="terminal-tabs">
+{{TABS}}
+    </nav>
+
     <div class="command-bridge-grid">
 
         <aside class="left-deck">
+            <a href="javascript:location.href='https://gamayun.site/'" class="bookmarklet-slim" title="Drag me to your bookmarks bar">&gt; drag to bookmarks (or Ctrl+D). one-click orbital access.</a>
             <div class="site-search-box">
                 <input type="text" id="site-search-input" placeholder="&gt; search tools..." oninput="executeSiteSearch()" autocomplete="off">
                 <div id="site-search-results" class="site-search-results"></div>
@@ -104,7 +109,7 @@
 
     <footer class="site-footer">
         <div class="trust-block">
-            <span>&#128274; 100% client-side</span>
+            <span title="Runs in your browser. No accounts. No telemetry.">&#128274; 100% client-side</span>
             <span>&#128683; no accounts, ever</span>
             <a href="{{ROOT}}pages/privacy.html">Privacy Policy</a>
             <a href="{{ROOT}}pages/terms.html">Terms of Service</a>

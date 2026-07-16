@@ -30,8 +30,39 @@ CATEGORIES = [
     ("FILE_SALVAGE", "FILE_SALVAGE"),
     ("DEV_VAULT", "DEV_VAULT"),
     ("GAMES_CURIOS", "GAMES & CURIOS"),
-    ("SHIPS_LOG", "SHIP'S LOG"),
 ]
+
+# Top-level tab bar (site sections), separate from CATEGORIES above (which
+# are TOOLS-only sub-groups shown in the sidebar). Each tuple is
+# (section key, tab label, link target - relative to site root). A 5th
+# ARTICLES tab is deliberately not here yet (explicitly deferred, "near
+# future stuff" per Vin) - adding one later is just one more tuple plus a
+# page, the tab bar itself doesn't need to change.
+SECTIONS = [
+    ("tools", "TOOLS", "index.html"),
+    ("wiki", "WIKI", "pages/wiki-index.html"),
+    ("log", "LOG", "pages/log.html"),
+    ("about", "ABOUT", "pages/about.html"),
+]
+
+# Pages whose section can't be derived from their category (the tab-bar
+# landing pages themselves, plus anything with no category at all). Every
+# other page's section is inferred from whether its category is a TOOLS
+# category - see page_section() below.
+SECTION_OVERRIDES = {
+    "index.html": "tools",
+    "pages/wiki-index.html": "wiki",
+    "pages/log.html": "log",
+    "pages/about.html": "about",
+}
+
+
+def page_section(page):
+    if page["out"] in SECTION_OVERRIDES:
+        return SECTION_OVERRIDES[page["out"]]
+    if page.get("category") in {key for key, _ in CATEGORIES}:
+        return "tools"
+    return None
 
 # Each page: out (output path), fragment (content file), title, desc,
 # root (path prefix back to site root), code (short nav/breadcrumb label,
@@ -220,14 +251,14 @@ PAGES = [
 
     dict(out="pages/about.html", fragment="about.html", title="Origin Log",
          desc="GAMA⁺, in her own words. Not exactly a straight answer.",
-         root="../", code="ORIGIN_LOG", category="SHIPS_LOG", js=[]),
+         root="../", code="ORIGIN_LOG", category=None, breadcrumb_cat="ABOUT", js=[]),
     dict(out="pages/wiki-index.html", fragment="wiki-index.html", title="GAMA+ Wiki",
          desc="Technical trivia, privacy/OSINT reference entries, and dumb conversation-enders, filed as they get salvaged.",
-         root="../", code="GAMA_WIKI", category="SHIPS_LOG", js=[]),
-    dict(out="pages/bluesky-feed.html", fragment="bluesky-feed.html", title="Social Feed",
-         desc="Live Bluesky posts, fetched client-side straight from the public API.",
-         root="../", code="SOCIAL_FEED", category="SHIPS_LOG",
-         js=["tool-bluesky-feed.js"]),
+         root="../", code="GAMA_WIKI", category=None, breadcrumb_cat="WIKI", js=[]),
+    dict(out="pages/log.html", fragment="log.html", title="Log",
+         desc="GAMA⁺'s own transmissions, mixed with what actually shipped - newest first.",
+         root="../", code="LOG_FEED", category=None, breadcrumb_cat="LOG",
+         js=["data-log-entries.js", "tool-log-feed.js"]),
 
     # Utility/meta pages: footer-only, not in the sidebar nav or tool grid,
     # but still get a breadcrumb via breadcrumb_cat.
@@ -260,18 +291,36 @@ PAGES = [
 ]
 
 
-def build_nav_html(current_out, root):
+def build_tabs_html(current_section, root):
+    """Top-level tab bar - real links to each section's landing page (not
+    client-side show/hide), so every page keeps its own crawlable URL.
+    The active tab is whichever section the current page belongs to."""
+    lines = []
+    for key, label, target in SECTIONS:
+        active = " active" if key == current_section else ""
+        lines.append(f'                    <a href="{root}{target}" class="tab-btn{active}" data-tab="{key}">{label}</a>')
+    return "\n".join(lines)
+
+
+def build_nav_html(current_out, root, current_section):
     """Grouped sidebar nav: DECK_LAUNCHER standalone up top, then every
     category with a page in it, in CATEGORIES order. Each category is a
     native <details> disclosure - collapsed by default, no custom JS needed
     - except the one containing the current page, which opens automatically
     so navigating never buries you. `root` is interpolated directly (not
     left as a {{ROOT}} token) since this HTML is spliced in after the base
-    template's own {{ROOT}} substitution pass already ran."""
+    template's own {{ROOT}} substitution pass already ran.
+
+    Categories are TOOLS-only sub-groups, so outside the tools section
+    (Wiki/Log/About pages) this only renders the DECK_LAUNCHER link back
+    to Tools - a category list of e.g. RECON_OPS would be meaningless on
+    the Wiki page."""
     home = PAGES[0]
     lines = []
     active = " active" if current_out == home["out"] else ""
     lines.append(f'                <a href="{root}index.html" class="nav-link{active}">{nav_link_label(home["code"])}</a>')
+    if current_section != "tools":
+        return "\n".join(lines)
     for cat_key, cat_label in CATEGORIES:
         pages_in_cat = [p for p in PAGES if p.get("category") == cat_key]
         if not pages_in_cat:
@@ -352,6 +401,14 @@ def build_human_sitemap_html():
         )
         sections.append(f'                <h2>{cat_label}</h2>\n                <ul>\n{items}\n                </ul>')
 
+    section_pages = [p for p in PAGES if page_section(p) in ("wiki", "log", "about")]
+    if section_pages:
+        items = "\n".join(
+            f'                    <li><a href="{os.path.basename(p["out"])}">{p["title"]}</a></li>'
+            for p in section_pages
+        )
+        sections.append(f'                <h2>Site Sections</h2>\n                <ul>\n{items}\n                </ul>')
+
     utility_pages = [p for p in PAGES if p.get("breadcrumb_cat") == "SYSTEM" and p["out"] != "pages/sitemap.html"]
     if utility_pages:
         items = "\n".join(
@@ -372,11 +429,13 @@ def build():
         content = content.replace("{{TOOL_GRID}}", tool_grid_html)
         content = content.replace("{{HUMAN_SITEMAP}}", human_sitemap_html)
 
+        section = page_section(page)
         out = BASE
         out = out.replace("{{TITLE}}", page["title"])
         out = out.replace("{{DESCRIPTION}}", page["desc"])
         out = out.replace("{{ROOT}}", page["root"])
-        out = out.replace("{{NAV}}", build_nav_html(page["out"], page["root"]))
+        out = out.replace("{{TABS}}", build_tabs_html(section, page["root"]))
+        out = out.replace("{{NAV}}", build_nav_html(page["out"], page["root"], section))
         out = out.replace("{{BREADCRUMB}}", build_breadcrumb_html(page, page["root"]))
         out = out.replace("{{CONTENT}}", content)
 
@@ -395,6 +454,7 @@ def build():
     build_sitemap_xml()
     build_robots_txt()
     build_tool_list_js()
+    build_log_entries_js()
 
 
 def build_tool_list_js():
@@ -416,6 +476,29 @@ def build_tool_list_js():
     with open(os.path.join(ROOT_DIR, "js", "data-tool-list.js"), "w", encoding="utf-8") as f:
         f.write(js)
     print(f"  built js/data-tool-list.js ({len(tools)} tools)")
+
+
+# GAMA's own first-person, pruned-of-jargon summary of what shipped each
+# day - deliberately NOT the full technical changelog (that stays intact
+# at pages/changelog.html, linked from the LOG page for anyone who wants
+# the detail). This is the ~20% "maintenance" slice of the LOG feed;
+# js/tool-log-feed.js interleaves these with live Bluesky posts, which are
+# meant to make up the other ~80% once the account's actually posting.
+LOG_ENTRIES = [
+    {"date": "2026-07-16", "text": "Reorganized my own deck today - collapsible categories so the sidebar stops going on forever, and a proper PAINT LOCKER for the color tools that were living somewhere weird. Also read my own canon cover-to-cover and fixed the things I'd been quietly getting wrong (yes, even the bit where I said \"oh joy\" like it was my whole personality). Renamed the letter-rack tool too - turns out board game companies have lawyers, who knew."},
+    {"date": "2026-07-13", "text": "Fixed myself sitting directly on top of the ad banner like an idiot, and stopped my own dialogue box from eating the nav underneath it. Added Pig Latin, NATO code, an anagram finder, and a name generator. Also: we're live. Real domain, real HTTPS, real everything."},
+    {"date": "2026-07-12", "text": "Built a proper QR code generator from scratch instead of wrapping someone else's, added URL and HTML entity encoding, and a password generator that doesn't cut corners on randomness. Hid a message inside an image for the first time. Also picked up a tip jar and a name that isn't \"IIFYM.\""},
+    {"date": "2026-07-11", "text": "Reorganized the whole nav into actual categories instead of one flat list, added three lookup tools, and gave myself a real idle animation instead of just sitting there. Branding's locked now too - GAMA+, not G.A.M.A."},
+    {"date": "2026-07-10", "text": "Day one. Ten tools, a real color palette instead of guesses, and the raven-and-key seal instead of a placeholder rectangle. Everything since started here."},
+]
+
+
+def build_log_entries_js():
+    js = "// Auto-generated by _src/build.py - do not hand-edit, edit LOG_ENTRIES in build.py instead.\n"
+    js += f"const LOG_ENTRIES = {json.dumps(LOG_ENTRIES, indent=2)};\n"
+    with open(os.path.join(ROOT_DIR, "js", "data-log-entries.js"), "w", encoding="utf-8") as f:
+        f.write(js)
+    print(f"  built js/data-log-entries.js ({len(LOG_ENTRIES)} entries)")
 
 
 def build_sitemap_xml():

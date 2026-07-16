@@ -138,6 +138,47 @@ a:hover, a:focus {
 }
 .terminal-header .system-status .clock { color: var(--phosphor); }
 
+/* ---- Top-level section tabs (TOOLS/WIKI/LOG/ABOUT) ---- */
+/* Real links to real pages (see build_tabs_html in _src/build.py), not a
+   client-side show/hide - every section keeps its own crawlable URL.
+   Sticky below the header on mobile (where the whole page scrolls);
+   on desktop the frame around it already doesn't scroll, same as the
+   header, so sticky is a no-op there but harmless. */
+.terminal-tabs {
+  display: flex;
+  border-bottom: 1px solid var(--phosphor-dim);
+  background: var(--void-raised);
+  overflow-x: auto;
+  scrollbar-width: none;
+  position: sticky;
+  top: var(--header-h);
+  z-index: 90;
+}
+.terminal-tabs::-webkit-scrollbar { display: none; }
+.tab-btn {
+  padding: 0.6rem 1.25rem;
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  letter-spacing: 0.08em;
+  color: var(--phosphor-dim-text);
+  border-bottom: 2px solid transparent;
+  border-right: 1px solid var(--phosphor-faint);
+  white-space: nowrap;
+  flex-shrink: 0;
+  text-decoration: none;
+}
+.tab-btn:hover {
+  color: var(--phosphor);
+  background: var(--phosphor-faint);
+  border-bottom-color: var(--phosphor-dim);
+}
+.tab-btn.active {
+  color: var(--phosphor);
+  border-bottom-color: var(--phosphor);
+  text-shadow: 0 0 6px var(--phosphor);
+  background: var(--void);
+}
+
 /* ---- Command bridge grid: 3-column desktop deck ---- */
 .command-bridge-grid {
   display: grid;
@@ -581,25 +622,20 @@ button:hover, .btn:hover {
   padding: 0.5rem;
 }
 .ad-leaderboard .adsense-slot { min-height: 90px; }
-/* ---- Startpage bookmarklet callout (homepage only) ---- */
-.bookmarklet-callout {
-  margin: 1.5rem 1.5rem;
-  padding: 1rem;
+/* ---- Bookmarklet prompt: slim sidebar strip, sitewide (was a big
+   homepage-only callout block) ---- */
+.bookmarklet-slim {
+  display: block;
+  margin-bottom: 0.75rem;
+  padding: 0.5rem 0.6rem;
   border: 1px dashed var(--phosphor-dim);
-}
-.bookmarklet-callout p {
-  margin: 0 0 0.75rem;
-  font-size: 0.85rem;
+  font-size: 0.75rem;
+  line-height: 1.4;
   color: var(--phosphor-dim-text);
-}
-.bookmarklet-link {
-  display: inline-block;
-  border: 1px solid var(--phosphor);
-  padding: 0.4rem 0.8rem;
   cursor: grab;
-  font-family: var(--font-mono);
 }
-.bookmarklet-link:active { cursor: grabbing; }
+.bookmarklet-slim:hover { border-color: var(--phosphor); color: var(--phosphor); background: var(--phosphor-faint); }
+.bookmarklet-slim:active { cursor: grabbing; }
 .ad-native {
   margin: 0 1.5rem 1.5rem;
   border: 1px dashed var(--amber);
@@ -935,7 +971,22 @@ button:hover, .btn:hover {
 .prose h1, .prose h2 { font-family: var(--font-display); }
 .prose p { margin: 1em 0; }
 
-/* ---- Bluesky feed ---- */
+/* Mission statement ("stone tablet"): direct, plain-spoken, explains
+   itself on purpose - the opposite register from the cryptic Origin Log
+   copy below it on the same page. Two different kinds of content sharing
+   one tab: a values statement (fine to explain itself) and lore (never
+   explains itself). Bordered solid instead of the site's usual dashed
+   callouts, so it reads as a statement, not a note. */
+.mission-tablet {
+  border: 1px solid var(--phosphor);
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 2rem;
+  text-align: center;
+  box-shadow: 0 0 12px rgba(0, 255, 102, 0.1);
+}
+.mission-tablet p { margin: 0.5em 0; }
+
+/* ---- Log feed (LOG tab: merged maintenance entries + Bluesky posts) ---- */
 .bluesky-post {
   border: 1px solid var(--phosphor-dim);
   padding: 0.9rem;
@@ -950,3 +1001,20 @@ button:hover, .btn:hover {
   font-size: 0.8rem;
   color: var(--phosphor-dim-text);
 }
+/* Maintenance ("system log") entries get a dashed amber-adjacent border
+   and a small tag, same visual family as the site's other "corporate
+   debris"/wireframe callouts, so they read as clearly distinct from a
+   real Bluesky post in the same merged feed rather than blurring together. */
+.log-entry-maintenance {
+  border: 1px dashed var(--phosphor-dim);
+  padding: 0.9rem;
+  margin-bottom: 1rem;
+  background: var(--void-raised);
+}
+.log-entry-tag {
+  font-size: 0.7rem;
+  color: var(--phosphor-dim-text);
+  letter-spacing: 0.1em;
+  margin-bottom: 0.4rem;
+}
+.log-entry-text { margin: 0; line-height: 1.5; }

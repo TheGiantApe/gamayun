@@ -39,9 +39,17 @@
         <div class="system-status">LINK: STABLE // MAG-LOCK: ENGAGED // <span id="system-clock" class="clock"></span></div>
     </header>
 
+    <nav class="terminal-tabs">
+                    <a href="index.html" class="tab-btn active" data-tab="tools">TOOLS</a>
+                    <a href="pages/wiki-index.html" class="tab-btn" data-tab="wiki">WIKI</a>
+                    <a href="pages/log.html" class="tab-btn" data-tab="log">LOG</a>
+                    <a href="pages/about.html" class="tab-btn" data-tab="about">ABOUT</a>
+    </nav>
+
     <div class="command-bridge-grid">
 
         <aside class="left-deck">
+            <a href="javascript:location.href='https://gamayun.site/'" class="bookmarklet-slim" title="Drag me to your bookmarks bar">&gt; drag to bookmarks (or Ctrl+D). one-click orbital access.</a>
             <div class="site-search-box">
                 <input type="text" id="site-search-input" placeholder="&gt; search tools..." oninput="executeSiteSearch()" autocomplete="off">
                 <div id="site-search-results" class="site-search-results"></div>
@@ -116,12 +124,6 @@
                     <a href="pages/moon-phase.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">MOON_PHASE</span></a>
                     <a href="pages/runes.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">RUNES</span></a>
                 </details>
-                <details class="nav-section">
-                    <summary class="nav-section-label">[ SHIP'S LOG ]</summary>
-                    <a href="pages/about.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">ORIGIN_LOG</span></a>
-                    <a href="pages/wiki-index.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">GAMA_WIKI</span></a>
-                    <a href="pages/bluesky-feed.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">SOCIAL_FEED</span></a>
-                </details>
             </nav>
         </aside>
 
@@ -141,11 +143,6 @@
             <div class="hero">
                 <img class="hero-wordmark-logo" id="hero-wordmark-logo" src="assets/gama-wordmark-logo.png" alt="PROJECT GAMA (GAMAYUN⁺) wordmark">
                 <p class="hero-tagline">&gt; orbital salvage archive // metadata recovered from the corporate wasteland, free of charge</p>
-            </div>
-
-            <div class="bookmarklet-callout">
-                <p>&gt; i could be your startpage. thrilling, i know. drag this to your bookmarks bar and i'm one click away, whenever you need to salvage something:</p>
-                <a href="javascript:location.href='https://gamayun.site/'" class="bookmarklet-link">&gt; GAMAYUN&#43;</a>
             </div>
 
             <div class="ad-native">
@@ -350,21 +347,6 @@
                     <div class="tool-desc">Transliterate text into Elder Futhark, the 24-rune Germanic alphabet.</div>
                 </a>
                 </div>
-                <div class="grid-section-label">[ SHIP'S LOG ]</div>
-                <div class="tool-grid-row">
-                <a class="tool-grid-item" href="pages/about.html">
-                    <div class="tool-name">&gt; ORIGIN_LOG</div>
-                    <div class="tool-desc">GAMA⁺, in her own words. Not exactly a straight answer.</div>
-                </a>
-                <a class="tool-grid-item" href="pages/wiki-index.html">
-                    <div class="tool-name">&gt; GAMA_WIKI</div>
-                    <div class="tool-desc">Technical trivia, privacy/OSINT reference entries, and dumb conversation-enders, filed as they get salvaged.</div>
-                </a>
-                <a class="tool-grid-item" href="pages/bluesky-feed.html">
-                    <div class="tool-name">&gt; SOCIAL_FEED</div>
-                    <div class="tool-desc">Live Bluesky posts, fetched client-side straight from the public API.</div>
-                </a>
-                </div>
             </section>
 
             <div class="ad-leaderboard">
@@ -416,7 +398,7 @@
 
     <footer class="site-footer">
         <div class="trust-block">
-            <span>&#128274; 100% client-side</span>
+            <span title="Runs in your browser. No accounts. No telemetry.">&#128274; 100% client-side</span>
             <span>&#128683; no accounts, ever</span>
             <a href="pages/privacy.html">Privacy Policy</a>
             <a href="pages/terms.html">Terms of Service</a>
