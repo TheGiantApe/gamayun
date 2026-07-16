@@ -346,6 +346,31 @@ def nav_link_label(code):
     return f'&gt;&nbsp;<span class="nav-link-label">{code}</span>'
 
 
+def build_jsonld_html(page):
+    """schema.org/WebApplication block for real tool pages (anything with
+    a category - the actual utilities, not wiki/log/about/legal pages).
+    Per GAMA BIBLE section G: wins "People Also Ask" / rich-result boxes
+    without writing blogspam. validate.py's scan_jsonld_required_keys()
+    already enforces @context/@type/name on any block that exists - this
+    is what actually populates them. Uses the page's own title/desc, no
+    separate content to keep in sync."""
+    if not page.get("category"):
+        return ""
+    domain = "https://gamayun.site"
+    data = {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": page["title"],
+        "description": page["desc"],
+        "url": f'{domain}/{page["out"]}',
+        "applicationCategory": "UtilitiesApplication",
+        "operatingSystem": "Any (runs in browser)",
+        "isAccessibleForFree": True,
+        "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"},
+    }
+    return f'    <script type="application/ld+json">{json.dumps(data)}</script>'
+
+
 def build_breadcrumb_html(page, root):
     """'> DECK_LAUNCHER / CATEGORY / PAGE_CODE' trail. Omitted for the
     homepage and pages with no code/category at all (special pages)."""
@@ -433,6 +458,7 @@ def build():
         out = BASE
         out = out.replace("{{TITLE}}", page["title"])
         out = out.replace("{{DESCRIPTION}}", page["desc"])
+        out = out.replace("{{JSONLD}}", build_jsonld_html(page))
         out = out.replace("{{ROOT}}", page["root"])
         out = out.replace("{{TABS}}", build_tabs_html(section, page["root"]))
         out = out.replace("{{NAV}}", build_nav_html(page["out"], page["root"], section))
