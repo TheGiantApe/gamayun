@@ -25,6 +25,7 @@ CATEGORIES = [
     ("RECON_OPS", "RECON_OPS"),
     ("TEXT_OPS", "TEXT_OPS"),
     ("NUMBER_CRUNCH", "NUMBER_CRUNCH"),
+    ("PAINT_LOCKER", "PAINT LOCKER"),
     ("LOOKUP_DECK", "LOOKUP_DECK"),
     ("FILE_SALVAGE", "FILE_SALVAGE"),
     ("DEV_VAULT", "DEV_VAULT"),
@@ -87,7 +88,7 @@ PAGES = [
          js=["tool-url-encode.js"]),
     dict(out="pages/html-entities.html", fragment="html-entities.html", title="HTML Entity Codec",
          desc="Escape text to HTML entities, or decode entities back to text.",
-         root="../", code="HTML_ENTITY_CODEC", category="TEXT_OPS",
+         root="../", code="HTML_CODEC", category="TEXT_OPS",
          js=["tool-html-entities.js"]),
     dict(out="pages/text-diff.html", fragment="text-diff.html", title="Text Diff",
          desc="Line-by-line comparison between two blocks of text.",
@@ -117,11 +118,11 @@ PAGES = [
          category="NUMBER_CRUNCH", js=["tool-calculators.js"]),
     dict(out="pages/color.html", fragment="color.html", title="Color Converter",
          desc="Hex, RGB integer, RGB float, and HSL, all at once.",
-         root="../", code="COLOR_CONVERTER", category="NUMBER_CRUNCH",
+         root="../", code="COLOR_CONVERTER", category="PAINT_LOCKER",
          js=["tool-color.js"]),
     dict(out="pages/palette.html", fragment="palette.html", title="Palette Forge",
          desc="Generate a 5-color palette, lock the ones worth keeping, export as hex or CSS variables.",
-         root="../", code="PALETTE_FORGE", category="NUMBER_CRUNCH",
+         root="../", code="PALETTE_FORGE", category="PAINT_LOCKER",
          js=["tool-palette.js"]),
 
     dict(out="pages/symbol-index.html", fragment="symbol-index.html", title="Symbol Index",
@@ -261,22 +262,39 @@ PAGES = [
 
 def build_nav_html(current_out, root):
     """Grouped sidebar nav: DECK_LAUNCHER standalone up top, then every
-    category with a page in it, in CATEGORIES order. `root` is interpolated
-    directly (not left as a {{ROOT}} token) since this HTML is spliced in
-    after the base template's own {{ROOT}} substitution pass already ran."""
+    category with a page in it, in CATEGORIES order. Each category is a
+    native <details> disclosure - collapsed by default, no custom JS needed
+    - except the one containing the current page, which opens automatically
+    so navigating never buries you. `root` is interpolated directly (not
+    left as a {{ROOT}} token) since this HTML is spliced in after the base
+    template's own {{ROOT}} substitution pass already ran."""
     home = PAGES[0]
     lines = []
     active = " active" if current_out == home["out"] else ""
-    lines.append(f'                <a href="{root}index.html" class="nav-link{active}">&gt; {home["code"]}</a>')
+    lines.append(f'                <a href="{root}index.html" class="nav-link{active}">{nav_link_label(home["code"])}</a>')
     for cat_key, cat_label in CATEGORIES:
         pages_in_cat = [p for p in PAGES if p.get("category") == cat_key]
         if not pages_in_cat:
             continue
-        lines.append(f'                <div class="nav-section-label">[ {cat_label} ]</div>')
+        has_active = any(p["out"] == current_out for p in pages_in_cat)
+        open_attr = " open" if has_active else ""
+        lines.append(f'                <details class="nav-section"{open_attr}>')
+        lines.append(f'                    <summary class="nav-section-label">[ {cat_label} ]</summary>')
         for p in pages_in_cat:
             active = " active" if p["out"] == current_out else ""
-            lines.append(f'                <a href="{root}{p["out"]}" class="nav-link{active}">&gt; {p["code"]}</a>')
+            lines.append(f'                    <a href="{root}{p["out"]}" class="nav-link{active}">{nav_link_label(p["code"])}</a>')
+        lines.append(f'                </details>')
     return "\n".join(lines)
+
+
+def nav_link_label(code):
+    """'&gt;' glued to the label via a non-breaking space, and the label
+    itself allowed to break internally (overflow-wrap:anywhere in CSS) -
+    without this, a long underscore-joined code like HTML_ENTITY_CODEC has
+    no ordinary break point except the space after '&gt;', so the arrow
+    stranded itself alone on its own line with the label overflowing below
+    it instead of wrapping."""
+    return f'&gt;&nbsp;<span class="nav-link-label">{code}</span>'
 
 
 def build_breadcrumb_html(page, root):

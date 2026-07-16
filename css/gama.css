@@ -49,6 +49,10 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  /* Defensive, not just for desktop: a stray content overflow (long
+     unbroken strings, a mis-sized canvas, etc.) should never be able to
+     put a horizontal scrollbar on the whole page. */
+  overflow-x: hidden;
 }
 /* Desktop: lock the page to the viewport - header/nav/right-deck/footer/
    ticker form a fixed "frame" that never moves, and only .center-viewport
@@ -276,12 +280,36 @@ a:hover, a:focus {
   }
   .terminal-nav::-webkit-scrollbar { display: none; } /* Chrome/Safari/Edge */
 }
+/* Each category is a native <details>/<summary> disclosure - collapsed by
+   default so the nav doesn't run on forever, no JS required to expand/
+   collapse or to remember it's a toggle (keyboard-operable for free too).
+   The category holding the current page renders with the `open` attribute
+   already set (see build_nav_html in _src/build.py) so you're never
+   dropped into a collapsed section with no idea where you are. */
+.nav-section { margin: 0.75rem 0; }
 .nav-section-label {
+  display: block;
   font-size: 0.7rem;
   color: var(--phosphor-dim-text);
   letter-spacing: 0.1em;
-  margin: 0.75rem 0 0.25rem;
+  margin: 0 0 0.25rem;
+  cursor: pointer;
+  list-style: none;
+  user-select: none;
 }
+.nav-section-label::-webkit-details-marker { display: none; }
+.nav-section-label::marker { content: ""; }
+.nav-section-label::before {
+  content: "+";
+  display: inline-block;
+  width: 1em;
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  color: var(--phosphor-dim-text);
+}
+.nav-section[open] > .nav-section-label::before { content: "-"; }
+.nav-section-label:hover { color: var(--phosphor); }
+.nav-section-label:hover::before { color: var(--phosphor); }
 .nav-link {
   display: block;
   padding: 0.25rem 0;
@@ -290,6 +318,11 @@ a:hover, a:focus {
 }
 .nav-link.active { color: var(--amber); }
 .nav-link:hover { border-bottom: none; }
+/* HTML_ENTITY_CODEC-length codes have no ordinary break point except the
+   space after the arrow - see nav_link_label() in build.py, which glues
+   '&gt;' to the label with a non-breaking space so the arrow can't strand
+   itself alone on a line, then lets the label wrap internally instead. */
+.nav-link-label { overflow-wrap: anywhere; }
 
 .center-viewport {
   padding: 1.5rem;
@@ -300,7 +333,14 @@ a:hover, a:focus {
     height: 100%;
     min-height: 0;
     overflow-y: auto;
+    /* Same invisible-scrollbar treatment as .terminal-nav/.right-deck below -
+       this pane scrolls on basically every tool page taller than one screen,
+       so it was the one column still showing a native scrollbar track. Wheel/
+       drag/keyboard scrolling all still work; the bar itself just never
+       renders. */
+    scrollbar-width: none;
   }
+  .center-viewport::-webkit-scrollbar { display: none; }
   /* .right-deck's own content (log/supply/ad widgets - GAMA is fixed and
      out of this flow) can in principle run taller than the frame on a
      short viewport; give it the same self-contained scroll .terminal-nav
@@ -505,6 +545,14 @@ button:hover, .btn:hover {
 }
 .update-entry p { margin: 0; line-height: 1.4; color: var(--phosphor-dim-text); }
 .updates-link { font-size: 0.8rem; display: inline-block; }
+/* Was Ko-fi's own embedded widget (storage.ko-fi.com/cdn/widget/Widget_2.js)
+   - a live third-party script that draws its own button in Ko-fi's default
+   blue with an animated red heart, neither of which is themeable from here
+   and both of which fight the terminal aesthetic hard. A plain link styled
+   like every other button on the site says the same thing without the CDN
+   call or the color clash - this is a could-take-it-or-leave-it tip jar,
+   not something that needs to visually compete for attention. */
+.kofi-link { display: block; width: 100%; text-align: center; box-sizing: border-box; }
 .adsense-slot {
   min-height: 250px;
   border: 1px solid var(--phosphor-faint);

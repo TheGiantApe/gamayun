@@ -63,7 +63,7 @@ const TOOL_LIST = [
   {
     "title": "HTML Entity Codec",
     "desc": "Escape text to HTML entities, or decode entities back to text.",
-    "code": "HTML_ENTITY_CODEC",
+    "code": "HTML_CODEC",
     "url": "pages/html-entities.html"
   },
   {
