@@ -576,6 +576,11 @@ button:hover, .btn:hover {
   font-size: 0.8rem;
   color: var(--phosphor-dim-text);
   display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.site-footer .footer-top-row {
+  display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
   gap: 1rem;
@@ -586,6 +591,44 @@ button:hover, .btn:hover {
   gap: 0 1rem;
 }
 .site-footer nav a { border-bottom: none; }
+
+/* Trust block: consolidated credibility signals, not scattered across the
+   page. Same visual language as .badge-clientside (small bordered tag)
+   rather than a new pattern. */
+.trust-block {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  font-size: 0.75rem;
+}
+.trust-block span, .trust-block a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3em;
+  border: 1px solid var(--phosphor-dim);
+  padding: 0.15rem 0.5rem;
+  letter-spacing: 0.02em;
+}
+.trust-block a { border-bottom: 1px solid var(--phosphor-dim); }
+.trust-block a:hover { border-color: var(--phosphor); color: var(--phosphor); }
+
+/* Social icons: self-contained inline SVG, no icon font/CDN, so they stay
+   consistent with the site's zero-third-party-dependency rule. currentColor
+   fill/stroke means they inherit the same dim/hover color as text links. */
+.social-icons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem;
+  align-items: center;
+}
+.social-icons a {
+  color: var(--phosphor-dim-text);
+  border-bottom: none;
+  display: inline-flex;
+  transition: color 0.15s ease;
+}
+.social-icons a:hover { color: var(--phosphor); }
+.social-icons svg { width: 18px; height: 18px; display: block; }
 
 /* ---- Landing hero / logo animation ---- */
 .hero {
