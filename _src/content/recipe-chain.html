@@ -1,0 +1,18 @@
+            <section class="tool-card">
+                <div class="badge-clientside">&#128274; 100% CLIENT-SIDE</div>
+                <h2>&gt; RECIPE_CHAIN</h2>
+                <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">Pipe text through a sequence of operations, each step feeding the next. Base64, URL, HTML entities, hex, ROT13, XOR, SHA-256 - stack them in any order and watch every intermediate value.</p>
+                <div class="tool-workspace">
+                    <textarea id="recipe-input" placeholder="input for the whole chain..." oninput="executeRecipeChain()"></textarea>
+                </div>
+                <div style="margin-top:0.75rem; display:flex; gap:0.5rem; align-items:center;">
+                    <select id="recipe-op-picker" style="flex:1;"></select>
+                    <button onclick="addRecipeStep()">&gt; ADD STEP</button>
+                </div>
+                <div id="recipe-steps" style="margin-top:1rem;"></div>
+                <div style="margin-top:0.75rem;">
+                    <button onclick="copyRecipeOutput()">&gt; COPY FINAL OUTPUT</button>
+                </div>
+                <div class="result-block" id="recipe-result" style="margin-top:0.75rem;"></div>
+            </section>
+            <p style="padding:0 1.5rem; font-size:0.85rem;"><span style="color: var(--phosphor-dim-text)">See also:</span> <a href="base64.html">Base64 Codec</a> &middot; <a href="hash.html">Hash Generator</a> &middot; <a href="cipher-deck.html">Cipher Deck</a></p>

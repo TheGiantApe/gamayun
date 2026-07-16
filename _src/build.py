@@ -168,6 +168,10 @@ PAGES = [
          desc="Plain-English description and next 5 run times for any 5-field cron expression.",
          root="../", code="CRON_GEN", category="DEV_VAULT",
          js=["tool-cron.js"]),
+    dict(out="pages/recipe-chain.html", fragment="recipe-chain.html", title="Recipe Chain",
+         desc="Chain base64, URL, HTML entity, hex, ROT13, XOR, and SHA-256 operations in sequence, with every intermediate value shown live.",
+         root="../", code="RECIPE_CHAIN", category="DEV_VAULT",
+         js=["tool-recipe-chain.js"]),
 
     dict(out="pages/cipher-deck.html", fragment="cipher-deck.html", title="Cipher Deck",
          desc="Caesar shift (with brute-force), Vigenere, and Morse code (with audible playback).",

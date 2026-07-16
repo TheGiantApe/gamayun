@@ -187,6 +187,12 @@ const TOOL_LIST = [
     "url": "pages/cron-generator.html"
   },
   {
+    "title": "Recipe Chain",
+    "desc": "Chain base64, URL, HTML entity, hex, ROT13, XOR, and SHA-256 operations in sequence, with every intermediate value shown live.",
+    "code": "RECIPE_CHAIN",
+    "url": "pages/recipe-chain.html"
+  },
+  {
     "title": "Cipher Deck",
     "desc": "Caesar shift (with brute-force), Vigenere, and Morse code (with audible playback).",
     "code": "CIPHER_DECK",
