@@ -1,0 +1,31 @@
+            <section class="tool-card">
+                <div class="badge-clientside">&#128274; 100% CLIENT-SIDE</div>
+                <h2>&gt; CODE_SNAP</h2>
+                <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">Turn a code snippet into a shareable PNG. Pick a language for basic highlighting, a theme, download.</p>
+                <div class="tool-workspace">
+                    <textarea id="snap-input" placeholder="paste code here..." style="min-height:150px;"></textarea>
+                </div>
+                <div style="margin-top:0.75rem; display:flex; gap:1rem; flex-wrap:wrap; align-items:center; font-size:0.85rem; color:var(--phosphor-dim-text);">
+                    <label>language:
+                        <select id="snap-lang">
+                            <option value="javascript">JavaScript</option>
+                            <option value="python">Python</option>
+                            <option value="generic">Generic / none</option>
+                        </select>
+                    </label>
+                    <label>theme:
+                        <select id="snap-theme">
+                            <option value="phosphor">Phosphor (GAMAYUN)</option>
+                            <option value="dusk">Dusk</option>
+                            <option value="paper">Paper</option>
+                        </select>
+                    </label>
+                    <label><input type="checkbox" id="snap-chrome" checked> window chrome dots</label>
+                </div>
+                <div style="margin-top:0.75rem;">
+                    <button onclick="downloadCodeSnap()">&gt; DOWNLOAD PNG</button>
+                </div>
+                <div style="margin-top:1rem; overflow-x:auto;">
+                    <canvas id="snap-canvas" style="max-width:100%;"></canvas>
+                </div>
+            </section>

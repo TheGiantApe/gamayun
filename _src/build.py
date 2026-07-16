@@ -172,6 +172,10 @@ PAGES = [
          desc="Chain base64, URL, HTML entity, hex, ROT13, XOR, and SHA-256 operations in sequence, with every intermediate value shown live.",
          root="../", code="RECIPE_CHAIN", category="DEV_VAULT",
          js=["tool-recipe-chain.js"]),
+    dict(out="pages/code-snap.html", fragment="code-snap.html", title="Code Snap",
+         desc="Render a code snippet to a shareable, styled PNG with basic syntax highlighting.",
+         root="../", code="CODE_SNAP", category="DEV_VAULT",
+         js=["tool-code-snap.js"]),
 
     dict(out="pages/cipher-deck.html", fragment="cipher-deck.html", title="Cipher Deck",
          desc="Caesar shift (with brute-force), Vigenere, and Morse code (with audible playback).",

@@ -13,10 +13,10 @@
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9022981185791469" crossorigin="anonymous"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HTML Entity Codec // GAMAYUN⁺</title>
-    <meta name="description" content="Escape text to HTML entities, or decode entities back to text.">
-    <meta property="og:title" content="HTML Entity Codec // GAMAYUN⁺">
-    <meta property="og:description" content="Escape text to HTML entities, or decode entities back to text.">
+    <title>Code Snap // GAMAYUN⁺</title>
+    <meta name="description" content="Render a code snippet to a shareable, styled PNG with basic syntax highlighting.">
+    <meta property="og:title" content="Code Snap // GAMAYUN⁺">
+    <meta property="og:description" content="Render a code snippet to a shareable, styled PNG with basic syntax highlighting.">
     <meta property="og:type" content="website">
     <meta name="twitter:card" content="summary">
     <link href="https://fonts.googleapis.com/css2?family=VT323&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
@@ -52,7 +52,7 @@
                 <a href="../pages/ascii-art.html" class="nav-link">&gt; ASCII_BANNER</a>
                 <a href="../pages/base64.html" class="nav-link">&gt; BASE64_CODEC</a>
                 <a href="../pages/url-encode.html" class="nav-link">&gt; URL_CODEC</a>
-                <a href="../pages/html-entities.html" class="nav-link active">&gt; HTML_ENTITY_CODEC</a>
+                <a href="../pages/html-entities.html" class="nav-link">&gt; HTML_ENTITY_CODEC</a>
                 <a href="../pages/text-diff.html" class="nav-link">&gt; TEXT_DIFF</a>
                 <a href="../pages/pig-latin.html" class="nav-link">&gt; PIG_LATIN</a>
                 <a href="../pages/nato-phonetic.html" class="nav-link">&gt; NATO_PHONETIC</a>
@@ -79,7 +79,7 @@
                 <a href="../pages/jwt-decoder.html" class="nav-link">&gt; JWT_DECODER</a>
                 <a href="../pages/cron-generator.html" class="nav-link">&gt; CRON_GEN</a>
                 <a href="../pages/recipe-chain.html" class="nav-link">&gt; RECIPE_CHAIN</a>
-                <a href="../pages/code-snap.html" class="nav-link">&gt; CODE_SNAP</a>
+                <a href="../pages/code-snap.html" class="nav-link active">&gt; CODE_SNAP</a>
                 <div class="nav-section-label">[ GAMES & CURIOS ]</div>
                 <a href="../pages/cipher-deck.html" class="nav-link">&gt; CIPHER_DECK</a>
                 <a href="../pages/scrabble.html" class="nav-link">&gt; SCRABBLE_SOLVER</a>
@@ -97,20 +97,38 @@
         </aside>
 
         <main class="center-viewport" id="active-tool-zone">
-            <div class="breadcrumb">&gt; <a href="../index.html">DECK_LAUNCHER</a> <span class="breadcrumb-sep">/</span> TEXT_OPS <span class="breadcrumb-sep">/</span> HTML_ENTITY_CODEC</div>
+            <div class="breadcrumb">&gt; <a href="../index.html">DECK_LAUNCHER</a> <span class="breadcrumb-sep">/</span> DEV_VAULT <span class="breadcrumb-sep">/</span> CODE_SNAP</div>
             <section class="tool-card">
                 <div class="badge-clientside">&#128274; 100% CLIENT-SIDE</div>
-                <h2>&gt; HTML_ENTITY_CODEC</h2>
+                <h2>&gt; CODE_SNAP</h2>
+                <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">Turn a code snippet into a shareable PNG. Pick a language for basic highlighting, a theme, download.</p>
                 <div class="tool-workspace">
-                    <textarea id="entity-input" placeholder="text or &amp;entity; string..."></textarea>
+                    <textarea id="snap-input" placeholder="paste code here..." style="min-height:150px;"></textarea>
                 </div>
-                <div style="margin-top:0.5rem;">
-                    <button onclick="executeHtmlEntityEncode()">&gt; ENCODE</button>
-                    <button onclick="executeHtmlEntityDecode()">&gt; DECODE</button>
+                <div style="margin-top:0.75rem; display:flex; gap:1rem; flex-wrap:wrap; align-items:center; font-size:0.85rem; color:var(--phosphor-dim-text);">
+                    <label>language:
+                        <select id="snap-lang">
+                            <option value="javascript">JavaScript</option>
+                            <option value="python">Python</option>
+                            <option value="generic">Generic / none</option>
+                        </select>
+                    </label>
+                    <label>theme:
+                        <select id="snap-theme">
+                            <option value="phosphor">Phosphor (GAMAYUN)</option>
+                            <option value="dusk">Dusk</option>
+                            <option value="paper">Paper</option>
+                        </select>
+                    </label>
+                    <label><input type="checkbox" id="snap-chrome" checked> window chrome dots</label>
                 </div>
-                <div class="result-block" id="entity-result"></div>
+                <div style="margin-top:0.75rem;">
+                    <button onclick="downloadCodeSnap()">&gt; DOWNLOAD PNG</button>
+                </div>
+                <div style="margin-top:1rem; overflow-x:auto;">
+                    <canvas id="snap-canvas" style="max-width:100%;"></canvas>
+                </div>
             </section>
-            <p style="padding:0 1.5rem; font-size:0.85rem;"><span style="color: var(--phosphor-dim-text)">See also:</span> <a href="url-encode.html">URL Codec</a></p>
 
             <div class="ad-leaderboard">
                 <div class="wireframe-header">&#9888; INTERCEPTED CORPORATE DEBRIS — WIDE-BAND TRANSMISSION</div>
@@ -201,7 +219,7 @@
     <script src="../js/data-tool-list.js"></script>
     <script src="../js/site-search.js"></script>
     <script src="../js/page-transition.js"></script>
-    <script src="../js/tool-html-entities.js"></script>
+    <script src="../js/tool-code-snap.js"></script>
     <script>document.getElementById("footer-year").textContent = new Date().getFullYear();</script>
 </body>
 </html>

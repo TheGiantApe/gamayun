@@ -193,6 +193,12 @@ const TOOL_LIST = [
     "url": "pages/recipe-chain.html"
   },
   {
+    "title": "Code Snap",
+    "desc": "Render a code snippet to a shareable, styled PNG with basic syntax highlighting.",
+    "code": "CODE_SNAP",
+    "url": "pages/code-snap.html"
+  },
+  {
     "title": "Cipher Deck",
     "desc": "Caesar shift (with brute-force), Vigenere, and Morse code (with audible playback).",
     "code": "CIPHER_DECK",
