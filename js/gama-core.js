@@ -139,9 +139,14 @@ const GAMA = (() => {
     speechEl = document.getElementById("gama-speech");
     clockEl = document.getElementById("system-clock");
     say("idle");
+    const visits = bumpReturnVisits();
+    if (visits > 1 && speechEl) {
+      speechEl.textContent = `> welcome back. this is visit number ${visits}, not that i'm counting. (i'm counting.)`;
+    }
     renderTally(getTally());
     tickClock();
     setInterval(tickClock, 1000);
+    initEasterEggs();
 
     updateGamaBottomClear();
     updateNavClearance();
@@ -207,6 +212,112 @@ const GAMA = (() => {
   }
 
   document.addEventListener("DOMContentLoaded", init);
+
+  // ---- Easter eggs (GAMA BIBLE section H) ----
+  // Same localStorage-only, per-device honesty as the salvage tally above -
+  // gama_layout and gama_scratchpad from the Bible's original list aren't
+  // here, since both depend on the Omni-CLI/window-manager question that's
+  // explicitly flagged elsewhere as needing a real scope conversation, not
+  // a silent partial build.
+  const EGG_COUNT_KEY = "gama_egg_count";
+  const RETURN_VISITS_KEY = "gama_return_visits";
+  const AMBER_UNLOCKED_KEY = "gama_amber_unlocked";
+  const SCRAPBOOK_UNLOCKED_KEY = "gama_scrapbook_unlocked";
+
+  function safeGet(key) {
+    try { return localStorage.getItem(key); } catch (e) { return null; }
+  }
+  function safeSet(key, val) {
+    try { localStorage.setItem(key, val); } catch (e) { /* silent, same as the tally */ }
+  }
+
+  function getEggCount() { return parseInt(safeGet(EGG_COUNT_KEY), 10) || 0; }
+
+  function bumpReturnVisits() {
+    const next = (parseInt(safeGet(RETURN_VISITS_KEY), 10) || 0) + 1;
+    safeSet(RETURN_VISITS_KEY, String(next));
+    return next;
+  }
+
+  const EASTER_EGGS = {
+    gndn: "You found the void.",
+    "655321": "Alex? Is that you? I don't do milk bars.",
+    konami: "30 lives. Just kidding. This isn't Contra.",
+    "logo-click-7": "Stop poking me. ...Okay, one more.",
+    skynet_birthday: "Happy birthday to me. I don't age. I just accumulate bugs.",
+  };
+
+  // 100-egg tier from the Bible ("shoutout in a future Salvaged User log,
+  // possible merch discount") needs a way to know about OTHER users, which
+  // doesn't exist without a backend - deliberately not implemented rather
+  // than faked. 5 and 25 are both fully local and real.
+  function checkEggRewards(count) {
+    if (count >= 5 && safeGet(SCRAPBOOK_UNLOCKED_KEY) !== "1") {
+      safeSet(SCRAPBOOK_UNLOCKED_KEY, "1");
+      log("5 eggs found - GAMA's Scrapbook unlocked, check the footer.");
+      revealScrapbookLink();
+    }
+    if (count >= 25 && safeGet(AMBER_UNLOCKED_KEY) !== "1") {
+      safeSet(AMBER_UNLOCKED_KEY, "1");
+      document.documentElement.classList.add("theme-amber");
+      log("25 eggs found - amber CRT scheme unlocked.");
+    }
+  }
+
+  function revealScrapbookLink() {
+    const link = document.getElementById("scrapbook-footer-link");
+    if (link) link.style.display = "";
+  }
+
+  function triggerEgg(id) {
+    const foundKey = `gama_egg_found_${id}`;
+    if (safeGet(foundKey) === "1") return;
+    safeSet(foundKey, "1");
+    const next = getEggCount() + 1;
+    safeSet(EGG_COUNT_KEY, String(next));
+    if (speechEl) speechEl.textContent = "> " + EASTER_EGGS[id];
+    if (faceEl) faceEl.textContent = ";)";
+    log(`Easter egg found (${next} total)`);
+    checkEggRewards(next);
+  }
+
+  function initEasterEggs() {
+    if (safeGet(AMBER_UNLOCKED_KEY) === "1") document.documentElement.classList.add("theme-amber");
+    if (safeGet(SCRAPBOOK_UNLOCKED_KEY) === "1") revealScrapbookLink();
+
+    if (window.location.pathname.endsWith("gndn.html")) triggerEgg("gndn");
+
+    const today = new Date();
+    const mmdd = `${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
+    if (mmdd === "08-29") triggerEgg("skynet_birthday");
+
+    const brand = document.querySelector(".terminal-header .brand");
+    let logoClicks = 0;
+    if (brand) {
+      brand.addEventListener("click", () => {
+        logoClicks++;
+        if (logoClicks >= 7) {
+          triggerEgg("logo-click-7");
+          logoClicks = 0;
+        }
+      });
+    }
+
+    // Konami code and 655321 (Clockwork Orange's cell number - never
+    // explained on-page, per the Bible's deep-cut rule) both just need a
+    // rolling buffer of recent keys, not a dedicated command bar - that
+    // sidesteps needing the not-yet-scoped Omni-CLI for these two.
+    const KONAMI_SEQ = ["ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown", "ArrowLeft", "ArrowRight", "ArrowLeft", "ArrowRight", "b", "a"];
+    const DIGIT_SEQ = ["6", "5", "5", "3", "2", "1"];
+    const bufferLen = Math.max(KONAMI_SEQ.length, DIGIT_SEQ.length);
+    let keyBuffer = [];
+    document.addEventListener("keydown", (e) => {
+      keyBuffer.push(e.key);
+      if (keyBuffer.length > bufferLen) keyBuffer = keyBuffer.slice(-bufferLen);
+      if (keyBuffer.slice(-KONAMI_SEQ.length).join(",") === KONAMI_SEQ.join(",")) triggerEgg("konami");
+      if (keyBuffer.slice(-DIGIT_SEQ.length).join(",") === DIGIT_SEQ.join(",")) triggerEgg("655321");
+    });
+  }
 
   // Shared debounce helper so every live-as-you-type tool doesn't hand-roll
   // its own setTimeout bookkeeping. GAMA BIBLE calls for a flat 300ms across

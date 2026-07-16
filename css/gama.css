@@ -32,6 +32,19 @@
   --footer-h: auto;
 }
 
+/* Amber CRT scheme - the 25-easter-egg reward (see initEasterEggs() in
+   gama-core.js). Every color in this file is one of the custom
+   properties above (checked - zero stray hardcoded green literals), so
+   overriding just these four here reskins the entire site, not just a
+   few spots. */
+html.theme-amber {
+  --phosphor: #FFB000;
+  --phosphor-dim: rgba(255, 176, 0, 0.4);
+  --phosphor-faint: rgba(255, 176, 0, 0.15);
+  --phosphor-dim-text: #CC8B1E;
+  --void-raised: #1a130a;
+}
+
 * { box-sizing: border-box; }
 
 html, body {

@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
 Disallow: /pages/gndn.html
+Disallow: /pages/scrapbook.html
 Sitemap: https://gamayun.site/sitemap.xml

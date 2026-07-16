@@ -286,6 +286,9 @@ PAGES = [
     dict(out="pages/gndn.html", fragment="gndn.html", title="GNDN",
          desc="Goes nowhere, does nothing. Yet.", root="../", code=None,
          category=None, js=[]),
+    dict(out="pages/scrapbook.html", fragment="scrapbook.html", title="GAMA+'s Scrapbook",
+         desc="Five easter eggs found. A reward, not an ad for one.", root="../", code=None,
+         category=None, js=[]),
     dict(out="pages/404.html", fragment="404.html", title="Signal Lost",
          desc="Page not found.", root="../", code=None, category=None, js=[]),
 ]
@@ -535,8 +538,8 @@ def build_sitemap_xml():
     domain = "https://gamayun.site"
     urls = []
     for page in PAGES:
-        if page["out"].endswith("404.html") or page["out"].endswith("gndn.html"):
-            continue  # don't invite crawlers to index the error page or the easter egg
+        if page["out"].endswith("404.html") or page["out"].endswith("gndn.html") or page["out"].endswith("scrapbook.html"):
+            continue  # don't invite crawlers to index the error page or the easter eggs
         urls.append(f'  <url>\n    <loc>{domain}/{page["out"]}</loc>\n  </url>')
     xml = (
         '<?xml version="1.0" encoding="UTF-8"?>\n'
@@ -554,6 +557,7 @@ def build_robots_txt():
         "User-agent: *\n"
         "Allow: /\n"
         "Disallow: /pages/gndn.html\n"
+        "Disallow: /pages/scrapbook.html\n"
         "Sitemap: https://gamayun.site/sitemap.xml\n"
     )
     with open(os.path.join(ROOT_DIR, "robots.txt"), "w", encoding="utf-8") as f:
