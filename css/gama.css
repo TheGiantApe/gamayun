@@ -43,6 +43,10 @@ html, body {
   font-size: 17px;
   line-height: 1.5;
   min-height: 100%;
+  /* Ligatures reflow monospace terminal text in a way that looks like a
+     rendering bug (characters merging/shifting) rather than a font
+     feature - off everywhere, not just in code blocks. */
+  font-variant-ligatures: none;
 }
 
 body {
@@ -387,7 +391,8 @@ button, .btn {
   color: var(--phosphor);
   font-family: var(--font-mono);
   font-size: 1rem;
-  padding: 0.5rem 1rem;
+  padding: 0.65rem 1rem;
+  min-height: 44px;
   cursor: pointer;
 }
 button:hover, .btn:hover {
