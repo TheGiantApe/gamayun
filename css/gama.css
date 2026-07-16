@@ -683,6 +683,11 @@ button:hover, .btn:hover {
   justify-content: space-between;
   gap: 1rem;
 }
+/* Trademark/nominative-fair-use disclaimer, sitewide, one template edit
+   per GAMAYUN_tactics_strategy_bulletproofing.md section 4 - distinct
+   from .trust-block above it (that's privacy/no-accounts; this is "we
+   don't own or claim to be endorsed by anything we mention"). */
+.legal-shield { font-size: 0.75rem; max-width: 60ch; }
 .site-footer nav {
   display: flex;
   flex-wrap: wrap;
