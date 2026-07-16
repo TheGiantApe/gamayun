@@ -19,6 +19,12 @@ const TOOL_LIST = [
     "url": "pages/qr-code.html"
   },
   {
+    "title": "ToS Red-Flag Scanner",
+    "desc": "Paste any Terms of Service or contract text, flag common problematic clause patterns with plain-English explanations.",
+    "code": "TOS_SCAN",
+    "url": "pages/tos-scan.html"
+  },
+  {
     "title": "Case Converter",
     "desc": "Convert text to upper/lower/title/sentence/camel/snake/kebab case.",
     "code": "CASE_CONVERTER",

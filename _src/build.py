@@ -54,6 +54,10 @@ PAGES = [
          desc="Encode any text or URL as a QR code, versions 1-40 with selectable error correction.",
          root="../", code="QR_GEN", category="RECON_OPS",
          js=["tool-qr-code.js"]),
+    dict(out="pages/tos-scan.html", fragment="tos-scan.html", title="ToS Red-Flag Scanner",
+         desc="Paste any Terms of Service or contract text, flag common problematic clause patterns with plain-English explanations.",
+         root="../", code="TOS_SCAN", category="RECON_OPS",
+         js=["tool-tos-scan.js"]),
 
     dict(out="pages/text-case.html", fragment="text-case.html", title="Case Converter",
          desc="Convert text to upper/lower/title/sentence/camel/snake/kebab case.",
