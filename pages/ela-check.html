@@ -13,10 +13,10 @@
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9022981185791469" crossorigin="anonymous"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Base64 Codec // GAMAYUN⁺</title>
-    <meta name="description" content="Encode or decode Base64, UTF-8 safe including emoji.">
-    <meta property="og:title" content="Base64 Codec // GAMAYUN⁺">
-    <meta property="og:description" content="Encode or decode Base64, UTF-8 safe including emoji.">
+    <title>Error Level Analysis // GAMAYUN⁺</title>
+    <meta name="description" content="Re-compress an image and diff it against the original to surface possibly-edited regions.">
+    <meta property="og:title" content="Error Level Analysis // GAMAYUN⁺">
+    <meta property="og:description" content="Re-compress an image and diff it against the original to surface possibly-edited regions.">
     <meta property="og:type" content="website">
     <meta name="twitter:card" content="summary">
     <link href="https://fonts.googleapis.com/css2?family=VT323&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
@@ -50,7 +50,7 @@
                 <a href="../pages/letter-counter.html" class="nav-link">&gt; LETTER_COUNTER</a>
                 <a href="../pages/cool-text.html" class="nav-link">&gt; COOL_TEXT</a>
                 <a href="../pages/ascii-art.html" class="nav-link">&gt; ASCII_BANNER</a>
-                <a href="../pages/base64.html" class="nav-link active">&gt; BASE64_CODEC</a>
+                <a href="../pages/base64.html" class="nav-link">&gt; BASE64_CODEC</a>
                 <a href="../pages/url-encode.html" class="nav-link">&gt; URL_CODEC</a>
                 <a href="../pages/html-entities.html" class="nav-link">&gt; HTML_ENTITY_CODEC</a>
                 <a href="../pages/text-diff.html" class="nav-link">&gt; TEXT_DIFF</a>
@@ -70,7 +70,7 @@
                 <div class="nav-section-label">[ FILE_SALVAGE ]</div>
                 <a href="../pages/image-tools.html" class="nav-link">&gt; IMAGE_SALVAGE</a>
                 <a href="../pages/steganography.html" class="nav-link">&gt; STEGANOGRAPHY</a>
-                <a href="../pages/ela-check.html" class="nav-link">&gt; ELA_CHECK</a>
+                <a href="../pages/ela-check.html" class="nav-link active">&gt; ELA_CHECK</a>
                 <div class="nav-section-label">[ DEV_VAULT ]</div>
                 <a href="../pages/json-format.html" class="nav-link">&gt; JSON_FORMATTER</a>
                 <a href="../pages/uuid.html" class="nav-link">&gt; UUID_GEN</a>
@@ -98,20 +98,27 @@
         </aside>
 
         <main class="center-viewport" id="active-tool-zone">
-            <div class="breadcrumb">&gt; <a href="../index.html">DECK_LAUNCHER</a> <span class="breadcrumb-sep">/</span> TEXT_OPS <span class="breadcrumb-sep">/</span> BASE64_CODEC</div>
+            <div class="breadcrumb">&gt; <a href="../index.html">DECK_LAUNCHER</a> <span class="breadcrumb-sep">/</span> FILE_SALVAGE <span class="breadcrumb-sep">/</span> ELA_CHECK</div>
             <section class="tool-card">
                 <div class="badge-clientside">&#128274; 100% CLIENT-SIDE</div>
-                <h2>&gt; BASE64_CODEC</h2>
+                <h2>&gt; ELA_CHECK</h2>
+                <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">Error Level Analysis - re-compresses your image and diffs it against the original to surface regions that may have been edited in after the fact. Not proof of anything by itself. A signal to look closer, not a verdict.</p>
                 <div class="tool-workspace">
-                    <textarea id="b64-input" placeholder="text or base64 string..."></textarea>
+                    <input type="file" id="ela-file" accept="image/*">
                 </div>
-                <div style="margin-top:0.5rem;">
-                    <button onclick="executeBase64Encode()">&gt; ENCODE</button>
-                    <button onclick="executeBase64Decode()">&gt; DECODE</button>
+                <p id="ela-format-note" style="color: var(--phosphor-dim-text); font-size:0.8rem; margin-top:0.5rem;"></p>
+                <div style="margin-top:0.75rem; display:flex; gap:1.5rem; flex-wrap:wrap; align-items:center; font-size:0.85rem; color:var(--phosphor-dim-text);">
+                    <label>recompress quality: <input type="range" id="ela-quality" min="50" max="99" value="85"></label>
+                    <label>amplify: <input type="range" id="ela-amplify" min="1" max="40" value="10"></label>
                 </div>
-                <div class="result-block" id="b64-result"></div>
+                <div style="margin-top:0.75rem;">
+                    <button onclick="downloadElaOutput()">&gt; DOWNLOAD ELA OUTPUT</button>
+                </div>
+                <div style="margin-top:1rem; overflow-x:auto;">
+                    <canvas id="ela-output" style="max-width:100%; background:#111;"></canvas>
+                </div>
             </section>
-            <p style="padding:0 1.5rem; font-size:0.85rem;"><span style="color: var(--phosphor-dim-text)">See also:</span> <a href="links.html">Link Purge</a></p>
+            <p style="padding:0 1.5rem; font-size:0.85rem;"><span style="color: var(--phosphor-dim-text)">See also:</span> <a href="image-tools.html">Image Salvage</a> &middot; <a href="wiki-index.html">GAMA<sup>+</sup> Wiki: Reverse Image Search &amp; Metadata</a></p>
 
             <div class="ad-leaderboard">
                 <div class="wireframe-header">&#9888; INTERCEPTED CORPORATE DEBRIS — WIDE-BAND TRANSMISSION</div>
@@ -202,7 +209,7 @@
     <script src="../js/data-tool-list.js"></script>
     <script src="../js/site-search.js"></script>
     <script src="../js/page-transition.js"></script>
-    <script src="../js/tool-base64.js"></script>
+    <script src="../js/tool-ela-check.js"></script>
     <script>document.getElementById("footer-year").textContent = new Date().getFullYear();</script>
 </body>
 </html>

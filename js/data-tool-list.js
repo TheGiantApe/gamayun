@@ -145,6 +145,12 @@ const TOOL_LIST = [
     "url": "pages/steganography.html"
   },
   {
+    "title": "Error Level Analysis",
+    "desc": "Re-compress an image and diff it against the original to surface possibly-edited regions.",
+    "code": "ELA_CHECK",
+    "url": "pages/ela-check.html"
+  },
+  {
     "title": "JSON Formatter",
     "desc": "Beautify or minify JSON with real error messages.",
     "code": "JSON_FORMATTER",

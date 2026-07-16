@@ -139,6 +139,9 @@ PAGES = [
     dict(out="pages/steganography.html", fragment="steganography.html", title="Steganography",
          desc="Hide a text message inside an image via LSB encoding, or extract one that's already hidden.",
          root="../", code="STEGANOGRAPHY", category="FILE_SALVAGE", js=["tool-steganography.js"]),
+    dict(out="pages/ela-check.html", fragment="ela-check.html", title="Error Level Analysis",
+         desc="Re-compress an image and diff it against the original to surface possibly-edited regions.",
+         root="../", code="ELA_CHECK", category="FILE_SALVAGE", js=["tool-ela-check.js"]),
 
     dict(out="pages/json-format.html", fragment="json-format.html", title="JSON Formatter",
          desc="Beautify or minify JSON with real error messages.",
