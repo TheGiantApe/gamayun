@@ -137,6 +137,9 @@
 
                 <h2>&gt; Why There's No Paywall-Bypass Tool Here</h2>
                 <p>A specific category of tool exists purely to get around a publisher's paywall. They work. They also directly contradict the terms the publisher set for their own content, which is a different thing from reading an old cached copy of a page that's since changed. This is a deliberate line, not an oversight - if a category of link consistently shows up in every "secret websites" list and consistently doesn't show up here, this is why.</p>
+
+                <h2>&gt; Steganography</h2>
+                <p>Cryptography hides what a message says. Steganography hides that a message exists at all - an encrypted file announces "there's a secret here," a steganographic one doesn't. The word is Greek for "covered writing," and the technique predates computers by millennia: Herodotus records a Greek noble tattooing a message onto a slave's shaved scalp, then waiting for the hair to grow back over it before sending him through enemy territory. The digital version this site's <a href="steganography.html">Steganography</a> tool uses - LSB (least-significant-bit) encoding - swaps the lowest, least visually significant bit of each color channel in an image for a bit of the hidden message, nudging every affected pixel's color by an amount too small to see. It's also fragile on purpose: anything that recompresses the image (a JPEG re-save, an upload to a site that reprocesses photos) scrambles those low bits and destroys the message, which is why the tool only ever outputs PNG.</p>
             </article>
 
             <div class="ad-leaderboard">
