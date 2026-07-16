@@ -45,7 +45,7 @@ const GAMA = (() => {
   // try/catch since localStorage can throw (private browsing in some
   // browsers, quota, disabled entirely) - a vanity counter failing
   // silently is fine, it's not worth surfacing an error for.
-  const TALLY_KEY = "gamayun_salvage_tally";
+  const TALLY_KEY = "gama_salvage_tally";
 
   function getTally() {
     try {

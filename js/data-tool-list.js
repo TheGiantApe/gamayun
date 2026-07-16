@@ -241,9 +241,9 @@ const TOOL_LIST = [
     "url": "pages/about.html"
   },
   {
-    "title": "Chrono-Wiki",
-    "desc": "Technical trivia and dumb conversation-enders, filed as they get salvaged.",
-    "code": "CHRONO_WIKI",
+    "title": "GAMA+ Wiki",
+    "desc": "Technical trivia, privacy/OSINT reference entries, and dumb conversation-enders, filed as they get salvaged.",
+    "code": "GAMA_WIKI",
     "url": "pages/wiki-index.html"
   },
   {

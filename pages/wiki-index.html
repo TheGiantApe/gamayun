@@ -13,10 +13,10 @@
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9022981185791469" crossorigin="anonymous"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chrono-Wiki // GAMAYUN⁺</title>
-    <meta name="description" content="Technical trivia and dumb conversation-enders, filed as they get salvaged.">
-    <meta property="og:title" content="Chrono-Wiki // GAMAYUN⁺">
-    <meta property="og:description" content="Technical trivia and dumb conversation-enders, filed as they get salvaged.">
+    <title>GAMA+ Wiki // GAMAYUN⁺</title>
+    <meta name="description" content="Technical trivia, privacy/OSINT reference entries, and dumb conversation-enders, filed as they get salvaged.">
+    <meta property="og:title" content="GAMA+ Wiki // GAMAYUN⁺">
+    <meta property="og:description" content="Technical trivia, privacy/OSINT reference entries, and dumb conversation-enders, filed as they get salvaged.">
     <meta property="og:type" content="website">
     <meta name="twitter:card" content="summary">
     <link href="https://fonts.googleapis.com/css2?family=VT323&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
@@ -89,37 +89,50 @@
                 <a href="../pages/runes.html" class="nav-link">&gt; RUNES</a>
                 <div class="nav-section-label">[ SHIP'S LOG ]</div>
                 <a href="../pages/about.html" class="nav-link">&gt; ORIGIN_LOG</a>
-                <a href="../pages/wiki-index.html" class="nav-link active">&gt; CHRONO_WIKI</a>
+                <a href="../pages/wiki-index.html" class="nav-link active">&gt; GAMA_WIKI</a>
                 <a href="../pages/bluesky-feed.html" class="nav-link">&gt; SOCIAL_FEED</a>
             </nav>
         </aside>
 
         <main class="center-viewport" id="active-tool-zone">
-            <div class="breadcrumb">&gt; <a href="../index.html">DECK_LAUNCHER</a> <span class="breadcrumb-sep">/</span> SHIP'S LOG <span class="breadcrumb-sep">/</span> CHRONO_WIKI</div>
+            <div class="breadcrumb">&gt; <a href="../index.html">DECK_LAUNCHER</a> <span class="breadcrumb-sep">/</span> SHIP'S LOG <span class="breadcrumb-sep">/</span> GAMA_WIKI</div>
             <article class="prose">
-                <h1>&gt; CHRONO_WIKI // INDEX</h1>
-                <p>Started as a technical archive on how machines keep time, and how that keeping breaks. Still is, mostly - but a salvage archive picks up other things along the way too. Short entries, not exhaustive essays: trivia and dumb conversation-enders, filed here because they didn't fit anywhere else on the ship.</p>
+                <h1>&gt; GAMA<sup>+</sup> WIKI // INDEX</h1>
+                <p>Short entries, not exhaustive essays: things worth knowing, filed here because they didn't fit anywhere else on the ship. Started as a technical archive on how machines keep time - that's still in here, but it's one article now, not the whole point.</p>
 
-                <h2>&gt; The Unix Epoch &amp; ISO 8601, a primer</h2>
-                <p>Lives on the <a href="time-logic.html">Date Stamp Recon</a> page itself rather than duplicated here - the short version: machines count seconds from January 1, 1970, 00:00:00 UTC, and everything since is an incrementing integer. ISO 8601 is the closest thing to a universal human-readable format for the same information.</p>
-
-                <h2>&gt; The Year 2038 Problem</h2>
-                <p>A lot of systems store that Unix timestamp as a signed 32-bit integer. That format runs out of road on January 19, 2038, at 03:14:07 UTC - one second later, the count wraps back around to a large negative number, which most software reads as December 1901. Same failure mode as the Y2K panic, different root cause: Y2K was a storage-shortcut problem (two-digit years), this is an arithmetic-overflow problem (a fixed-width integer running out of bits). Most modern 64-bit systems already sidestepped it by widening the integer. Plenty of embedded and legacy 32-bit systems have not, and won't notice until they do.</p>
-
-                <h2>&gt; Timezone Offsets, and Why They Ruin Everything</h2>
-                <p>Timezones aren't clean hour-wide slices - India runs UTC+5:30, Nepal runs UTC+5:45, and some Pacific islands hop entire calendar days depending which side of the International Date Line their government prefers this decade. Add daylight saving time (which not every country observes, and which some countries have started and then abandoned more than once) and "what time is it in the other office" stops being arithmetic and starts being a lookup against a constantly-revised political database. This is also why <a href="time-logic.html">Date Stamp Recon</a> always shows UTC first and local time second, not the other way around - UTC doesn't change its mind.</p>
-
-                <h2>&gt; Leap Seconds</h2>
-                <p>Earth's rotation is slowing down, almost imperceptibly, so every so often an official leap second gets inserted to keep clock time lined up with the actual planet. It sounds harmless. In 2012, a leap second exposed a bug in the Linux kernel's futex (fast userspace mutex) implementation that pushed CPU usage on affected servers to 100% - Reddit, Mozilla, and Yelp all had a bad night over one extra second. Several major tech companies now "smear" the leap second across an entire day of very slightly slower ticks instead of inserting it all at once, specifically so this doesn't happen again.</p>
-
-                <h2>&gt; Why Cron Starts the Week on Sunday</h2>
-                <p><a href="cron-generator.html">Cron</a>'s day-of-week field runs 0-6 with Sunday as 0, not Monday - which trips up anyone used to a Monday-first calendar. It's inherited from POSIX C's <code>struct tm</code>, where <code>tm_wday</code> has always used the same 0-for-Sunday convention, which itself traces back to older US calendar conventions treating Sunday as the start of the week. Cron didn't invent the choice, it just never had a reason to break from the C standard library it was already built on top of.</p>
+                <h2>&gt; On Time, and Why It's Hard</h2>
+                <p><strong>The epoch.</strong> Machines count seconds from January 1, 1970, 00:00:00 UTC, and everything since is an incrementing integer. ISO 8601 is the closest thing to a universal human-readable format for the same information - see <a href="time-logic.html">Date Stamp Recon</a> for the actual converter.</p>
+                <p><strong>The Year 2038 Problem.</strong> A lot of systems store that Unix timestamp as a signed 32-bit integer. That format runs out of road on January 19, 2038, at 03:14:07 UTC - one second later, the count wraps back around to a large negative number, which most software reads as December 1901. Same failure mode as the Y2K panic, different root cause: Y2K was a storage-shortcut problem (two-digit years), this is an arithmetic-overflow problem (a fixed-width integer running out of bits). Most modern 64-bit systems already sidestepped it. Plenty of embedded and legacy 32-bit systems have not, and won't notice until they do.</p>
+                <p><strong>Timezones ruin everything.</strong> They aren't clean hour-wide slices - India runs UTC+5:30, Nepal runs UTC+5:45, and some Pacific islands hop entire calendar days depending which side of the International Date Line their government prefers this decade. Add daylight saving time (which not every country observes, and which some countries have started and then abandoned more than once) and "what time is it in the other office" stops being arithmetic and starts being a lookup against a constantly-revised political database. This is also why Date Stamp Recon always shows UTC first and local time second - UTC doesn't change its mind.</p>
+                <p><strong>Leap seconds.</strong> Earth's rotation is slowing down, almost imperceptibly, so every so often an official leap second gets inserted to keep clock time lined up with the actual planet. In 2012, a leap second exposed a bug in the Linux kernel's futex implementation that pushed CPU usage on affected servers to 100% - Reddit, Mozilla, and Yelp all had a bad night over one extra second. Several major tech companies now "smear" the leap second across an entire day of very slightly slower ticks instead of inserting it all at once, specifically so this doesn't happen again.</p>
+                <p><strong>Why cron starts the week on Sunday.</strong> <a href="cron-generator.html">Cron</a>'s day-of-week field runs 0-6 with Sunday as 0, not Monday. It's inherited from POSIX C's <code>struct tm</code>, where <code>tm_wday</code> has always used the same 0-for-Sunday convention, which itself traces back to older US calendar conventions treating Sunday as the start of the week. Cron didn't invent the choice, it just never had a reason to break from the C standard library it was already built on top of.</p>
 
                 <h2>&gt; Where "Foo" and "Bar" Came From</h2>
                 <p>The most commonly cited origin traces "foo" and "bar" back to military slang from WWII - specifically FUBAR ("[fouled] up beyond all recognition") - which filtered into early hacker culture (MIT's Tech Model Railroad Club and, later, ARPANET documentation) as a placeholder pair for "some arbitrary thing" and "some other arbitrary thing." The etymology is debated in the details, but the FUBAR connection is the explanation the Jargon File itself settles on. Nobody remembers who used it first in code; everybody's used it since.</p>
 
                 <h2>&gt; The Odds a UUID Ever Repeats</h2>
                 <p>A version-4 <a href="uuid.html">UUID</a> has 122 genuinely random bits (the other 6 are fixed, marking it as version 4). Birthday-paradox math says you'd need to generate roughly 2.71 quintillion of them before the odds of any two colliding crossed 50%. Every UUID this site has ever generated, and every one it ever will, is functionally guaranteed unique - not because the math forbids a collision, but because the universe will have other problems long before that number of UUIDs gets generated by anyone.</p>
+
+                <h2>&gt; Browser Fingerprinting</h2>
+                <p>Cookies aren't the only way sites track you. Your browser leaks a surprising amount of identifying detail just by existing - which GPU you have (via WebGL), tiny timing differences in your CPU (via <code>performance.now()</code>), even the exact order your OS signs network packets. None of it requires a cookie, none of it requires you to be logged in, and clearing your cookies or using a VPN doesn't touch most of it. "I'm not logged in and I cleared my cookies" is not the same thing as "I'm not being tracked" - fingerprinting techniques were specifically built to survive the privacy measures people actually use.</p>
+
+                <h2>&gt; OSINT (Open Source Intelligence)</h2>
+                <p>Gathering information from publicly available sources - search engines, public records, social media, breach-notification services - rather than hacking or stealing anything. A breach checker like Have I Been Pwned is OSINT. A site that sells you the actual leaked passwords is not OSINT, it's trafficking in stolen data. A huge amount of "hacker tool" content online blurs "checks if you were exposed" together with "lets you access what was stolen." They're not the same thing legally or ethically, and knowing the difference is the whole skill.</p>
+
+                <h2>&gt; Reverse Image Search &amp; Metadata</h2>
+                <p>Every photo carries hidden data (EXIF) - camera model, GPS coordinates, timestamp - unless it's been stripped. Reverse image search tools can also tell you where else online a given image has appeared, which is how a lot of "this photo is old, it's not from the event people are claiming" debunks actually get done. See <a href="image-tools.html">Image Salvage</a> to check or strip what's attached to your own files.</p>
+
+                <h2>&gt; Terms of Service (and Why Nobody Reads Them)</h2>
+                <p>The average ToS document is written to be technically disclosed and practically unread. A project called Terms of Service; Didn't Read exists specifically to grade services on what their terms actually say in plain language, rather than what the marketing page implies. Knowing a service's real data practices before you sign up beats finding out after.</p>
+
+                <h2>&gt; Digital Preservation &amp; Link Rot</h2>
+                <p>The average webpage doesn't survive very long - a meaningful fraction of links go dead within a few years. The Internet Archive's Wayback Machine crawls and stores snapshots of pages over time specifically to fight this, and anyone can manually save a page's current state to it. If a page matters enough to cite or rely on, it's worth archiving before it isn't there anymore.</p>
+
+                <h2>&gt; Google Dorking</h2>
+                <p>Google's search operators (<code>site:</code>, <code>filetype:</code>, <code>intitle:</code>, and combinations of them) can surface content that's technically public but never meant to be easily found - exposed documents, misconfigured directories, forgotten login pages. It's just advanced search syntax, but the results it turns up can look like they came from somewhere darker than "a search engine." The technique is legal - it's just Google search. What you do with what you find is where the ethics and the law both start to matter.</p>
+
+                <h2>&gt; Why There's No Paywall-Bypass Tool Here</h2>
+                <p>A specific category of tool exists purely to get around a publisher's paywall. They work. They also directly contradict the terms the publisher set for their own content, which is a different thing from reading an old cached copy of a page that's since changed. This is a deliberate line, not an oversight - if a category of link consistently shows up in every "secret websites" list and consistently doesn't show up here, this is why.</p>
             </article>
 
             <div class="ad-leaderboard">
