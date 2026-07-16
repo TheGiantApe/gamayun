@@ -118,6 +118,9 @@ async function executeStegoEncode() {
   if (!stegoEncodeFile) { GAMA.say("error"); return; }
   const message = document.getElementById("stego-message").value;
   const out = document.getElementById("stego-encode-result");
+  const link = document.getElementById("stego-download-link");
+  out.classList.remove("is-done");
+  link.style.display = "none";
   if (!message) { out.textContent = "// enter a message to hide first"; return; }
   GAMA.say("working");
   try {
@@ -135,11 +138,13 @@ async function executeStegoEncode() {
     ctx.putImageData(imageData, 0, 0);
 
     canvas.toBlob((blob) => {
-      const link = document.getElementById("stego-download-link");
+      const downloadName = stegoEncodeFile.name.replace(/\.[^.]+$/, "") + "-salvaged-intel.png";
       link.href = URL.createObjectURL(blob);
-      link.download = stegoEncodeFile.name.replace(/\.[^.]+$/, "") + "-salvaged-intel.png";
+      link.download = downloadName;
       link.style.display = "inline-block";
-      out.textContent = `// embedded ${messageBytes.length} bytes. download as PNG - any other format (or re-saving as JPEG) will destroy the hidden data.`;
+      link.dataset.clicked = "";
+      out.textContent = `✓ DONE - ${messageBytes.length} bytes embedded. Click DOWNLOAD PNG below to save the file - any other format (or re-saving as JPEG) will destroy the hidden data.`;
+      out.classList.add("is-done");
       GAMA.say("success");
       GAMA.log(`Embedded ${messageBytes.length}-byte message via LSB`);
     }, "image/png");
@@ -147,6 +152,14 @@ async function executeStegoEncode() {
     GAMA.say("error");
     out.textContent = "// " + e.message;
   }
+}
+
+function confirmStegoDownload() {
+  const link = document.getElementById("stego-download-link");
+  const out = document.getElementById("stego-encode-result");
+  if (link.dataset.clicked === "1") return;
+  link.dataset.clicked = "1";
+  out.textContent = `✓ SAVED - "${link.download}" sent to your browser's downloads. Remember: only PNG preserves the hidden message.`;
 }
 
 async function handleStegoDecodeFile(file) {
@@ -158,6 +171,7 @@ async function handleStegoDecodeFile(file) {
 async function executeStegoDecode() {
   if (!stegoDecodeFile) return;
   const out = document.getElementById("stego-decode-result");
+  out.classList.remove("is-done");
   GAMA.say("working");
   try {
     const img = await loadImageFromFile(stegoDecodeFile);
@@ -170,7 +184,8 @@ async function executeStegoDecode() {
     const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
     const messageBytes = decodeLsb(imageData.data);
     const text = new TextDecoder("utf-8", { fatal: false }).decode(messageBytes);
-    out.textContent = text;
+    out.textContent = `✓ EXTRACTED (${messageBytes.length} bytes):\n${text}`;
+    out.classList.add("is-done");
     GAMA.say("success");
     GAMA.log(`Extracted a ${messageBytes.length}-byte hidden message`);
   } catch (e) {
