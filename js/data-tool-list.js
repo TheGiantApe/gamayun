@@ -217,10 +217,10 @@ const TOOL_LIST = [
     "url": "pages/cipher-deck.html"
   },
   {
-    "title": "Scrabble Solver",
-    "desc": "Find every valid word from a letter rack, including blank tiles, sorted by point value.",
-    "code": "SCRABBLE_SOLVER",
-    "url": "pages/scrabble.html"
+    "title": "Letter Rack Solver",
+    "desc": "Find every valid word from a letter rack, including blank tiles, sorted by point value. Independent tool, not affiliated with or endorsed by any board game publisher.",
+    "code": "LETTER_RACK_SOLVER",
+    "url": "pages/letter-rack-solver.html"
   },
   {
     "title": "Anagram Solver",

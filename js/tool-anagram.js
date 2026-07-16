@@ -1,8 +1,8 @@
 /* ANAGRAM_SOLVER — depends on WORD_LIST from data-words.js (same 52k-word
-   list Scrabble Solver and Num Spell use). Two result tiers: exact anagrams
+   list Letter Rack Solver and Num Spell use). Two result tiers: exact anagrams
    (use every letter, the classic puzzle-page definition of "anagram") and
    sub-words (valid words using a subset of the letters) - most anagram
-   sites show both, and they're a genuinely different query from Scrabble
+   sites show both, and they're a genuinely different query from Letter Rack
    Solver's rack-with-wildcards search. */
 
 function letterCounts(s) {
