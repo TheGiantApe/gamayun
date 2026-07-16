@@ -131,11 +131,15 @@
                 <div class="badge-clientside">&#128274; 100% CLIENT-SIDE</div>
                 <h2>&gt; JSON_FORMATTER</h2>
                 <div class="tool-workspace">
-                    <textarea id="json-input" placeholder='{"paste":"json here"}'></textarea>
+                    <textarea id="json-input" placeholder='{"paste":"json here"}' oninput="executeJsonFormatDebounced()"></textarea>
                 </div>
-                <div style="margin-top:0.5rem;">
-                    <button onclick="executeJsonFormat('beautify')">&gt; BEAUTIFY</button>
-                    <button onclick="executeJsonFormat('minify')">&gt; MINIFY</button>
+                <div style="margin-top:0.5rem; display:flex; gap:1rem; flex-wrap:wrap;">
+                    <label style="font-size:0.85rem; color:var(--phosphor-dim-text);">
+                        <input type="radio" name="json-mode" value="beautify" checked onchange="executeJsonFormatDebounced()"> beautify
+                    </label>
+                    <label style="font-size:0.85rem; color:var(--phosphor-dim-text);">
+                        <input type="radio" name="json-mode" value="minify" onchange="executeJsonFormatDebounced()"> minify
+                    </label>
                 </div>
                 <pre class="result-block" id="json-result" style="overflow-x:auto;"></pre>
             </section>

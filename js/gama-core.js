@@ -208,5 +208,19 @@ const GAMA = (() => {
 
   document.addEventListener("DOMContentLoaded", init);
 
-  return { say, log, STATES };
+  // Shared debounce helper so every live-as-you-type tool doesn't hand-roll
+  // its own setTimeout bookkeeping. GAMA BIBLE calls for a flat 300ms across
+  // the whole site, so callers just wrap their execute function once at
+  // load time: `const runDebounced = GAMA.debounce(run, 300);` then wire
+  // oninput to runDebounced, not a fresh call to GAMA.debounce() itself
+  // (that would create a new timer with no memory of the previous one).
+  function debounce(fn, wait) {
+    let timer = null;
+    return function debounced(...args) {
+      clearTimeout(timer);
+      timer = setTimeout(() => fn.apply(this, args), wait);
+    };
+  }
+
+  return { say, log, STATES, debounce };
 })();

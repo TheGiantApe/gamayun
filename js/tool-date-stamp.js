@@ -75,6 +75,8 @@ function executeDateStampNow() {
   renderDateStamp(new Date(), "now");
 }
 
+const executeDateStampDebounced = GAMA.debounce(executeDateStamp, 300);
+
 document.addEventListener("DOMContentLoaded", () => {
   if (document.getElementById("date-input")) executeDateStampNow();
 });

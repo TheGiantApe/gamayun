@@ -9,22 +9,25 @@ function urlDecode(str) {
   return decodeURIComponent(str.replace(/\+/g, " "));
 }
 
-function executeUrlEncode() {
+// A real percent-encoded byte (%2F, %3D, ...) is a hex pair that plain text
+// essentially never contains by coincidence, so direction can be
+// auto-detected instead of making the user pick it.
+const URL_ENCODED_RE = /%[0-9A-Fa-f]{2}/;
+function executeUrlAuto() {
   const raw = document.getElementById("url-input").value;
   const out = document.getElementById("url-result");
   if (!raw) { GAMA.say("idle"); out.textContent = ""; return; }
-  out.textContent = urlEncode(raw);
-  GAMA.say("success");
-}
-function executeUrlDecode() {
-  const raw = document.getElementById("url-input").value;
-  const out = document.getElementById("url-result");
-  if (!raw) { GAMA.say("idle"); out.textContent = ""; return; }
-  try {
-    out.textContent = urlDecode(raw);
+  if (URL_ENCODED_RE.test(raw)) {
+    try {
+      out.textContent = urlDecode(raw);
+      GAMA.say("success");
+    } catch (e) {
+      GAMA.say("error");
+      out.textContent = "// not valid percent-encoding";
+    }
+  } else {
+    out.textContent = urlEncode(raw);
     GAMA.say("success");
-  } catch (e) {
-    GAMA.say("error");
-    out.textContent = "// not valid percent-encoding";
   }
 }
+const executeUrlAutoDebounced = GAMA.debounce(executeUrlAuto, 300);

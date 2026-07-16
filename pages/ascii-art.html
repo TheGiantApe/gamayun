@@ -132,8 +132,8 @@
                 <h2>&gt; ASCII_BANNER</h2>
                 <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">Renders your text as a FIGlet-style banner — same technique as the classic terminal/README ASCII banners. Supports standard ASCII (letters, digits, punctuation).</p>
                 <div class="tool-workspace">
-                    <input type="text" id="ascii-input" placeholder="GAMA">
-                    <select id="ascii-font" style="max-width:160px;">
+                    <input type="text" id="ascii-input" placeholder="GAMA" oninput="executeAsciiArtDebounced()">
+                    <select id="ascii-font" style="max-width:160px;" onchange="executeAsciiArtDebounced()">
                         <option value="smslant">SmSlant</option>
                         <option value="standard">Standard</option>
                         <option value="slant">Slant</option>
@@ -141,7 +141,6 @@
                         <option value="big">Big</option>
                         <option value="shadow">Shadow</option>
                     </select>
-                    <button onclick="executeAsciiArt()">&gt; RENDER</button>
                 </div>
                 <pre class="result-block" id="ascii-result" style="font-size:0.8rem; line-height:1rem; overflow-x:auto; overflow-y:auto; max-height:16rem;"></pre>
             </section>

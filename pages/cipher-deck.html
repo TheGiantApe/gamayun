@@ -148,22 +148,25 @@
 
                 <h3 style="font-family:var(--font-display); font-size:1rem; margin:2rem 0 0.5rem;">&gt; VIGENERE</h3>
                 <div class="tool-workspace">
-                    <textarea id="cipher-vig-input" placeholder="text..."></textarea>
+                    <textarea id="cipher-vig-input" placeholder="text..." oninput="executeVigenereDebounced()"></textarea>
                 </div>
-                <div style="margin-top:0.5rem;">
-                    <input type="text" id="cipher-vig-key" placeholder="key (letters only)" style="max-width:200px;">
-                    <button onclick="executeVigenere(false)">&gt; ENCODE</button>
-                    <button onclick="executeVigenere(true)">&gt; DECODE</button>
+                <div style="margin-top:0.5rem; display:flex; align-items:center; gap:1rem; flex-wrap:wrap;">
+                    <input type="text" id="cipher-vig-key" placeholder="key (letters only)" style="max-width:200px;" oninput="executeVigenereDebounced()">
+                    <label style="font-size:0.85rem; color:var(--phosphor-dim-text);">
+                        <input type="radio" name="cipher-vig-mode" value="encode" checked onchange="executeVigenereDebounced()"> encode
+                    </label>
+                    <label style="font-size:0.85rem; color:var(--phosphor-dim-text);">
+                        <input type="radio" name="cipher-vig-mode" value="decode" onchange="executeVigenereDebounced()"> decode
+                    </label>
                 </div>
                 <pre class="result-block" id="cipher-vig-result"></pre>
 
                 <h3 style="font-family:var(--font-display); font-size:1rem; margin:2rem 0 0.5rem;">&gt; MORSE</h3>
+                <p style="color: var(--phosphor-dim-text); font-size:0.8rem;">Direction is auto-detected - type plain text or paste Morse (. - / space), the result updates either way.</p>
                 <div class="tool-workspace">
-                    <textarea id="cipher-morse-input" placeholder="text, or morse code (. - / space)..."></textarea>
+                    <textarea id="cipher-morse-input" placeholder="text, or morse code (. - / space)..." oninput="executeMorseAutoDebounced()"></textarea>
                 </div>
                 <div style="margin-top:0.5rem;">
-                    <button onclick="executeMorseEncode()">&gt; TEXT&nbsp;&rarr;&nbsp;MORSE</button>
-                    <button onclick="executeMorseDecode()">&gt; MORSE&nbsp;&rarr;&nbsp;TEXT</button>
                     <button onclick="executeMorsePlay()">&gt; &#128266; PLAY</button>
                 </div>
                 <pre class="result-block" id="cipher-morse-result"></pre>

@@ -116,9 +116,10 @@ function executeCaesar() {
   GAMA.say("success");
 }
 
-function executeVigenere(decode) {
+function executeVigenere() {
   const text = document.getElementById("cipher-vig-input").value;
   const key = document.getElementById("cipher-vig-key").value;
+  const decode = document.querySelector('input[name="cipher-vig-mode"]:checked').value === "decode";
   const out = document.getElementById("cipher-vig-result");
   if (!text) { out.textContent = ""; return; }
   try {
@@ -130,19 +131,21 @@ function executeVigenere(decode) {
   }
 }
 
-function executeMorseEncode() {
-  const text = document.getElementById("cipher-morse-input").value;
+// Morse only ever uses ".", "-", "/", and whitespace - anything else means
+// the input is plain text - so direction can be auto-detected instead of
+// making the user pick it, same as a human glancing at the input would.
+const MORSE_CHARSET_RE = /^[.\-/\s]+$/;
+function executeMorseAuto() {
+  const raw = document.getElementById("cipher-morse-input").value;
   const out = document.getElementById("cipher-morse-result");
-  out.textContent = text ? textToMorse(text) : "";
-  GAMA.say(text ? "success" : "idle");
-}
-function executeMorseDecode() {
-  const morse = document.getElementById("cipher-morse-input").value;
-  const out = document.getElementById("cipher-morse-result");
-  out.textContent = morse ? morseToText(morse) : "";
-  GAMA.say(morse ? "success" : "idle");
+  if (!raw.trim()) { out.textContent = ""; GAMA.say("idle"); return; }
+  out.textContent = MORSE_CHARSET_RE.test(raw) ? morseToText(raw) : textToMorse(raw);
+  GAMA.say("success");
 }
 function executeMorsePlay() {
   const content = document.getElementById("cipher-morse-result").textContent || textToMorse(document.getElementById("cipher-morse-input").value);
   if (content) playMorse(content);
 }
+
+const executeVigenereDebounced = GAMA.debounce(executeVigenere, 300);
+const executeMorseAutoDebounced = GAMA.debounce(executeMorseAuto, 300);

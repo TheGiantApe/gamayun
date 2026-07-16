@@ -54,3 +54,4 @@ function executeLinkClean() {
     );
   }, 250);
 }
+const executeLinkCleanDebounced = GAMA.debounce(executeLinkClean, 300);

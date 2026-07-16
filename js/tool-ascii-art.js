@@ -76,6 +76,7 @@ function executeAsciiArt() {
     }
   }, 100);
 }
+const executeAsciiArtDebounced = GAMA.debounce(executeAsciiArt, 300);
 
 // Populated from the ASCII_FONTS registry once all data-figlet-*.js files
 // have loaded (they're plain <script> tags before this one - see build.py).

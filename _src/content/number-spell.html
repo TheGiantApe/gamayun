@@ -3,8 +3,7 @@
                 <h2>&gt; NUM_SPELL</h2>
                 <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">What does your phone number spell? Classic T9 keypad mapping, checked against a ~52,000-word dictionary. Longest matches surface first.</p>
                 <div class="tool-workspace">
-                    <input type="text" id="phone-input" placeholder="e.g. 555-1234 or 8005551212">
-                    <button onclick="executeNumberSpell()">&gt; DECODE</button>
+                    <input type="text" id="phone-input" placeholder="e.g. 555-1234 or 8005551212" oninput="executeNumberSpellDebounced()">
                 </div>
                 <div class="result-block" id="spell-result"></div>
             </section>

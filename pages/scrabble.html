@@ -132,8 +132,7 @@
                 <h2>&gt; SCRABBLE_SOLVER</h2>
                 <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">Enter your letter rack (use ? for blank tiles). Finds every valid word makeable, sorted by Scrabble point value.</p>
                 <div class="tool-workspace">
-                    <input type="text" id="rack-input" placeholder="e.g. retinas or a?ple">
-                    <button onclick="executeScrabble()">&gt; SOLVE</button>
+                    <input type="text" id="rack-input" placeholder="e.g. retinas or a?ple" oninput="executeScrabbleDebounced()">
                 </div>
                 <div class="result-block" id="scrabble-result"></div>
             </section>

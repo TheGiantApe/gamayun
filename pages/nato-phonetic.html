@@ -132,11 +132,15 @@
                 <h2>&gt; NATO_PHONETIC</h2>
                 <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">ICAO/NATO spelling alphabet, both directions. Spaces encode as "/"; decoding is case-insensitive and loses the original casing (the alphabet is spoken, not written).</p>
                 <div class="tool-workspace">
-                    <textarea id="nato-input" placeholder="text, or phonetic words separated by spaces..."></textarea>
+                    <textarea id="nato-input" placeholder="text, or phonetic words separated by spaces..." oninput="executeNatoDebounced()"></textarea>
                 </div>
-                <div style="margin-top:0.5rem;">
-                    <button onclick="executeNatoEncode()">&gt; TEXT &rarr; PHONETIC</button>
-                    <button onclick="executeNatoDecode()">&gt; PHONETIC &rarr; TEXT</button>
+                <div style="margin-top:0.5rem; display:flex; gap:1rem; flex-wrap:wrap;">
+                    <label style="font-size:0.85rem; color:var(--phosphor-dim-text);">
+                        <input type="radio" name="nato-mode" value="encode" checked onchange="executeNatoDebounced()"> text &rarr; phonetic
+                    </label>
+                    <label style="font-size:0.85rem; color:var(--phosphor-dim-text);">
+                        <input type="radio" name="nato-mode" value="decode" onchange="executeNatoDebounced()"> phonetic &rarr; text
+                    </label>
                 </div>
                 <div class="result-block" id="nato-result"></div>
             </section>

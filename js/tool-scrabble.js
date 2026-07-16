@@ -64,3 +64,4 @@ function executeScrabble() {
     GAMA.log(`Rack "${raw}" -> ${results.length} valid words`);
   }, 150);
 }
+const executeScrabbleDebounced = GAMA.debounce(executeScrabble, 300);

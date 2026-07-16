@@ -12,8 +12,9 @@ function formatJson(raw, mode) {
   return { ok: true, result: out };
 }
 
-function executeJsonFormat(mode) {
+function executeJsonFormat() {
   const raw = document.getElementById("json-input").value;
+  const mode = document.querySelector('input[name="json-mode"]:checked').value;
   const out = document.getElementById("json-result");
   if (!raw.trim()) { GAMA.say("idle"); out.textContent = ""; return; }
   const res = formatJson(raw, mode);
@@ -25,3 +26,4 @@ function executeJsonFormat(mode) {
   GAMA.say("success");
   out.textContent = res.result;
 }
+const executeJsonFormatDebounced = GAMA.debounce(executeJsonFormat, 300);

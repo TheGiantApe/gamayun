@@ -131,11 +131,15 @@
                 <div class="badge-clientside">&#128274; 100% CLIENT-SIDE</div>
                 <h2>&gt; BASE64_CODEC</h2>
                 <div class="tool-workspace">
-                    <textarea id="b64-input" placeholder="text or base64 string..."></textarea>
+                    <textarea id="b64-input" placeholder="text or base64 string..." oninput="executeBase64Debounced()"></textarea>
                 </div>
-                <div style="margin-top:0.5rem;">
-                    <button onclick="executeBase64Encode()">&gt; ENCODE</button>
-                    <button onclick="executeBase64Decode()">&gt; DECODE</button>
+                <div style="margin-top:0.5rem; display:flex; gap:1rem; flex-wrap:wrap;">
+                    <label style="font-size:0.85rem; color:var(--phosphor-dim-text);">
+                        <input type="radio" name="b64-mode" value="encode" checked onchange="executeBase64Debounced()"> encode
+                    </label>
+                    <label style="font-size:0.85rem; color:var(--phosphor-dim-text);">
+                        <input type="radio" name="b64-mode" value="decode" onchange="executeBase64Debounced()"> decode
+                    </label>
                 </div>
                 <div class="result-block" id="b64-result"></div>
             </section>

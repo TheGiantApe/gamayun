@@ -26,17 +26,15 @@ function htmlEntityDecode(str) {
   return doc.documentElement.textContent;
 }
 
-function executeHtmlEntityEncode() {
+// A real entity reference (&amp; &#39; &#x27; ...) is a syntax no plain
+// sentence produces by accident, so direction can be auto-detected instead
+// of making the user pick it.
+const HTML_ENTITY_RE = /&(#\d+|#x[0-9a-f]+|[a-z][a-z0-9]*);/i;
+function executeHtmlEntityAuto() {
   const raw = document.getElementById("entity-input").value;
   const out = document.getElementById("entity-result");
   if (!raw) { GAMA.say("idle"); out.textContent = ""; return; }
-  out.textContent = htmlEntityEncode(raw);
+  out.textContent = HTML_ENTITY_RE.test(raw) ? htmlEntityDecode(raw) : htmlEntityEncode(raw);
   GAMA.say("success");
 }
-function executeHtmlEntityDecode() {
-  const raw = document.getElementById("entity-input").value;
-  const out = document.getElementById("entity-result");
-  if (!raw) { GAMA.say("idle"); out.textContent = ""; return; }
-  out.textContent = htmlEntityDecode(raw);
-  GAMA.say("success");
-}
+const executeHtmlEntityAutoDebounced = GAMA.debounce(executeHtmlEntityAuto, 300);

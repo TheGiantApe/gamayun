@@ -130,12 +130,9 @@
             <section class="tool-card">
                 <div class="badge-clientside">&#128274; 100% CLIENT-SIDE</div>
                 <h2>&gt; URL_CODEC</h2>
+                <p style="color: var(--phosphor-dim-text); font-size:0.8rem;">Direction is auto-detected - paste a percent-encoded string to decode it, or plain text to encode it.</p>
                 <div class="tool-workspace">
-                    <textarea id="url-input" placeholder="text or a percent-encoded URL component..."></textarea>
-                </div>
-                <div style="margin-top:0.5rem;">
-                    <button onclick="executeUrlEncode()">&gt; ENCODE</button>
-                    <button onclick="executeUrlDecode()">&gt; DECODE</button>
+                    <textarea id="url-input" placeholder="text or a percent-encoded URL component..." oninput="executeUrlAutoDebounced()"></textarea>
                 </div>
                 <div class="result-block" id="url-result"></div>
             </section>

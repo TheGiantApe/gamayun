@@ -54,3 +54,4 @@ function executeTextDiff() {
   GAMA.say(added || removed ? "success" : "idle");
   GAMA.log(`Diffed: +${added} / -${removed} lines`);
 }
+const executeTextDiffDebounced = GAMA.debounce(executeTextDiff, 300);

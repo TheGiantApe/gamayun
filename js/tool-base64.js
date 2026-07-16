@@ -7,27 +7,20 @@ function b64Decode(str) {
   return decodeURIComponent(escape(atob(str)));
 }
 
-function executeBase64Encode() {
+// Valid base64 and plain text share too much of the same character set to
+// tell them apart reliably (short plain words are often valid base64 too),
+// so this stays a real mode toggle instead of auto-detection.
+function executeBase64() {
   const raw = document.getElementById("b64-input").value;
+  const decode = document.querySelector('input[name="b64-mode"]:checked').value === "decode";
   const out = document.getElementById("b64-result");
   if (!raw) { GAMA.say("idle"); out.textContent = ""; return; }
   try {
-    out.textContent = b64Encode(raw);
+    out.textContent = decode ? b64Decode(raw) : b64Encode(raw);
     GAMA.say("success");
   } catch (e) {
     GAMA.say("error");
-    out.textContent = "// encoding failed";
+    out.textContent = decode ? "// not valid base64" : "// encoding failed";
   }
 }
-function executeBase64Decode() {
-  const raw = document.getElementById("b64-input").value;
-  const out = document.getElementById("b64-result");
-  if (!raw) { GAMA.say("idle"); out.textContent = ""; return; }
-  try {
-    out.textContent = b64Decode(raw);
-    GAMA.say("success");
-  } catch (e) {
-    GAMA.say("error");
-    out.textContent = "// not valid base64";
-  }
-}
+const executeBase64Debounced = GAMA.debounce(executeBase64, 300);

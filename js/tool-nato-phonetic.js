@@ -31,16 +31,14 @@ function natoToText(phonetic) {
     .join("");
 }
 
-function executeNatoEncode() {
+// Real English words overlap with plenty of NATO code words (Mike, Victor,
+// Golf...), so unlike Morse/HTML-entities/URL-encoding this direction can't
+// be guessed reliably - a real mode toggle instead of auto-detection.
+function executeNato() {
   const text = document.getElementById("nato-input").value;
+  const decode = document.querySelector('input[name="nato-mode"]:checked').value === "decode";
   const out = document.getElementById("nato-result");
-  out.textContent = text ? textToNato(text) : "";
+  out.textContent = text ? (decode ? natoToText(text) : textToNato(text)) : "";
   GAMA.say(text ? "success" : "idle");
 }
-
-function executeNatoDecode() {
-  const text = document.getElementById("nato-input").value;
-  const out = document.getElementById("nato-result");
-  out.textContent = text ? natoToText(text) : "";
-  GAMA.say(text ? "success" : "idle");
-}
+const executeNatoDebounced = GAMA.debounce(executeNato, 300);

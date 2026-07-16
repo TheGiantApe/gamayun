@@ -79,3 +79,4 @@ function executeNumberSpell() {
     GAMA.log(`Top match: ${found[0].word.toUpperCase()} inside ${clean}`);
   }, 200);
 }
+const executeNumberSpellDebounced = GAMA.debounce(executeNumberSpell, 300);
