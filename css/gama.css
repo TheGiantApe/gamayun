@@ -790,6 +790,17 @@ button:hover, .btn:hover {
   color: var(--phosphor-dim-text);
   font-size: 0.95rem;
 }
+/* Plain functional sentence (.hero-tagline) leads, GAMA-voice flourish
+   (.hero-subtagline) follows smaller/dimmer underneath it - the 60/40
+   pattern from GAMAYUN_tactics_strategy_bulletproofing.md section 7,
+   applied to the very first thing anyone reads on the site. */
+.hero-subtagline {
+  margin-top: 0.4rem;
+  padding: 0 1.5rem;
+  color: var(--phosphor-dim-text);
+  font-size: 0.85rem;
+  opacity: 0.85;
+}
 @keyframes flicker-in {
   0% { opacity: 0; text-shadow: none; }
   10% { opacity: 1; }
