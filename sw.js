@@ -6,7 +6,7 @@
    so a cached response is served immediately while a fresh one updates
    the cache in the background for next time. */
 
-const CACHE_NAME = "gamayun-shell-v1";
+const CACHE_NAME = "gamayun-shell-v2";
 const CORE_ASSETS = ["/", "/index.html", "/js/gama-core.js", "/css/gama.css"];
 
 self.addEventListener("install", (event) => {
