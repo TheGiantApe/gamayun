@@ -392,7 +392,10 @@ def build_nav_html(current_out, root, current_section):
             has_active = any(p["out"] == current_out for p in pages_in_cat)
             open_attr = " open" if has_active else ""
             lines.append(f'                <details class="nav-section"{open_attr}>')
-            lines.append(f'                    <summary class="nav-section-label">[ {cat_label} ]</summary>')
+            # Non-breaking space before the closing bracket - without it, a
+            # category label that wraps (LOOKUP_DECK, FILE_SALVAGE) breaks
+            # right before "]", stranding the bracket alone on its own line.
+            lines.append(f'                    <summary class="nav-section-label">[ {cat_label}&nbsp;]</summary>')
             for p in pages_in_cat:
                 active = " active" if p["out"] == current_out else ""
                 lines.append(f'                    <a href="{root}{p["out"]}" class="nav-link{active}">{nav_link_label(p["code"])}</a>')

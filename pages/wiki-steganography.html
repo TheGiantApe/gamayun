@@ -97,12 +97,14 @@
         </aside>
 
         <main class="center-viewport" id="active-tool-zone">
+            <div class="content-flex-fill">
             <div class="breadcrumb">&gt; <a href="../index.html">DECK_LAUNCHER</a> <span class="breadcrumb-sep">/</span> WIKI <span class="breadcrumb-sep">/</span> Steganography</div>
             <article class="prose">
                 <h1>&gt; Steganography</h1>
                 <p>Cryptography hides what a message says. Steganography hides that a message exists at all - an encrypted file announces "there's a secret here," a steganographic one doesn't. The word is Greek for "covered writing," and the technique predates computers by millennia: Herodotus records a Greek noble tattooing a message onto a slave's shaved scalp, then waiting for the hair to grow back over it before sending him through enemy territory. The digital version this site's <a href="steganography.html">Steganography</a> tool uses - LSB (least-significant-bit) encoding - swaps the lowest, least visually significant bit of each color channel in an image for a bit of the hidden message, nudging every affected pixel's color by an amount too small to see. It's also fragile on purpose: anything that recompresses the image (a JPEG re-save, an upload to a site that reprocesses photos) scrambles those low bits and destroys the message, which is why the tool only ever outputs PNG.</p>
             </article>
 
+            </div>
             <div class="ad-leaderboard">
                 <div class="wireframe-header">&#9888; INTERCEPTED CORPORATE DEBRIS — WIDE-BAND TRANSMISSION</div>
                 <div class="adsense-slot">[ AD UNIT — LEADERBOARD ]</div>

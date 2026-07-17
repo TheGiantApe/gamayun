@@ -436,6 +436,17 @@ a:hover, a:focus {
     height: 100%;
     min-height: 0;
     overflow-y: auto;
+    /* Short pages (Contact, Legal, GNDN) used to leave a dead void between
+       the content and the fixed footer below, since this pane is forced to
+       height:100% (needed so long pages get their own scrollbar) but short
+       content doesn't fill it. display:flex here + .content-flex-fill's
+       flex-grow below lets the content block consume that leftover space
+       itself, pushing the ad down to meet it instead of leaving a void
+       after the ad - a no-op on any page already long enough to fill the
+       pane (flex-grow has nothing to grow into, ad's own margin is
+       untouched either way). */
+    display: flex;
+    flex-direction: column;
     /* Same invisible-scrollbar treatment as .terminal-nav/.right-deck below -
        this pane scrolls on basically every tool page taller than one screen,
        so it was the one column still showing a native scrollbar track. Wheel/
@@ -680,10 +691,12 @@ button:hover, .btn:hover {
    (in-content card, homepage between hero and grid). Same "corporate
    debris" ironic framing as the sidebar unit, different shapes so there's
    more than one slot format to actually sell/fill. */
+.content-flex-fill { flex: 1 0 auto; }
 .ad-leaderboard {
   margin: 1.5rem 0 0;
   border: 1px dashed var(--amber);
   padding: 0.5rem;
+  flex-shrink: 0;
 }
 .ad-leaderboard .adsense-slot { min-height: 90px; }
 /* ---- Bookmarklet prompt: a small titled box in the right-deck (QUICK

@@ -97,6 +97,7 @@
         </aside>
 
         <main class="center-viewport" id="active-tool-zone">
+            <div class="content-flex-fill">
             <div class="breadcrumb">&gt; <a href="../index.html">DECK_LAUNCHER</a> <span class="breadcrumb-sep">/</span> WIKI <span class="breadcrumb-sep">/</span> On Time, and Why It's Hard</div>
             <article class="prose">
                 <h1>&gt; On Time, and Why It's Hard</h1>
@@ -107,6 +108,7 @@
                 <p><strong>Why cron starts the week on Sunday.</strong> <a href="cron-generator.html">Cron</a>'s day-of-week field runs 0-6 with Sunday as 0, not Monday. It's inherited from POSIX C's <code>struct tm</code>, where <code>tm_wday</code> has always used the same 0-for-Sunday convention, which itself traces back to older US calendar conventions treating Sunday as the start of the week. Cron didn't invent the choice, it just never had a reason to break from the C standard library it was already built on top of.</p>
             </article>
 
+            </div>
             <div class="ad-leaderboard">
                 <div class="wireframe-header">&#9888; INTERCEPTED CORPORATE DEBRIS — WIDE-BAND TRANSMISSION</div>
                 <div class="adsense-slot">[ AD UNIT — LEADERBOARD ]</div>
