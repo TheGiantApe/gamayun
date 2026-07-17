@@ -686,22 +686,22 @@ button:hover, .btn:hover {
   padding: 0.5rem;
 }
 .ad-leaderboard .adsense-slot { min-height: 90px; }
-/* ---- Bookmarklet prompt: slim strip under the tab bar, sitewide (was a
-   big homepage-only callout block, then briefly a sidebar strip - this
-   is "under the navbar" as asked, a full-width row of its own between
-   the tabs and the three-column deck below). ---- */
+/* ---- Bookmarklet prompt: a small titled box in the right-deck (QUICK
+   ACCESS), same shape as the other site-updates-box widgets there. Was a
+   full-width strip wedged directly under the tab bar - jarring, the one
+   thing on the page that wasn't in a box, sitting right where you land
+   after every click. Reuses .btn/.kofi-link's own look (dashed grab
+   cursor is still the one thing distinct to this button, since it's the
+   only draggable one on the site) instead of inventing a new style. */
 .bookmarklet-slim {
   display: block;
-  padding: 0.4rem 1.5rem;
-  border-bottom: 1px dashed var(--phosphor-dim);
-  background: var(--void-raised);
-  font-size: 0.75rem;
-  line-height: 1.4;
+  width: 100%;
   text-align: center;
-  color: var(--phosphor-dim-text);
+  box-sizing: border-box;
+  font-size: 0.85rem;
+  border-style: dashed;
   cursor: grab;
 }
-.bookmarklet-slim:hover { border-bottom-color: var(--phosphor); color: var(--phosphor); background: var(--phosphor-faint); }
 .bookmarklet-slim:active { cursor: grabbing; }
 .ad-native {
   margin: 0 1.5rem 1.5rem;
