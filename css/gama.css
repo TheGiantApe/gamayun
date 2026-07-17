@@ -1026,9 +1026,22 @@ button:hover, .btn:hover {
 }
 
 /* ---- Prose pages (about/legal/wiki) ---- */
-.prose { padding: 1.5rem; max-width: 68ch; line-height: 1.7; font-size: 1.05rem; }
-.prose h1, .prose h2 { font-family: var(--font-display); }
+.prose { padding: 1.5rem; max-width: 68ch; line-height: 1.6; font-size: 0.95rem; }
+/* h1/h2 were inheriting plain browser defaults (2em/1.5em) on top of the
+   1.05rem base - a wiki entry's own title was rendering close to 2rem+,
+   absurdly large for a single short reference page. Fixed sizes instead. */
+.prose h1 { font-family: var(--font-display); font-size: 1.5rem; margin-top: 0; }
+.prose h2 { font-family: var(--font-display); font-size: 1.15rem; }
 .prose p { margin: 1em 0; }
+/* .prose's reading-sized type is right for flowing paragraphs (About,
+   Wiki, Legal) but was absurd for dense reference lists like the
+   changelog's - a single technical bullet was wrapping across 6-8
+   oversized lines. Lists get their own tighter, smaller scale. */
+.prose ul, .prose ol { font-size: 0.85rem; line-height: 1.5; }
+.prose li { margin: 0.5em 0; }
+
+/* ---- Wiki hub (index of individual entry pages) ---- */
+.wiki-grid { padding: 0 1.5rem 1.5rem; }
 
 /* Mission statement ("stone tablet"): direct, plain-spoken, explains
    itself on purpose - the opposite register from the cryptic Origin Log

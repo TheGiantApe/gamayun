@@ -84,7 +84,17 @@
             </div>
             <button class="random-tool-btn" onclick="goToRandomTool()" title="Jump to a random tool">&gt; RANDOM_TOOL</button>
             <nav class="terminal-nav">
-
+                <a href="../pages/wiki-time.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">On Time, and Why It's Hard</span></a>
+                <a href="../pages/wiki-foobar.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">Where "Foo" and "Bar" Came From</span></a>
+                <a href="../pages/wiki-uuid-odds.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">The Odds a UUID Ever Repeats</span></a>
+                <a href="../pages/wiki-fingerprinting.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">Browser Fingerprinting</span></a>
+                <a href="../pages/wiki-osint.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">OSINT (Open Source Intelligence)</span></a>
+                <a href="../pages/wiki-reverse-image.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">Reverse Image Search & Metadata</span></a>
+                <a href="../pages/wiki-tos.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">Terms of Service (and Why Nobody Reads Them)</span></a>
+                <a href="../pages/wiki-link-rot.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">Digital Preservation & Link Rot</span></a>
+                <a href="../pages/wiki-google-dorking.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">Google Dorking</span></a>
+                <a href="../pages/wiki-paywall.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">Why There's No Paywall-Bypass Tool Here</span></a>
+                <a href="../pages/wiki-steganography.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">Steganography</span></a>
             </nav>
         </aside>
 
@@ -92,45 +102,56 @@
             <div class="breadcrumb">&gt; <a href="../index.html">DECK_LAUNCHER</a> <span class="breadcrumb-sep">/</span> WIKI <span class="breadcrumb-sep">/</span> GAMA_WIKI</div>
             <article class="prose">
                 <h1>&gt; GAMA<sup>+</sup> WIKI // INDEX</h1>
-                <p>Short entries, not exhaustive essays: things worth knowing, filed here because they didn't fit anywhere else on the ship. Started as a technical archive on how machines keep time - that's still in here, but it's one article now, not the whole point.</p>
-
-                <h2>&gt; On Time, and Why It's Hard</h2>
-                <p><strong>The epoch.</strong> Machines count seconds from January 1, 1970, 00:00:00 UTC, and everything since is an incrementing integer. ISO 8601 is the closest thing to a universal human-readable format for the same information - see <a href="time-logic.html">Date Stamp Recon</a> for the actual converter.</p>
-                <p><strong>The Year 2038 Problem.</strong> A lot of systems store that Unix timestamp as a signed 32-bit integer. That format runs out of road on January 19, 2038, at 03:14:07 UTC - one second later, the count wraps back around to a large negative number, which most software reads as December 1901. Same failure mode as the Y2K panic, different root cause: Y2K was a storage-shortcut problem (two-digit years), this is an arithmetic-overflow problem (a fixed-width integer running out of bits). Most modern 64-bit systems already sidestepped it. Plenty of embedded and legacy 32-bit systems have not, and won't notice until they do.</p>
-                <p><strong>Timezones ruin everything.</strong> They aren't clean hour-wide slices - India runs UTC+5:30, Nepal runs UTC+5:45, and some Pacific islands hop entire calendar days depending which side of the International Date Line their government prefers this decade. Add daylight saving time (which not every country observes, and which some countries have started and then abandoned more than once) and "what time is it in the other office" stops being arithmetic and starts being a lookup against a constantly-revised political database. This is also why Date Stamp Recon always shows UTC first and local time second - UTC doesn't change its mind.</p>
-                <p><strong>Leap seconds.</strong> Earth's rotation is slowing down, almost imperceptibly, so every so often an official leap second gets inserted to keep clock time lined up with the actual planet. In 2012, a leap second exposed a bug in the Linux kernel's futex implementation that pushed CPU usage on affected servers to 100% - Reddit, Mozilla, and Yelp all had a bad night over one extra second. Several major tech companies now "smear" the leap second across an entire day of very slightly slower ticks instead of inserting it all at once, specifically so this doesn't happen again.</p>
-                <p><strong>Why cron starts the week on Sunday.</strong> <a href="cron-generator.html">Cron</a>'s day-of-week field runs 0-6 with Sunday as 0, not Monday. It's inherited from POSIX C's <code>struct tm</code>, where <code>tm_wday</code> has always used the same 0-for-Sunday convention, which itself traces back to older US calendar conventions treating Sunday as the start of the week. Cron didn't invent the choice, it just never had a reason to break from the C standard library it was already built on top of.</p>
-
-                <h2>&gt; Where "Foo" and "Bar" Came From</h2>
-                <p>The most commonly cited origin traces "foo" and "bar" back to military slang from WWII - specifically FUBAR ("[fouled] up beyond all recognition") - which filtered into early hacker culture (MIT's Tech Model Railroad Club and, later, ARPANET documentation) as a placeholder pair for "some arbitrary thing" and "some other arbitrary thing." The etymology is debated in the details, but the FUBAR connection is the explanation the Jargon File itself settles on. Nobody remembers who used it first in code; everybody's used it since.</p>
-
-                <h2>&gt; The Odds a UUID Ever Repeats</h2>
-                <p>A version-4 <a href="uuid.html">UUID</a> has 122 genuinely random bits (the other 6 are fixed, marking it as version 4). Birthday-paradox math says you'd need to generate roughly 2.71 quintillion of them before the odds of any two colliding crossed 50%. Every UUID this site has ever generated, and every one it ever will, is functionally guaranteed unique - not because the math forbids a collision, but because the universe will have other problems long before that number of UUIDs gets generated by anyone.</p>
-
-                <h2>&gt; Browser Fingerprinting</h2>
-                <p>Cookies aren't the only way sites track you. Your browser leaks a surprising amount of identifying detail just by existing - which GPU you have (via WebGL), tiny timing differences in your CPU (via <code>performance.now()</code>), even the exact order your OS signs network packets. None of it requires a cookie, none of it requires you to be logged in, and clearing your cookies or using a VPN doesn't touch most of it. "I'm not logged in and I cleared my cookies" is not the same thing as "I'm not being tracked" - fingerprinting techniques were specifically built to survive the privacy measures people actually use.</p>
-
-                <h2>&gt; OSINT (Open Source Intelligence)</h2>
-                <p>Gathering information from publicly available sources - search engines, public records, social media, breach-notification services - rather than hacking or stealing anything. A breach checker like Have I Been Pwned is OSINT. A site that sells you the actual leaked passwords is not OSINT, it's trafficking in stolen data. A huge amount of "hacker tool" content online blurs "checks if you were exposed" together with "lets you access what was stolen." They're not the same thing legally or ethically, and knowing the difference is the whole skill.</p>
-
-                <h2>&gt; Reverse Image Search &amp; Metadata</h2>
-                <p>Every photo carries hidden data (EXIF) - camera model, GPS coordinates, timestamp - unless it's been stripped. Reverse image search tools can also tell you where else online a given image has appeared, which is how a lot of "this photo is old, it's not from the event people are claiming" debunks actually get done. See <a href="image-tools.html">Image Salvage</a> to check or strip what's attached to your own files.</p>
-
-                <h2>&gt; Terms of Service (and Why Nobody Reads Them)</h2>
-                <p>The average ToS document is written to be technically disclosed and practically unread. A project called Terms of Service; Didn't Read exists specifically to grade services on what their terms actually say in plain language, rather than what the marketing page implies. Knowing a service's real data practices before you sign up beats finding out after.</p>
-
-                <h2>&gt; Digital Preservation &amp; Link Rot</h2>
-                <p>The average webpage doesn't survive very long - a meaningful fraction of links go dead within a few years. The Internet Archive's Wayback Machine crawls and stores snapshots of pages over time specifically to fight this, and anyone can manually save a page's current state to it. If a page matters enough to cite or rely on, it's worth archiving before it isn't there anymore.</p>
-
-                <h2>&gt; Google Dorking</h2>
-                <p>Google's search operators (<code>site:</code>, <code>filetype:</code>, <code>intitle:</code>, and combinations of them) can surface content that's technically public but never meant to be easily found - exposed documents, misconfigured directories, forgotten login pages. It's just advanced search syntax, but the results it turns up can look like they came from somewhere darker than "a search engine." The technique is legal - it's just Google search. What you do with what you find is where the ethics and the law both start to matter.</p>
-
-                <h2>&gt; Why There's No Paywall-Bypass Tool Here</h2>
-                <p>A specific category of tool exists purely to get around a publisher's paywall. They work. They also directly contradict the terms the publisher set for their own content, which is a different thing from reading an old cached copy of a page that's since changed. This is a deliberate line, not an oversight - if a category of link consistently shows up in every "secret websites" list and consistently doesn't show up here, this is why.</p>
-
-                <h2>&gt; Steganography</h2>
-                <p>Cryptography hides what a message says. Steganography hides that a message exists at all - an encrypted file announces "there's a secret here," a steganographic one doesn't. The word is Greek for "covered writing," and the technique predates computers by millennia: Herodotus records a Greek noble tattooing a message onto a slave's shaved scalp, then waiting for the hair to grow back over it before sending him through enemy territory. The digital version this site's <a href="steganography.html">Steganography</a> tool uses - LSB (least-significant-bit) encoding - swaps the lowest, least visually significant bit of each color channel in an image for a bit of the hidden message, nudging every affected pixel's color by an amount too small to see. It's also fragile on purpose: anything that recompresses the image (a JPEG re-save, an upload to a site that reprocesses photos) scrambles those low bits and destroys the message, which is why the tool only ever outputs PNG.</p>
+                <p>Short entries, not exhaustive essays: things worth knowing, filed here because they didn't fit anywhere else on the ship. Pick one.</p>
             </article>
+            <section class="wiki-grid">
+                <div class="tool-grid-row">
+                <a class="tool-grid-item" href="wiki-time.html">
+                    <div class="tool-name">&gt; On Time, and Why It's Hard</div>
+                    <div class="tool-desc">The Unix epoch, the Year 2038 problem, timezones, leap seconds, and why cron starts the week on Sunday.</div>
+                </a>
+                <a class="tool-grid-item" href="wiki-foobar.html">
+                    <div class="tool-name">&gt; Where "Foo" and "Bar" Came From</div>
+                    <div class="tool-desc">The FUBAR-to-hacker-culture etymology the Jargon File itself settles on.</div>
+                </a>
+                <a class="tool-grid-item" href="wiki-uuid-odds.html">
+                    <div class="tool-name">&gt; The Odds a UUID Ever Repeats</div>
+                    <div class="tool-desc">122 random bits, 2.71 quintillion UUIDs before a 50% collision chance - why they're functionally unique.</div>
+                </a>
+                <a class="tool-grid-item" href="wiki-fingerprinting.html">
+                    <div class="tool-name">&gt; Browser Fingerprinting</div>
+                    <div class="tool-desc">How sites track you with zero cookies, and why clearing cookies doesn't touch it.</div>
+                </a>
+                <a class="tool-grid-item" href="wiki-osint.html">
+                    <div class="tool-name">&gt; OSINT (Open Source Intelligence)</div>
+                    <div class="tool-desc">The real difference between checking if you were exposed and trafficking in stolen data.</div>
+                </a>
+                <a class="tool-grid-item" href="wiki-reverse-image.html">
+                    <div class="tool-name">&gt; Reverse Image Search & Metadata</div>
+                    <div class="tool-desc">EXIF data, and how reverse image search actually debunks "this old photo is new" claims.</div>
+                </a>
+                <a class="tool-grid-item" href="wiki-tos.html">
+                    <div class="tool-name">&gt; Terms of Service (and Why Nobody Reads Them)</div>
+                    <div class="tool-desc">Why ToS;DR exists, and what actually matters before you sign up for something.</div>
+                </a>
+                <a class="tool-grid-item" href="wiki-link-rot.html">
+                    <div class="tool-name">&gt; Digital Preservation & Link Rot</div>
+                    <div class="tool-desc">Why the average webpage doesn't survive long, and what the Wayback Machine actually does about it.</div>
+                </a>
+                <a class="tool-grid-item" href="wiki-google-dorking.html">
+                    <div class="tool-name">&gt; Google Dorking</div>
+                    <div class="tool-desc">Advanced search operators that surface technically-public content nobody meant to be found.</div>
+                </a>
+                <a class="tool-grid-item" href="wiki-paywall.html">
+                    <div class="tool-name">&gt; Why There's No Paywall-Bypass Tool Here</div>
+                    <div class="tool-desc">A deliberate line, not an oversight.</div>
+                </a>
+                <a class="tool-grid-item" href="wiki-steganography.html">
+                    <div class="tool-name">&gt; Steganography</div>
+                    <div class="tool-desc">Hiding that a message exists at all, from a tattooed scalp to least-significant-bit encoding.</div>
+                </a>
+                </div>
+            </section>
 
             <div class="ad-leaderboard">
                 <div class="wireframe-header">&#9888; INTERCEPTED CORPORATE DEBRIS — WIDE-BAND TRANSMISSION</div>

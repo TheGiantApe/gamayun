@@ -66,9 +66,17 @@ SECTION_OVERRIDES = {
 def page_section(page):
     if page["out"] in SECTION_OVERRIDES:
         return SECTION_OVERRIDES[page["out"]]
+    if page.get("wiki_entry"):
+        return "wiki"
     if page.get("category") in {key for key, _ in CATEGORIES}:
         return "tools"
     return None
+
+
+def wiki_entries():
+    """All individual wiki pages, in PAGES order - single source of truth
+    for both the hub page's card list and the WIKI sidebar list."""
+    return [p for p in PAGES if p.get("wiki_entry")]
 
 # Each page: out (output path), fragment (content file), title, desc,
 # root (path prefix back to site root), code (short nav/breadcrumb label,
@@ -261,6 +269,44 @@ PAGES = [
     dict(out="pages/wiki-index.html", fragment="wiki-index.html", title="GAMA+ Wiki",
          desc="Technical trivia, privacy/OSINT reference entries, and dumb conversation-enders, filed as they get salvaged.",
          root="../", code="GAMA_WIKI", category=None, breadcrumb_cat="WIKI", js=[]),
+
+    # Individual wiki entries - each its own page (not h2 sections on one
+    # ever-growing mega-page). wiki_entry=True marks them for
+    # page_section() and the WIKI sidebar list; wiki-index.html is the hub
+    # that links to all of them, built by build_wiki_index_html().
+    dict(out="pages/wiki-time.html", fragment="wiki-time.html", title="On Time, and Why It's Hard",
+         desc="The Unix epoch, the Year 2038 problem, timezones, leap seconds, and why cron starts the week on Sunday.",
+         root="../", code=None, category=None, wiki_entry=True, breadcrumb_cat="WIKI", js=[]),
+    dict(out="pages/wiki-foobar.html", fragment="wiki-foobar.html", title="Where \"Foo\" and \"Bar\" Came From",
+         desc="The FUBAR-to-hacker-culture etymology the Jargon File itself settles on.",
+         root="../", code=None, category=None, wiki_entry=True, breadcrumb_cat="WIKI", js=[]),
+    dict(out="pages/wiki-uuid-odds.html", fragment="wiki-uuid-odds.html", title="The Odds a UUID Ever Repeats",
+         desc="122 random bits, 2.71 quintillion UUIDs before a 50% collision chance - why they're functionally unique.",
+         root="../", code=None, category=None, wiki_entry=True, breadcrumb_cat="WIKI", js=[]),
+    dict(out="pages/wiki-fingerprinting.html", fragment="wiki-fingerprinting.html", title="Browser Fingerprinting",
+         desc="How sites track you with zero cookies, and why clearing cookies doesn't touch it.",
+         root="../", code=None, category=None, wiki_entry=True, breadcrumb_cat="WIKI", js=[]),
+    dict(out="pages/wiki-osint.html", fragment="wiki-osint.html", title="OSINT (Open Source Intelligence)",
+         desc="The real difference between checking if you were exposed and trafficking in stolen data.",
+         root="../", code=None, category=None, wiki_entry=True, breadcrumb_cat="WIKI", js=[]),
+    dict(out="pages/wiki-reverse-image.html", fragment="wiki-reverse-image.html", title="Reverse Image Search & Metadata",
+         desc="EXIF data, and how reverse image search actually debunks \"this old photo is new\" claims.",
+         root="../", code=None, category=None, wiki_entry=True, breadcrumb_cat="WIKI", js=[]),
+    dict(out="pages/wiki-tos.html", fragment="wiki-tos.html", title="Terms of Service (and Why Nobody Reads Them)",
+         desc="Why ToS;DR exists, and what actually matters before you sign up for something.",
+         root="../", code=None, category=None, wiki_entry=True, breadcrumb_cat="WIKI", js=[]),
+    dict(out="pages/wiki-link-rot.html", fragment="wiki-link-rot.html", title="Digital Preservation & Link Rot",
+         desc="Why the average webpage doesn't survive long, and what the Wayback Machine actually does about it.",
+         root="../", code=None, category=None, wiki_entry=True, breadcrumb_cat="WIKI", js=[]),
+    dict(out="pages/wiki-google-dorking.html", fragment="wiki-google-dorking.html", title="Google Dorking",
+         desc="Advanced search operators that surface technically-public content nobody meant to be found.",
+         root="../", code=None, category=None, wiki_entry=True, breadcrumb_cat="WIKI", js=[]),
+    dict(out="pages/wiki-paywall.html", fragment="wiki-paywall.html", title="Why There's No Paywall-Bypass Tool Here",
+         desc="A deliberate line, not an oversight.",
+         root="../", code=None, category=None, wiki_entry=True, breadcrumb_cat="WIKI", js=[]),
+    dict(out="pages/wiki-steganography.html", fragment="wiki-steganography.html", title="Steganography",
+         desc="Hiding that a message exists at all, from a tattooed scalp to least-significant-bit encoding.",
+         root="../", code=None, category=None, wiki_entry=True, breadcrumb_cat="WIKI", js=[]),
     dict(out="pages/log.html", fragment="log.html", title="Log",
          desc="GAMA⁺'s own transmissions, mixed with what actually shipped - newest first.",
          root="../", code="LOG_FEED", category=None, breadcrumb_cat="LOG",
@@ -323,10 +369,16 @@ def build_nav_html(current_out, root, current_section):
     No standalone home/DECK_LAUNCHER link here anymore - the header
     logo is the home link now (see base.html), same as most real navbars.
     Categories are TOOLS-only sub-groups, so outside the tools section
-    (Wiki/Log/About/Contact/Legal) this renders nothing at all - a
-    category list of e.g. RECON_OPS would be meaningless on the Wiki
-    page, and there's nothing else that belongs here instead."""
+    this renders nothing at all, except on Wiki pages specifically,
+    where it's a flat list of every wiki entry (titles, not short codes -
+    they don't have one) so you can jump between entries without going
+    back to the hub every time."""
     lines = []
+    if current_section == "wiki":
+        for p in wiki_entries():
+            active = " active" if p["out"] == current_out else ""
+            lines.append(f'                <a href="{root}{p["out"]}" class="nav-link{active}">&gt;&nbsp;<span class="nav-link-label">{p["title"]}</span></a>')
+        return "\n".join(lines)
     if current_section != "tools":
         return ""
     for cat_key, cat_label in CATEGORIES:
@@ -381,8 +433,13 @@ def build_jsonld_html(page):
 
 def build_breadcrumb_html(page, root):
     """'> DECK_LAUNCHER / CATEGORY / PAGE_CODE' trail. Omitted for the
-    homepage and pages with no code/category at all (special pages)."""
-    if page["out"] == "index.html" or not page.get("code"):
+    homepage and truly-special pages (gndn/404, no code AND no
+    breadcrumb_cat). Wiki entries have no short code (they use their full
+    title in the sidebar too) but still get a breadcrumb, falling back to
+    the title for the final crumb."""
+    if page["out"] == "index.html":
+        return ""
+    if not page.get("code") and not page.get("breadcrumb_cat"):
         return ""
     cat_label = None
     if page.get("category"):
@@ -392,7 +449,7 @@ def build_breadcrumb_html(page, root):
     crumbs = [f'<a href="{root}index.html">DECK_LAUNCHER</a>']
     if cat_label:
         crumbs.append(cat_label)
-    crumbs.append(page["code"])
+    crumbs.append(page.get("code") or page["title"])
     return '            <div class="breadcrumb">&gt; ' + ' <span class="breadcrumb-sep">/</span> '.join(crumbs) + '</div>'
 
 
@@ -416,6 +473,22 @@ def build_tool_grid_html():
             f'                <div class="tool-grid-row">\n' + "\n".join(items) + "\n                </div>"
         )
     return "\n".join(sections)
+
+
+def build_wiki_index_html():
+    """Wiki hub page: a card per entry (title + teaser), same visual
+    pattern as the tool grid so it doesn't need new CSS vocabulary. This
+    replaced an old design where every entry was just another <h2> on one
+    ever-growing page - each entry is real page now (see wiki_entries())."""
+    items = []
+    for p in wiki_entries():
+        items.append(
+            f'                <a class="tool-grid-item" href="{os.path.basename(p["out"])}">\n'
+            f'                    <div class="tool-name">&gt; {p["title"]}</div>\n'
+            f'                    <div class="tool-desc">{p["desc"]}</div>\n'
+            f'                </a>'
+        )
+    return '                <div class="tool-grid-row">\n' + "\n".join(items) + "\n                </div>"
 
 
 def build_human_sitemap_html():
@@ -456,11 +529,13 @@ def build():
     count = 0
     tool_grid_html = build_tool_grid_html()
     human_sitemap_html = build_human_sitemap_html()
+    wiki_index_html = build_wiki_index_html()
     for page in PAGES:
         with open(os.path.join(SRC, "content", page["fragment"]), encoding="utf-8") as f:
             content = f.read()
         content = content.replace("{{TOOL_GRID}}", tool_grid_html)
         content = content.replace("{{HUMAN_SITEMAP}}", human_sitemap_html)
+        content = content.replace("{{WIKI_INDEX}}", wiki_index_html)
 
         section = page_section(page)
         out = BASE
