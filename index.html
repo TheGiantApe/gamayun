@@ -59,7 +59,7 @@
     <img class="raven-watermark" src="assets/raven-key-seal.png" alt="" aria-hidden="true">
 
     <header class="terminal-header">
-        <div class="brand phosphor-text">GAMAYUN<sup>+</sup> // REV-4.2</div>
+        <a href="index.html" class="brand phosphor-text" title="Home">GAMAYUN<sup>+</sup> // REV-4.2</a>
         <div class="system-status">LINK: STABLE // MAG-LOCK: ENGAGED // <span id="system-clock" class="clock"></span></div>
     </header>
 
@@ -68,19 +68,22 @@
                     <a href="pages/wiki-index.html" class="tab-btn" data-tab="wiki">WIKI</a>
                     <a href="pages/log.html" class="tab-btn" data-tab="log">LOG</a>
                     <a href="pages/about.html" class="tab-btn" data-tab="about">ABOUT</a>
+                    <a href="pages/contact.html" class="tab-btn" data-tab="contact">CONTACT</a>
+                    <a href="pages/legal.html" class="tab-btn" data-tab="legal">LEGAL</a>
     </nav>
+
+    <a href="javascript:location.href='https://gamayun.site/'" class="bookmarklet-slim" title="Drag me to your bookmarks bar">&gt; drag to bookmarks (or Ctrl+D). one-click orbital access.</a>
 
     <div class="command-bridge-grid">
 
         <aside class="left-deck">
-            <a href="javascript:location.href='https://gamayun.site/'" class="bookmarklet-slim" title="Drag me to your bookmarks bar">&gt; drag to bookmarks (or Ctrl+D). one-click orbital access.</a>
             <div class="site-search-box">
                 <input type="text" id="site-search-input" placeholder="&gt; search tools..." oninput="executeSiteSearch()" autocomplete="off">
+                <span class="search-cursor-blink" aria-hidden="true">_</span>
                 <div id="site-search-results" class="site-search-results"></div>
             </div>
-            <button class="random-tool-btn" onclick="goToRandomTool()" title="Jump to a random tool">&gt; RANDOM_TOOL &#127922;</button>
+            <button class="random-tool-btn" onclick="goToRandomTool()" title="Jump to a random tool">&gt; RANDOM_TOOL</button>
             <nav class="terminal-nav">
-                <a href="index.html" class="nav-link active">&gt;&nbsp;<span class="nav-link-label">DECK_LAUNCHER</span></a>
                 <details class="nav-section">
                     <summary class="nav-section-label">[ RECON_OPS ]</summary>
                     <a href="pages/links.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">LINK_PURGE</span></a>
@@ -423,16 +426,15 @@
 
     <footer class="site-footer">
         <div class="trust-block">
-            <span title="Runs in your browser. No accounts. No telemetry.">&#128274; 100% client-side</span>
-            <span>&#128683; no accounts, ever</span>
+            <span title="Runs in your browser. No accounts. No telemetry.">100% client-side</span>
+            <span>no accounts, ever</span>
             <a href="pages/privacy.html">Privacy Policy</a>
             <a href="pages/terms.html">Terms of Service</a>
         </div>
-        <div class="legal-shield">All processing runs locally in your browser. GAMAYUN&#43; is an independent utility site, not affiliated with or endorsed by any third-party brand referenced anywhere on it. Educational and entertainment use.</div>
         <div class="footer-top-row">
             <div>&copy; <span id="footer-year"></span> GAMAYUN.SITE</div>
             <nav>
-                <a href="pages/about.html">About / Origin Log</a>
+                <a href="pages/about.html">About</a>
                 <a href="pages/legal.html">Legal &amp; Privacy</a>
                 <a href="pages/contact.html">Contact</a>
                 <a href="pages/wiki-index.html">GAMA<sup>+</sup> Wiki</a>

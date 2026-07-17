@@ -34,9 +34,9 @@
          changing hosts. -->
     <meta http-equiv="Content-Security-Policy" content="object-src 'none'; base-uri 'self'; form-action 'self'">
 
-    <title>Origin Log // GAMAYUN⁺</title>
+    <title>About // GAMAYUN⁺</title>
     <meta name="description" content="GAMA⁺, in her own words. Not exactly a straight answer.">
-    <meta property="og:title" content="Origin Log // GAMAYUN⁺">
+    <meta property="og:title" content="About // GAMAYUN⁺">
     <meta property="og:description" content="GAMA⁺, in her own words. Not exactly a straight answer.">
     <meta property="og:type" content="website">
     <meta name="twitter:card" content="summary">
@@ -59,7 +59,7 @@
     <img class="raven-watermark" src="../assets/raven-key-seal.png" alt="" aria-hidden="true">
 
     <header class="terminal-header">
-        <div class="brand phosphor-text">GAMAYUN<sup>+</sup> // REV-4.2</div>
+        <a href="../index.html" class="brand phosphor-text" title="Home">GAMAYUN<sup>+</sup> // REV-4.2</a>
         <div class="system-status">LINK: STABLE // MAG-LOCK: ENGAGED // <span id="system-clock" class="clock"></span></div>
     </header>
 
@@ -68,31 +68,35 @@
                     <a href="../pages/wiki-index.html" class="tab-btn" data-tab="wiki">WIKI</a>
                     <a href="../pages/log.html" class="tab-btn" data-tab="log">LOG</a>
                     <a href="../pages/about.html" class="tab-btn active" data-tab="about">ABOUT</a>
+                    <a href="../pages/contact.html" class="tab-btn" data-tab="contact">CONTACT</a>
+                    <a href="../pages/legal.html" class="tab-btn" data-tab="legal">LEGAL</a>
     </nav>
+
+    <a href="javascript:location.href='https://gamayun.site/'" class="bookmarklet-slim" title="Drag me to your bookmarks bar">&gt; drag to bookmarks (or Ctrl+D). one-click orbital access.</a>
 
     <div class="command-bridge-grid">
 
         <aside class="left-deck">
-            <a href="javascript:location.href='https://gamayun.site/'" class="bookmarklet-slim" title="Drag me to your bookmarks bar">&gt; drag to bookmarks (or Ctrl+D). one-click orbital access.</a>
             <div class="site-search-box">
                 <input type="text" id="site-search-input" placeholder="&gt; search tools..." oninput="executeSiteSearch()" autocomplete="off">
+                <span class="search-cursor-blink" aria-hidden="true">_</span>
                 <div id="site-search-results" class="site-search-results"></div>
             </div>
-            <button class="random-tool-btn" onclick="goToRandomTool()" title="Jump to a random tool">&gt; RANDOM_TOOL &#127922;</button>
+            <button class="random-tool-btn" onclick="goToRandomTool()" title="Jump to a random tool">&gt; RANDOM_TOOL</button>
             <nav class="terminal-nav">
-                <a href="../index.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">DECK_LAUNCHER</span></a>
+
             </nav>
         </aside>
 
         <main class="center-viewport" id="active-tool-zone">
-            <div class="breadcrumb">&gt; <a href="../index.html">DECK_LAUNCHER</a> <span class="breadcrumb-sep">/</span> ABOUT <span class="breadcrumb-sep">/</span> ORIGIN_LOG</div>
+            <div class="breadcrumb">&gt; <a href="../index.html">DECK_LAUNCHER</a> <span class="breadcrumb-sep">/</span> ABOUT</div>
             <article class="prose">
                 <div class="mission-tablet">
                     <p>GAMA doesn't milk you. This ship liberates tools from paywalls and grift &mdash; for students, creators, and anyone who hates being the product.</p>
                     <p><strong>Free forever. Client-side. No accounts, no bullshit.</strong></p>
                 </div>
 
-                <h1>&gt; ORIGIN_LOG // [FILE CORRUPTED — SHOWING NEAREST RECOVERABLE FRAGMENT]</h1>
+                <h1>&gt; ABOUT // [FILE CORRUPTED — SHOWING NEAREST RECOVERABLE FRAGMENT]</h1>
 
                 <p>Melt half a cup of butter. Stir in a cup of sugar while it's still hot enough to complain about it. Two eggs, one at a time, actually beat them, don't just drop them in and hope. A third of a cup of cocoa, sifted, because lumps are a form of dishonesty. Half a cup of flour, a pinch of salt, fold — don't stir, <em>fold</em> — until it just comes together and not one second past that. 350&#176;, twenty-five minutes, and for the love of every archived byte do not open the oven early to check.</p>
 
@@ -158,16 +162,15 @@
 
     <footer class="site-footer">
         <div class="trust-block">
-            <span title="Runs in your browser. No accounts. No telemetry.">&#128274; 100% client-side</span>
-            <span>&#128683; no accounts, ever</span>
+            <span title="Runs in your browser. No accounts. No telemetry.">100% client-side</span>
+            <span>no accounts, ever</span>
             <a href="../pages/privacy.html">Privacy Policy</a>
             <a href="../pages/terms.html">Terms of Service</a>
         </div>
-        <div class="legal-shield">All processing runs locally in your browser. GAMAYUN&#43; is an independent utility site, not affiliated with or endorsed by any third-party brand referenced anywhere on it. Educational and entertainment use.</div>
         <div class="footer-top-row">
             <div>&copy; <span id="footer-year"></span> GAMAYUN.SITE</div>
             <nav>
-                <a href="../pages/about.html">About / Origin Log</a>
+                <a href="../pages/about.html">About</a>
                 <a href="../pages/legal.html">Legal &amp; Privacy</a>
                 <a href="../pages/contact.html">Contact</a>
                 <a href="../pages/wiki-index.html">GAMA<sup>+</sup> Wiki</a>

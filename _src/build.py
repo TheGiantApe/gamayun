@@ -43,17 +43,23 @@ SECTIONS = [
     ("wiki", "WIKI", "pages/wiki-index.html"),
     ("log", "LOG", "pages/log.html"),
     ("about", "ABOUT", "pages/about.html"),
+    ("contact", "CONTACT", "pages/contact.html"),
+    ("legal", "LEGAL", "pages/legal.html"),
 ]
 
 # Pages whose section can't be derived from their category (the tab-bar
 # landing pages themselves, plus anything with no category at all). Every
 # other page's section is inferred from whether its category is a TOOLS
-# category - see page_section() below.
+# category - see page_section() below. The header brand/logo is the
+# "home" link (see base.html) - there's no separate HOME tab, same as
+# most real navbars just make the logo itself the home link.
 SECTION_OVERRIDES = {
     "index.html": "tools",
     "pages/wiki-index.html": "wiki",
     "pages/log.html": "log",
     "pages/about.html": "about",
+    "pages/contact.html": "contact",
+    "pages/legal.html": "legal",
 }
 
 
@@ -249,9 +255,9 @@ PAGES = [
          root="../", code="RUNES", category="GAMES_CURIOS",
          js=["tool-runes.js"]),
 
-    dict(out="pages/about.html", fragment="about.html", title="Origin Log",
+    dict(out="pages/about.html", fragment="about.html", title="About",
          desc="GAMA⁺, in her own words. Not exactly a straight answer.",
-         root="../", code="ORIGIN_LOG", category=None, breadcrumb_cat="ABOUT", js=[]),
+         root="../", code="ABOUT", category=None, js=[]),
     dict(out="pages/wiki-index.html", fragment="wiki-index.html", title="GAMA+ Wiki",
          desc="Technical trivia, privacy/OSINT reference entries, and dumb conversation-enders, filed as they get salvaged.",
          root="../", code="GAMA_WIKI", category=None, breadcrumb_cat="WIKI", js=[]),
@@ -264,7 +270,7 @@ PAGES = [
     # but still get a breadcrumb via breadcrumb_cat.
     dict(out="pages/legal.html", fragment="legal.html", title="Legal & Privacy",
          desc="Privacy policy, terms of use, advertising disclosure.",
-         root="../", code="LEGAL", category=None, breadcrumb_cat="SYSTEM", js=[]),
+         root="../", code="LEGAL", category=None, js=[]),
     dict(out="pages/privacy.html", fragment="privacy.html", title="Privacy Policy",
          desc="How gamayun.site collects, uses, and discloses information, including Google AdSense and Analytics disclosures.",
          root="../", code="PRIVACY", category=None, breadcrumb_cat="SYSTEM", js=[]),
@@ -273,7 +279,7 @@ PAGES = [
          root="../", code="TERMS", category=None, breadcrumb_cat="SYSTEM", js=[]),
     dict(out="pages/contact.html", fragment="contact.html", title="Contact",
          desc="Get in touch.", root="../", code="CONTACT", category=None,
-         breadcrumb_cat="SYSTEM", js=[]),
+         js=[]),
     dict(out="pages/sitemap.html", fragment="sitemap.html", title="Sitemap",
          desc="Full index of every page on this ship.", root="../", code="SITEMAP",
          category=None, breadcrumb_cat="SYSTEM", js=[]),
@@ -306,24 +312,23 @@ def build_tabs_html(current_section, root):
 
 
 def build_nav_html(current_out, root, current_section):
-    """Grouped sidebar nav: DECK_LAUNCHER standalone up top, then every
-    category with a page in it, in CATEGORIES order. Each category is a
-    native <details> disclosure - collapsed by default, no custom JS needed
-    - except the one containing the current page, which opens automatically
-    so navigating never buries you. `root` is interpolated directly (not
-    left as a {{ROOT}} token) since this HTML is spliced in after the base
-    template's own {{ROOT}} substitution pass already ran.
+    """Grouped sidebar nav: every category with a page in it, in CATEGORIES
+    order. Each category is a native <details> disclosure - collapsed by
+    default, no custom JS needed - except the one containing the current
+    page, which opens automatically so navigating never buries you. `root`
+    is interpolated directly (not left as a {{ROOT}} token) since this HTML
+    is spliced in after the base template's own {{ROOT}} substitution pass
+    already ran.
 
+    No standalone home/DECK_LAUNCHER link here anymore - the header
+    logo is the home link now (see base.html), same as most real navbars.
     Categories are TOOLS-only sub-groups, so outside the tools section
-    (Wiki/Log/About pages) this only renders the DECK_LAUNCHER link back
-    to Tools - a category list of e.g. RECON_OPS would be meaningless on
-    the Wiki page."""
-    home = PAGES[0]
+    (Wiki/Log/About/Contact/Legal) this renders nothing at all - a
+    category list of e.g. RECON_OPS would be meaningless on the Wiki
+    page, and there's nothing else that belongs here instead."""
     lines = []
-    active = " active" if current_out == home["out"] else ""
-    lines.append(f'                <a href="{root}index.html" class="nav-link{active}">{nav_link_label(home["code"])}</a>')
     if current_section != "tools":
-        return "\n".join(lines)
+        return ""
     for cat_key, cat_label in CATEGORIES:
         pages_in_cat = [p for p in PAGES if p.get("category") == cat_key]
         if not pages_in_cat:

@@ -144,6 +144,13 @@ a:hover, a:focus {
   font-family: var(--font-display);
   font-size: 1.4rem;
   letter-spacing: 0.05em;
+  border-bottom: none;
+  text-decoration: none;
+}
+.terminal-header .brand:hover, .terminal-header .brand:focus {
+  color: var(--phosphor);
+  background: none;
+  text-shadow: 0 0 8px var(--phosphor);
 }
 .terminal-header .system-status {
   font-size: 0.8rem;
@@ -272,6 +279,25 @@ a:hover, a:focus {
   padding: 0.5rem;
 }
 .site-search-box input::placeholder { color: var(--phosphor-dim-text); }
+/* Blinking terminal cursor, CSS-only: visible whenever the input is
+   showing its placeholder (empty, whether focused or not), hidden the
+   instant real text exists - the :placeholder-shown/~ sibling trick
+   means that hide/show needs zero JS. */
+.search-cursor-blink {
+  position: absolute;
+  right: 0.6rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--phosphor);
+  font-family: var(--font-mono);
+  pointer-events: none;
+  animation: cursor-blink 1s step-end infinite;
+}
+.site-search-box input:not(:placeholder-shown) ~ .search-cursor-blink { display: none; }
+@keyframes cursor-blink { 50% { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) {
+  .search-cursor-blink { animation: none; }
+}
 .site-search-results {
   display: none;
   position: absolute;
@@ -313,7 +339,7 @@ a:hover, a:focus {
 .terminal-nav {
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  gap: 0;
   border: 1px solid var(--phosphor-faint);
   background: var(--void-raised);
   padding: 0.75rem;
@@ -344,7 +370,7 @@ a:hover, a:focus {
    The category holding the current page renders with the `open` attribute
    already set (see build_nav_html in _src/build.py) so you're never
    dropped into a collapsed section with no idea where you are. */
-.nav-section { margin: 0.75rem 0; }
+.nav-section { margin: 0.15rem 0; }
 .nav-section-label {
   display: block;
   font-size: 0.7rem;
@@ -519,6 +545,12 @@ button:hover, .btn:hover {
   max-width: 160px;
   margin: 0 auto;
   display: block;
+  cursor: pointer;
+  /* .gama-mascot-box is pointer-events:none on desktop (so her fixed
+     corner box never blocks clicks to real content behind it) - re-enable
+     just for her portrait specifically, since it's now a real click
+     target (the poke-her-7-times easter egg). */
+  pointer-events: auto;
   filter: drop-shadow(0 0 8px rgba(0,255,102,0.35));
   animation: gama-idle-float 4s ease-in-out infinite;
 }
@@ -635,19 +667,22 @@ button:hover, .btn:hover {
   padding: 0.5rem;
 }
 .ad-leaderboard .adsense-slot { min-height: 90px; }
-/* ---- Bookmarklet prompt: slim sidebar strip, sitewide (was a big
-   homepage-only callout block) ---- */
+/* ---- Bookmarklet prompt: slim strip under the tab bar, sitewide (was a
+   big homepage-only callout block, then briefly a sidebar strip - this
+   is "under the navbar" as asked, a full-width row of its own between
+   the tabs and the three-column deck below). ---- */
 .bookmarklet-slim {
   display: block;
-  margin-bottom: 0.75rem;
-  padding: 0.5rem 0.6rem;
-  border: 1px dashed var(--phosphor-dim);
+  padding: 0.4rem 1.5rem;
+  border-bottom: 1px dashed var(--phosphor-dim);
+  background: var(--void-raised);
   font-size: 0.75rem;
   line-height: 1.4;
+  text-align: center;
   color: var(--phosphor-dim-text);
   cursor: grab;
 }
-.bookmarklet-slim:hover { border-color: var(--phosphor); color: var(--phosphor); background: var(--phosphor-faint); }
+.bookmarklet-slim:hover { border-bottom-color: var(--phosphor); color: var(--phosphor); background: var(--phosphor-faint); }
 .bookmarklet-slim:active { cursor: grabbing; }
 .ad-native {
   margin: 0 1.5rem 1.5rem;
@@ -696,11 +731,6 @@ button:hover, .btn:hover {
   justify-content: space-between;
   gap: 1rem;
 }
-/* Trademark/nominative-fair-use disclaimer, sitewide, one template edit
-   per GAMAYUN_tactics_strategy_bulletproofing.md section 4 - distinct
-   from .trust-block above it (that's privacy/no-accounts; this is "we
-   don't own or claim to be endorsed by anything we mention"). */
-.legal-shield { font-size: 0.75rem; max-width: 60ch; }
 .site-footer nav {
   display: flex;
   flex-wrap: wrap;

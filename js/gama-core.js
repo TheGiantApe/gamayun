@@ -189,6 +189,24 @@ const GAMA = (() => {
     );
     resetIdleTimer();
 
+    // Ambient ticker lines - the log stream otherwise only ever grows from
+    // real actions (tool runs, easter eggs), so on a quiet page it just
+    // sits there. These log themselves in on a loose timer regardless of
+    // activity, same "is anyone even watching" energy as the rest of her.
+    // One's a straight ASCII-binary line - no wink, no decode link, just
+    // there for whoever bothers.
+    const AMBIENT_TICKER_LINES = [
+      "signal integrity: nominal. for now.",
+      "uplink idle. listening anyway.",
+      "orbit decayed a long time ago. nobody's told the telemetry that.",
+      "frequency clear. broadcasting into the dark, same as always.",
+      "relay check: still nobody home upstream.",
+      "01001001 00100000 01010011 01000101 01000101 00100000 01011001 01001111 01010101",
+    ];
+    setInterval(() => {
+      if (Math.random() < 0.15) log(pick(AMBIENT_TICKER_LINES));
+    }, 40000);
+
     // Hero logo (home page only): random glitch pulses instead of a fixed
     // loop, so it reads as an unstable signal rather than a metronome.
     const heroLogo = document.getElementById("hero-wordmark-logo");
@@ -291,10 +309,13 @@ const GAMA = (() => {
     const mmdd = `${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
     if (mmdd === "08-29") triggerEgg("skynet_birthday");
 
-    const brand = document.querySelector(".terminal-header .brand");
+    // Was the header logo, but that's a real home link now (see
+    // base.html) - clicking it navigates away before a 7th click could
+    // ever land. GAMA's own portrait makes more sense to poke anyway.
+    const pokeTarget = document.getElementById("gama-portrait");
     let logoClicks = 0;
-    if (brand) {
-      brand.addEventListener("click", () => {
+    if (pokeTarget) {
+      pokeTarget.addEventListener("click", () => {
         logoClicks++;
         if (logoClicks >= 7) {
           triggerEgg("logo-click-7");
