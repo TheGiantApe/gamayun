@@ -371,12 +371,20 @@ a:hover, a:focus {
    already set (see build_nav_html in _src/build.py) so you're never
    dropped into a collapsed section with no idea where you are. */
 .nav-section { margin: 0.15rem 0; }
+/* Category label is the lead: brighter and slightly larger than its
+   dependents, like a normal sidebar group header. Sub-links used to be
+   0.9rem in the default (bright) text color while the label sat at
+   0.7rem dim - dependents read as more important than their own parent.
+   Now the label is the loudest thing in the box; links are smaller,
+   dimmer by default, indented to read as subordinate, and only brighten
+   on hover or when active (current page). */
 .nav-section-label {
   display: block;
-  font-size: 0.7rem;
-  color: var(--phosphor-dim-text);
+  font-size: 0.85rem;
+  font-weight: bold;
+  color: var(--phosphor);
   letter-spacing: 0.1em;
-  margin: 0 0 0.25rem;
+  margin: 0 0 0.35rem;
   cursor: pointer;
   list-style: none;
   user-select: none;
@@ -396,17 +404,28 @@ a:hover, a:focus {
 .nav-section-label:hover::before { color: var(--phosphor); }
 .nav-link {
   display: block;
-  padding: 0.25rem 0;
+  padding: 0.25rem 0 0.25rem 1.1rem;
   border-bottom: none;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
+  color: var(--phosphor-dim-text);
 }
+.nav-link:hover { border-bottom: none; color: var(--phosphor); }
 .nav-link.active { color: var(--amber); }
-.nav-link:hover { border-bottom: none; }
 /* HTML_ENTITY_CODEC-length codes have no ordinary break point except the
    space after the arrow - see nav_link_label() in build.py, which glues
    '&gt;' to the label with a non-breaking space so the arrow can't strand
    itself alone on a line, then lets the label wrap internally instead. */
 .nav-link-label { overflow-wrap: anywhere; }
+/* Wiki's flat nav-link list has no parent .nav-section label to carry the
+   lead role, so its links keep the default (bright, unindented) treatment
+   rather than the tools-section dependent styling above. */
+.terminal-nav > .nav-link {
+  padding-left: 0;
+  font-size: 0.9rem;
+  color: var(--phosphor);
+}
+.terminal-nav > .nav-link:hover { color: var(--phosphor); }
+.terminal-nav > .nav-link.active { color: var(--amber); }
 
 .center-viewport {
   padding: 1.5rem;
@@ -718,36 +737,26 @@ button:hover, .btn:hover {
 
 .site-footer {
   border-top: 1px solid var(--phosphor-dim);
-  padding: 1.5rem 1rem;
+  padding: 1.5rem 1rem 0;
   font-size: 0.8rem;
   color: var(--phosphor-dim-text);
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-}
-.site-footer .footer-top-row {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 1rem;
-}
-.site-footer nav {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0 1rem;
+  gap: 1.5rem;
 }
 .site-footer nav a { border-bottom: none; }
 
 /* Trust block: consolidated credibility signals, not scattered across the
    page. Same visual language as .badge-clientside (small bordered tag)
-   rather than a new pattern. */
+   rather than a new pattern. Pure claims only now - Privacy/Terms moved
+   into the LEGAL column below so this row doesn't double as a nav list. */
 .trust-block {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem 1rem;
   font-size: 0.75rem;
 }
-.trust-block span, .trust-block a {
+.trust-block span {
   display: inline-flex;
   align-items: center;
   gap: 0.3em;
@@ -755,8 +764,47 @@ button:hover, .btn:hover {
   padding: 0.15rem 0.5rem;
   letter-spacing: 0.02em;
 }
-.trust-block a { border-bottom: 1px solid var(--phosphor-dim); }
-.trust-block a:hover { border-color: var(--phosphor); color: var(--phosphor); }
+
+/* Column layout: brand/social + link columns, same shape as a normal
+   corporate footer (brand blurb, sections, legal) instead of one row
+   with copyright, six nav links, and social icons all crammed together. */
+.footer-columns {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr;
+  gap: 1.5rem;
+}
+@media (max-width: 700px) {
+  .footer-columns { grid-template-columns: 1fr 1fr; }
+  .footer-col-brand { grid-column: 1 / -1; }
+}
+.footer-col {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: flex-start;
+}
+.footer-col a { border-bottom: none; }
+.footer-col a:hover { color: var(--phosphor); }
+.footer-col-label {
+  font-size: 0.7rem;
+  color: var(--phosphor);
+  font-weight: bold;
+  letter-spacing: 0.1em;
+  margin-bottom: 0.15rem;
+}
+.footer-brand {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  color: var(--phosphor);
+}
+.footer-col-brand p { margin: 0; max-width: 26ch; }
+
+.footer-bottom {
+  border-top: 1px solid var(--phosphor-faint);
+  padding: 1rem 0;
+  text-align: center;
+  font-size: 0.75rem;
+}
 
 /* Social icons: self-contained inline SVG, no icon font/CDN, so they stay
    consistent with the site's zero-third-party-dependency rule. currentColor

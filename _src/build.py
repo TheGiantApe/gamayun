@@ -8,6 +8,7 @@ about the shipped site depends on this script running again.
 To add a new page: drop a fragment in _src/content/, add one entry
 to PAGES below, run this script.
 """
+import datetime
 import json
 import os
 
@@ -372,28 +373,33 @@ def build_nav_html(current_out, root, current_section):
     this renders nothing at all, except on Wiki pages specifically,
     where it's a flat list of every wiki entry (titles, not short codes -
     they don't have one) so you can jump between entries without going
-    back to the hub every time."""
+    back to the hub every time.
+
+    Returns the whole <nav class="terminal-nav"> wrapper (or an empty
+    string) rather than just its contents - on sections with nothing to
+    show (About/Log/Contact/Legal) this means no bordered box renders at
+    all, instead of an empty shell that looked like a rendering bug."""
     lines = []
     if current_section == "wiki":
         for p in wiki_entries():
             active = " active" if p["out"] == current_out else ""
             lines.append(f'                <a href="{root}{p["out"]}" class="nav-link{active}">&gt;&nbsp;<span class="nav-link-label">{p["title"]}</span></a>')
-        return "\n".join(lines)
-    if current_section != "tools":
+    elif current_section == "tools":
+        for cat_key, cat_label in CATEGORIES:
+            pages_in_cat = [p for p in PAGES if p.get("category") == cat_key]
+            if not pages_in_cat:
+                continue
+            has_active = any(p["out"] == current_out for p in pages_in_cat)
+            open_attr = " open" if has_active else ""
+            lines.append(f'                <details class="nav-section"{open_attr}>')
+            lines.append(f'                    <summary class="nav-section-label">[ {cat_label} ]</summary>')
+            for p in pages_in_cat:
+                active = " active" if p["out"] == current_out else ""
+                lines.append(f'                    <a href="{root}{p["out"]}" class="nav-link{active}">{nav_link_label(p["code"])}</a>')
+            lines.append(f'                </details>')
+    if not lines:
         return ""
-    for cat_key, cat_label in CATEGORIES:
-        pages_in_cat = [p for p in PAGES if p.get("category") == cat_key]
-        if not pages_in_cat:
-            continue
-        has_active = any(p["out"] == current_out for p in pages_in_cat)
-        open_attr = " open" if has_active else ""
-        lines.append(f'                <details class="nav-section"{open_attr}>')
-        lines.append(f'                    <summary class="nav-section-label">[ {cat_label} ]</summary>')
-        for p in pages_in_cat:
-            active = " active" if p["out"] == current_out else ""
-            lines.append(f'                    <a href="{root}{p["out"]}" class="nav-link{active}">{nav_link_label(p["code"])}</a>')
-        lines.append(f'                </details>')
-    return "\n".join(lines)
+    return '            <nav class="terminal-nav">\n' + "\n".join(lines) + '\n            </nav>'
 
 
 def nav_link_label(code):
@@ -547,6 +553,7 @@ def build():
         out = out.replace("{{NAV}}", build_nav_html(page["out"], page["root"], section))
         out = out.replace("{{BREADCRUMB}}", build_breadcrumb_html(page, page["root"]))
         out = out.replace("{{CONTENT}}", content)
+        out = out.replace("{{YEAR}}", str(datetime.date.today().year))
 
         extra_js_html = "\n".join(
             f'    <script src="{page["root"]}js/{fname}"></script>' for fname in page["js"]
