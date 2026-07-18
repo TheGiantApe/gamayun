@@ -34,10 +34,10 @@
          changing hosts. -->
     <meta http-equiv="Content-Security-Policy" content="object-src 'none'; base-uri 'self'; form-action 'self'">
 
-    <title>Cron Expression Parser // GAMAYUN⁺</title>
-    <meta name="description" content="Plain-English description and next 5 run times for any 5-field cron expression.">
-    <meta property="og:title" content="Cron Expression Parser // GAMAYUN⁺">
-    <meta property="og:description" content="Plain-English description and next 5 run times for any 5-field cron expression.">
+    <title>Verify a Source Before You Share It // GAMAYUN⁺</title>
+    <meta name="description" content="Reverse-image search, account age, dead-link sourcing, and why a screenshot alone proves nothing.">
+    <meta property="og:title" content="Verify a Source Before You Share It // GAMAYUN⁺">
+    <meta property="og:description" content="Reverse-image search, account age, dead-link sourcing, and why a screenshot alone proves nothing.">
     <meta property="og:type" content="website">
     <meta name="twitter:card" content="summary">
     <link href="https://fonts.googleapis.com/css2?family=VT323&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
@@ -45,7 +45,7 @@
     <link rel="manifest" href="/manifest.json">
     <link rel="icon" href="/assets/favicon.ico">
     <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
-    <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "Cron Expression Parser", "description": "Plain-English description and next 5 run times for any 5-field cron expression.", "url": "https://gamayun.site/pages/cron-generator.html", "applicationCategory": "UtilitiesApplication", "operatingSystem": "Any (runs in browser)", "isAccessibleForFree": true, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}}</script>
+    <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "Verify a Source Before You Share It", "description": "Reverse-image search, account age, dead-link sourcing, and why a screenshot alone proves nothing.", "url": "https://gamayun.site/pages/howto-verify-source.html", "applicationCategory": "UtilitiesApplication", "operatingSystem": "Any (runs in browser)", "isAccessibleForFree": true, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}}</script>
 </head>
 <body class="crt-screen" data-root="../">
 
@@ -126,7 +126,7 @@
                     <a href="../pages/steganography.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">STEGANOGRAPHY</span></a>
                     <a href="../pages/ela-check.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">ELA_CHECK</span></a>
                 </details>
-                <details class="nav-section" open>
+                <details class="nav-section">
                     <summary class="nav-section-label">[ DEV_VAULT&nbsp;]</summary>
                     <a href="../pages/json-format.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">JSON_FORMATTER</span></a>
                     <a href="../pages/uuid.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">UUID_GEN</span></a>
@@ -134,7 +134,7 @@
                     <a href="../pages/password-gen.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">PASSWORD_GEN</span></a>
                     <a href="../pages/regex-tester.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">REGEX_TESTER</span></a>
                     <a href="../pages/jwt-decoder.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">JWT_DECODER</span></a>
-                    <a href="../pages/cron-generator.html" class="nav-link active">&gt;&nbsp;<span class="nav-link-label">CRON_GEN</span></a>
+                    <a href="../pages/cron-generator.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">CRON_GEN</span></a>
                     <a href="../pages/recipe-chain.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">RECIPE_CHAIN</span></a>
                     <a href="../pages/code-snap.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">CODE_SNAP</span></a>
                 </details>
@@ -149,9 +149,9 @@
                     <a href="../pages/moon-phase.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">MOON_PHASE</span></a>
                     <a href="../pages/runes.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">RUNES</span></a>
                 </details>
-                <details class="nav-section">
+                <details class="nav-section" open>
                     <summary class="nav-section-label">[ FIELD_MANUALS&nbsp;]</summary>
-                    <a href="../pages/howto-verify-source.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">HOWTO_VERIFY_SOURCE</span></a>
+                    <a href="../pages/howto-verify-source.html" class="nav-link active">&gt;&nbsp;<span class="nav-link-label">HOWTO_VERIFY_SOURCE</span></a>
                     <a href="../pages/howto-strip-metadata.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">HOWTO_STRIP_METADATA</span></a>
                     <a href="../pages/howto-check-breach.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">HOWTO_CHECK_BREACH</span></a>
                     <a href="../pages/howto-archive-page.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">HOWTO_ARCHIVE_PAGE</span></a>
@@ -178,16 +178,20 @@
 
         <main class="center-viewport" id="active-tool-zone">
             <div class="content-flex-fill">
-            <div class="breadcrumb">&gt; <a href="../index.html">DECK_LAUNCHER</a> <span class="breadcrumb-sep">/</span> DEV_VAULT <span class="breadcrumb-sep">/</span> CRON_GEN</div>
-            <section class="tool-card">
-                <h2>&gt; CRON_GEN</h2>
-                <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">Paste a standard 5-field cron expression (minute hour day-of-month month day-of-week). Get back a plain-English description and the next 5 real run times, computed forward from right now. All times UTC.</p>
-                <div class="tool-workspace">
-                    <input type="text" id="cron-input" placeholder="e.g. 0 9 * * 1-5" oninput="executeCronParse()">
-                </div>
-                <div class="result-block" id="cron-result"></div>
-            </section>
-            <p style="padding:0 1.5rem; font-size:0.85rem;"><span style="color: var(--phosphor-dim-text)">See also:</span> <a href="wiki-time.html">why Sunday is day 0</a></p>
+            <div class="breadcrumb">&gt; <a href="../index.html">DECK_LAUNCHER</a> <span class="breadcrumb-sep">/</span> FIELD_MANUALS <span class="breadcrumb-sep">/</span> HOWTO_VERIFY_SOURCE</div>
+            <article class="prose">
+                <h1>&gt; Verify a Source Before You Share It</h1>
+                <p class="instructable-meta">BEGINNER &middot; ~5 MIN</p>
+                <p>Five minutes of checking beats being the reason something fake went around again.</p>
+                <ol>
+                    <li>Reverse-image-search the photo (TinEye or a similar tool) to see if it's actually old, or from a different event entirely.</li>
+                    <li>Check the account that posted it - when was it created, does it post about anything else, or is this the only thing it exists to spread.</li>
+                    <li>If there's a claimed article/source behind it, check whether that source still exists or has been archived - a dead link claiming to back up a claim is not a source.</li>
+                    <li>If it's a screenshot of a chat/message, remember screenshot generators exist purely to fabricate exactly this kind of "evidence" - a screenshot alone proves nothing.<div class="field-note">This is exactly the kind of tool GAMAYUN's own research turned up and refused to list - the fact that it's this easy to fake is the whole point of checking.</div></li>
+                </ol>
+                <p class="instructable-meta">RELATED: <a href="image-tools.html">Image Salvage</a> &middot; <a href="wiki-reverse-image.html">Reverse Image Search & Metadata</a></p>
+            </article>
+
 
             </div>
             <div class="ad-leaderboard">
@@ -299,7 +303,7 @@
     <script src="../js/data-tool-list.js"></script>
     <script src="../js/site-search.js"></script>
     <script src="../js/page-transition.js"></script>
-    <script src="../js/tool-cron.js"></script>
+
     <script>
       if ("serviceWorker" in navigator) {
         window.addEventListener("load", () => navigator.serviceWorker.register("/sw.js"));

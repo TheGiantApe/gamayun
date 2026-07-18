@@ -31,6 +31,10 @@ CATEGORIES = [
     ("FILE_SALVAGE", "FILE_SALVAGE"),
     ("DEV_VAULT", "DEV_VAULT"),
     ("GAMES_CURIOS", "GAMES & CURIOS"),
+    ("FIELD_MANUALS", "FIELD_MANUALS"),
+    ("EXTERNAL_LINKS", "EXTERNAL_LINKS"),
+    ("OSINT_DECK", "OSINT_DECK"),
+    ("STUDY_HALL", "STUDY_HALL"),
 ]
 
 # Top-level tab bar (site sections), separate from CATEGORIES above (which
@@ -263,6 +267,65 @@ PAGES = [
          desc="Transliterate text into Elder Futhark, the 24-rune Germanic alphabet.",
          root="../", code="RUNES", category="GAMES_CURIOS",
          js=["tool-runes.js"]),
+
+    # Field Manuals: GAMA-voice step-by-step guides. Content lives in
+    # INSTRUCTABLES below; all 5 pages share one fragment shell
+    # (howto-template.html) since the only thing that differs per page is
+    # the {{HOWTO_CONTENT}} block built at build() time.
+    dict(out="pages/howto-verify-source.html", fragment="howto-template.html",
+         title="Verify a Source Before You Share It",
+         desc="Reverse-image search, account age, dead-link sourcing, and why a screenshot alone proves nothing.",
+         root="../", code="HOWTO_VERIFY_SOURCE", category="FIELD_MANUALS", js=[]),
+    dict(out="pages/howto-strip-metadata.html", fragment="howto-template.html",
+         title="Strip Metadata Before You Post a Photo",
+         desc="Your camera embeds more into that file than you think it does.",
+         root="../", code="HOWTO_STRIP_METADATA", category="FIELD_MANUALS", js=[]),
+    dict(out="pages/howto-check-breach.html", fragment="howto-template.html",
+         title="Check If You've Been Breached (And What to Actually Do About It)",
+         desc="Checking takes thirty seconds. The part that actually helps comes after.",
+         root="../", code="HOWTO_CHECK_BREACH", category="FIELD_MANUALS", js=[]),
+    dict(out="pages/howto-archive-page.html", fragment="howto-template.html",
+         title="Archive a Page Before It Disappears",
+         desc="If it matters enough to link to, it matters enough to save.",
+         root="../", code="HOWTO_ARCHIVE_PAGE", category="FIELD_MANUALS", js=[]),
+    dict(out="pages/howto-anon-signup.html", fragment="howto-template.html",
+         title="Sign Up for Something Without Handing Over Your Real Info",
+         desc="Not everything that asks for your email and phone number needs your actual email and phone number.",
+         root="../", code="HOWTO_ANON_SIGNUP", category="FIELD_MANUALS", js=[]),
+
+    # External Links: curated outbound directories, split by topic to match
+    # the existing sidebar categories they're each closest to. Content
+    # lives in EXTERNAL_LINKS below; all 5 pages share links-template.html.
+    dict(out="pages/links-dev-tools.html", fragment="links-template.html",
+         title="Dev Vault // External Links",
+         desc="Regex101, crontab.guru, DevDocs, and other outside tools worth knowing about.",
+         root="../", code="LINKS_DEV_TOOLS", category="EXTERNAL_LINKS", js=[]),
+    dict(out="pages/links-privacy-utility.html", fragment="links-template.html",
+         title="Recon Ops // External Links",
+         desc="Breach checkers, disposable inboxes, ToS raters, and other privacy-and-utility sites.",
+         root="../", code="LINKS_PRIVACY_UTILITY", category="EXTERNAL_LINKS", js=[]),
+    dict(out="pages/links-research-education.html", fragment="links-template.html",
+         title="Ship's Log // External Links",
+         desc="Archive.org, Project Gutenberg, and other research/education sites worth bookmarking.",
+         root="../", code="LINKS_RESEARCH_EDU", category="EXTERNAL_LINKS", js=[]),
+    dict(out="pages/links-design-media.html", fragment="links-template.html",
+         title="File Salvage // External Links",
+         desc="Photopea, Squoosh, and other design/media tools that live outside GAMAYUN.",
+         root="../", code="LINKS_DESIGN_MEDIA", category="EXTERNAL_LINKS", js=[]),
+    dict(out="pages/links-fun-curios.html", fragment="links-template.html",
+         title="Games & Curios // External Links",
+         desc="Radio Garden, FutureMe, and other odd, mostly-pointless-in-a-good-way sites.",
+         root="../", code="LINKS_FUN_CURIOS", category="EXTERNAL_LINKS", js=[]),
+
+    dict(out="pages/osint-directory.html", fragment="osint-directory.html",
+         title="OSINT Directory",
+         desc="External OSINT/security tools, grouped by skill level, with caution notes carried over verbatim from GAMAYUN's own vetting pass.",
+         root="../", code="OSINT_DIRECTORY", category="OSINT_DECK", js=[]),
+
+    dict(out="pages/free-courses.html", fragment="free-courses.html",
+         title="Free Courses",
+         desc="Real free education, with the free-to-learn-but-paid-certificate cases called out honestly instead of blurred together.",
+         root="../", code="FREE_COURSES", category="STUDY_HALL", js=[]),
 
     dict(out="pages/about.html", fragment="about.html", title="About",
          desc="GAMA⁺, in her own words. Not exactly a straight answer.",
@@ -500,6 +563,254 @@ def build_wiki_index_html():
     return '                <div class="tool-grid-row">\n' + "\n".join(items) + "\n                </div>"
 
 
+# ---- Field Manuals (instructables): GAMA-voice step-by-step guides ----
+# Source: output/site_expansion/instructables.json (QUEUE 2 draft batch).
+# related_tools/related_wiki are page basenames (same directory as the
+# instructable pages), resolved against PAGES for their display titles at
+# build time so the link text can't drift out of sync with a page's real
+# title.
+INSTRUCTABLES = [
+    dict(slug="verify-source", title="Verify a Source Before You Share It",
+         hook="Five minutes of checking beats being the reason something fake went around again.",
+         difficulty="beginner", est_minutes=5,
+         steps=[
+             dict(n=1, instruction="Reverse-image-search the photo (TinEye or a similar tool) to see if it's actually old, or from a different event entirely."),
+             dict(n=2, instruction="Check the account that posted it - when was it created, does it post about anything else, or is this the only thing it exists to spread."),
+             dict(n=3, instruction="If there's a claimed article/source behind it, check whether that source still exists or has been archived - a dead link claiming to back up a claim is not a source."),
+             dict(n=4, instruction='If it\'s a screenshot of a chat/message, remember screenshot generators exist purely to fabricate exactly this kind of "evidence" - a screenshot alone proves nothing.',
+                  gotcha="This is exactly the kind of tool GAMAYUN's own research turned up and refused to list - the fact that it's this easy to fake is the whole point of checking."),
+         ],
+         related_tools=["image-tools.html"], related_wiki=["wiki-reverse-image.html"]),
+    dict(slug="strip-metadata", title="Strip Metadata Before You Post a Photo",
+         hook="Your camera embeds more into that file than you think it does.",
+         difficulty="beginner", est_minutes=3,
+         steps=[
+             dict(n=1, instruction="Most phone photos carry EXIF data - camera model, timestamp, and often exact GPS coordinates of where it was taken."),
+             dict(n=2, instruction="Run the photo through a metadata-stripping tool before posting anywhere public."),
+             dict(n=3, instruction="Double check by re-uploading the stripped version to a metadata viewer - confirm the GPS/timestamp fields are actually gone, not just hidden in the app you're using."),
+         ],
+         related_tools=["image-tools.html"], related_wiki=["wiki-reverse-image.html"]),
+    dict(slug="check-breach", title="Check If You've Been Breached (And What to Actually Do About It)",
+         hook="Checking takes thirty seconds. Most people stop there, which is the part that doesn't help.",
+         difficulty="beginner", est_minutes=10,
+         steps=[
+             dict(n=1, instruction="Check your email address against Have I Been Pwned."),
+             dict(n=2, instruction="If it shows up in a breach, the actual useful step is changing the password on that specific breached service - not panicking about every account you own."),
+             dict(n=3, instruction="Check whether you reused that same password anywhere else. If so, change it there too - password reuse is what turns one breach into ten compromised accounts."),
+             dict(n=4, instruction="Turn on two-factor authentication anywhere it's offered and you haven't already. This is the step that actually prevents most of the damage from a breach you don't yet know about."),
+         ],
+         related_tools=["password-gen.html"], related_wiki=["wiki-osint.html"]),
+    dict(slug="archive-page", title="Archive a Page Before It Disappears",
+         hook="If it matters enough to link to, it matters enough to save.",
+         difficulty="beginner", est_minutes=2,
+         steps=[
+             dict(n=1, instruction="Use the Wayback Machine's \"Save Page Now\" feature on the URL you care about."),
+             dict(n=2, instruction="Keep the archived snapshot URL alongside the original when you cite or reference the page - the snapshot survives even if the original goes down or gets edited."),
+             dict(n=3, instruction="For pages you expect to change over time (not just disappear), check whether the Wayback Machine already has historical snapshots - useful for seeing what a page used to say."),
+         ],
+         related_tools=[], related_wiki=["wiki-link-rot.html"]),
+    dict(slug="anon-signup", title="Sign Up for Something Without Handing Over Your Real Info",
+         hook="Not everything that asks for your email and phone number needs your actual email and phone number.",
+         difficulty="beginner", est_minutes=5,
+         steps=[
+             dict(n=1, instruction="For a one-time signup you don't plan to keep, use a disposable email inbox instead of your real one."),
+             dict(n=2, instruction="If it also demands a phone number just to send a one-time code, a free virtual-number service can receive that single SMS without exposing your real number."),
+             dict(n=3, instruction="If a form demands a name/address for something genuinely low-stakes (testing a checkout flow, filling a form that doesn't need to be real), a fake-identity generator exists for exactly that - not for anything that involves an actual transaction or contract."),
+             dict(n=4, instruction="None of this applies to anything with real legal or financial weight - this is for throwaway signups, not for lying on anything that matters.",
+                  gotcha="Worth being explicit about the line here, since the underlying tools could be misused past that point."),
+         ],
+         related_tools=[], related_wiki=[]),
+]
+
+
+def build_instructable_html(entry):
+    steps_html = []
+    for s in entry["steps"]:
+        gotcha = f'<div class="field-note">{s["gotcha"]}</div>' if s.get("gotcha") else ""
+        steps_html.append(f'                    <li>{s["instruction"]}{gotcha}</li>')
+    related = []
+    for basename in entry.get("related_tools", []) + entry.get("related_wiki", []):
+        title = next((p["title"] for p in PAGES if os.path.basename(p["out"]) == basename), basename)
+        related.append(f'<a href="{basename}">{title}</a>')
+    related_html = ""
+    if related:
+        related_html = f'                <p class="instructable-meta">RELATED: {" &middot; ".join(related)}</p>\n'
+    return (
+        '            <article class="prose">\n'
+        f'                <h1>&gt; {entry["title"]}</h1>\n'
+        f'                <p class="instructable-meta">{entry["difficulty"].upper()} &middot; ~{entry["est_minutes"]} MIN</p>\n'
+        f'                <p>{entry["hook"]}</p>\n'
+        '                <ol>\n' + "\n".join(steps_html) + '\n                </ol>\n'
+        + related_html +
+        '            </article>\n'
+    )
+
+
+# ---- External Links: curated outbound directories ----
+# Source: output/site_expansion/link_pages.json -> approved_high_value,
+# already vetted against the Opticon pipeline's integrity bar.
+EXTERNAL_LINKS = [
+    dict(topic="dev-tools", page_title="Dev Vault // External Links", entries=[
+        dict(domain="regex101.com", url="https://regex101.com", one_line_desc="Interactive regex tester with a live explainer panel. GAMAYUN ships its own regex tool - this is the one that inspired the category."),
+        dict(domain="crontab.guru", url="https://crontab.guru", one_line_desc="Plain-English cron expression explainer. Same relationship to GAMAYUN's cron tool as regex101 above."),
+        dict(domain="explainshell.com", url="https://explainshell.com", one_line_desc="Paste any shell command, get every flag explained inline."),
+        dict(domain="devdocs.io", url="https://devdocs.io", one_line_desc="Every language/framework's docs in one fast, offline-capable browser."),
+        dict(domain="roadmap.sh", url="https://roadmap.sh", one_line_desc="Free visual roadmaps for learning a given dev discipline end to end."),
+        dict(domain="learnxinyminutes.com", url="https://learnxinyminutes.com", one_line_desc="Any programming language's syntax, on one page, no fluff."),
+        dict(domain="jsoncrack.com", url="https://jsoncrack.com", one_line_desc="Turns JSON/YAML/CSV into an interactive visual graph."),
+        dict(domain="codebeautify.org", url="https://codebeautify.org", one_line_desc="Formats messy code/data across most common languages."),
+        dict(domain="diffchecker.com", url="https://diffchecker.com", one_line_desc="Free text/file diff comparison, no signup for basic use."),
+        dict(domain="builtwith.com", url="https://builtwith.com", one_line_desc="See what tech stack is actually running behind any website."),
+        dict(domain="excalidraw.com", url="https://excalidraw.com", one_line_desc="Open-source hand-drawn-style diagramming, no account required."),
+        dict(domain="n8n.io", url="https://n8n.io", one_line_desc="Open-source, self-hostable workflow automation - the non-proprietary Zapier alternative."),
+    ]),
+    dict(topic="privacy-utility", page_title="Recon Ops // External Links", entries=[
+        dict(domain="haveibeenpwned.com", url="https://haveibeenpwned.com", one_line_desc="The standard breach-check tool. Free, run by an independent security researcher, no data sold."),
+        dict(domain="tosdr.org", url="https://tosdr.org", one_line_desc="Rates services' actual Terms of Service in plain English so you don't have to read 40 pages of legalese."),
+        dict(domain="privnote.com", url="https://privnote.com", one_line_desc="Self-destructing one-time-read notes."),
+        dict(domain="10minutemail.com", url="https://10minutemail.com", one_line_desc="Disposable inbox for signups you don't want following you home."),
+        dict(domain="accountkiller.com", url="https://accountkiller.com", one_line_desc="Direct account-deletion links/instructions for sites that bury the option on purpose."),
+        dict(domain="sms24.me", url="https://sms24.me", one_line_desc="Free virtual numbers for SMS verification codes - keep your real number off yet another database."),
+        dict(domain="fakenamegenerator.com", url="https://fakenamegenerator.com", one_line_desc="Generates a full fake identity for testing forms or padding out low-stakes signups."),
+        dict(domain="virustotal.com", url="https://virustotal.com", one_line_desc="Multi-engine file/URL malware scanner, owned by Google."),
+        dict(domain="downdetector.com", url="https://downdetector.com", one_line_desc="Crowd-sourced outage tracker - is it down for everyone or just you."),
+        dict(domain="fast.com", url="https://fast.com", one_line_desc="Netflix's own no-account internet speed test."),
+        dict(domain="camelcamelcamel.com", url="https://camelcamelcamel.com", one_line_desc="Amazon price-history tracker - see if that \"deal\" actually is one."),
+        dict(domain="file.io", url="https://file.io", one_line_desc="File sharing that deletes itself after the first download."),
+    ]),
+    dict(topic="research-education", page_title="Ship's Log // External Links", entries=[
+        dict(domain="archive.org", url="https://archive.org", one_line_desc="The Internet Archive - Wayback Machine, public-domain books, software, audio. Not to be confused with piracy mirrors that borrow its reputation."),
+        dict(domain="gutenberg.org", url="https://gutenberg.org", one_line_desc="70,000+ genuinely public-domain ebooks."),
+        dict(domain="openculture.com", url="https://openculture.com", one_line_desc="Aggregates free courses and media from real universities."),
+        dict(domain="wolframalpha.com", url="https://wolframalpha.com", one_line_desc="Computational answer engine - step-by-step math, physics, chemistry."),
+        dict(domain="semanticscholar.org", url="https://semanticscholar.org", one_line_desc="Free academic search engine, Allen Institute for AI."),
+        dict(domain="elicit.com", url="https://elicit.com", one_line_desc="AI research-paper assistant, real free tier for basic search/summarize."),
+        dict(domain="consensus.app", url="https://consensus.app", one_line_desc="AI search specifically over published science, not the general web."),
+        dict(domain="connectedpapers.com", url="https://connectedpapers.com", one_line_desc="Visual graph of how research papers relate to each other."),
+        dict(domain="summarize.tech", url="https://summarize.tech", one_line_desc="Summarizes long YouTube video transcripts."),
+        dict(domain="justwatch.com", url="https://justwatch.com", one_line_desc="Finds where to legally stream a given movie or show. The non-piracy alternative to the aggregators that came up constantly during this research."),
+    ]),
+    dict(topic="design-media", page_title="File Salvage // External Links", entries=[
+        dict(domain="photopea.com", url="https://photopea.com", one_line_desc="Full Photoshop-alternative in the browser, opens PSD/XD/Sketch/RAW, no account."),
+        dict(domain="remove.bg", url="https://remove.bg", one_line_desc="One-click AI background removal."),
+        dict(domain="cleanup.pictures", url="https://cleanup.pictures", one_line_desc="Erase unwanted objects from a photo."),
+        dict(domain="squoosh.app", url="https://squoosh.app", one_line_desc="Google's own open-source image compressor, runs entirely client-side - close cousin to GAMAYUN's own philosophy."),
+        dict(domain="coolors.co", url="https://coolors.co", one_line_desc="Fast color-palette generator."),
+        dict(domain="khroma.co", url="https://khroma.co", one_line_desc="AI-trained personal color-palette generator, MIT Media Lab."),
+        dict(domain="fontjoy.com", url="https://fontjoy.com", one_line_desc="AI font-pairing generator."),
+        dict(domain="pixabay.com", url="https://pixabay.com", one_line_desc="Free stock photos/video/music, permissive license."),
+        dict(domain="mixkit.co", url="https://mixkit.co", one_line_desc="Free stock video and music clips."),
+        dict(domain="autodraw.com", url="https://autodraw.com", one_line_desc="Google's free sketch-to-icon AI tool."),
+        dict(domain="craiyon.com", url="https://craiyon.com", one_line_desc="Free AI image generator, descendant of the original DALL-E mini."),
+    ]),
+    dict(topic="fun-curios", page_title="Games & Curios // External Links", entries=[
+        dict(domain="radio.garden", url="https://radio.garden", one_line_desc="Spin an interactive globe, tune into real local radio stations anywhere."),
+        dict(domain="tunefind.com", url="https://tunefind.com", one_line_desc="Finds the song that just played in a given TV/movie scene."),
+        dict(domain="musicforprogramming.net", url="https://musicforprogramming.net", one_line_desc="Curated ambient focus music, free, no account."),
+        dict(domain="mynoise.net", url="https://mynoise.net", one_line_desc="Custom layered soundscapes for focus or sleep."),
+        dict(domain="futureme.org", url="https://futureme.org", one_line_desc="Write an email, have it delivered to yourself years from now."),
+        dict(domain="cobalt.tools", url="https://cobalt.tools", one_line_desc="Open-source universal downloader for social video/audio, no ads, no paywall."),
+        dict(domain="goblin.tools", url="https://goblin.tools", one_line_desc="Small ADHD/executive-dysfunction-friendly tools - task breakdown, tone formalizer."),
+        dict(domain="untools.co", url="https://untools.co", one_line_desc="A curated collection of actual decision-making frameworks, not motivational fluff."),
+        dict(domain="flightradar24.com", url="https://flightradar24.com", one_line_desc="Real-time global flight tracking."),
+        dict(domain="justtherecipe.com", url="https://justtherecipe.com", one_line_desc="Strips a recipe URL down to just the recipe, skips the life story."),
+    ]),
+]
+
+
+def build_link_card_html(entries):
+    """Shared external-link card markup - same visual family as
+    .tool-grid-item, distinguished only by the outbound arrow, since these
+    live in the same TOOLS-tab sidebar as GAMAYUN's own tools."""
+    items = []
+    for e in entries:
+        extra = f'<div class="field-note">{e["ethics_note"]}</div>' if e.get("ethics_note") else ""
+        extra += f'<div class="info-tag">{e["cost_honesty"]}</div>' if e.get("cost_honesty") else ""
+        label = e.get("domain") or e.get("provider")
+        desc = e.get("one_line_desc") or e.get("what_you_actually_learn")
+        items.append(
+            f'                <a class="tool-grid-item" href="{e["url"]}" target="_blank" rel="noopener">\n'
+            f'                    <div class="tool-name">&gt; {label} <span class="tool-name-arrow">&#8599;</span></div>\n'
+            f'                    <div class="tool-desc">{desc}</div>{extra}\n'
+            '                </a>'
+        )
+    return '                <div class="tool-grid-row">\n' + "\n".join(items) + "\n                </div>"
+
+
+def build_link_page_html(topic):
+    return (
+        '            <article class="prose">\n'
+        f'                <h1>&gt; {topic["page_title"]}</h1>\n'
+        "                <p>External sites, not GAMAYUN tools - out of scope for the client-side/no-accounts guarantee. Vetted against the same integrity bar as everything else here, but they're somebody else's server now.</p>\n"
+        '            </article>\n'
+        '            <section class="card-grid">\n' + build_link_card_html(topic["entries"]) + '\n            </section>\n'
+    )
+
+
+# ---- OSINT Directory ----
+# Source: output/site_expansion/osint_directory.json. ethics_note carries
+# the Opticon pipeline's caution flags forward verbatim - anything that
+# indexes/distributes stolen data rather than just checking exposure was
+# excluded from the source list entirely, not just flagged.
+OSINT_DIRECTORY = [
+    dict(domain="haveibeenpwned.com", url="https://haveibeenpwned.com", one_line_desc="Check if your email/password appeared in a known data breach.", skill_level="beginner", ethics_note="Run by an independent, well-known security researcher (Troy Hunt); only confirms exposure, doesn't expose the data itself - the model every other \"breach check\" tool should be judged against."),
+    dict(domain="hacker101.com", url="https://hacker101.com", one_line_desc="Free web-security class with CTF levels, run by HackerOne.", skill_level="beginner"),
+    dict(domain="tryhackme.com", url="https://tryhackme.com", one_line_desc="Hands-on cybersecurity training through guided real-world scenarios.", skill_level="beginner"),
+    dict(domain="hackthissite.org", url="https://hackthissite.org", one_line_desc="Long-running, legal practice environment for ethical hacking.", skill_level="beginner"),
+    dict(domain="tineye.com", url="https://tineye.com", one_line_desc="Reverse image search across 60B+ indexed images.", skill_level="beginner"),
+    dict(domain="builtwith.com", url="https://builtwith.com", one_line_desc="Identifies the technology stack behind any website.", skill_level="beginner"),
+    dict(domain="tosdr.org", url="https://tosdr.org", one_line_desc="Plain-English ratings of what services actually do with your data per their own Terms of Service.", skill_level="beginner"),
+    dict(domain="gchq.github.io/CyberChef", url="https://gchq.github.io/CyberChef/", one_line_desc="The \"cyber Swiss army knife\" - encode/decode/parse/analyze data recipes, browser-based.", skill_level="intermediate", ethics_note="Built and open-sourced by GCHQ, gold-standard tool in the field."),
+    dict(domain="shodan.io", url="https://shodan.io", one_line_desc="Search engine for internet-connected devices (IoT, servers, webcams).", skill_level="intermediate", ethics_note="Legitimate, industry-standard - defensive/research use, not a \"find unsecured cameras\" novelty."),
+    dict(domain="zoomeye.ai", url="https://zoomeye.ai", one_line_desc="Shodan-equivalent device/vulnerability search engine.", skill_level="intermediate", ethics_note="Legitimate, but its homepage surfaces live CVE exploit search queries directly - defender/researcher framing only."),
+    dict(domain="dorksearch.com", url="https://dorksearch.com", one_line_desc="Ready-to-use Google dorking queries for finding exposed data.", skill_level="intermediate", ethics_note="Educational use per the tool's own disclaimer - misuse can be treated as unauthorized access in some jurisdictions."),
+    dict(domain="fotoforensics.com", url="https://fotoforensics.com", one_line_desc="Error-level analysis to spot edited/manipulated photos.", skill_level="intermediate"),
+]
+
+
+def build_osint_directory_html():
+    sections = []
+    for key, label in [("beginner", "BEGINNER"), ("intermediate", "INTERMEDIATE")]:
+        entries = [e for e in OSINT_DIRECTORY if e["skill_level"] == key]
+        if not entries:
+            continue
+        sections.append(f'                <div class="card-grid-label">[ {label} ]</div>\n' + build_link_card_html(entries))
+    return '            <section class="card-grid">\n' + "\n".join(sections) + '\n            </section>\n'
+
+
+# ---- Free Courses ----
+# Source: output/site_expansion/free_courses.json. cost_honesty is the
+# load-bearing field - several of these are "free to learn, paid if you
+# want the certificate," a different thing from "fully free" and kept
+# visibly distinct rather than blurred together.
+FREE_COURSES = [
+    dict(provider="cs50.harvard.edu", url="https://cs50.harvard.edu", what_you_actually_learn="Harvard's actual intro-to-computer-science course, the real one, free.", cost_honesty="fully free"),
+    dict(provider="freecodecamp.org", url="https://freecodecamp.org", what_you_actually_learn="Full curriculum from web basics through backend/data science, with real certifications.", cost_honesty="fully free"),
+    dict(provider="khanacademy.org", url="https://khanacademy.org", what_you_actually_learn="K-12 through early-college math, science, economics - the original free-education-for-everyone platform.", cost_honesty="fully free"),
+    dict(provider="ocw.mit.edu (MIT OpenCourseWare)", url="https://ocw.mit.edu", what_you_actually_learn="Actual MIT course materials - lecture notes, problem sets, some full video lectures.", cost_honesty="fully free"),
+    dict(provider="exercism.org", url="https://exercism.org", what_you_actually_learn="Hands-on coding exercises with real human mentor feedback, across 70+ languages.", cost_honesty="fully free"),
+    dict(provider="w3schools.com", url="https://w3schools.com", what_you_actually_learn="Reference-style web dev tutorials (HTML/CSS/JS/SQL etc), try-it-yourself editor built in.", cost_honesty="fully free"),
+    dict(provider="programiz.com", url="https://programiz.com", what_you_actually_learn="Beginner-friendly programming tutorials with an in-browser compiler.", cost_honesty="fully free"),
+    dict(provider="duolingo.com", url="https://duolingo.com", what_you_actually_learn="Language learning, gamified, ad-supported free tier is fully functional.", cost_honesty="fully free (ad-supported), paid tier removes ads/adds features"),
+    dict(provider="ted.com", url="https://ted.com", what_you_actually_learn="Not a structured course, but a huge free library of expert talks across every field.", cost_honesty="fully free"),
+    dict(provider="leetcode.com", url="https://leetcode.com", what_you_actually_learn="Data structures & algorithms practice problems, the standard interview-prep grind.", cost_honesty="free tier covers most problems, premium adds company-specific question sets"),
+    dict(provider="coursera.org", url="https://coursera.org", what_you_actually_learn="University-partnered courses - audit any course's actual video lectures and readings for free.", cost_honesty="free to audit, paid for a certificate/graded assignments"),
+    dict(provider="edx.org", url="https://edx.org", what_you_actually_learn="Same model as Coursera - university courses (MIT, Harvard, etc), audit track is free.", cost_honesty="free to audit, paid for verified certificate"),
+    dict(provider="alison.com", url="https://alison.com", what_you_actually_learn="6,000+ courses across trades, business, and tech, with genuinely free certificates - not just free audit.", cost_honesty="fully free including basic certificate, paid tier removes ads and adds premium diplomas"),
+    dict(provider="skillshare.com", url="https://skillshare.com", what_you_actually_learn="Creative-skills classes (design, illustration, video, business).", cost_honesty="paid subscription required beyond a trial - listed for completeness, not a \"free\" pick"),
+]
+
+
+def build_free_courses_html():
+    return (
+        '            <article class="prose">\n'
+        '                <h1>&gt; Free Courses</h1>\n'
+        "                <p>External sites, not GAMAYUN tools. \"Free\" gets used loosely everywhere else - the tag under each entry says exactly what's actually free versus free-to-learn-but-paid-for-the-certificate, so you know before you start.</p>\n"
+        '            </article>\n'
+        '            <section class="card-grid">\n' + build_link_card_html(FREE_COURSES) + '\n            </section>\n'
+    )
+
+
 def build_human_sitemap_html():
     """Human-readable sitemap (pages/sitemap.html), grouped the same way as
     the nav/tool grid, plus a final section for the footer-only utility
@@ -539,12 +850,24 @@ def build():
     tool_grid_html = build_tool_grid_html()
     human_sitemap_html = build_human_sitemap_html()
     wiki_index_html = build_wiki_index_html()
+    osint_directory_html = build_osint_directory_html()
+    free_courses_html = build_free_courses_html()
+    instructable_html_by_out = {
+        f"pages/howto-{e['slug']}.html": build_instructable_html(e) for e in INSTRUCTABLES
+    }
+    link_page_html_by_out = {
+        f"pages/links-{t['topic']}.html": build_link_page_html(t) for t in EXTERNAL_LINKS
+    }
     for page in PAGES:
         with open(os.path.join(SRC, "content", page["fragment"]), encoding="utf-8") as f:
             content = f.read()
         content = content.replace("{{TOOL_GRID}}", tool_grid_html)
         content = content.replace("{{HUMAN_SITEMAP}}", human_sitemap_html)
         content = content.replace("{{WIKI_INDEX}}", wiki_index_html)
+        content = content.replace("{{OSINT_CONTENT}}", osint_directory_html)
+        content = content.replace("{{COURSES_CONTENT}}", free_courses_html)
+        content = content.replace("{{HOWTO_CONTENT}}", instructable_html_by_out.get(page["out"], ""))
+        content = content.replace("{{LINKS_CONTENT}}", link_page_html_by_out.get(page["out"], ""))
 
         section = page_section(page)
         out = BASE

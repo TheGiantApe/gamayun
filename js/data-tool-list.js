@@ -257,5 +257,77 @@ const TOOL_LIST = [
     "desc": "Transliterate text into Elder Futhark, the 24-rune Germanic alphabet.",
     "code": "RUNES",
     "url": "pages/runes.html"
+  },
+  {
+    "title": "Verify a Source Before You Share It",
+    "desc": "Reverse-image search, account age, dead-link sourcing, and why a screenshot alone proves nothing.",
+    "code": "HOWTO_VERIFY_SOURCE",
+    "url": "pages/howto-verify-source.html"
+  },
+  {
+    "title": "Strip Metadata Before You Post a Photo",
+    "desc": "Your camera embeds more into that file than you think it does.",
+    "code": "HOWTO_STRIP_METADATA",
+    "url": "pages/howto-strip-metadata.html"
+  },
+  {
+    "title": "Check If You've Been Breached (And What to Actually Do About It)",
+    "desc": "Checking takes thirty seconds. The part that actually helps comes after.",
+    "code": "HOWTO_CHECK_BREACH",
+    "url": "pages/howto-check-breach.html"
+  },
+  {
+    "title": "Archive a Page Before It Disappears",
+    "desc": "If it matters enough to link to, it matters enough to save.",
+    "code": "HOWTO_ARCHIVE_PAGE",
+    "url": "pages/howto-archive-page.html"
+  },
+  {
+    "title": "Sign Up for Something Without Handing Over Your Real Info",
+    "desc": "Not everything that asks for your email and phone number needs your actual email and phone number.",
+    "code": "HOWTO_ANON_SIGNUP",
+    "url": "pages/howto-anon-signup.html"
+  },
+  {
+    "title": "Dev Vault // External Links",
+    "desc": "Regex101, crontab.guru, DevDocs, and other outside tools worth knowing about.",
+    "code": "LINKS_DEV_TOOLS",
+    "url": "pages/links-dev-tools.html"
+  },
+  {
+    "title": "Recon Ops // External Links",
+    "desc": "Breach checkers, disposable inboxes, ToS raters, and other privacy-and-utility sites.",
+    "code": "LINKS_PRIVACY_UTILITY",
+    "url": "pages/links-privacy-utility.html"
+  },
+  {
+    "title": "Ship's Log // External Links",
+    "desc": "Archive.org, Project Gutenberg, and other research/education sites worth bookmarking.",
+    "code": "LINKS_RESEARCH_EDU",
+    "url": "pages/links-research-education.html"
+  },
+  {
+    "title": "File Salvage // External Links",
+    "desc": "Photopea, Squoosh, and other design/media tools that live outside GAMAYUN.",
+    "code": "LINKS_DESIGN_MEDIA",
+    "url": "pages/links-design-media.html"
+  },
+  {
+    "title": "Games & Curios // External Links",
+    "desc": "Radio Garden, FutureMe, and other odd, mostly-pointless-in-a-good-way sites.",
+    "code": "LINKS_FUN_CURIOS",
+    "url": "pages/links-fun-curios.html"
+  },
+  {
+    "title": "OSINT Directory",
+    "desc": "External OSINT/security tools, grouped by skill level, with caution notes carried over verbatim from GAMAYUN's own vetting pass.",
+    "code": "OSINT_DIRECTORY",
+    "url": "pages/osint-directory.html"
+  },
+  {
+    "title": "Free Courses",
+    "desc": "Real free education, with the free-to-learn-but-paid-certificate cases called out honestly instead of blurred together.",
+    "code": "FREE_COURSES",
+    "url": "pages/free-courses.html"
   }
 ];

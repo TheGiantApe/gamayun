@@ -34,10 +34,10 @@
          changing hosts. -->
     <meta http-equiv="Content-Security-Policy" content="object-src 'none'; base-uri 'self'; form-action 'self'">
 
-    <title>Cron Expression Parser // GAMAYUN⁺</title>
-    <meta name="description" content="Plain-English description and next 5 run times for any 5-field cron expression.">
-    <meta property="og:title" content="Cron Expression Parser // GAMAYUN⁺">
-    <meta property="og:description" content="Plain-English description and next 5 run times for any 5-field cron expression.">
+    <title>Ship's Log // External Links // GAMAYUN⁺</title>
+    <meta name="description" content="Archive.org, Project Gutenberg, and other research/education sites worth bookmarking.">
+    <meta property="og:title" content="Ship's Log // External Links // GAMAYUN⁺">
+    <meta property="og:description" content="Archive.org, Project Gutenberg, and other research/education sites worth bookmarking.">
     <meta property="og:type" content="website">
     <meta name="twitter:card" content="summary">
     <link href="https://fonts.googleapis.com/css2?family=VT323&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
@@ -45,7 +45,7 @@
     <link rel="manifest" href="/manifest.json">
     <link rel="icon" href="/assets/favicon.ico">
     <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
-    <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "Cron Expression Parser", "description": "Plain-English description and next 5 run times for any 5-field cron expression.", "url": "https://gamayun.site/pages/cron-generator.html", "applicationCategory": "UtilitiesApplication", "operatingSystem": "Any (runs in browser)", "isAccessibleForFree": true, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}}</script>
+    <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "Ship's Log // External Links", "description": "Archive.org, Project Gutenberg, and other research/education sites worth bookmarking.", "url": "https://gamayun.site/pages/links-research-education.html", "applicationCategory": "UtilitiesApplication", "operatingSystem": "Any (runs in browser)", "isAccessibleForFree": true, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}}</script>
 </head>
 <body class="crt-screen" data-root="../">
 
@@ -126,7 +126,7 @@
                     <a href="../pages/steganography.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">STEGANOGRAPHY</span></a>
                     <a href="../pages/ela-check.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">ELA_CHECK</span></a>
                 </details>
-                <details class="nav-section" open>
+                <details class="nav-section">
                     <summary class="nav-section-label">[ DEV_VAULT&nbsp;]</summary>
                     <a href="../pages/json-format.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">JSON_FORMATTER</span></a>
                     <a href="../pages/uuid.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">UUID_GEN</span></a>
@@ -134,7 +134,7 @@
                     <a href="../pages/password-gen.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">PASSWORD_GEN</span></a>
                     <a href="../pages/regex-tester.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">REGEX_TESTER</span></a>
                     <a href="../pages/jwt-decoder.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">JWT_DECODER</span></a>
-                    <a href="../pages/cron-generator.html" class="nav-link active">&gt;&nbsp;<span class="nav-link-label">CRON_GEN</span></a>
+                    <a href="../pages/cron-generator.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">CRON_GEN</span></a>
                     <a href="../pages/recipe-chain.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">RECIPE_CHAIN</span></a>
                     <a href="../pages/code-snap.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">CODE_SNAP</span></a>
                 </details>
@@ -157,11 +157,11 @@
                     <a href="../pages/howto-archive-page.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">HOWTO_ARCHIVE_PAGE</span></a>
                     <a href="../pages/howto-anon-signup.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">HOWTO_ANON_SIGNUP</span></a>
                 </details>
-                <details class="nav-section">
+                <details class="nav-section" open>
                     <summary class="nav-section-label">[ EXTERNAL_LINKS&nbsp;]</summary>
                     <a href="../pages/links-dev-tools.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">LINKS_DEV_TOOLS</span></a>
                     <a href="../pages/links-privacy-utility.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">LINKS_PRIVACY_UTILITY</span></a>
-                    <a href="../pages/links-research-education.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">LINKS_RESEARCH_EDU</span></a>
+                    <a href="../pages/links-research-education.html" class="nav-link active">&gt;&nbsp;<span class="nav-link-label">LINKS_RESEARCH_EDU</span></a>
                     <a href="../pages/links-design-media.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">LINKS_DESIGN_MEDIA</span></a>
                     <a href="../pages/links-fun-curios.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">LINKS_FUN_CURIOS</span></a>
                 </details>
@@ -178,16 +178,56 @@
 
         <main class="center-viewport" id="active-tool-zone">
             <div class="content-flex-fill">
-            <div class="breadcrumb">&gt; <a href="../index.html">DECK_LAUNCHER</a> <span class="breadcrumb-sep">/</span> DEV_VAULT <span class="breadcrumb-sep">/</span> CRON_GEN</div>
-            <section class="tool-card">
-                <h2>&gt; CRON_GEN</h2>
-                <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">Paste a standard 5-field cron expression (minute hour day-of-month month day-of-week). Get back a plain-English description and the next 5 real run times, computed forward from right now. All times UTC.</p>
-                <div class="tool-workspace">
-                    <input type="text" id="cron-input" placeholder="e.g. 0 9 * * 1-5" oninput="executeCronParse()">
+            <div class="breadcrumb">&gt; <a href="../index.html">DECK_LAUNCHER</a> <span class="breadcrumb-sep">/</span> EXTERNAL_LINKS <span class="breadcrumb-sep">/</span> LINKS_RESEARCH_EDU</div>
+            <article class="prose">
+                <h1>&gt; Ship's Log // External Links</h1>
+                <p>External sites, not GAMAYUN tools - out of scope for the client-side/no-accounts guarantee. Vetted against the same integrity bar as everything else here, but they're somebody else's server now.</p>
+            </article>
+            <section class="card-grid">
+                <div class="tool-grid-row">
+                <a class="tool-grid-item" href="https://archive.org" target="_blank" rel="noopener">
+                    <div class="tool-name">&gt; archive.org <span class="tool-name-arrow">&#8599;</span></div>
+                    <div class="tool-desc">The Internet Archive - Wayback Machine, public-domain books, software, audio. Not to be confused with piracy mirrors that borrow its reputation.</div>
+                </a>
+                <a class="tool-grid-item" href="https://gutenberg.org" target="_blank" rel="noopener">
+                    <div class="tool-name">&gt; gutenberg.org <span class="tool-name-arrow">&#8599;</span></div>
+                    <div class="tool-desc">70,000+ genuinely public-domain ebooks.</div>
+                </a>
+                <a class="tool-grid-item" href="https://openculture.com" target="_blank" rel="noopener">
+                    <div class="tool-name">&gt; openculture.com <span class="tool-name-arrow">&#8599;</span></div>
+                    <div class="tool-desc">Aggregates free courses and media from real universities.</div>
+                </a>
+                <a class="tool-grid-item" href="https://wolframalpha.com" target="_blank" rel="noopener">
+                    <div class="tool-name">&gt; wolframalpha.com <span class="tool-name-arrow">&#8599;</span></div>
+                    <div class="tool-desc">Computational answer engine - step-by-step math, physics, chemistry.</div>
+                </a>
+                <a class="tool-grid-item" href="https://semanticscholar.org" target="_blank" rel="noopener">
+                    <div class="tool-name">&gt; semanticscholar.org <span class="tool-name-arrow">&#8599;</span></div>
+                    <div class="tool-desc">Free academic search engine, Allen Institute for AI.</div>
+                </a>
+                <a class="tool-grid-item" href="https://elicit.com" target="_blank" rel="noopener">
+                    <div class="tool-name">&gt; elicit.com <span class="tool-name-arrow">&#8599;</span></div>
+                    <div class="tool-desc">AI research-paper assistant, real free tier for basic search/summarize.</div>
+                </a>
+                <a class="tool-grid-item" href="https://consensus.app" target="_blank" rel="noopener">
+                    <div class="tool-name">&gt; consensus.app <span class="tool-name-arrow">&#8599;</span></div>
+                    <div class="tool-desc">AI search specifically over published science, not the general web.</div>
+                </a>
+                <a class="tool-grid-item" href="https://connectedpapers.com" target="_blank" rel="noopener">
+                    <div class="tool-name">&gt; connectedpapers.com <span class="tool-name-arrow">&#8599;</span></div>
+                    <div class="tool-desc">Visual graph of how research papers relate to each other.</div>
+                </a>
+                <a class="tool-grid-item" href="https://summarize.tech" target="_blank" rel="noopener">
+                    <div class="tool-name">&gt; summarize.tech <span class="tool-name-arrow">&#8599;</span></div>
+                    <div class="tool-desc">Summarizes long YouTube video transcripts.</div>
+                </a>
+                <a class="tool-grid-item" href="https://justwatch.com" target="_blank" rel="noopener">
+                    <div class="tool-name">&gt; justwatch.com <span class="tool-name-arrow">&#8599;</span></div>
+                    <div class="tool-desc">Finds where to legally stream a given movie or show. The non-piracy alternative to the aggregators that came up constantly during this research.</div>
+                </a>
                 </div>
-                <div class="result-block" id="cron-result"></div>
             </section>
-            <p style="padding:0 1.5rem; font-size:0.85rem;"><span style="color: var(--phosphor-dim-text)">See also:</span> <a href="wiki-time.html">why Sunday is day 0</a></p>
+
 
             </div>
             <div class="ad-leaderboard">
@@ -299,7 +339,7 @@
     <script src="../js/data-tool-list.js"></script>
     <script src="../js/site-search.js"></script>
     <script src="../js/page-transition.js"></script>
-    <script src="../js/tool-cron.js"></script>
+
     <script>
       if ("serviceWorker" in navigator) {
         window.addEventListener("load", () => navigator.serviceWorker.register("/sw.js"));

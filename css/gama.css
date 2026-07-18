@@ -1104,6 +1104,48 @@ button:hover, .btn:hover {
 /* ---- Wiki hub (index of individual entry pages) ---- */
 .wiki-grid { padding: 0 1.5rem 1.5rem; }
 
+/* ---- Card grid, generic (external-link pages, OSINT/course directories) -
+   same padding/rhythm as .wiki-grid, neutral name since it's not wiki-
+   specific content using it. ---- */
+.card-grid { padding: 0 1.5rem 1.5rem; }
+.card-grid-label {
+  font-size: 0.75rem;
+  color: var(--phosphor-dim-text);
+  letter-spacing: 0.1em;
+  margin: 1.25rem 0 0.5rem;
+  padding: 0 1.5rem;
+}
+.card-grid-label:first-child { margin-top: 0; }
+/* External-link cards reuse .tool-grid-item's exact look; the outbound
+   arrow is the only visual signal that this leaves the site, since these
+   pages sit inside the same TOOLS-tab sidebar as GAMAYUN's own tools. */
+.tool-grid-item .tool-name-arrow { color: var(--phosphor-dim-text); }
+/* Amber dashed callout, same family as .exif-gps-warning/.iifym-warning -
+   generalized here since ethics/limitation notes show up outside those
+   two original tools now (OSINT directory caution flags, instructable
+   gotchas). */
+.field-note {
+  border: 1px dashed var(--amber);
+  color: var(--amber);
+  padding: 0.5rem 0.7rem;
+  font-size: 0.8rem;
+  margin-top: 0.5rem;
+}
+/* Cost-honesty / difficulty tags: informational, not a warning, so plain
+   dim text rather than amber. */
+.info-tag {
+  display: block;
+  font-size: 0.78rem;
+  color: var(--phosphor-dim-text);
+  margin-top: 0.3rem;
+}
+.instructable-meta {
+  font-size: 0.8rem;
+  color: var(--phosphor-dim-text);
+  letter-spacing: 0.05em;
+  margin-top: -0.5em;
+}
+
 /* Mission statement ("stone tablet"): direct, plain-spoken, explains
    itself on purpose - the opposite register from the cryptic Origin Log
    copy below it on the same page. Two different kinds of content sharing
