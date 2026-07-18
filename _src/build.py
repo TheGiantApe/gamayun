@@ -178,6 +178,10 @@ PAGES = [
          desc="Generate a 5-color palette, lock the ones worth keeping, export as hex or CSS variables.",
          root="../", code="PALETTE_FORGE", category="PAINT_LOCKER",
          js=["tool-palette.js"]),
+    dict(out="pages/contrast-check.html", fragment="contrast-check.html", title="Contrast Checker",
+         desc="WCAG 2.x contrast ratio for any foreground/background pair, checked against AA/AAA at normal and large text sizes, with a nearest-passing-color suggestion when it fails.",
+         root="../", code="CONTRAST_CHECK", category="PAINT_LOCKER",
+         js=["tool-contrast-check.js"]),
 
     dict(out="pages/symbol-index.html", fragment="symbol-index.html", title="Symbol Index",
          desc="349 searchable Unicode symbols with names and codepoints, click to copy.",

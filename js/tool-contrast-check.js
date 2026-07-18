@@ -1,0 +1,138 @@
+/* CONTRAST_CHECK — WCAG 2.x relative-luminance contrast ratio, checked
+   against all 4 real thresholds (AA/AAA x normal/large text), plus a
+   nearest-passing-lightness suggestion when a pair fails AA normal - most
+   free checkers stop at pass/fail and leave you to guess a fix by hand. */
+
+function hexToRgb(hex) {
+  hex = hex.replace(/^#/, "");
+  if (hex.length === 3) hex = [...hex].map((c) => c + c).join("");
+  const num = parseInt(hex, 16);
+  return { r: (num >> 16) & 255, g: (num >> 8) & 255, b: num & 255 };
+}
+
+function rgbToHsl(r, g, b) {
+  r /= 255; g /= 255; b /= 255;
+  const max = Math.max(r, g, b), min = Math.min(r, g, b);
+  let h, s, l = (max + min) / 2;
+  if (max === min) { h = s = 0; }
+  else {
+    const d = max - min;
+    s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+    switch (max) {
+      case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+      case g: h = (b - r) / d + 2; break;
+      case b: h = (r - g) / d + 4; break;
+    }
+    h /= 6;
+  }
+  return { h: h * 360, s: s * 100, l: l * 100 };
+}
+
+function hslToHex(h, s, l) {
+  s /= 100; l /= 100;
+  const k = (n) => (n + h / 30) % 12;
+  const a = s * Math.min(l, 1 - l);
+  const f = (n) => l - a * Math.max(-1, Math.min(k(n) - 3, Math.min(9 - k(n), 1)));
+  const toHex = (x) => Math.round(255 * x).toString(16).padStart(2, "0");
+  return "#" + [toHex(f(0)), toHex(f(8)), toHex(f(4))].join("");
+}
+
+function relativeLuminance({ r, g, b }) {
+  const [rl, gl, bl] = [r, g, b].map((v) => {
+    v /= 255;
+    return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
+  });
+  return 0.2126 * rl + 0.7152 * gl + 0.0722 * bl;
+}
+
+function contrastRatio(hexA, hexB) {
+  const la = relativeLuminance(hexToRgb(hexA));
+  const lb = relativeLuminance(hexToRgb(hexB));
+  const lighter = Math.max(la, lb), darker = Math.min(la, lb);
+  return (lighter + 0.05) / (darker + 0.05);
+}
+
+const WCAG_THRESHOLDS = [
+  { label: "AA, normal text", min: 4.5 },
+  { label: "AA, large text (18pt+/14pt bold+)", min: 3 },
+  { label: "AAA, normal text", min: 7 },
+  { label: "AAA, large text", min: 4.5 },
+];
+
+// Search for the nearest lightness (in either direction) that would push
+// the pair's ratio past 4.5:1, adjusting the foreground and holding the
+// background fixed. Tries both directions since which one helps depends
+// on whether the background is dark or light - picks whichever needs the
+// smaller change from the original.
+function suggestPassingForeground(fgHex, bgHex, targetRatio) {
+  const rgb = hexToRgb(fgHex);
+  const hsl = rgbToHsl(rgb.r, rgb.g, rgb.b);
+  let up = null, down = null;
+  for (let l = Math.round(hsl.l); l <= 100; l++) {
+    if (contrastRatio(hslToHex(hsl.h, hsl.s, l), bgHex) >= targetRatio) { up = l; break; }
+  }
+  for (let l = Math.round(hsl.l); l >= 0; l--) {
+    if (contrastRatio(hslToHex(hsl.h, hsl.s, l), bgHex) >= targetRatio) { down = l; break; }
+  }
+  const upDist = up === null ? Infinity : Math.abs(up - hsl.l);
+  const downDist = down === null ? Infinity : Math.abs(down - hsl.l);
+  if (upDist === Infinity && downDist === Infinity) return null;
+  const chosenL = upDist <= downDist ? up : down;
+  return hslToHex(hsl.h, hsl.s, chosenL);
+}
+
+function isValidHex(h) {
+  return /^#?[0-9a-fA-F]{6}$/.test(h) || /^#?[0-9a-fA-F]{3}$/.test(h);
+}
+function normalizeHex(h) {
+  h = h.trim();
+  if (!h.startsWith("#")) h = "#" + h;
+  return h;
+}
+
+function onContrastPickerChange(which) {
+  const picker = document.getElementById(`contrast-${which}-picker`);
+  document.getElementById(`contrast-${which}-hex`).value = picker.value;
+  executeContrastCheck();
+}
+function onContrastHexChange(which) {
+  const hexInput = document.getElementById(`contrast-${which}-hex`);
+  const val = normalizeHex(hexInput.value);
+  if (isValidHex(val)) document.getElementById(`contrast-${which}-picker`).value = val.length === 4 ? "#" + [...val.slice(1)].map((c) => c + c).join("") : val;
+  executeContrastCheck();
+}
+
+function executeContrastCheck() {
+  const fgRaw = normalizeHex(document.getElementById("contrast-fg-hex").value);
+  const bgRaw = normalizeHex(document.getElementById("contrast-bg-hex").value);
+  const out = document.getElementById("contrast-result");
+  const preview = document.getElementById("contrast-preview");
+  if (!isValidHex(fgRaw) || !isValidHex(bgRaw)) {
+    GAMA.say("error");
+    out.textContent = "// unreadable color - use 6-digit or 3-digit hex.";
+    return;
+  }
+  preview.style.color = fgRaw;
+  preview.style.background = bgRaw;
+  const ratio = contrastRatio(fgRaw, bgRaw);
+
+  const rows = WCAG_THRESHOLDS.map((t) => {
+    const pass = ratio >= t.min;
+    return `<div><span style="color:${pass ? "var(--phosphor)" : "var(--amber)"}">${pass ? "PASS" : "FAIL"}</span> - ${t.label} (needs ${t.min}:1)</div>`;
+  }).join("");
+
+  let suggestion = "";
+  if (ratio < 4.5) {
+    const fix = suggestPassingForeground(fgRaw, bgRaw, 4.5);
+    suggestion = fix
+      ? `<div class="field-note">Fails AA for normal text. Nearest passing foreground at this hue/saturation: <a href="#" onclick="document.getElementById('contrast-fg-hex').value='${fix}'; onContrastHexChange('fg'); return false;" style="color:${fix};">${fix}</a> - click to use it.</div>`
+      : `<div class="field-note">Fails AA for normal text, and no lightness adjustment to this hue/saturation alone reaches 4.5:1 against this background - the hue or the background needs to change, not just the lightness.</div>`;
+  }
+
+  out.innerHTML = `<div style="font-size:1.3rem; margin-bottom:0.5rem;">${ratio.toFixed(2)} : 1</div>` + rows + suggestion;
+  GAMA.say(ratio >= 4.5 ? "success" : "idle");
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  if (document.getElementById("contrast-fg-hex")) executeContrastCheck();
+});

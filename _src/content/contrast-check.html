@@ -1,0 +1,19 @@
+            <section class="tool-card">
+                <h2>&gt; CONTRAST_CHECK</h2>
+                <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">Foreground/background pair &#8594; the actual WCAG 2.x contrast ratio, checked against all four real thresholds (AA/AAA, normal/large text). If a pair fails AA for normal text, this searches for the closest lightness adjustment to either color that would pass, rather than just telling you it failed and leaving you to guess.</p>
+                <div class="tool-workspace">
+                    <label style="font-size:0.85rem; color:var(--phosphor-dim-text); display:flex; align-items:center; gap:0.4rem;">foreground:
+                        <input type="color" id="contrast-fg-picker" value="#00FF66" oninput="onContrastPickerChange('fg')">
+                        <input type="text" id="contrast-fg-hex" value="#00FF66" style="max-width:100px;" oninput="onContrastHexChange('fg')">
+                    </label>
+                    <label style="font-size:0.85rem; color:var(--phosphor-dim-text); display:flex; align-items:center; gap:0.4rem;">background:
+                        <input type="color" id="contrast-bg-picker" value="#0A0A0A" oninput="onContrastPickerChange('bg')">
+                        <input type="text" id="contrast-bg-hex" value="#0A0A0A" style="max-width:100px;" oninput="onContrastHexChange('bg')">
+                    </label>
+                </div>
+                <div id="contrast-preview" style="margin-top:1rem; padding:1.5rem; border:1px solid var(--phosphor-faint);">
+                    <div style="font-size:1.6rem; font-weight:bold;">Large text sample (18pt+)</div>
+                    <div style="font-size:0.95rem; margin-top:0.5rem;">Normal text sample, the size most body copy actually ships at.</div>
+                </div>
+                <div class="result-block" id="contrast-result"></div>
+            </section>
