@@ -361,6 +361,29 @@ a:hover, a:focus {
     /* Fully invisible scrollbar - the nav still scrolls (wheel, drag, arrow
        keys), it just never renders a bar. */
     scrollbar-width: none; /* Firefox */
+    /* No visible scrollbar means no visual cue there's more to scroll to -
+       went from 8 categories to 12 in one session (2026-07-17) and the box
+       started silently clipping the last 1-2 on a real 1372px-tall
+       viewport, no scroll affordance at all. Classic CSS-only "scroll
+       shadow" fix instead of a JS scroll listener: two background layers
+       painted at the box's fixed edges (background-attachment: local, so
+       they scroll WITH the content and get pushed off-screen once you've
+       reached that end) fade the void-raised background to transparent;
+       two more layers painted at the viewport's edges (background-
+       attachment: scroll, so they stay put) are the actual shadow, and get
+       covered by the first pair except right at the boundary you haven't
+       reached yet. Net effect: a soft shadow appears at whichever edge(s)
+       still have unscrolled content, and vanishes at an edge once you've
+       scrolled all the way to it - zero JS. */
+    background:
+      linear-gradient(var(--void-raised) 30%, rgba(0, 0, 0, 0)) local,
+      linear-gradient(rgba(0, 0, 0, 0), var(--void-raised) 70%) local,
+      linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0)) scroll,
+      linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.55)) scroll;
+    background-repeat: no-repeat;
+    background-color: var(--void-raised);
+    background-size: 100% 2.5rem, 100% 2.5rem, 100% 0.9rem, 100% 0.9rem;
+    background-position: top, bottom, top, bottom;
   }
   .terminal-nav::-webkit-scrollbar { display: none; } /* Chrome/Safari/Edge */
 }
