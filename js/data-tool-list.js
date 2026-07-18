@@ -271,6 +271,12 @@ const TOOL_LIST = [
     "url": "pages/runes.html"
   },
   {
+    "title": "Decision Wheel",
+    "desc": "Paste a list of options (with optional weights), spin an animated wheel, get a cryptographically random pick.",
+    "code": "DECISION_WHEEL",
+    "url": "pages/decision-wheel.html"
+  },
+  {
     "title": "Verify a Source Before You Share It",
     "desc": "Reverse-image search, account age, dead-link sourcing, and why a screenshot alone proves nothing.",
     "code": "HOWTO_VERIFY_SOURCE",

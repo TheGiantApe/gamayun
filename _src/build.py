@@ -275,6 +275,10 @@ PAGES = [
          desc="Transliterate text into Elder Futhark, the 24-rune Germanic alphabet.",
          root="../", code="RUNES", category="GAMES_CURIOS",
          js=["tool-runes.js"]),
+    dict(out="pages/decision-wheel.html", fragment="decision-wheel.html", title="Decision Wheel",
+         desc="Paste a list of options (with optional weights), spin an animated wheel, get a cryptographically random pick.",
+         root="../", code="DECISION_WHEEL", category="GAMES_CURIOS",
+         js=["tool-decision-wheel.js"]),
 
     # Field Manuals: GAMA-voice step-by-step guides. Content lives in
     # INSTRUCTABLES below; all 5 pages share one fragment shell

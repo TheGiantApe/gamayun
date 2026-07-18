@@ -1,0 +1,133 @@
+/* DECISION_WHEEL — weighted random picker with a spinning-wheel front end.
+   The engine is generic (list in, weighted pick out) so it covers "pick a
+   restaurant," "split who goes first," "what should I build next" and
+   similar list-picking tools with one build instead of several. Selection
+   uses crypto.getRandomValues, same CSPRNG standard as the rest of the
+   site's security tools - a decision wheel is a low-stakes place to use
+   Math.random(), but there's no reason to reach for a weaker source just
+   because the stakes are low. */
+
+const WHEEL_COLORS = ["#00FF66", "#3C965F", "#ff9500", "#B87333", "#C8D5C0", "#1A2333"];
+let wheelCurrentRotation = 0;
+let wheelSpinning = false;
+
+function parseWheelItems(raw) {
+  return raw
+    .split("\n")
+    .map((l) => l.trim())
+    .filter(Boolean)
+    .map((line) => {
+      const m = line.match(/^(.*?)\s*\|\s*(\d+(?:\.\d+)?)\s*$/);
+      if (m && parseFloat(m[2]) > 0) return { label: m[1].trim(), weight: parseFloat(m[2]) };
+      return { label: line, weight: 1 };
+    })
+    .filter((it) => it.label.length > 0);
+}
+
+function computeSlices(items) {
+  const total = items.reduce((s, it) => s + it.weight, 0);
+  let start = 0;
+  return items.map((it) => {
+    const span = (it.weight / total) * 360;
+    const slice = { ...it, startDeg: start, endDeg: start + span, midDeg: start + span / 2 };
+    start += span;
+    return slice;
+  });
+}
+
+function drawWheel(slices) {
+  const canvas = document.getElementById("wheel-canvas");
+  const ctx = canvas.getContext("2d");
+  const size = canvas.width;
+  const cx = size / 2, cy = size / 2, r = size / 2 - 6;
+  ctx.clearRect(0, 0, size, size);
+  if (!slices.length) return;
+  slices.forEach((s, i) => {
+    const a0 = (s.startDeg * Math.PI) / 180, a1 = (s.endDeg * Math.PI) / 180;
+    ctx.beginPath();
+    ctx.moveTo(cx, cy);
+    ctx.arc(cx, cy, r, a0, a1);
+    ctx.closePath();
+    ctx.fillStyle = WHEEL_COLORS[i % WHEEL_COLORS.length];
+    ctx.fill();
+    ctx.strokeStyle = "#0A0A0A";
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    const midRad = (s.midDeg * Math.PI) / 180;
+    const labelR = r * 0.62;
+    const lx = cx + Math.cos(midRad) * labelR;
+    const ly = cy + Math.sin(midRad) * labelR;
+    let rot = midRad;
+    if (s.midDeg > 90 && s.midDeg < 270) rot += Math.PI;
+    ctx.save();
+    ctx.translate(lx, ly);
+    ctx.rotate(rot);
+    ctx.fillStyle = "#0A0A0A";
+    ctx.font = "bold 13px monospace";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    const text = s.label.length > 14 ? s.label.slice(0, 13) + "…" : s.label;
+    ctx.fillText(text, 0, 0);
+    ctx.restore();
+  });
+}
+
+function redrawWheelFromInput() {
+  const items = parseWheelItems(document.getElementById("wheel-input").value);
+  drawWheel(computeSlices(items));
+}
+
+function weightedRandomIndex(items) {
+  const total = items.reduce((s, it) => s + it.weight, 0);
+  const buf = new Uint32Array(1);
+  crypto.getRandomValues(buf);
+  const r = (buf[0] / 4294967296) * total;
+  let acc = 0;
+  for (let i = 0; i < items.length; i++) {
+    acc += items[i].weight;
+    if (r < acc) return i;
+  }
+  return items.length - 1;
+}
+
+function executeWheelSpin() {
+  if (wheelSpinning) return;
+  const items = parseWheelItems(document.getElementById("wheel-input").value);
+  const out = document.getElementById("wheel-result");
+  if (items.length < 2) {
+    GAMA.say("error");
+    out.textContent = "// needs at least two options to be worth spinning for.";
+    return;
+  }
+  const slices = computeSlices(items);
+  const winnerIndex = weightedRandomIndex(items);
+  const winner = slices[winnerIndex];
+
+  const baseR = (((270 - winner.midDeg) % 360) + 360) % 360;
+  const baseline = Math.ceil((wheelCurrentRotation + 1) / 360) * 360;
+  const extraSpins = 6;
+  const newRotation = baseline + extraSpins * 360 + baseR;
+  wheelCurrentRotation = newRotation;
+
+  wheelSpinning = true;
+  out.textContent = "";
+  GAMA.say("working");
+  const canvas = document.getElementById("wheel-canvas");
+  canvas.style.transition = "transform 4s cubic-bezier(0.15, 0.8, 0.2, 1)";
+  canvas.style.transform = `rotate(${newRotation}deg)`;
+
+  const onDone = (e) => {
+    if (e.propertyName !== "transform") return;
+    canvas.removeEventListener("transitionend", onDone);
+    wheelSpinning = false;
+    out.textContent = winner.label;
+    GAMA.say("success");
+    GAMA.log("Decision wheel landed on: " + winner.label);
+  };
+  canvas.addEventListener("transitionend", onDone);
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  if (document.getElementById("wheel-canvas")) redrawWheelFromInput();
+});
