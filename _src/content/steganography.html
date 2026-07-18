@@ -26,4 +26,10 @@
                 <p id="stego-decode-filename" style="color: var(--phosphor-dim-text); font-size:0.85rem; margin-top:0.5rem;"></p>
                 <pre class="result-block" id="stego-decode-result"></pre>
             </section>
-            <p style="padding:0 1.5rem; font-size:0.85rem;"><span style="color: var(--phosphor-dim-text)">See also:</span> <a href="image-tools.html">Image Salvage</a> &middot; <a href="wiki-steganography.html">GAMA<sup>+</sup> Wiki: Steganography</a></p>
+            <p style="padding:0 1.5rem; font-size:0.85rem;"><span style="color: var(--phosphor-dim-text)">See also:</span> <a href="image-tools.html">Image Salvage</a></p>
+
+            <section class="prose" style="padding-left:0;padding-right:0;">
+                <h2>&gt; HIDING THAT SOMETHING'S HIDDEN</h2>
+                <p>Cryptography hides what a message says. Steganography hides that a message exists at all - an encrypted file announces "there's a secret here," a steganographic one doesn't. This tool's LSB (least-significant-bit) encoding swaps the lowest, least visually significant bit of each color channel for a bit of the hidden message, nudging every affected pixel's color by an amount too small to see - which is also why it only ever outputs PNG: anything that recompresses the image scrambles those low bits and destroys the message.</p>
+                <p>Full history - Herodotus, tattooed scalps, and how steganalysis actually catches this stuff - lives in the <a href="wiki-steganography.html">GAMA<sup>+</sup> Wiki</a>.</p>
+            </section>

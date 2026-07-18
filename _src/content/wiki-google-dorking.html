@@ -1,4 +1,19 @@
             <article class="prose">
                 <h1>&gt; Google Dorking</h1>
                 <p>Google's search operators (<code>site:</code>, <code>filetype:</code>, <code>intitle:</code>, and combinations of them) can surface content that's technically public but never meant to be easily found - exposed documents, misconfigured directories, forgotten login pages. It's just advanced search syntax, but the results it turns up can look like they came from somewhere darker than "a search engine." The technique is legal - it's just Google search. What you do with what you find is where the ethics and the law both start to matter.</p>
+
+                <h2>Where "dork" actually comes from</h2>
+                <p>The term has a genuinely funny origin: starting in December 2002, security researcher Johnny Long began collecting Google search queries that turned up vulnerable systems or accidentally-exposed sensitive information, and called the people who left that stuff exposed - not the technique - "google dorks," using "dork" in its older, milder sense of "inept or foolish person." The name for the person stuck to the technique instead. Long's collection grew into the Google Hacking Database (GHDB), organized in 2004 and popularized through his book <em>Google Hacking for Penetration Testers</em>. In 2010 he handed maintenance over to Offensive Security (the team behind Kali Linux and the OSCP certification), and the GHDB has lived on their Exploit-DB site ever since, still taking community-submitted queries.</p>
+
+                <h2>The operators worth knowing</h2>
+                <ul>
+                    <li><code>site:example.com</code> - restrict results to one domain, useful for seeing what a site has indexed that you didn't expect to be public.</li>
+                    <li><code>filetype:pdf</code> / <code>filetype:xls</code> - surface documents of a specific type, which is how a lot of accidentally-published internal spreadsheets and reports get found.</li>
+                    <li><code>intitle:</code> / <code>inurl:</code> - match text specifically in a page's title or URL, useful for finding known default login-panel titles or predictable URL patterns for exposed admin interfaces.</li>
+                    <li><code>intext:</code> combined with a distinctive phrase - default configuration text, a specific error message, a boilerplate string a particular piece of software always includes - can surface every public instance of software that a targeted vulnerability affects.</li>
+                </ul>
+                <p>None of these are secret or restricted - they're documented, ordinary Google search syntax. The "hacking" in Google hacking is entirely in the combination and the intent, not in any operator being off-limits.</p>
+
+                <h2>The legal line is real, and it's blurrier than it sounds</h2>
+                <p>Running the search itself is legal in essentially every jurisdiction - it's a search engine returning results it already indexed. What happens next is where things get genuinely case-specific: viewing a document Google surfaced is generally treated very differently from using what you found to log into a system, and several real prosecutions have turned on exactly that distinction - finding an exposed database is one thing, querying it is another, and downloading or redistributing its contents is a third, each carrying different legal exposure depending on jurisdiction and what, specifically, was accessed. This is also why dorking tools that generate ready-made query lists (like dorksearch.com, in the <a href="osint-directory.html">OSINT Directory</a>) carry their own disclaimer: educational and research use is the stated purpose, and treating a discovery as something to report responsibly - not something to exploit - is the difference between security research and a much worse outcome.</p>
             </article>

@@ -108,6 +108,22 @@
             <article class="prose">
                 <h1>&gt; Reverse Image Search &amp; Metadata</h1>
                 <p>Every photo carries hidden data (EXIF) - camera model, GPS coordinates, timestamp - unless it's been stripped. Reverse image search tools can also tell you where else online a given image has appeared, which is how a lot of "this photo is old, it's not from the event people are claiming" debunks actually get done. See <a href="image-tools.html">Image Salvage</a> to check or strip what's attached to your own files.</p>
+
+                <h2>What's actually in an EXIF block</h2>
+                <p>EXIF (Exchangeable Image File Format) is a metadata standard baked directly into the JPEG/TIFF file itself, not something bolted on separately - which is exactly why it's easy to forget it's there. The fields worth actually paying attention to:</p>
+                <ul>
+                    <li><strong>GPSLatitude / GPSLongitude.</strong> Exact coordinates, often accurate to a few meters, written by any phone with location services on for the camera app. This is the one that turns "a photo of my apartment" into "the exact address of my apartment."</li>
+                    <li><strong>DateTimeOriginal.</strong> When the shutter actually fired - not when the file was last saved or uploaded, which is a separate, less revealing filesystem timestamp entirely.</li>
+                    <li><strong>Make / Model / LensModel / SerialNumber.</strong> Some cameras (particularly higher-end DSLRs) embed a body serial number. Combined across multiple photos, this can link images back to the same specific physical camera even with no other identifying information.</li>
+                    <li><strong>Software / thumbnail data.</strong> Editing history and, on some files, a leftover embedded thumbnail generated before the visible image was cropped or redacted - which has occasionally exposed the un-redacted original hiding underneath a "cleaned" published version.</li>
+                </ul>
+                <p>None of this requires special tools to read once you know it's there - it's plain text sitting in the file, which is also why stripping it (what the <a href="image-tools.html">Image Salvage</a> re-encode step does) is a real fix rather than a workaround.</p>
+
+                <h2>How reverse image search actually works</h2>
+                <p>It isn't a lookup of an image's exact bytes - resize, recompress, or crop a photo even slightly and a byte-for-byte match would fail instantly. Instead these tools compute a <strong>perceptual hash</strong>: a short fingerprint derived from the image's visual structure (typically by shrinking it down, converting to grayscale, and comparing relative brightness across a grid, or by analyzing which low-frequency components dominate after a discrete cosine transform - the same math family JPEG compression itself uses). Two images that look alike to a human end up with similar hashes even if their underlying bytes are completely different, which is what lets a reverse-search engine find a re-uploaded, resized, watermarked, or lightly cropped copy of a photo it's indexed before.</p>
+
+                <h2>What it can't do</h2>
+                <p>Perceptual hashing compares visual structure, not truth. It can tell you an image has appeared somewhere before and roughly when it was first indexed - it can't tell you whether a caption describing it is accurate, and it's specifically bad at catching AI-generated images that never existed anywhere else to be indexed against, or a genuinely new photo staged to resemble an old, verified one. "This exact image showed up online three years ago" is strong evidence against "this is breaking news happening right now" - it is not, by itself, proof of anything about an image that's never been posted before.</p>
             </article>
 
             </div>

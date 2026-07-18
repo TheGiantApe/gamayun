@@ -7,4 +7,10 @@
                 </div>
                 <pre class="result-block" id="uuid-result"></pre>
             </section>
-            <p style="padding:0 1.5rem; font-size:0.85rem;"><span style="color: var(--phosphor-dim-text)">See also:</span> <a href="hash.html">Hash Generator</a> &middot; <a href="wiki-uuid-odds.html">the odds one of these ever repeats</a></p>
+            <p style="padding:0 1.5rem; font-size:0.85rem;"><span style="color: var(--phosphor-dim-text)">See also:</span> <a href="hash.html">Hash Generator</a></p>
+
+            <section class="prose" style="padding-left:0;padding-right:0;">
+                <h2>&gt; WHY THESE DON'T COLLIDE</h2>
+                <p>A version-4 UUID has 122 genuinely random bits. Birthday-paradox math says you'd need roughly 2.71 quintillion of them before the odds of any two colliding crossed 50% - a number large enough that it's not really a probability question anymore, it's a "the universe will have other problems first" question.</p>
+                <p>Full breakdown, including why other UUID versions exist at all and when you'd actually want one of them instead, lives in the <a href="wiki-uuid-odds.html">GAMA<sup>+</sup> Wiki</a>.</p>
+            </section>
