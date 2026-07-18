@@ -234,6 +234,10 @@ PAGES = [
          desc="Render a code snippet to a shareable, styled PNG with basic syntax highlighting.",
          root="../", code="CODE_SNAP", category="DEV_VAULT",
          js=["tool-code-snap.js"]),
+    dict(out="pages/dead-drop.html", fragment="dead-drop.html", title="Dead Drop",
+         desc="Encrypt a message client-side and pack it into a shareable link - nothing is sent to or stored on any server, not even temporarily.",
+         root="../", code="DEAD_DROP", category="DEV_VAULT",
+         js=["tool-dead-drop.js"]),
 
     dict(out="pages/cipher-deck.html", fragment="cipher-deck.html", title="Cipher Deck",
          desc="Caesar shift (with brute-force), Vigenere, and Morse code (with audible playback).",

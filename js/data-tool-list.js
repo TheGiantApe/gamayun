@@ -211,6 +211,12 @@ const TOOL_LIST = [
     "url": "pages/code-snap.html"
   },
   {
+    "title": "Dead Drop",
+    "desc": "Encrypt a message client-side and pack it into a shareable link - nothing is sent to or stored on any server, not even temporarily.",
+    "code": "DEAD_DROP",
+    "url": "pages/dead-drop.html"
+  },
+  {
     "title": "Cipher Deck",
     "desc": "Caesar shift (with brute-force), Vigenere, and Morse code (with audible playback).",
     "code": "CIPHER_DECK",
