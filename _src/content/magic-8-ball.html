@@ -1,0 +1,14 @@
+            <section class="tool-card">
+                <h2>&gt; MAGIC_8_BALL</h2>
+                <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">Ask a yes/no question, get a real cryptographically random answer from a pool of 21 responses. Original phrasing, not the toy's own wording - the format is public domain, the exact 20 phrases printed inside an actual Magic 8-Ball are not, so this is GAMA's own oracle, not a lookalike.</p>
+                <div class="tool-workspace">
+                    <input type="text" id="eightball-question" placeholder="optional: type a question, just for the record...">
+                </div>
+                <div style="margin-top:1.5rem; display:flex; flex-direction:column; align-items:center;">
+                    <div id="eightball-orb" onclick="executeEightBall()" style="cursor:pointer; width:180px; height:180px; border-radius:50%; border:2px solid var(--phosphor-dim); background:var(--void-raised); display:flex; align-items:center; justify-content:center; text-align:center; padding:1.5rem; box-sizing:border-box; transition:transform 0.15s;">
+                        <span id="eightball-orb-text" style="font-size:1.6rem; color:var(--phosphor);">8</span>
+                    </div>
+                    <button style="margin-top:1rem;" onclick="executeEightBall()">&gt; ASK</button>
+                </div>
+                <div class="result-block" id="eightball-result" style="text-align:center; font-size:1.05rem;"></div>
+            </section>

@@ -40,10 +40,10 @@
          changing hosts. -->
     <meta http-equiv="Content-Security-Policy" content="object-src 'none'; base-uri 'self'; form-action 'self'">
 
-    <title>Anagram Solver // GAMAYUN⁺</title>
-    <meta name="description" content="Exact anagrams and sub-word matches from any set of letters, 52,000-word dictionary.">
-    <meta property="og:title" content="Anagram Solver // GAMAYUN⁺">
-    <meta property="og:description" content="Exact anagrams and sub-word matches from any set of letters, 52,000-word dictionary.">
+    <title>Magic 8-Ball // GAMAYUN⁺</title>
+    <meta name="description" content="Ask a yes/no question, get a cryptographically random answer from an original 21-response pool.">
+    <meta property="og:title" content="Magic 8-Ball // GAMAYUN⁺">
+    <meta property="og:description" content="Ask a yes/no question, get a cryptographically random answer from an original 21-response pool.">
     <meta property="og:type" content="website">
     <meta name="twitter:card" content="summary">
     <link href="https://fonts.googleapis.com/css2?family=VT323&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
@@ -51,7 +51,7 @@
     <link rel="manifest" href="/manifest.json">
     <link rel="icon" href="/assets/favicon.ico">
     <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
-    <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "Anagram Solver", "description": "Exact anagrams and sub-word matches from any set of letters, 52,000-word dictionary.", "url": "https://gamayun.site/pages/anagram-solver.html", "applicationCategory": "UtilitiesApplication", "operatingSystem": "Any (runs in browser)", "isAccessibleForFree": true, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}}</script>
+    <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "Magic 8-Ball", "description": "Ask a yes/no question, get a cryptographically random answer from an original 21-response pool.", "url": "https://gamayun.site/pages/magic-8-ball.html", "applicationCategory": "UtilitiesApplication", "operatingSystem": "Any (runs in browser)", "isAccessibleForFree": true, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}}</script>
 </head>
 <body class="crt-screen" data-root="../">
 
@@ -150,14 +150,14 @@
                     <summary class="nav-section-label">[ GAMES & CURIOS&nbsp;]</summary>
                     <a href="../pages/cipher-deck.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">CIPHER_DECK</span></a>
                     <a href="../pages/letter-rack-solver.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">LETTER_RACK_SOLVER</span></a>
-                    <a href="../pages/anagram-solver.html" class="nav-link active">&gt;&nbsp;<span class="nav-link-label">ANAGRAM_SOLVER</span></a>
+                    <a href="../pages/anagram-solver.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">ANAGRAM_SOLVER</span></a>
                     <a href="../pages/wu-name.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">WU_NAME</span></a>
                     <a href="../pages/number-spell.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">NUM_SPELL</span></a>
                     <a href="../pages/iching.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">I_CHING</span></a>
                     <a href="../pages/moon-phase.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">MOON_PHASE</span></a>
                     <a href="../pages/runes.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">RUNES</span></a>
                     <a href="../pages/decision-wheel.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">DECISION_WHEEL</span></a>
-                    <a href="../pages/magic-8-ball.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">MAGIC_8_BALL</span></a>
+                    <a href="../pages/magic-8-ball.html" class="nav-link active">&gt;&nbsp;<span class="nav-link-label">MAGIC_8_BALL</span></a>
                 </details>
                 <details class="nav-section">
                     <summary class="nav-section-label">[ FIELD_MANUALS&nbsp;]</summary>
@@ -188,16 +188,21 @@
 
         <main class="center-viewport" id="active-tool-zone">
             <div class="content-flex-fill">
-            <div class="breadcrumb">&gt; <a href="../index.html">DECK_LAUNCHER</a> <span class="breadcrumb-sep">/</span> GAMES & CURIOS <span class="breadcrumb-sep">/</span> ANAGRAM_SOLVER</div>
+            <div class="breadcrumb">&gt; <a href="../index.html">DECK_LAUNCHER</a> <span class="breadcrumb-sep">/</span> GAMES & CURIOS <span class="breadcrumb-sep">/</span> MAGIC_8_BALL</div>
             <section class="tool-card">
-                <h2>&gt; ANAGRAM_SOLVER</h2>
-                <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">Enter a set of letters. Shows exact anagrams (words using every letter) and, below those, valid words formable from a subset.</p>
+                <h2>&gt; MAGIC_8_BALL</h2>
+                <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">Ask a yes/no question, get a real cryptographically random answer from a pool of 21 responses. Original phrasing, not the toy's own wording - the format is public domain, the exact 20 phrases printed inside an actual Magic 8-Ball are not, so this is GAMA's own oracle, not a lookalike.</p>
                 <div class="tool-workspace">
-                    <input type="text" id="anagram-input" placeholder="letters..." oninput="executeAnagram()">
+                    <input type="text" id="eightball-question" placeholder="optional: type a question, just for the record...">
                 </div>
-                <div class="result-block" id="anagram-result"></div>
+                <div style="margin-top:1.5rem; display:flex; flex-direction:column; align-items:center;">
+                    <div id="eightball-orb" onclick="executeEightBall()" style="cursor:pointer; width:180px; height:180px; border-radius:50%; border:2px solid var(--phosphor-dim); background:var(--void-raised); display:flex; align-items:center; justify-content:center; text-align:center; padding:1.5rem; box-sizing:border-box; transition:transform 0.15s;">
+                        <span id="eightball-orb-text" style="font-size:1.6rem; color:var(--phosphor);">8</span>
+                    </div>
+                    <button style="margin-top:1rem;" onclick="executeEightBall()">&gt; ASK</button>
+                </div>
+                <div class="result-block" id="eightball-result" style="text-align:center; font-size:1.05rem;"></div>
             </section>
-            <p style="padding:0 1.5rem; font-size:0.85rem;"><span style="color: var(--phosphor-dim-text)">See also:</span> <a href="letter-rack-solver.html">Letter Rack Solver</a></p>
 
             </div>
             <div class="ad-leaderboard">
@@ -309,8 +314,7 @@
     <script src="../js/data-tool-list.js"></script>
     <script src="../js/site-search.js"></script>
     <script src="../js/page-transition.js"></script>
-    <script src="../js/data-words.js"></script>
-    <script src="../js/tool-anagram.js"></script>
+    <script src="../js/tool-magic-8-ball.js"></script>
     <script>
       if ("serviceWorker" in navigator) {
         window.addEventListener("load", () => navigator.serviceWorker.register("/sw.js"));

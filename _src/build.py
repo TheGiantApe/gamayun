@@ -279,6 +279,10 @@ PAGES = [
          desc="Paste a list of options (with optional weights), spin an animated wheel, get a cryptographically random pick.",
          root="../", code="DECISION_WHEEL", category="GAMES_CURIOS",
          js=["tool-decision-wheel.js"]),
+    dict(out="pages/magic-8-ball.html", fragment="magic-8-ball.html", title="Magic 8-Ball",
+         desc="Ask a yes/no question, get a cryptographically random answer from an original 21-response pool.",
+         root="../", code="MAGIC_8_BALL", category="GAMES_CURIOS",
+         js=["tool-magic-8-ball.js"]),
 
     # Field Manuals: GAMA-voice step-by-step guides. Content lives in
     # INSTRUCTABLES below; all 5 pages share one fragment shell

@@ -277,6 +277,12 @@ const TOOL_LIST = [
     "url": "pages/decision-wheel.html"
   },
   {
+    "title": "Magic 8-Ball",
+    "desc": "Ask a yes/no question, get a cryptographically random answer from an original 21-response pool.",
+    "code": "MAGIC_8_BALL",
+    "url": "pages/magic-8-ball.html"
+  },
+  {
     "title": "Verify a Source Before You Share It",
     "desc": "Reverse-image search, account age, dead-link sourcing, and why a screenshot alone proves nothing.",
     "code": "HOWTO_VERIFY_SOURCE",

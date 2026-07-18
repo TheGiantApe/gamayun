@@ -619,7 +619,11 @@ button:hover, .btn:hover {
   60% { transform: translateY(-2px) rotate(-2deg); }
   80% { transform: translateY(-2px) rotate(2deg); }
 }
+/* Magic 8-Ball orb reuses GAMA's own shake keyframes rather than defining a
+   near-identical one - same "something is being consulted" motion. */
+.eightball-orb-shake { animation: gama-impatient-shake 0.5s ease-in-out; }
 @media (prefers-reduced-motion: reduce) {
+  .eightball-orb-shake { animation: none; }
   .gama-portrait, .gama-portrait.impatient { animation: none; }
 }
 .aperture-eye {
