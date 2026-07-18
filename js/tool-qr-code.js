@@ -470,10 +470,58 @@ function renderQrSvg(modules, count) {
     `<g fill="#00FF66">${rects}</g></svg>`;
 }
 
+// ---- Payload presets: build the standard-format string the QR encoder
+// above then treats as opaque text. WiFi payload per the de facto
+// WIFI: URI scheme (escaping backslash/semicolon/comma/quote per spec,
+// order matters since a bare "\" must be escaped first). vCard is a
+// minimal 3.0 card - just the fields most phones actually read. ----
+function escapeWifiField(s) {
+  return s.replace(/([\\;,"])/g, "\\$1");
+}
+function buildWifiPayload() {
+  const ssid = document.getElementById("qr-wifi-ssid").value;
+  const pass = document.getElementById("qr-wifi-pass").value;
+  const enc = document.getElementById("qr-wifi-enc").value;
+  const hidden = document.getElementById("qr-wifi-hidden").checked;
+  if (!ssid.trim()) return "";
+  let payload = `WIFI:T:${enc};S:${escapeWifiField(ssid)};`;
+  if (enc !== "nopass") payload += `P:${escapeWifiField(pass)};`;
+  if (hidden) payload += "H:true;";
+  return payload + ";";
+}
+function buildVcardPayload() {
+  const name = document.getElementById("qr-vcard-name").value.trim();
+  const org = document.getElementById("qr-vcard-org").value.trim();
+  const phone = document.getElementById("qr-vcard-phone").value.trim();
+  const email = document.getElementById("qr-vcard-email").value.trim();
+  const url = document.getElementById("qr-vcard-url").value.trim();
+  if (!name) return "";
+  const lines = ["BEGIN:VCARD", "VERSION:3.0", `N:${name}`, `FN:${name}`];
+  if (org) lines.push(`ORG:${org}`);
+  if (phone) lines.push(`TEL:${phone}`);
+  if (email) lines.push(`EMAIL:${email}`);
+  if (url) lines.push(`URL:${url}`);
+  lines.push("END:VCARD");
+  return lines.join("\n");
+}
+function currentQrPayloadType() {
+  return document.getElementById("qr-payload-type").value;
+}
+function onQrPayloadTypeChange() {
+  const type = currentQrPayloadType();
+  document.getElementById("qr-text-workspace").style.display = type === "text" ? "flex" : "none";
+  document.getElementById("qr-wifi-workspace").style.display = type === "wifi" ? "flex" : "none";
+  document.getElementById("qr-vcard-workspace").style.display = type === "vcard" ? "flex" : "none";
+  executeQrGen();
+}
+
 let lastQrSvgSize = 0;
 
 function executeQrGen() {
-  const text = document.getElementById("qr-input").value;
+  const type = currentQrPayloadType();
+  const text = type === "wifi" ? buildWifiPayload()
+    : type === "vcard" ? buildVcardPayload()
+    : document.getElementById("qr-input").value;
   const ecLevel = document.getElementById("qr-ec-level").value;
   const out = document.getElementById("qr-result");
   const downloadBtn = document.getElementById("qr-download-btn");

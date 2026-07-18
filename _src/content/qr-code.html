@@ -1,8 +1,38 @@
             <section class="tool-card">
                 <h2>&gt; QR_GEN</h2>
                 <p style="color: var(--phosphor-dim-text); font-size:0.9rem;">Encode any text or URL as a QR code. Real ISO 18004 encoder (Reed-Solomon error correction, not a lookup image) - versions 1 through 40, auto-sized to fit.</p>
-                <div class="tool-workspace">
+                <div style="margin-top:0.5rem;">
+                    <label style="font-size:0.85rem; color:var(--phosphor-dim-text);">payload type:
+                        <select id="qr-payload-type" onchange="onQrPayloadTypeChange()">
+                            <option value="text" selected>Text / URL</option>
+                            <option value="wifi">Wi-Fi Network</option>
+                            <option value="vcard">Contact Card (vCard)</option>
+                        </select>
+                    </label>
+                </div>
+                <div class="tool-workspace" id="qr-text-workspace">
                     <textarea id="qr-input" placeholder="paste a URL or type anything..." oninput="executeQrGen()"></textarea>
+                </div>
+                <div class="tool-workspace" id="qr-wifi-workspace" style="display:none;">
+                    <input type="text" id="qr-wifi-ssid" placeholder="network name (SSID)" oninput="executeQrGen()">
+                    <input type="text" id="qr-wifi-pass" placeholder="password (leave blank if open)" oninput="executeQrGen()">
+                    <label style="font-size:0.85rem; color:var(--phosphor-dim-text); display:flex; align-items:center; gap:0.4rem;">encryption:
+                        <select id="qr-wifi-enc" onchange="executeQrGen()">
+                            <option value="WPA" selected>WPA/WPA2</option>
+                            <option value="WEP">WEP</option>
+                            <option value="nopass">None (open network)</option>
+                        </select>
+                    </label>
+                    <label style="font-size:0.85rem; color:var(--phosphor-dim-text); display:flex; align-items:center; gap:0.4rem;">
+                        <input type="checkbox" id="qr-wifi-hidden" onchange="executeQrGen()"> hidden network
+                    </label>
+                </div>
+                <div class="tool-workspace" id="qr-vcard-workspace" style="display:none; flex-direction:column;">
+                    <input type="text" id="qr-vcard-name" placeholder="full name" oninput="executeQrGen()">
+                    <input type="text" id="qr-vcard-org" placeholder="organization (optional)" oninput="executeQrGen()">
+                    <input type="text" id="qr-vcard-phone" placeholder="phone (optional)" oninput="executeQrGen()">
+                    <input type="text" id="qr-vcard-email" placeholder="email (optional)" oninput="executeQrGen()">
+                    <input type="text" id="qr-vcard-url" placeholder="website (optional)" oninput="executeQrGen()">
                 </div>
                 <div style="margin-top:0.5rem; display:flex; align-items:center; gap:0.75rem; flex-wrap:wrap;">
                     <label style="font-size:0.85rem; color:var(--phosphor-dim-text);">error correction:
