@@ -777,12 +777,12 @@ button:hover, .btn:hover {
 
 .site-footer {
   border-top: 1px solid var(--phosphor-dim);
-  padding: 1.5rem 1rem 0;
+  padding: 1rem 1rem 0;
   font-size: 0.8rem;
   color: var(--phosphor-dim-text);
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1rem;
 }
 .site-footer nav a { border-bottom: none; }
 
@@ -825,6 +825,31 @@ button:hover, .btn:hover {
 }
 .footer-col a { border-bottom: none; }
 .footer-col a:hover { color: var(--phosphor); }
+/* SECTIONS/LEGAL used to stack every link on its own line - fine with 5
+   items, but the pinned-frame desktop layout gives the footer a fixed
+   pixel height (it doesn't get to shrink the way scrolling content does),
+   so a 6-item stacked column was driving the whole footer past 300px
+   regardless of how short the real browser window was - on anything
+   short of a large monitor that reads as "the footer eats the screen."
+   Wrapped inline links keep every link, same as a normal site footer,
+   in roughly a third of the vertical space. :not(:first-child)::before
+   rather than :not(:last-child)::after specifically so the hidden
+   Scrapbook link (display:none until 5 easter eggs are found) never
+   leaves a dangling separator after the last visible item - a trailing-
+   separator approach would have needed to know which item is *actually*
+   last given one can be hidden, a leading one only cares that it isn't
+   first, which never changes. */
+.footer-links-row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  row-gap: 0.4rem;
+}
+.footer-links-row a:not(:first-child)::before {
+  content: "\00b7";
+  margin: 0 0.6rem;
+  color: var(--phosphor-dim-text);
+}
 .footer-col-label {
   font-size: 0.7rem;
   color: var(--phosphor);
@@ -841,7 +866,7 @@ button:hover, .btn:hover {
 
 .footer-bottom {
   border-top: 1px solid var(--phosphor-faint);
-  padding: 1rem 0;
+  padding: 0.6rem 0;
   text-align: center;
   font-size: 0.75rem;
 }
