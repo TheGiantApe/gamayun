@@ -1,6 +1,6 @@
 /* ==========================================================================
    GAMAYUN // gama-core.js
-   Global state manager: GAMA's expression matrix, log ticker, clock.
+   Global state manager: GAMA+'s expression matrix, log ticker, clock.
    Zero dependencies. Every tool script calls into GAMA.say() / GAMA.log().
    ========================================================================== */
 

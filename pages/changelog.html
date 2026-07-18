@@ -105,7 +105,7 @@
                     <li>Added Google AdSense verification, <code>ads.txt</code>, and Google Analytics — all live sitewide.</li>
                     <li>Updated the privacy copy to match reality now that analytics/ads exist: dropped the "no tracking" claim that stopped being true, kept the one that's still true and matters more (your tool input never leaves your browser), and named Analytics/AdSense explicitly on the Legal &amp; Privacy page instead of staying quiet about it.</li>
                     <li>Set the contact page's email — it had been sitting live with a literal "set a contact address before launch" placeholder.</li>
-                    <li>Desktop layout rework: the ticker, footer, nav, and side deck are now a fixed frame that doesn't move — only the actual tool content scrolls. Simplified GAMA's own positioning code in the process (she no longer needs to react to scroll position at all).</li>
+                    <li>Desktop layout rework: the ticker, footer, nav, and side deck are now a fixed frame that doesn't move — only the actual tool content scrolls. Simplified GAMA<sup>+</sup>'s own positioning code in the process (she no longer needs to react to scroll position at all).</li>
                     <li><code>DATE_STAMP_RECON</code> now converts in reverse too (a bare number is read as a Unix epoch) and loads showing the current moment instead of an empty form.</li>
                     <li><code>COOL_TEXT</code>: added Strikethrough and Underline.</li>
                     <li>Rewrote the Origin Log in her own voice. If you're looking for the old explanation of where she came from, that's on purpose - it's not there anymore.</li>
@@ -117,7 +117,7 @@
                     <li>Added <code>URL_CODEC</code> (percent-encode/decode) and <code>HTML_ENTITY_CODEC</code> (escape/unescape, decode via a detached DOMParser document so nothing in the input ever executes).</li>
                     <li>Added <code>PASSWORD_GEN</code>: rejection-sampled <code>crypto.getRandomValues</code> so character-set selection stays unbiased, plus a live entropy estimate.</li>
                     <li>Added <code>TEXT_DIFF</code>: line-by-line comparison via classic LCS.</li>
-                    <li>Fixed GAMA's fixed-position corner box overlapping the nav on tall/wrapped footers (was a hardcoded offset, now measured live) and made the left nav column sticky so it stops scrolling away on long pages.</li>
+                    <li>Fixed GAMA<sup>+</sup>'s fixed-position corner box overlapping the nav on tall/wrapped footers (was a hardcoded offset, now measured live) and made the left nav column sticky so it stops scrolling away on long pages.</li>
                     <li>Added a Ko-fi tip jar and YouTube/Bluesky links.</li>
                     <li><code>ASCII_BANNER</code>: added Standard, Slant, Small, Big, and Shadow as font choices alongside SmSlant, and capped the result panel height so a tall banner doesn't blow the page height out and make the page-transition feel jarring.</li>
                     <li>Renamed the IIFYM Calculator to <code>MACRO_CALC</code> - "IIFYM" is likely someone else's trade name, the math underneath isn't.</li>
@@ -132,7 +132,7 @@
                     <li>Added Image Salvage, the site's first file-processing tool: reads EXIF metadata (camera make/model, GPS coordinates) out of a photo before stripping it, plus resize and format conversion. Everything via Canvas/File API, nothing leaves the browser.</li>
                     <li>Rebuilt ASCII_BANNER as a real FIGlet-style renderer (SmSlant font, proper glyph kerning) instead of canvas pixel-density sampling.</li>
                     <li>Nav and the homepage tool grid are now grouped into categories (RECON_OPS, TEXT_OPS, NUMBER_CRUNCH, LOOKUP_DECK, FILE_SALVAGE, DEV_VAULT, GAMES_&amp;_CURIOS, SHIP'S LOG) generated from one source of truth instead of a flat hand-maintained list. Every page now has a breadcrumb trail. <code>pages/sitemap.html</code> is auto-generated too now.</li>
-                    <li>Reworked the hero banner (real wordmark logo art instead of a CSS text glitch effect), the raven-and-key seal (now a page watermark instead of a small nav icon), and GAMA's on-page presence (no border/box, sits bottom-left with her dialogue above her).</li>
+                    <li>Reworked the hero banner (real wordmark logo art instead of a CSS text glitch effect), the raven-and-key seal (now a page watermark instead of a small nav icon), and GAMA<sup>+</sup>'s on-page presence (no border/box, sits bottom-left with her dialogue above her).</li>
                     <li>Fixed body-text contrast — secondary/dim text was only hitting ~3:1 against the void background, under the 4.5:1 AA floor.</li>
                     <li>Branding: she's <code>GAMA⁺</code> / <code>GAMAYUN⁺</code> now, not <code>G.A.M.A.</code></li>
                     <li>Added a real corner-idle mascot: floating animation, and a genuine impatience system — 25 seconds of no interaction and she shakes and switches to irritated dialogue.</li>

@@ -288,7 +288,7 @@ PAGES = [
          root="../", code="MAGIC_8_BALL", category="GAMES_CURIOS",
          js=["tool-magic-8-ball.js"]),
 
-    # Field Manuals: GAMA-voice step-by-step guides. Content lives in
+    # Field Manuals: GAMA+-voice step-by-step guides. Content lives in
     # INSTRUCTABLES below; all 5 pages share one fragment shell
     # (howto-template.html) since the only thing that differs per page is
     # the {{HOWTO_CONTENT}} block built at build() time.
@@ -940,7 +940,7 @@ def build_tool_list_js():
     print(f"  built js/data-tool-list.js ({len(tools)} tools)")
 
 
-# GAMA's own first-person, pruned-of-jargon summary of what shipped each
+# GAMA+'s own first-person, pruned-of-jargon summary of what shipped each
 # day - deliberately NOT the full technical changelog (that stays intact
 # at pages/changelog.html, linked from the LOG page for anyone who wants
 # the detail). This is the ~20% "maintenance" slice of the LOG feed;

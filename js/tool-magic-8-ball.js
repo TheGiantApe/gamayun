@@ -2,7 +2,7 @@
    phrasing throughout, not the toy's own 20 printed answers: the
    ask-a-yes/no-question-shake-for-an-answer format itself is generic and
    centuries older than any one toy, but the specific wording printed
-   inside a real Magic 8-Ball belongs to Mattel, so this is GAMA's own
+   inside a real Magic 8-Ball belongs to Mattel, so this is GAMA+'s own
    oracle rather than a lookalike of theirs. */
 
 const EIGHTBALL_RESPONSES = [
