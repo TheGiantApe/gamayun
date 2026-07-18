@@ -1,0 +1,18 @@
+            <section class="tool-card">
+                <h2>&gt; DIALECT_DECK</h2>
+                <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">Rewrite text in a handful of stock voices - word/phrase substitution, not a language model, so it's fast, offline, and completely predictable. These lean on the familiar internet-meme version of each register (especially Ye Olde English's letter-doubling), not scholarly accuracy - a real Elizabethan would not recognize half of this as their own speech, and that's fine.</p>
+                <div class="tool-workspace">
+                    <textarea id="dialect-input" placeholder="type something ordinary..." oninput="executeDialectDeck()"></textarea>
+                </div>
+                <div style="margin-top:0.5rem;">
+                    <label style="font-size:0.85rem; color:var(--phosphor-dim-text);">voice:
+                        <select id="dialect-style" onchange="executeDialectDeck()">
+                            <option value="shakespearean">Shakespearean</option>
+                            <option value="pirate">Pirate</option>
+                            <option value="corporate">Corporate</option>
+                            <option value="yeolde">Ye Olde English</option>
+                        </select>
+                    </label>
+                </div>
+                <div class="result-block" id="dialect-result"></div>
+            </section>

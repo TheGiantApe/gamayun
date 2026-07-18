@@ -152,6 +152,10 @@ PAGES = [
          desc="Text to ICAO/NATO spelling alphabet and back.",
          root="../", code="NATO_PHONETIC", category="TEXT_OPS",
          js=["tool-nato-phonetic.js"]),
+    dict(out="pages/dialect-deck.html", fragment="dialect-deck.html", title="Dialect Deck",
+         desc="Rewrite text in a Shakespearean, Pirate, Corporate, or Ye Olde English voice - word/phrase substitution, fully offline.",
+         root="../", code="DIALECT_DECK", category="TEXT_OPS",
+         js=["tool-dialect-deck.js"]),
 
     dict(out="pages/calc-iifym.html", fragment="calc-iifym.html", title="Macro Calculator",
          desc="Daily calorie target and protein/fat/carb macro split from your stats, activity, and goal.",

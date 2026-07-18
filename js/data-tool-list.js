@@ -85,6 +85,12 @@ const TOOL_LIST = [
     "url": "pages/nato-phonetic.html"
   },
   {
+    "title": "Dialect Deck",
+    "desc": "Rewrite text in a Shakespearean, Pirate, Corporate, or Ye Olde English voice - word/phrase substitution, fully offline.",
+    "code": "DIALECT_DECK",
+    "url": "pages/dialect-deck.html"
+  },
+  {
     "title": "Macro Calculator",
     "desc": "Daily calorie target and protein/fat/carb macro split from your stats, activity, and goal.",
     "code": "MACRO_CALC",
