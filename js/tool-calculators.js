@@ -1,5 +1,6 @@
-/* CALC_DECK — Percentage, Tip, Age. Three small calculators, one file.
-   (BMI calc was retired - see tool-iifym.js for its replacement.) */
+/* CALC_DECK — Percentage, Tip, Age, Discount, Date Difference. Small
+   calculators, one file. (BMI calc was retired - see tool-iifym.js for
+   its replacement.) */
 
 function executePercentage() {
   const a = parseFloat(document.getElementById("pct-x").value);
@@ -42,5 +43,49 @@ function executeAge() {
   const result = calcAge(raw);
   if (!result) { GAMA.say("error"); out.textContent = "// unreadable date"; return; }
   out.innerHTML = `${result.years} years, ${result.months} months, ${result.days} days &nbsp; (${result.totalDays.toLocaleString()} days total)`;
+  GAMA.say("success");
+}
+
+// Stacked percentage discounts aren't additive - 20% then 10% off is
+// 1 - (0.8 * 0.9) = 28% off total, not 30% - because the second discount
+// applies to the already-reduced price, not the original.
+function executeDiscount() {
+  const price = parseFloat(document.getElementById("disc-price").value);
+  const pct1 = parseFloat(document.getElementById("disc-pct1").value);
+  const pct2 = parseFloat(document.getElementById("disc-pct2").value);
+  const out = document.getElementById("disc-result");
+  if (isNaN(price) || isNaN(pct1)) { GAMA.say("idle"); out.textContent = ""; return; }
+
+  const afterFirst = price * (1 - pct1 / 100);
+  const afterSecond = isNaN(pct2) ? afterFirst : afterFirst * (1 - pct2 / 100);
+  const totalOffPct = (1 - afterSecond / price) * 100;
+
+  const steps = isNaN(pct2)
+    ? `$${price.toFixed(2)} &times; (1 - ${pct1}%) = $${afterFirst.toFixed(2)}`
+    : `$${price.toFixed(2)} &times; (1 - ${pct1}%) = $${afterFirst.toFixed(2)} &nbsp;&rarr;&nbsp; $${afterFirst.toFixed(2)} &times; (1 - ${pct2}%) = $${afterSecond.toFixed(2)}`;
+  out.innerHTML = `${steps}<br>Final price: <strong>$${afterSecond.toFixed(2)}</strong> (${totalOffPct.toFixed(1)}% off total, not ${(pct1 + (pct2 || 0)).toFixed(0)}%)`;
+  GAMA.say("success");
+}
+
+function executeDateDiff() {
+  const startRaw = document.getElementById("datediff-start").value;
+  const endRaw = document.getElementById("datediff-end").value;
+  const out = document.getElementById("datediff-result");
+  if (!startRaw || !endRaw) { GAMA.say("idle"); out.textContent = ""; return; }
+
+  const start = new Date(startRaw);
+  const end = new Date(endRaw);
+  const totalDays = Math.round((end - start) / 86400000);
+  // Same year/month/day breakdown math as calcAge, just anchored between
+  // two arbitrary dates instead of "birthdate to now."
+  const later = startRaw < endRaw ? new Date(endRaw) : new Date(startRaw);
+  const earlier = startRaw < endRaw ? new Date(startRaw) : new Date(endRaw);
+  let years = later.getFullYear() - earlier.getFullYear();
+  let months = later.getMonth() - earlier.getMonth();
+  let days = later.getDate() - earlier.getDate();
+  if (days < 0) { months -= 1; days += new Date(later.getFullYear(), later.getMonth(), 0).getDate(); }
+  if (months < 0) { years -= 1; months += 12; }
+
+  out.innerHTML = `${Math.abs(totalDays).toLocaleString()} days &nbsp; (${(Math.abs(totalDays) / 7).toFixed(1)} weeks &nbsp;|&nbsp; ${years}y ${months}m ${days}d)`;
   GAMA.say("success");
 }

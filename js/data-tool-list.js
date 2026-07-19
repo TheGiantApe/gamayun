@@ -163,6 +163,24 @@ const TOOL_LIST = [
     "url": "pages/aspect-ratio.html"
   },
   {
+    "title": "Discount Calculator",
+    "desc": "Stacked percentage discounts aren't additive - shows the real step-by-step math instead of just the final price.",
+    "code": "DISCOUNT_CALC",
+    "url": "pages/calc-discount.html"
+  },
+  {
+    "title": "Unit Price Comparator",
+    "desc": "Compare price-per-unit across any number of differently-sized packages to find the actual best deal.",
+    "code": "UNIT_PRICE",
+    "url": "pages/unit-price.html"
+  },
+  {
+    "title": "Date Difference Calculator",
+    "desc": "Days, weeks, and years/months/days between two dates, all shown at once.",
+    "code": "DATE_DIFF",
+    "url": "pages/calc-date-diff.html"
+  },
+  {
     "title": "Color Converter",
     "desc": "Hex, RGB integer, RGB float, and HSL, all at once.",
     "code": "COLOR_CONVERTER",

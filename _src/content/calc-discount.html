@@ -1,0 +1,17 @@
+            <section class="tool-card">
+                <h2>&gt; DISCOUNT_CALCULATOR</h2>
+                <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">Add as many discounts as apply - stacked percentages aren't additive (20% + 10% off is <em>not</em> 30% off), and this shows the real math step by step instead of just the final number.</p>
+                <div class="tool-workspace">
+                    <label style="font-size:0.85rem; color:var(--phosphor-dim-text);">original price
+                        <input type="number" id="disc-price" placeholder="100" oninput="executeDiscount()" style="width:100px;">
+                    </label>
+                    <label style="font-size:0.85rem; color:var(--phosphor-dim-text);">discount 1 (%)
+                        <input type="number" id="disc-pct1" placeholder="20" oninput="executeDiscount()" style="width:80px;">
+                    </label>
+                    <label style="font-size:0.85rem; color:var(--phosphor-dim-text);">discount 2 (%, optional)
+                        <input type="number" id="disc-pct2" placeholder="10" oninput="executeDiscount()" style="width:80px;">
+                    </label>
+                </div>
+                <div class="result-block" id="disc-result"></div>
+            </section>
+            <p style="padding:0 1.5rem; font-size:0.85rem;"><span style="color: var(--phosphor-dim-text)">See also:</span> <a href="calc-percentage.html">Percentage Calculator</a> &middot; <a href="unit-price.html">Unit Price Comparator</a></p>
