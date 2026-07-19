@@ -442,6 +442,12 @@ PAGES = [
     dict(out="pages/team-picker.html", fragment="team-picker.html", title="Team/Group Picker",
          desc="Random groups or shuffle order, with an optional 'keep these two apart' constraint most simple pickers can't honor.",
          root="../", code="TEAM_PICKER", category="GAMES_CURIOS", js=["tool-team-picker.js"]),
+    dict(out="pages/trivia-quiz.html", fragment="trivia-quiz.html", title="Trivia Quiz",
+         desc="5-question rounds across 4 categories with a local streak/best-score tracker, no repeats within a round.",
+         root="../", code="TRIVIA_QUIZ", category="GAMES_CURIOS", js=["tool-trivia-quiz.js"]),
+    dict(out="pages/raffle-picker.html", fragment="raffle-picker.html", title="Raffle Winner Picker",
+         desc="Crypto-random draw with an exportable, auditable proof log (timestamp + full entry list + winner).",
+         root="../", code="RAFFLE_PICKER", category="GAMES_CURIOS", js=["tool-raffle-picker.js"]),
 
     # Field Manuals: GAMA+-voice step-by-step guides. Content lives in
     # INSTRUCTABLES below; all 5 pages share one fragment shell

@@ -1,0 +1,18 @@
+            <section class="tool-card">
+                <h2>&gt; TRIVIA_QUIZ</h2>
+                <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">Pick a category, answer 5 questions pulled without repeats. Streak and best score are tracked locally (no account, just your browser) so replaying actually means something instead of resetting every visit.</p>
+                <div class="tool-workspace">
+                    <select id="trivia-category" onchange="newTriviaQuiz()">
+                        <option value="science">science</option>
+                        <option value="history">history</option>
+                        <option value="geography">geography</option>
+                        <option value="tech">technology</option>
+                    </select>
+                    <button onclick="newTriviaQuiz()">&gt; NEW QUIZ</button>
+                </div>
+                <div id="trivia-question" style="margin-top:1rem; font-size:1.05rem;"></div>
+                <div id="trivia-options" style="margin-top:0.75rem;"></div>
+                <div id="trivia-feedback" style="margin-top:0.75rem; font-size:0.95rem;"></div>
+                <div id="trivia-score" style="margin-top:1rem; font-size:0.85rem; color:var(--phosphor-dim-text);"></div>
+            </section>
+            <p style="padding:0 1.5rem; font-size:0.85rem;"><span style="color: var(--phosphor-dim-text)">See also:</span> <a href="dice-roller.html">Dice Roller</a> &middot; <a href="acronym-index.html">Acronym Index</a></p>

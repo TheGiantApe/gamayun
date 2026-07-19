@@ -595,6 +595,18 @@ const TOOL_LIST = [
     "url": "pages/team-picker.html"
   },
   {
+    "title": "Trivia Quiz",
+    "desc": "5-question rounds across 4 categories with a local streak/best-score tracker, no repeats within a round.",
+    "code": "TRIVIA_QUIZ",
+    "url": "pages/trivia-quiz.html"
+  },
+  {
+    "title": "Raffle Winner Picker",
+    "desc": "Crypto-random draw with an exportable, auditable proof log (timestamp + full entry list + winner).",
+    "code": "RAFFLE_PICKER",
+    "url": "pages/raffle-picker.html"
+  },
+  {
     "title": "Verify a Source Before You Share It",
     "desc": "Reverse-image search, account age, dead-link sourcing, and why a screenshot alone proves nothing.",
     "code": "HOWTO_VERIFY_SOURCE",
