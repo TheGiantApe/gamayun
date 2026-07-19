@@ -251,6 +251,12 @@ PAGES = [
     dict(out="pages/font-pairing.html", fragment="font-pairing.html", title="Font Pairing Previewer",
          desc="Hand-curated web-safe heading/body font pairings with editable live sample text, no Google Fonts CDN call.",
          root="../", code="FONT_PAIRING", category="PAINT_LOCKER", js=["tool-font-pairing.js"]),
+    dict(out="pages/blob-gen.html", fragment="blob-gen.html", title="SVG Blob Generator",
+         desc="Random organic blob shapes smoothed with real Catmull-Rom-to-Bezier curve math, downloadable as SVG.",
+         root="../", code="BLOB_GEN", category="PAINT_LOCKER", js=["tool-blob-gen.js"]),
+    dict(out="pages/placeholder-image.html", fragment="placeholder-image.html", title="Placeholder Image Generator",
+         desc="Mockup placeholder images defaulted to this site's own CRT phosphor styling instead of a generic gray box.",
+         root="../", code="PLACEHOLDER_IMG", category="PAINT_LOCKER", js=["tool-placeholder-image.js"]),
 
     dict(out="pages/symbol-index.html", fragment="symbol-index.html", title="Symbol Index",
          desc="349 searchable Unicode symbols with names and codepoints, click to copy.",

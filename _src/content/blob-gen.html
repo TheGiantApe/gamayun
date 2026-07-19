@@ -1,0 +1,15 @@
+            <section class="tool-card">
+                <h2>&gt; SVG_BLOB_GENERATOR</h2>
+                <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">Random organic blob shapes, smoothed with real Catmull-Rom-to-Bezier curve math (not a jagged polygon), downloadable as SVG.</p>
+                <div class="tool-workspace">
+                    <label style="font-size:0.85rem; color:var(--phosphor-dim-text);">points <input type="range" id="blob-points" min="4" max="14" value="7" oninput="renderBlob()"></label>
+                    <label style="font-size:0.85rem; color:var(--phosphor-dim-text);">irregularity <input type="range" id="blob-irregularity" min="10" max="90" value="40" oninput="renderBlob()"></label>
+                    <input type="color" id="blob-color" value="#00ff66" oninput="renderBlob()">
+                    <button onclick="renderBlob()">&gt; REGENERATE</button>
+                </div>
+                <svg id="blob-svg" width="300" height="300" viewBox="0 0 300 300" style="margin-top:1rem; border:1px solid var(--phosphor-dim);"></svg>
+                <div class="tool-workspace">
+                    <a id="blob-download" class="btn" download="blob.svg">&gt; DOWNLOAD SVG</a>
+                </div>
+            </section>
+            <p style="padding:0 1.5rem; font-size:0.85rem;"><span style="color: var(--phosphor-dim-text)">See also:</span> <a href="gradient-gen.html">Gradient Generator</a> &middot; <a href="palette.html">Palette Forge</a></p>

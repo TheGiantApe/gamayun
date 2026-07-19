@@ -271,6 +271,18 @@ const TOOL_LIST = [
     "url": "pages/font-pairing.html"
   },
   {
+    "title": "SVG Blob Generator",
+    "desc": "Random organic blob shapes smoothed with real Catmull-Rom-to-Bezier curve math, downloadable as SVG.",
+    "code": "BLOB_GEN",
+    "url": "pages/blob-gen.html"
+  },
+  {
+    "title": "Placeholder Image Generator",
+    "desc": "Mockup placeholder images defaulted to this site's own CRT phosphor styling instead of a generic gray box.",
+    "code": "PLACEHOLDER_IMG",
+    "url": "pages/placeholder-image.html"
+  },
+  {
     "title": "Symbol Index",
     "desc": "349 searchable Unicode symbols with names and codepoints, click to copy.",
     "code": "SYMBOL_INDEX",

@@ -1,0 +1,19 @@
+            <section class="tool-card">
+                <h2>&gt; PLACEHOLDER_IMAGE</h2>
+                <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">Mockup placeholder images, defaulted to this site's own CRT phosphor styling instead of a generic gray box - a real differentiator, since every competitor ships the same flat gray rectangle.</p>
+                <div class="tool-workspace">
+                    <label style="font-size:0.85rem; color:var(--phosphor-dim-text);">width <input type="number" id="ph-width" value="640" min="16" max="2000" oninput="renderPlaceholder()" style="width:80px;"></label>
+                    <label style="font-size:0.85rem; color:var(--phosphor-dim-text);">height <input type="number" id="ph-height" value="360" min="16" max="2000" oninput="renderPlaceholder()" style="width:80px;"></label>
+                </div>
+                <div class="tool-workspace">
+                    <label style="font-size:0.85rem; color:var(--phosphor-dim-text);">text (optional) <input type="text" id="ph-text" placeholder="defaults to WxH" oninput="renderPlaceholder()" style="width:160px;"></label>
+                    <input type="color" id="ph-bg" value="#0a0a0a" oninput="renderPlaceholder()">
+                    <input type="color" id="ph-fg" value="#00ff66" oninput="renderPlaceholder()">
+                    <label style="font-size:0.85rem; color:var(--phosphor-dim-text);"><input type="checkbox" id="ph-scanlines" checked onchange="renderPlaceholder()"> scanlines</label>
+                </div>
+                <canvas id="ph-canvas" style="margin-top:1rem; max-width:100%; border:1px solid var(--phosphor-dim);"></canvas>
+                <div class="tool-workspace">
+                    <a id="ph-download" class="btn" download="placeholder.png">&gt; DOWNLOAD PNG</a>
+                </div>
+            </section>
+            <p style="padding:0 1.5rem; font-size:0.85rem;"><span style="color: var(--phosphor-dim-text)">See also:</span> <a href="favicon-generator.html">Favicon Generator</a> &middot; <a href="aspect-ratio.html">Aspect Ratio Calculator</a></p>

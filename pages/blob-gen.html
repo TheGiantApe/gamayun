@@ -40,17 +40,17 @@
          changing hosts. -->
     <meta http-equiv="Content-Security-Policy" content="object-src 'none'; base-uri 'self'; form-action 'self'">
 
-    <title>Steganography // GAMAYUN⁺</title>
-    <meta name="description" content="Hide a text message inside an image via LSB encoding, or extract one that's already hidden.">
-    <meta property="og:title" content="Steganography // GAMAYUN⁺">
-    <meta property="og:description" content="Hide a text message inside an image via LSB encoding, or extract one that's already hidden.">
+    <title>SVG Blob Generator // GAMAYUN⁺</title>
+    <meta name="description" content="Random organic blob shapes smoothed with real Catmull-Rom-to-Bezier curve math, downloadable as SVG.">
+    <meta property="og:title" content="SVG Blob Generator // GAMAYUN⁺">
+    <meta property="og:description" content="Random organic blob shapes smoothed with real Catmull-Rom-to-Bezier curve math, downloadable as SVG.">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://gamayun.site/pages/steganography.html">
+    <meta property="og:url" content="https://gamayun.site/pages/blob-gen.html">
     <meta property="og:image" content="https://gamayun.site/assets/og-image.png">
     <meta property="og:site_name" content="GAMAYUN⁺">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Steganography // GAMAYUN⁺">
-    <meta name="twitter:description" content="Hide a text message inside an image via LSB encoding, or extract one that's already hidden.">
+    <meta name="twitter:title" content="SVG Blob Generator // GAMAYUN⁺">
+    <meta name="twitter:description" content="Random organic blob shapes smoothed with real Catmull-Rom-to-Bezier curve math, downloadable as SVG.">
     <meta name="twitter:image" content="https://gamayun.site/assets/og-image.png">
     <link href="https://fonts.googleapis.com/css2?family=VT323&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/gama.css">
@@ -62,7 +62,7 @@
          the static fallback so something correct shows before JS runs. -->
     <link rel="icon" id="favicon-link" href="/assets/icons/favicon-mascot.ico">
     <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
-    <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "Steganography", "description": "Hide a text message inside an image via LSB encoding, or extract one that's already hidden.", "url": "https://gamayun.site/pages/steganography.html", "applicationCategory": "UtilitiesApplication", "operatingSystem": "Any (runs in browser)", "isAccessibleForFree": true, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}}</script>
+    <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "SVG Blob Generator", "description": "Random organic blob shapes smoothed with real Catmull-Rom-to-Bezier curve math, downloadable as SVG.", "url": "https://gamayun.site/pages/blob-gen.html", "applicationCategory": "UtilitiesApplication", "operatingSystem": "Any (runs in browser)", "isAccessibleForFree": true, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}}</script>
 </head>
 <body class="crt-screen" data-root="../">
 
@@ -142,7 +142,7 @@
                     <a href="../pages/shoe-size.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">SHOE_SIZE</span></a>
                     <a href="../pages/work-hours.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">WORK_HOURS</span></a>
                 </details>
-                <details class="nav-section">
+                <details class="nav-section" open>
                     <summary class="nav-section-label">[ PAINT LOCKER&nbsp;]</summary>
                     <a href="../pages/color.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">COLOR_CONVERTER</span></a>
                     <a href="../pages/palette.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">PALETTE_FORGE</span></a>
@@ -155,7 +155,7 @@
                     <a href="../pages/easing-visualizer.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">EASING_VIZ</span></a>
                     <a href="../pages/gradient-gen.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">GRADIENT_GEN</span></a>
                     <a href="../pages/font-pairing.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">FONT_PAIRING</span></a>
-                    <a href="../pages/blob-gen.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">BLOB_GEN</span></a>
+                    <a href="../pages/blob-gen.html" class="nav-link active">&gt;&nbsp;<span class="nav-link-label">BLOB_GEN</span></a>
                     <a href="../pages/placeholder-image.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">PLACEHOLDER_IMG</span></a>
                 </details>
                 <details class="nav-section">
@@ -164,10 +164,10 @@
                     <a href="../pages/emoji-index.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">EMOJI_INDEX</span></a>
                     <a href="../pages/acronym-index.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">ACRONYM_INDEX</span></a>
                 </details>
-                <details class="nav-section" open>
+                <details class="nav-section">
                     <summary class="nav-section-label">[ FILE_SALVAGE&nbsp;]</summary>
                     <a href="../pages/image-tools.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">IMAGE_SALVAGE</span></a>
-                    <a href="../pages/steganography.html" class="nav-link active">&gt;&nbsp;<span class="nav-link-label">STEGANOGRAPHY</span></a>
+                    <a href="../pages/steganography.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">STEGANOGRAPHY</span></a>
                     <a href="../pages/ela-check.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">ELA_CHECK</span></a>
                     <a href="../pages/favicon-generator.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">FAVICON_FORGE</span></a>
                 </details>
@@ -241,42 +241,22 @@
 
         <main class="center-viewport" id="active-tool-zone">
             <div class="content-flex-fill">
-            <div class="breadcrumb">&gt; <a href="../index.html">DECK_LAUNCHER</a> <span class="breadcrumb-sep">/</span> FILE_SALVAGE <span class="breadcrumb-sep">/</span> STEGANOGRAPHY</div>
+            <div class="breadcrumb">&gt; <a href="../index.html">DECK_LAUNCHER</a> <span class="breadcrumb-sep">/</span> PAINT LOCKER <span class="breadcrumb-sep">/</span> BLOB_GEN</div>
             <section class="tool-card">
-                <h2>&gt; STEGANOGRAPHY</h2>
-                <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">Hide a text message inside an image's pixel data (LSB encoding - one bit per color channel, invisible to the eye). Output is always PNG: JPEG's lossy recompression destroys the hidden bits, so re-saving or re-uploading a stego image anywhere that re-encodes it as JPEG will wipe the message. Nothing is uploaded anywhere - the image never leaves your browser.</p>
-
-                <h3 style="font-family:var(--font-display); font-size:1rem; margin:1.5rem 0 0.5rem;">&gt; EMBED</h3>
-                <div class="img-dropzone" id="stego-encode-dropzone">
-                    <p>&gt; drop a carrier image here, or click to choose one</p>
-                    <input type="file" id="stego-encode-file-input" accept="image/*" style="display:none;">
-                </div>
-                <p id="stego-encode-filename" style="color: var(--phosphor-dim-text); font-size:0.85rem; margin-top:0.5rem;"></p>
-                <p id="stego-capacity" style="color: var(--phosphor-dim-text); font-size:0.8rem;"></p>
+                <h2>&gt; SVG_BLOB_GENERATOR</h2>
+                <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">Random organic blob shapes, smoothed with real Catmull-Rom-to-Bezier curve math (not a jagged polygon), downloadable as SVG.</p>
                 <div class="tool-workspace">
-                    <textarea id="stego-message" placeholder="the message to hide..."></textarea>
+                    <label style="font-size:0.85rem; color:var(--phosphor-dim-text);">points <input type="range" id="blob-points" min="4" max="14" value="7" oninput="renderBlob()"></label>
+                    <label style="font-size:0.85rem; color:var(--phosphor-dim-text);">irregularity <input type="range" id="blob-irregularity" min="10" max="90" value="40" oninput="renderBlob()"></label>
+                    <input type="color" id="blob-color" value="#00ff66" oninput="renderBlob()">
+                    <button onclick="renderBlob()">&gt; REGENERATE</button>
                 </div>
-                <div style="margin-top:0.5rem;">
-                    <button onclick="executeStegoEncode()">&gt; EMBED &amp; ENCODE</button>
+                <svg id="blob-svg" width="300" height="300" viewBox="0 0 300 300" style="margin-top:1rem; border:1px solid var(--phosphor-dim);"></svg>
+                <div class="tool-workspace">
+                    <a id="blob-download" class="btn" download="blob.svg">&gt; DOWNLOAD SVG</a>
                 </div>
-                <div class="result-block" id="stego-encode-result"></div>
-                <a id="stego-download-link" class="btn" download style="display:none; margin-top:0.75rem;" onclick="confirmStegoDownload()">&gt; DOWNLOAD PNG</a>
-
-                <h3 style="font-family:var(--font-display); font-size:1rem; margin:2rem 0 0.5rem;">&gt; EXTRACT</h3>
-                <div class="img-dropzone" id="stego-decode-dropzone">
-                    <p>&gt; drop a stego image here, or click to choose one</p>
-                    <input type="file" id="stego-decode-file-input" accept="image/*" style="display:none;">
-                </div>
-                <p id="stego-decode-filename" style="color: var(--phosphor-dim-text); font-size:0.85rem; margin-top:0.5rem;"></p>
-                <pre class="result-block" id="stego-decode-result"></pre>
             </section>
-            <p style="padding:0 1.5rem; font-size:0.85rem;"><span style="color: var(--phosphor-dim-text)">See also:</span> <a href="image-tools.html">Image Salvage</a></p>
-
-            <section class="prose" style="padding-left:0;padding-right:0;">
-                <h2>&gt; HIDING THAT SOMETHING'S HIDDEN</h2>
-                <p>Cryptography hides what a message says. Steganography hides that a message exists at all - an encrypted file announces "there's a secret here," a steganographic one doesn't. This tool's LSB (least-significant-bit) encoding swaps the lowest, least visually significant bit of each color channel for a bit of the hidden message, nudging every affected pixel's color by an amount too small to see - which is also why it only ever outputs PNG: anything that recompresses the image scrambles those low bits and destroys the message.</p>
-                <p>Full history - Herodotus, tattooed scalps, and how steganalysis actually catches this stuff - lives in the <a href="wiki-steganography.html">GAMA<sup>+</sup> Wiki</a>.</p>
-            </section>
+            <p style="padding:0 1.5rem; font-size:0.85rem;"><span style="color: var(--phosphor-dim-text)">See also:</span> <a href="gradient-gen.html">Gradient Generator</a> &middot; <a href="palette.html">Palette Forge</a></p>
 
             </div>
             <div class="ad-leaderboard">
@@ -422,7 +402,7 @@
     <script src="../js/data-tool-list.js"></script>
     <script src="../js/site-search.js"></script>
     <script src="../js/page-transition.js"></script>
-    <script src="../js/tool-steganography.js"></script>
+    <script src="../js/tool-blob-gen.js"></script>
     <script>
       if ("serviceWorker" in navigator) {
         window.addEventListener("load", () => navigator.serviceWorker.register("/sw.js"));
