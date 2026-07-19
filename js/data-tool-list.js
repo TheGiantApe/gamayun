@@ -199,6 +199,12 @@ const TOOL_LIST = [
     "url": "pages/shoe-size.html"
   },
   {
+    "title": "Work Hours Calculator",
+    "desc": "Clock-in/out pairs across a week with a per-day unpaid break deduction, totaled into a clean weekly summary.",
+    "code": "WORK_HOURS",
+    "url": "pages/work-hours.html"
+  },
+  {
     "title": "Color Converter",
     "desc": "Hex, RGB integer, RGB float, and HSL, all at once.",
     "code": "COLOR_CONVERTER",
@@ -365,6 +371,12 @@ const TOOL_LIST = [
     "desc": "Preview how a link card renders on X/Twitter and Facebook, and get the Open Graph + Twitter Card meta tags to match.",
     "code": "META_PREVIEW",
     "url": "pages/meta-preview.html"
+  },
+  {
+    "title": "Robots.txt Validator",
+    "desc": "Flags common robots.txt mistakes with a plain-English explanation of why each one is a problem.",
+    "code": "ROBOTS_VALIDATOR",
+    "url": "pages/robots-validator.html"
   },
   {
     "title": "Cipher Deck",

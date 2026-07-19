@@ -1,0 +1,53 @@
+/* WORK_HOURS_CALCULATOR — one row per day of the week, clock-in/out plus
+   an optional unpaid break, deducted per day (not just once for the
+   whole week) since that's how real timesheets actually work. */
+
+const WORK_HOURS_DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+
+function buildWorkHoursRows() {
+  const container = document.getElementById("workhours-rows");
+  container.innerHTML = WORK_HOURS_DAYS.map((day) => `
+    <div class="tool-workspace" style="margin-bottom:0.4rem;">
+      <span style="width:40px; color:var(--phosphor-dim-text); font-size:0.85rem;">${day}</span>
+      <input type="time" class="workhours-in" oninput="renderWorkHours()">
+      <span style="align-self:center;">&rarr;</span>
+      <input type="time" class="workhours-out" oninput="renderWorkHours()">
+      <input type="number" class="workhours-break" placeholder="break (min)" oninput="renderWorkHours()" style="width:110px;">
+    </div>
+  `).join("");
+}
+
+function timeToMinutes(hhmm) {
+  const [h, m] = hhmm.split(":").map(Number);
+  return h * 60 + m;
+}
+
+function renderWorkHours() {
+  const rows = [...document.querySelectorAll("#workhours-rows .tool-workspace")];
+  const rate = parseFloat(document.getElementById("workhours-rate").value) || 0;
+  let totalMinutes = 0;
+  const dayLines = [];
+
+  rows.forEach((row, i) => {
+    const inVal = row.querySelector(".workhours-in").value;
+    const outVal = row.querySelector(".workhours-out").value;
+    const breakMin = parseFloat(row.querySelector(".workhours-break").value) || 0;
+    if (!inVal || !outVal) return;
+
+    let minutes = timeToMinutes(outVal) - timeToMinutes(inVal);
+    if (minutes < 0) minutes += 24 * 60; // overnight shift
+    minutes -= breakMin;
+    if (minutes < 0) minutes = 0;
+    totalMinutes += minutes;
+    dayLines.push(`${WORK_HOURS_DAYS[i]}: ${(minutes / 60).toFixed(2)}h`);
+  });
+
+  const out = document.getElementById("workhours-result");
+  if (!dayLines.length) { GAMA.say("idle"); out.textContent = ""; return; }
+  const totalHours = totalMinutes / 60;
+  const payLine = rate ? ` &nbsp;|&nbsp; $${(totalHours * rate).toFixed(2)} at $${rate}/hr` : "";
+  out.innerHTML = `${dayLines.join(" &nbsp; ")}<br><strong>Total: ${totalHours.toFixed(2)} hours</strong>${payLine}`;
+  GAMA.say("success");
+}
+
+document.addEventListener("DOMContentLoaded", buildWorkHoursRows);

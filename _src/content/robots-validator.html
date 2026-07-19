@@ -1,0 +1,9 @@
+            <section class="tool-card">
+                <h2>&gt; ROBOTS_TXT_VALIDATOR</h2>
+                <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">Paste a robots.txt file. Flags common mistakes with a plain-English explanation of why each one is a problem, not just "invalid line."</p>
+                <div class="tool-workspace">
+                    <textarea id="robots-input" placeholder="User-agent: *&#10;Disallow: /admin&#10;Sitemap: https://example.com/sitemap.xml" oninput="executeRobotsValidate()"></textarea>
+                </div>
+                <div id="robots-result" style="margin-top:1rem;"></div>
+            </section>
+            <p style="padding:0 1.5rem; font-size:0.85rem;"><span style="color: var(--phosphor-dim-text)">See also:</span> <a href="http-status.html">HTTP Status Code Reference</a> &middot; <a href="meta-preview.html">Meta Tag Preview</a></p>

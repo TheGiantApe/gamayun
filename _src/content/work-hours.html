@@ -1,0 +1,12 @@
+            <section class="tool-card">
+                <h2>&gt; WORK_HOURS_CALCULATOR</h2>
+                <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">Clock-in/clock-out pairs across a week, with an optional unpaid break deducted per day. Totals a clean weekly summary instead of a spreadsheet.</p>
+                <div id="workhours-rows"></div>
+                <div class="tool-workspace" style="margin-top:0.5rem;">
+                    <label style="font-size:0.85rem; color:var(--phosphor-dim-text);">hourly rate ($, optional):
+                        <input type="number" id="workhours-rate" placeholder="0" oninput="renderWorkHours()" style="width:80px;">
+                    </label>
+                </div>
+                <div class="result-block" id="workhours-result"></div>
+            </section>
+            <p style="padding:0 1.5rem; font-size:0.85rem;"><span style="color: var(--phosphor-dim-text)">See also:</span> <a href="calc-tip.html">Tip Calculator</a> &middot; <a href="calc-date-diff.html">Date Difference Calculator</a></p>
