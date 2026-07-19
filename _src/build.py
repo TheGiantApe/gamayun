@@ -894,6 +894,8 @@ def build():
         out = out.replace("{{TITLE}}", page["title"])
         out = out.replace("{{DESCRIPTION}}", page["desc"])
         out = out.replace("{{JSONLD}}", build_jsonld_html(page))
+        out = out.replace("{{OG_URL}}", f'https://gamayun.site/{page["out"]}')
+        out = out.replace("{{OG_IMAGE}}", "https://gamayun.site/assets/og-image.png")
         out = out.replace("{{ROOT}}", page["root"])
         out = out.replace("{{TABS}}", build_tabs_html(section, page["root"]))
         out = out.replace("{{NAV}}", build_nav_html(page["out"], page["root"], section))
