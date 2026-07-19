@@ -343,6 +343,12 @@ const TOOL_LIST = [
     "url": "pages/lorem-ipsum.html"
   },
   {
+    "title": "JSON \u2194 CSV Converter",
+    "desc": "Nested JSON flattens to dot-notation CSV columns instead of choking; CSV parsing is quote/comma-aware.",
+    "code": "JSON_CSV",
+    "url": "pages/json-csv.html"
+  },
+  {
     "title": "Cipher Deck",
     "desc": "Caesar shift (with brute-force), Vigenere, and Morse code (with audible playback).",
     "code": "CIPHER_DECK",
@@ -413,6 +419,18 @@ const TOOL_LIST = [
     "desc": "Single flips or a batch of up to 100, with a running tally.",
     "code": "COIN_FLIP",
     "url": "pages/coin-flip.html"
+  },
+  {
+    "title": "Stopwatch",
+    "desc": "performance.now()-backed stopwatch with lap splitting and a CSV export of the lap list.",
+    "code": "STOPWATCH",
+    "url": "pages/stopwatch.html"
+  },
+  {
+    "title": "Username Generator",
+    "desc": "Pronounceable username combinations from your own keywords, instead of a word glued to random noise.",
+    "code": "USERNAME_GEN",
+    "url": "pages/username-gen.html"
   },
   {
     "title": "Verify a Source Before You Share It",

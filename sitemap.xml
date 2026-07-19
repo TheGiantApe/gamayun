@@ -175,6 +175,9 @@
     <loc>https://gamayun.site/pages/lorem-ipsum.html</loc>
   </url>
   <url>
+    <loc>https://gamayun.site/pages/json-csv.html</loc>
+  </url>
+  <url>
     <loc>https://gamayun.site/pages/cipher-deck.html</loc>
   </url>
   <url>
@@ -209,6 +212,12 @@
   </url>
   <url>
     <loc>https://gamayun.site/pages/coin-flip.html</loc>
+  </url>
+  <url>
+    <loc>https://gamayun.site/pages/stopwatch.html</loc>
+  </url>
+  <url>
+    <loc>https://gamayun.site/pages/username-gen.html</loc>
   </url>
   <url>
     <loc>https://gamayun.site/pages/howto-verify-source.html</loc>

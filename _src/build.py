@@ -304,6 +304,9 @@ PAGES = [
     dict(out="pages/lorem-ipsum.html", fragment="lorem-ipsum.html", title="Lorem Ipsum Generator",
          desc="Classic Latin placeholder text, or GAMA's own salvage-flavored word bank as a genuine second option.",
          root="../", code="LOREM_IPSUM", category="DEV_VAULT", js=["tool-lorem-ipsum.js"]),
+    dict(out="pages/json-csv.html", fragment="json-csv.html", title="JSON ↔ CSV Converter",
+         desc="Nested JSON flattens to dot-notation CSV columns instead of choking; CSV parsing is quote/comma-aware.",
+         root="../", code="JSON_CSV", category="DEV_VAULT", js=["tool-json-csv.js"]),
 
     dict(out="pages/cipher-deck.html", fragment="cipher-deck.html", title="Cipher Deck",
          desc="Caesar shift (with brute-force), Vigenere, and Morse code (with audible playback).",
@@ -352,6 +355,12 @@ PAGES = [
     dict(out="pages/coin-flip.html", fragment="coin-flip.html", title="Coin Flip",
          desc="Single flips or a batch of up to 100, with a running tally.",
          root="../", code="COIN_FLIP", category="GAMES_CURIOS", js=["tool-coin-flip.js"]),
+    dict(out="pages/stopwatch.html", fragment="stopwatch.html", title="Stopwatch",
+         desc="performance.now()-backed stopwatch with lap splitting and a CSV export of the lap list.",
+         root="../", code="STOPWATCH", category="GAMES_CURIOS", js=["tool-stopwatch.js"]),
+    dict(out="pages/username-gen.html", fragment="username-gen.html", title="Username Generator",
+         desc="Pronounceable username combinations from your own keywords, instead of a word glued to random noise.",
+         root="../", code="USERNAME_GEN", category="GAMES_CURIOS", js=["tool-username-gen.js"]),
 
     # Field Manuals: GAMA+-voice step-by-step guides. Content lives in
     # INSTRUCTABLES below; all 5 pages share one fragment shell

@@ -1,0 +1,15 @@
+            <section class="tool-card">
+                <h2>&gt; STOPWATCH</h2>
+                <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">Standard stopwatch with lap splitting. Laps export as CSV - most basic stopwatches let you look at the numbers but not take them with you.</p>
+                <div id="stopwatch-display" style="font-size:2.5rem; text-align:center; margin:1.5rem 0; font-family:var(--font-mono);">00:00.00</div>
+                <div class="tool-workspace" style="justify-content:center;">
+                    <button id="stopwatch-start-btn" onclick="stopwatchToggle()">&gt; START</button>
+                    <button onclick="stopwatchLap()">&gt; LAP</button>
+                    <button onclick="stopwatchReset()">&gt; RESET</button>
+                </div>
+                <div id="stopwatch-laps" style="margin-top:1rem; font-size:0.9rem;"></div>
+                <div class="tool-workspace" id="stopwatch-export-row" style="display:none; margin-top:0.5rem;">
+                    <button onclick="exportStopwatchLaps()">&gt; COPY LAPS AS CSV</button>
+                </div>
+            </section>
+            <p style="padding:0 1.5rem; font-size:0.85rem;"><span style="color: var(--phosphor-dim-text)">See also:</span> <a href="dice-roller.html">Dice Roller</a> &middot; <a href="time-logic.html">Date Stamp Recon</a></p>
