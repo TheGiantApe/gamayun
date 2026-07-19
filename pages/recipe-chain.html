@@ -226,6 +226,78 @@
                     <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
                 </div>
             </div>
+
+            <!-- Moved inside .center-viewport (was a body-level sibling of
+                 .command-bridge-grid, pinned in the fixed desktop frame
+                 alongside header/nav/right-deck). On any viewport under
+                 ~800px tall, that fixed-frame footer's own content height
+                 (brand blurb + 2 link columns + copyright bar, all
+                 permanently visible, never getting to shrink) was eating
+                 30-40%+ of the entire screen, squeezing this pane's actual
+                 tool content into a sliver - "huge and makes no sense".
+                 A full corporate-style footer belongs in the page's normal
+                 scroll flow (see Web_Design_Style_Guide.md - sticky is a
+                 header pattern, not a footer one), so it now scrolls away
+                 with the tool content like every other website's footer,
+                 instead of permanently occupying frame space it was never
+                 budgeted for. The thin ticker (.archival-log-footer, ~32px)
+                 stays pinned below the frame - negligible footprint, reads
+                 as ambient status chrome rather than a page footer. -->
+            <footer class="site-footer">
+                <div class="trust-block">
+                    <span title="Runs in your browser. No accounts. No telemetry.">100% client-side</span>
+                    <span>no accounts, ever</span>
+                </div>
+
+                <div class="footer-columns">
+                    <div class="footer-col footer-col-brand">
+                        <div class="footer-brand">GAMAYUN<sup>+</sup></div>
+                        <p>Free client-side tools. Nothing here phones home.</p>
+                        <nav class="social-icons">
+                            <a href="https://x.com/projectgamayun" target="_blank" rel="noopener" aria-label="X (Twitter)" title="X (Twitter)">
+                                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.9 3H21l-6.6 7.5L22 21h-6.1l-4.8-6.3L5.6 21H3.4l7-8L2 3h6.2l4.3 5.7L18.9 3zm-1.1 16h1.2L7.3 5H6l11.8 14z"/></svg>
+                            </a>
+                            <a href="https://bsky.app/profile/project-gamayun.bsky.social" target="_blank" rel="noopener" aria-label="Bluesky" title="Bluesky">
+                                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 8.5c-1.6-3-5-5.3-7.5-5.5-1 0-1 .6-1 1.1 0 .6.1 4.7.2 5.4.4 2.5 3 3.2 5.4 2.9-3.9.6-7.4 2-2.8 7.2 5 5.3 6.9-1.1 7.7-3.6.8 2.5 2.4 8.9 7.6 3.6 4.4-5.2 1-6.6-2.9-7.2 2.4.3 5-.4 5.4-2.9.1-.7.2-4.8.2-5.4 0-.5 0-1.1-1-1.1-2.5.2-5.9 2.5-7.5 5.5z"/></svg>
+                            </a>
+                            <a href="https://www.instagram.com/project.gamayun/" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.75" fill="currentColor" stroke="none"/></svg>
+                            </a>
+                            <a href="https://www.facebook.com/profile.php?id=61592013055899" target="_blank" rel="noopener" aria-label="Facebook" title="Facebook">
+                                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M14 9h3V5h-3c-2.2 0-4 1.8-4 4v2H7v4h3v7h4v-7h3l1-4h-4V9c0-.6.4-1 1-1z"/></svg>
+                            </a>
+                            <a href="https://www.youtube.com/@Project.GAMAYUN" target="_blank" rel="noopener" aria-label="YouTube" title="YouTube">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="4"/><path d="M10 9l6 3-6 3z" fill="currentColor" stroke="none"/></svg>
+                            </a>
+                        </nav>
+                    </div>
+
+                    <div class="footer-col">
+                        <div class="footer-col-label">SECTIONS</div>
+                        <div class="footer-links-row">
+                            <a href="../index.html">Tools</a>
+                            <a href="../pages/wiki-index.html">GAMA<sup>+</sup> Wiki</a>
+                            <a href="../pages/log.html">Log</a>
+                            <a href="../pages/about.html">About</a>
+                            <a href="../pages/contact.html">Contact</a>
+                        </div>
+                    </div>
+
+                    <div class="footer-col">
+                        <div class="footer-col-label">LEGAL</div>
+                        <div class="footer-links-row">
+                            <a href="../pages/privacy.html">Privacy Policy</a>
+                            <a href="../pages/terms.html">Terms of Service</a>
+                            <a href="../pages/legal.html">Legal &amp; Privacy</a>
+                            <a href="../pages/sitemap.html">Sitemap</a>
+                            <a href="../pages/changelog.html">Maintenance Log</a>
+                            <a href="../pages/scrapbook.html" id="scrapbook-footer-link" style="display:none;">GAMA<sup>+</sup>'s Scrapbook</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="footer-bottom">&copy; 2026 GAMAYUN.SITE</div>
+            </footer>
         </main>
 
         <aside class="right-deck">
@@ -280,62 +352,6 @@
 
     <footer class="archival-log-footer">
         <div class="log-stream" id="log-stream-feed">[00:00:00] recon deck online...</div>
-    </footer>
-
-    <footer class="site-footer">
-        <div class="trust-block">
-            <span title="Runs in your browser. No accounts. No telemetry.">100% client-side</span>
-            <span>no accounts, ever</span>
-        </div>
-
-        <div class="footer-columns">
-            <div class="footer-col footer-col-brand">
-                <div class="footer-brand">GAMAYUN<sup>+</sup></div>
-                <p>Free client-side tools. Nothing here phones home.</p>
-                <nav class="social-icons">
-                    <a href="https://x.com/projectgamayun" target="_blank" rel="noopener" aria-label="X (Twitter)" title="X (Twitter)">
-                        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.9 3H21l-6.6 7.5L22 21h-6.1l-4.8-6.3L5.6 21H3.4l7-8L2 3h6.2l4.3 5.7L18.9 3zm-1.1 16h1.2L7.3 5H6l11.8 14z"/></svg>
-                    </a>
-                    <a href="https://bsky.app/profile/project-gamayun.bsky.social" target="_blank" rel="noopener" aria-label="Bluesky" title="Bluesky">
-                        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 8.5c-1.6-3-5-5.3-7.5-5.5-1 0-1 .6-1 1.1 0 .6.1 4.7.2 5.4.4 2.5 3 3.2 5.4 2.9-3.9.6-7.4 2-2.8 7.2 5 5.3 6.9-1.1 7.7-3.6.8 2.5 2.4 8.9 7.6 3.6 4.4-5.2 1-6.6-2.9-7.2 2.4.3 5-.4 5.4-2.9.1-.7.2-4.8.2-5.4 0-.5 0-1.1-1-1.1-2.5.2-5.9 2.5-7.5 5.5z"/></svg>
-                    </a>
-                    <a href="https://www.instagram.com/project.gamayun/" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.75" fill="currentColor" stroke="none"/></svg>
-                    </a>
-                    <a href="https://www.facebook.com/profile.php?id=61592013055899" target="_blank" rel="noopener" aria-label="Facebook" title="Facebook">
-                        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M14 9h3V5h-3c-2.2 0-4 1.8-4 4v2H7v4h3v7h4v-7h3l1-4h-4V9c0-.6.4-1 1-1z"/></svg>
-                    </a>
-                    <a href="https://www.youtube.com/@Project.GAMAYUN" target="_blank" rel="noopener" aria-label="YouTube" title="YouTube">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="4"/><path d="M10 9l6 3-6 3z" fill="currentColor" stroke="none"/></svg>
-                    </a>
-                </nav>
-            </div>
-
-            <div class="footer-col">
-                <div class="footer-col-label">SECTIONS</div>
-                <div class="footer-links-row">
-                    <a href="../index.html">Tools</a>
-                    <a href="../pages/wiki-index.html">GAMA<sup>+</sup> Wiki</a>
-                    <a href="../pages/log.html">Log</a>
-                    <a href="../pages/about.html">About</a>
-                    <a href="../pages/contact.html">Contact</a>
-                </div>
-            </div>
-
-            <div class="footer-col">
-                <div class="footer-col-label">LEGAL</div>
-                <div class="footer-links-row">
-                    <a href="../pages/privacy.html">Privacy Policy</a>
-                    <a href="../pages/terms.html">Terms of Service</a>
-                    <a href="../pages/legal.html">Legal &amp; Privacy</a>
-                    <a href="../pages/sitemap.html">Sitemap</a>
-                    <a href="../pages/changelog.html">Maintenance Log</a>
-                    <a href="../pages/scrapbook.html" id="scrapbook-footer-link" style="display:none;">GAMA<sup>+</sup>'s Scrapbook</a>
-                </div>
-            </div>
-        </div>
-
-        <div class="footer-bottom">&copy; 2026 GAMAYUN.SITE</div>
     </footer>
 
     <script src="../js/gama-core.js"></script>
