@@ -1,0 +1,56 @@
+/* CLAMP_CALCULATOR — real fluid-typography formula (the same one behind
+   most utopia.fyi-style generators), not a guessed slope. Given two
+   (viewport, font-size) points, the "preferred" middle term of clamp()
+   is just the line through those two points, expressed in rem + vw so
+   it scales with both root font-size and viewport width. */
+
+function computeClamp(minFont, maxFont, minVw, maxVw) {
+  const slope = (maxFont - minFont) / (maxVw - minVw);
+  const slopeVw = slope * 100;
+  const intersectionPx = minFont - slope * minVw;
+  return {
+    minRem: minFont / 16,
+    maxRem: maxFont / 16,
+    interceptRem: intersectionPx / 16,
+    slopeVw,
+    slope,
+    intersectionPx,
+  };
+}
+
+function clampedFontAt(vw, minFont, maxFont, slope, intersectionPx) {
+  const preferred = intersectionPx + slope * vw;
+  return Math.min(maxFont, Math.max(minFont, preferred));
+}
+
+function executeClampCalc() {
+  const minFont = parseFloat(document.getElementById("clamp-min-font").value);
+  const maxFont = parseFloat(document.getElementById("clamp-max-font").value);
+  const minVw = parseFloat(document.getElementById("clamp-min-vw").value);
+  const maxVw = parseFloat(document.getElementById("clamp-max-vw").value);
+  const out = document.getElementById("clamp-result");
+  if ([minFont, maxFont, minVw, maxVw].some(isNaN) || maxVw <= minVw) {
+    out.textContent = "// need valid numbers, with max viewport greater than min viewport";
+    GAMA.say("error");
+    return;
+  }
+  const c = computeClamp(minFont, maxFont, minVw, maxVw);
+  out.textContent = `font-size: clamp(${c.minRem.toFixed(3)}rem, ${c.interceptRem.toFixed(3)}rem + ${c.slopeVw.toFixed(3)}vw, ${c.maxRem.toFixed(3)}rem);`;
+  updateClampPreview();
+  GAMA.say("success");
+}
+
+function updateClampPreview() {
+  const minFont = parseFloat(document.getElementById("clamp-min-font").value);
+  const maxFont = parseFloat(document.getElementById("clamp-max-font").value);
+  const minVw = parseFloat(document.getElementById("clamp-min-vw").value);
+  const maxVw = parseFloat(document.getElementById("clamp-max-vw").value);
+  const previewVw = parseInt(document.getElementById("clamp-preview-vw").value, 10);
+  document.getElementById("clamp-preview-vw-label").textContent = `${previewVw}px`;
+  if ([minFont, maxFont, minVw, maxVw].some(isNaN) || maxVw <= minVw) return;
+  const c = computeClamp(minFont, maxFont, minVw, maxVw);
+  const fontSize = clampedFontAt(previewVw, minFont, maxFont, c.slope, c.intersectionPx);
+  document.getElementById("clamp-preview-text").style.fontSize = `${fontSize}px`;
+}
+
+document.addEventListener("DOMContentLoaded", executeClampCalc);

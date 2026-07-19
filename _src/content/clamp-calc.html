@@ -1,0 +1,21 @@
+            <section class="tool-card">
+                <h2>&gt; CLAMP_CALCULATOR</h2>
+                <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">Min/max font size across a min/max viewport width &rarr; a real fluid <code>clamp()</code> value, computed from the actual linear-interpolation formula instead of a guessed slope.</p>
+                <div class="tool-workspace" style="flex-wrap:wrap;">
+                    <label style="font-size:0.85rem; color:var(--phosphor-dim-text);">min font (px) <input type="number" id="clamp-min-font" value="16" oninput="executeClampCalc()" style="width:70px;"></label>
+                    <label style="font-size:0.85rem; color:var(--phosphor-dim-text);">max font (px) <input type="number" id="clamp-max-font" value="32" oninput="executeClampCalc()" style="width:70px;"></label>
+                    <label style="font-size:0.85rem; color:var(--phosphor-dim-text);">min viewport (px) <input type="number" id="clamp-min-vw" value="375" oninput="executeClampCalc()" style="width:80px;"></label>
+                    <label style="font-size:0.85rem; color:var(--phosphor-dim-text);">max viewport (px) <input type="number" id="clamp-max-vw" value="1440" oninput="executeClampCalc()" style="width:80px;"></label>
+                </div>
+                <div class="tool-workspace">
+                    <label style="font-size:0.85rem; color:var(--phosphor-dim-text);">preview viewport width:
+                        <input type="range" id="clamp-preview-vw" min="320" max="1920" value="768" oninput="updateClampPreview()" style="width:200px;">
+                        <span id="clamp-preview-vw-label">768px</span>
+                    </label>
+                </div>
+                <div id="clamp-preview-box" style="border:1px solid var(--phosphor-faint); padding:1rem; margin-top:0.75rem;">
+                    <span id="clamp-preview-text">The quick brown fox jumps over the lazy dog</span>
+                </div>
+                <pre class="result-block" id="clamp-result" style="overflow-x:auto;"></pre>
+            </section>
+            <p style="padding:0 1.5rem; font-size:0.85rem;"><span style="color: var(--phosphor-dim-text)">See also:</span> <a href="aspect-ratio.html">Aspect Ratio Calculator</a> &middot; <a href="contrast-check.html">Contrast Checker</a></p>

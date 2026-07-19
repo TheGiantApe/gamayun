@@ -1,0 +1,16 @@
+            <section class="tool-card">
+                <h2>&gt; BORDER_RADIUS_PREVIEWER</h2>
+                <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">Independent per-corner values, not one uniform radius - most simple previewers only give you a single slider that rounds every corner the same amount.</p>
+                <div class="tool-workspace" style="flex-wrap:wrap;">
+                    <label style="font-size:0.85rem; color:var(--phosphor-dim-text);">top-left <input type="range" id="br-tl" min="0" max="100" value="12" oninput="renderBorderRadius()"></label>
+                    <label style="font-size:0.85rem; color:var(--phosphor-dim-text);">top-right <input type="range" id="br-tr" min="0" max="100" value="12" oninput="renderBorderRadius()"></label>
+                    <label style="font-size:0.85rem; color:var(--phosphor-dim-text);">bottom-right <input type="range" id="br-br" min="0" max="100" value="12" oninput="renderBorderRadius()"></label>
+                    <label style="font-size:0.85rem; color:var(--phosphor-dim-text);">bottom-left <input type="range" id="br-bl" min="0" max="100" value="12" oninput="renderBorderRadius()"></label>
+                </div>
+                <div class="tool-workspace">
+                    <label style="font-size:0.85rem; color:var(--phosphor-dim-text);"><input type="checkbox" id="br-link" onchange="renderBorderRadius()"> link all corners</label>
+                </div>
+                <div id="borderradius-preview" style="margin:1.5rem auto; width:160px; height:160px; background:var(--phosphor-faint); border:1px solid var(--phosphor-dim);"></div>
+                <pre class="result-block" id="borderradius-css" style="overflow-x:auto;"></pre>
+            </section>
+            <p style="padding:0 1.5rem; font-size:0.85rem;"><span style="color: var(--phosphor-dim-text)">See also:</span> <a href="box-shadow-gen.html">Box-Shadow Generator</a> &middot; <a href="color.html">Color Converter</a></p>

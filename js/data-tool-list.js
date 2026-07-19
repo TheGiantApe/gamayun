@@ -235,6 +235,24 @@ const TOOL_LIST = [
     "url": "pages/color-name.html"
   },
   {
+    "title": "Box-Shadow Generator",
+    "desc": "Stack more than one shadow layer with live preview and copyable CSS - most generators only ever give you a single layer.",
+    "code": "BOX_SHADOW",
+    "url": "pages/box-shadow-gen.html"
+  },
+  {
+    "title": "Border-Radius Previewer",
+    "desc": "Independent per-corner radius values with live preview and copyable CSS, not one uniform slider.",
+    "code": "BORDER_RADIUS",
+    "url": "pages/border-radius-gen.html"
+  },
+  {
+    "title": "Clamp() Calculator",
+    "desc": "Real fluid-typography clamp() value from min/max font size and viewport width, with a live scaling preview.",
+    "code": "CLAMP_CALC",
+    "url": "pages/clamp-calc.html"
+  },
+  {
     "title": "Symbol Index",
     "desc": "349 searchable Unicode symbols with names and codepoints, click to copy.",
     "code": "SYMBOL_INDEX",
