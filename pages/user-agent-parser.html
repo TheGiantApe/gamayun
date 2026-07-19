@@ -40,17 +40,17 @@
          changing hosts. -->
     <meta http-equiv="Content-Security-Policy" content="object-src 'none'; base-uri 'self'; form-action 'self'">
 
-    <title>Dead Drop // GAMAYUN⁺</title>
-    <meta name="description" content="Encrypt a message client-side and pack it into a shareable link - nothing is sent to or stored on any server, not even temporarily.">
-    <meta property="og:title" content="Dead Drop // GAMAYUN⁺">
-    <meta property="og:description" content="Encrypt a message client-side and pack it into a shareable link - nothing is sent to or stored on any server, not even temporarily.">
+    <title>User-Agent Parser // GAMAYUN⁺</title>
+    <meta name="description" content="Decode a browser/OS/device from any User-Agent string, with unusual or spoofed-looking strings flagged.">
+    <meta property="og:title" content="User-Agent Parser // GAMAYUN⁺">
+    <meta property="og:description" content="Decode a browser/OS/device from any User-Agent string, with unusual or spoofed-looking strings flagged.">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://gamayun.site/pages/dead-drop.html">
+    <meta property="og:url" content="https://gamayun.site/pages/user-agent-parser.html">
     <meta property="og:image" content="https://gamayun.site/assets/og-image.png">
     <meta property="og:site_name" content="GAMAYUN⁺">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Dead Drop // GAMAYUN⁺">
-    <meta name="twitter:description" content="Encrypt a message client-side and pack it into a shareable link - nothing is sent to or stored on any server, not even temporarily.">
+    <meta name="twitter:title" content="User-Agent Parser // GAMAYUN⁺">
+    <meta name="twitter:description" content="Decode a browser/OS/device from any User-Agent string, with unusual or spoofed-looking strings flagged.">
     <meta name="twitter:image" content="https://gamayun.site/assets/og-image.png">
     <link href="https://fonts.googleapis.com/css2?family=VT323&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/gama.css">
@@ -62,7 +62,7 @@
          the static fallback so something correct shows before JS runs. -->
     <link rel="icon" id="favicon-link" href="/assets/icons/favicon-mascot.ico">
     <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
-    <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "Dead Drop", "description": "Encrypt a message client-side and pack it into a shareable link - nothing is sent to or stored on any server, not even temporarily.", "url": "https://gamayun.site/pages/dead-drop.html", "applicationCategory": "UtilitiesApplication", "operatingSystem": "Any (runs in browser)", "isAccessibleForFree": true, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}}</script>
+    <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "User-Agent Parser", "description": "Decode a browser/OS/device from any User-Agent string, with unusual or spoofed-looking strings flagged.", "url": "https://gamayun.site/pages/user-agent-parser.html", "applicationCategory": "UtilitiesApplication", "operatingSystem": "Any (runs in browser)", "isAccessibleForFree": true, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}}</script>
 </head>
 <body class="crt-screen" data-root="../">
 
@@ -171,10 +171,10 @@
                     <a href="../pages/cron-generator.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">CRON_GEN</span></a>
                     <a href="../pages/recipe-chain.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">RECIPE_CHAIN</span></a>
                     <a href="../pages/code-snap.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">CODE_SNAP</span></a>
-                    <a href="../pages/dead-drop.html" class="nav-link active">&gt;&nbsp;<span class="nav-link-label">DEAD_DROP</span></a>
+                    <a href="../pages/dead-drop.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">DEAD_DROP</span></a>
                     <a href="../pages/base-converter.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">BASE_CONVERTER</span></a>
                     <a href="../pages/http-status.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">HTTP_STATUS</span></a>
-                    <a href="../pages/user-agent-parser.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">UA_PARSER</span></a>
+                    <a href="../pages/user-agent-parser.html" class="nav-link active">&gt;&nbsp;<span class="nav-link-label">UA_PARSER</span></a>
                     <a href="../pages/lorem-ipsum.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">LOREM_IPSUM</span></a>
                 </details>
                 <details class="nav-section">
@@ -221,33 +221,16 @@
 
         <main class="center-viewport" id="active-tool-zone">
             <div class="content-flex-fill">
-            <div class="breadcrumb">&gt; <a href="../index.html">DECK_LAUNCHER</a> <span class="breadcrumb-sep">/</span> DEV_VAULT <span class="breadcrumb-sep">/</span> DEAD_DROP</div>
+            <div class="breadcrumb">&gt; <a href="../index.html">DECK_LAUNCHER</a> <span class="breadcrumb-sep">/</span> DEV_VAULT <span class="breadcrumb-sep">/</span> UA_PARSER</div>
             <section class="tool-card">
-                <h2>&gt; DEAD_DROP</h2>
-                <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">Encrypt a message client-side and pack it directly into a shareable link - nothing is ever sent to or stored on any server, not even temporarily. Whoever holds the full link can decrypt it, so treat the link itself as the secret. An optional passphrase adds a second required layer you can send through a separate channel.</p>
-                <div class="field-note">A link left sitting in browser history, a chat log, or an email thread is still a copy of the secret. "Self-destruct" below only means this browser stops re-displaying it after the first open - it can't reach into anyone else's history, and it can't un-send a link you've already shared.</div>
-
-                <div id="deaddrop-open-view" style="display:none;">
-                    <h3 style="font-family:var(--font-display); font-size:1rem; margin:1.5rem 0 0.5rem;">&gt; INCOMING TRANSMISSION</h3>
-                    <div class="tool-workspace" id="deaddrop-passphrase-row" style="display:none;">
-                        <input type="password" id="deaddrop-open-passphrase" placeholder="passphrase required...">
-                        <button onclick="executeDeadDropOpen()">&gt; DECRYPT</button>
-                    </div>
-                    <div class="result-block" id="deaddrop-open-result"></div>
+                <h2>&gt; USER_AGENT_PARSER</h2>
+                <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">Auto-fills with your own browser's real UA string - paste a different one to decode that instead. Flags anything that looks unusual/inconsistent rather than confidently guessing wrong.</p>
+                <div class="tool-workspace">
+                    <textarea id="ua-input" oninput="executeUaParse()"></textarea>
                 </div>
-
-                <div id="deaddrop-create-view">
-                    <h3 style="font-family:var(--font-display); font-size:1rem; margin:1.5rem 0 0.5rem;">&gt; COMPOSE</h3>
-                    <div class="tool-workspace">
-                        <textarea id="deaddrop-message" placeholder="the message to seal..."></textarea>
-                    </div>
-                    <div class="tool-workspace">
-                        <input type="text" id="deaddrop-passphrase" placeholder="optional passphrase (share through a different channel)">
-                    </div>
-                    <button onclick="executeDeadDropCreate()">&gt; SEAL &amp; GENERATE LINK</button>
-                    <div class="result-block" id="deaddrop-create-result"></div>
-                </div>
+                <div class="result-block" id="ua-result"></div>
             </section>
+            <p style="padding:0 1.5rem; font-size:0.85rem;"><span style="color: var(--phosphor-dim-text)">See also:</span> <a href="jwt-decoder.html">JWT Decoder</a> &middot; <a href="http-status.html">HTTP Status Code Reference</a></p>
 
             </div>
             <div class="ad-leaderboard">
@@ -393,7 +376,7 @@
     <script src="../js/data-tool-list.js"></script>
     <script src="../js/site-search.js"></script>
     <script src="../js/page-transition.js"></script>
-    <script src="../js/tool-dead-drop.js"></script>
+    <script src="../js/tool-user-agent-parser.js"></script>
     <script>
       if ("serviceWorker" in navigator) {
         window.addEventListener("load", () => navigator.serviceWorker.register("/sw.js"));

@@ -187,6 +187,12 @@ const TOOL_LIST = [
     "url": "pages/unit-converter.html"
   },
   {
+    "title": "Shoe Size Converter",
+    "desc": "US/UK/EU/CM shoe sizing, men's/women's/kids' kept as separate tables instead of one confusing blended column.",
+    "code": "SHOE_SIZE",
+    "url": "pages/shoe-size.html"
+  },
+  {
     "title": "Color Converter",
     "desc": "Hex, RGB integer, RGB float, and HSL, all at once.",
     "code": "COLOR_CONVERTER",
@@ -323,6 +329,18 @@ const TOOL_LIST = [
     "desc": "Searchable HTTP status codes with the common real-world cause, not just the dry official definition.",
     "code": "HTTP_STATUS",
     "url": "pages/http-status.html"
+  },
+  {
+    "title": "User-Agent Parser",
+    "desc": "Decode a browser/OS/device from any User-Agent string, with unusual or spoofed-looking strings flagged.",
+    "code": "UA_PARSER",
+    "url": "pages/user-agent-parser.html"
+  },
+  {
+    "title": "Lorem Ipsum Generator",
+    "desc": "Classic Latin placeholder text, or GAMA's own salvage-flavored word bank as a genuine second option.",
+    "code": "LOREM_IPSUM",
+    "url": "pages/lorem-ipsum.html"
   },
   {
     "title": "Cipher Deck",
