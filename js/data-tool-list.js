@@ -109,6 +109,12 @@ const TOOL_LIST = [
     "url": "pages/upside-down-text.html"
   },
   {
+    "title": "Social Char Count",
+    "desc": "Check text against every major platform's character limit at once instead of picking one first.",
+    "code": "SOCIAL_CHAR_COUNT",
+    "url": "pages/social-char-count.html"
+  },
+  {
     "title": "Dialect Deck",
     "desc": "Rewrite text in a Shakespearean, Pirate, Corporate, or Ye Olde English voice - word/phrase substitution, fully offline.",
     "code": "DIALECT_DECK",
@@ -215,6 +221,12 @@ const TOOL_LIST = [
     "desc": "A-series and North American paper sizes in mm and inches, plus real print-DPI and margin guidance.",
     "code": "PAPER_SIZE",
     "url": "pages/paper-size.html"
+  },
+  {
+    "title": "Color Name Identifier",
+    "desc": "Nearest named-color matches (CSS Color Module keywords) with the actual distance shown, top 3 instead of one guess.",
+    "code": "COLOR_NAME",
+    "url": "pages/color-name.html"
   },
   {
     "title": "Symbol Index",
@@ -347,6 +359,12 @@ const TOOL_LIST = [
     "desc": "Nested JSON flattens to dot-notation CSV columns instead of choking; CSV parsing is quote/comma-aware.",
     "code": "JSON_CSV",
     "url": "pages/json-csv.html"
+  },
+  {
+    "title": "Meta Tag Preview",
+    "desc": "Preview how a link card renders on X/Twitter and Facebook, and get the Open Graph + Twitter Card meta tags to match.",
+    "code": "META_PREVIEW",
+    "url": "pages/meta-preview.html"
   },
   {
     "title": "Cipher Deck",

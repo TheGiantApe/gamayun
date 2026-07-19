@@ -1,0 +1,10 @@
+            <section class="tool-card">
+                <h2>&gt; COLOR_NAME_IDENTIFIER</h2>
+                <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">Pick or paste a color, get the closest named matches with their actual distance shown - color naming is inherently fuzzy, so this shows the top 3 candidates instead of confidently picking one.</p>
+                <div class="tool-workspace">
+                    <input type="color" id="colorname-picker" value="#3a6ea5" oninput="executeColorNameFromPicker()">
+                    <input type="text" id="colorname-input" placeholder="#3a6ea5 or 58,110,165" oninput="executeColorNameFromText()" style="width:160px;">
+                </div>
+                <div class="result-block" id="colorname-result"></div>
+            </section>
+            <p style="padding:0 1.5rem; font-size:0.85rem;"><span style="color: var(--phosphor-dim-text)">See also:</span> <a href="color.html">Color Converter</a> &middot; <a href="palette.html">Palette Forge</a></p>

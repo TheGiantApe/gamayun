@@ -1,0 +1,20 @@
+            <section class="tool-card">
+                <h2>&gt; META_TAG_PREVIEW</h2>
+                <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">See how a link preview will actually render on X/Twitter and Facebook before you post it, and get the meta tags to make it look that way.</p>
+                <div class="tool-workspace" style="flex-direction:column; align-items:stretch; gap:0.5rem;">
+                    <input type="text" id="meta-title" placeholder="Page title" oninput="executeMetaPreview()">
+                    <input type="text" id="meta-desc" placeholder="Description (150-160 chars is the practical limit before truncation)" oninput="executeMetaPreview()">
+                    <input type="text" id="meta-image" placeholder="Image URL (1200x630 recommended)" oninput="executeMetaPreview()">
+                    <input type="text" id="meta-url" placeholder="Page URL" oninput="executeMetaPreview()">
+                </div>
+
+                <h3 style="font-family:var(--font-display); font-size:1rem; margin:1.5rem 0 0.5rem;">&gt; PREVIEW</h3>
+                <div id="meta-card-preview" style="border:1px solid var(--phosphor-dim); max-width:400px;"></div>
+
+                <h3 style="font-family:var(--font-display); font-size:1rem; margin:1.5rem 0 0.5rem;">&gt; META TAGS</h3>
+                <div class="tool-workspace">
+                    <button id="meta-copy-btn">&gt; COPY</button>
+                </div>
+                <pre class="result-block" id="meta-tags-output" style="overflow-x:auto;"></pre>
+            </section>
+            <p style="padding:0 1.5rem; font-size:0.85rem;"><span style="color: var(--phosphor-dim-text)">See also:</span> <a href="qr-code.html">QR Generator</a> &middot; <a href="url-encode.html">URL Codec</a></p>
