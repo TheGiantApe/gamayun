@@ -127,7 +127,16 @@ a:hover, a:focus {
 
 /* ---- Header ---- */
 .terminal-header {
-  height: var(--header-h);
+  /* min-height, not height: below ~480px the brand mark and the
+     "LINK: STABLE // MAG-LOCK: ENGAGED // <clock>" status text don't both
+     fit on one row and wrap to a second line. A fixed height clipped the
+     box at the 1-line size and let the wrapped line visually spill out
+     past its own bottom edge, overlapping .terminal-tabs sticky-positioned
+     right below it (the "TOOLS" tab crossed with the clock text). min-
+     height lets the box grow to whatever it actually needs; gama-core.js's
+     updateHeaderClearance() measures the real result so .terminal-tabs's
+     sticky offset (below) can match it exactly instead of assuming 1 line. */
+  min-height: var(--header-h);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -171,7 +180,11 @@ a:hover, a:focus {
   overflow-x: auto;
   scrollbar-width: none;
   position: sticky;
-  top: var(--header-h);
+  /* --header-actual-h (set by updateHeaderClearance() in gama-core.js) is
+     the header's real rendered height, whether it wrapped to 2 lines or
+     not - var(--header-h) is just the pre-JS first-paint fallback for the
+     1-line case. See the min-height comment on .terminal-header above. */
+  top: var(--header-actual-h, var(--header-h));
   z-index: 90;
 }
 .terminal-tabs::-webkit-scrollbar { display: none; }

@@ -95,21 +95,37 @@ const GAMA = (() => {
     clockEl.textContent = new Date().toTimeString().slice(0, 8);
   }
 
-  // GAMA's fixed corner box should clear the ticker + site-footer stack
-  // below it. Used to also have to account for the ad-leaderboard unit,
-  // back when the whole page scrolled and the ad could end up stacked
-  // right above the footer at full scroll - now that the frame (header/
-  // nav/right-deck/footer/ticker) is pinned and only .center-viewport
-  // scrolls, the ad-leaderboard lives inside that scrolling content
-  // instead, so it's never actually adjacent to the footer on screen.
-  // Still measuring real heights (not a guessed constant) since the
-  // footer nav can wrap to an extra line at some widths.
+  // GAMA's fixed corner box should clear whatever's pinned below it in the
+  // fixed frame. Used to be ticker + site-footer, back when .site-footer
+  // was itself a pinned body-level sibling of .command-bridge-grid instead
+  // of scrolling content - moving the footer inside .center-viewport (so
+  // it no longer eats frame space on short viewports, see the footer fix)
+  // means it's not part of this fixed stack anymore. Only the ticker is.
+  // Still measuring its real height (not a guessed constant) rather than
+  // assuming it never changes.
   function updateGamaBottomClear() {
     const ticker = document.querySelector(".archival-log-footer");
-    const siteFooter = document.querySelector(".site-footer");
-    if (!ticker || !siteFooter) return;
-    const clear = ticker.offsetHeight + siteFooter.offsetHeight;
+    if (!ticker) return;
+    const clear = ticker.offsetHeight;
     document.documentElement.style.setProperty("--gama-bottom-clear", `${clear}px`);
+  }
+
+  // The header can wrap to a second line below ~480px viewport width (the
+  // brand mark + "LINK: STABLE // MAG-LOCK: ENGAGED // <clock>" status text
+  // don't both fit on one row), but its CSS height was a static constant
+  // (--header-h) that only ever accounted for one line. .terminal-header
+  // itself now uses min-height so it grows to fit wrapped content instead
+  // of clipping/overflowing past its own bottom edge - but .terminal-tabs
+  // sticks at top: var(--header-h), so on a 2-line header the tabs bar was
+  // still sticking at the 1-line height, overlapping the header's second
+  // line (the clock) instead of sitting below it. Same "measure the real
+  // height, don't guess" fix as updateGamaBottomClear/updateNavClearance
+  // above - read the header's actual rendered height and let the tabs bar
+  // stick exactly there, whether it wrapped or not.
+  function updateHeaderClearance() {
+    const header = document.querySelector(".terminal-header");
+    if (!header) return;
+    document.documentElement.style.setProperty("--header-actual-h", `${header.offsetHeight}px`);
   }
 
   // The sidebar nav caps its own height so it scrolls internally instead of
@@ -150,12 +166,14 @@ const GAMA = (() => {
 
     updateGamaBottomClear();
     updateNavClearance();
+    updateHeaderClearance();
     let resizeTimer;
     window.addEventListener("resize", () => {
       clearTimeout(resizeTimer);
       resizeTimer = setTimeout(() => {
         updateGamaBottomClear();
         updateNavClearance();
+        updateHeaderClearance();
       }, 150);
     });
 
