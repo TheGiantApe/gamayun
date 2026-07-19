@@ -436,6 +436,12 @@ PAGES = [
     dict(out="pages/sudoku.html", fragment="sudoku.html", title="Sudoku",
          desc="Generate a puzzle guaranteed to have exactly one solution, or paste/type any Sudoku and solve it - real backtracking, not a lookup.",
          root="../", code="SUDOKU", category="GAMES_CURIOS", js=["tool-sudoku.js"]),
+    dict(out="pages/bulls-cows.html", fragment="bulls-cows.html", title="Bulls & Cows",
+         desc="Guess the hidden digit sequence - adjustable length and a repeated-digit toggle, unlike most fixed-difficulty versions.",
+         root="../", code="BULLS_COWS", category="GAMES_CURIOS", js=["tool-bulls-cows.js"]),
+    dict(out="pages/team-picker.html", fragment="team-picker.html", title="Team/Group Picker",
+         desc="Random groups or shuffle order, with an optional 'keep these two apart' constraint most simple pickers can't honor.",
+         root="../", code="TEAM_PICKER", category="GAMES_CURIOS", js=["tool-team-picker.js"]),
 
     # Field Manuals: GAMA+-voice step-by-step guides. Content lives in
     # INSTRUCTABLES below; all 5 pages share one fragment shell

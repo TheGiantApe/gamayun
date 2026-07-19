@@ -1,0 +1,21 @@
+            <section class="tool-card">
+                <h2>&gt; TEAM_GROUP_PICKER</h2>
+                <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">One name per line. Split into N groups, or just shuffle into a random order. Optional "keep apart" pairs (one pair per line, comma-separated) - most simple pickers can't honor a "don't put these two together" request at all.</p>
+                <div class="tool-workspace">
+                    <textarea id="team-names" placeholder="one name per line..."></textarea>
+                    <textarea id="team-keep-apart" placeholder="optional: keep apart, one pair per line&#10;e.g. Alex, Jordan"></textarea>
+                </div>
+                <div class="tool-workspace">
+                    <label style="font-size:0.85rem; color:var(--phosphor-dim-text);">
+                        <input type="radio" name="team-mode" value="groups" checked> split into
+                        <input type="number" id="team-group-count" value="2" min="2" max="20" style="width:60px;"> groups
+                    </label>
+                    <label style="font-size:0.85rem; color:var(--phosphor-dim-text);">
+                        <input type="radio" name="team-mode" value="order"> random order only
+                    </label>
+                    <button onclick="executeTeamPicker()">&gt; GO</button>
+                </div>
+                <div id="team-warning" style="color:var(--amber); font-size:0.8rem; margin-top:0.5rem;"></div>
+                <div class="result-block" id="team-result"></div>
+            </section>
+            <p style="padding:0 1.5rem; font-size:0.85rem;"><span style="color: var(--phosphor-dim-text)">See also:</span> <a href="decision-wheel.html">Decision Wheel</a> &middot; <a href="dice-roller.html">Dice Roller</a></p>

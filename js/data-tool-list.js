@@ -583,6 +583,18 @@ const TOOL_LIST = [
     "url": "pages/sudoku.html"
   },
   {
+    "title": "Bulls & Cows",
+    "desc": "Guess the hidden digit sequence - adjustable length and a repeated-digit toggle, unlike most fixed-difficulty versions.",
+    "code": "BULLS_COWS",
+    "url": "pages/bulls-cows.html"
+  },
+  {
+    "title": "Team/Group Picker",
+    "desc": "Random groups or shuffle order, with an optional 'keep these two apart' constraint most simple pickers can't honor.",
+    "code": "TEAM_PICKER",
+    "url": "pages/team-picker.html"
+  },
+  {
     "title": "Verify a Source Before You Share It",
     "desc": "Reverse-image search, account age, dead-link sourcing, and why a screenshot alone proves nothing.",
     "code": "HOWTO_VERIFY_SOURCE",
