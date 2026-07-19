@@ -325,6 +325,12 @@ const TOOL_LIST = [
     "url": "pages/fake-data-gen.html"
   },
   {
+    "title": "CSS/JS Minifier",
+    "desc": "String/comment-aware minify or beautify for CSS or JS, with a byte-size-saved readout.",
+    "code": "CSS_JS_MINIFIER",
+    "url": "pages/css-js-minifier.html"
+  },
+  {
     "title": "UUID Generator",
     "desc": "Cryptographically random v4 UUIDs.",
     "code": "UUID_GEN",

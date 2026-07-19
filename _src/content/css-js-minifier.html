@@ -1,0 +1,24 @@
+            <section class="tool-card">
+                <h2>&gt; CSS_JS_MINIFIER</h2>
+                <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">Toggle between minifying and beautifying pasted CSS or JS, with a byte-size-saved readout. String/comment-aware (won't mangle a URL containing "//" inside a JS string, which a naive regex-based minifier will).</p>
+                <div class="tool-workspace">
+                    <label style="font-size:0.85rem; color:var(--phosphor-dim-text);">
+                        <input type="radio" name="minify-lang" value="css" checked onchange="executeMinify()"> CSS
+                    </label>
+                    <label style="font-size:0.85rem; color:var(--phosphor-dim-text);">
+                        <input type="radio" name="minify-lang" value="js" onchange="executeMinify()"> JS
+                    </label>
+                    <label style="font-size:0.85rem; color:var(--phosphor-dim-text);">
+                        <input type="radio" name="minify-mode" value="minify" checked onchange="executeMinify()"> minify
+                    </label>
+                    <label style="font-size:0.85rem; color:var(--phosphor-dim-text);">
+                        <input type="radio" name="minify-mode" value="beautify" onchange="executeMinify()"> beautify
+                    </label>
+                </div>
+                <div class="tool-workspace">
+                    <textarea id="minify-input" placeholder="paste CSS or JS..." oninput="executeMinifyDebounced()"></textarea>
+                </div>
+                <div id="minify-stats" style="font-size:0.8rem; color:var(--phosphor-dim-text); margin-top:0.25rem;"></div>
+                <pre class="result-block" id="minify-result" style="overflow-x:auto;"></pre>
+            </section>
+            <p style="padding:0 1.5rem; font-size:0.85rem;"><span style="color: var(--phosphor-dim-text)">See also:</span> <a href="json-format.html">JSON Formatter</a> &middot; <a href="html-entities.html">HTML Entity Codec</a></p>
