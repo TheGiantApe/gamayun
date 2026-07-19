@@ -421,6 +421,9 @@ PAGES = [
     dict(out="pages/word-scrambler.html", fragment="word-scrambler.html", title="Word Scrambler",
          desc="Batch-scramble a whole word list at once, with an option to keep the first/last letter in place.",
          root="../", code="WORD_SCRAMBLER", category="GAMES_CURIOS", js=["tool-word-scrambler.js"]),
+    dict(out="pages/crossword-helper.html", fragment="crossword-helper.html", title="Crossword Clue Helper",
+         desc="Standard crossword blank notation (c_t or c?t) matched directly against the word list, no reformatting.",
+         root="../", code="CROSSWORD_HELPER", category="GAMES_CURIOS", js=["data-words.js", "tool-crossword-helper.js"]),
 
     # Field Manuals: GAMA+-voice step-by-step guides. Content lives in
     # INSTRUCTABLES below; all 5 pages share one fragment shell

@@ -553,6 +553,12 @@ const TOOL_LIST = [
     "url": "pages/word-scrambler.html"
   },
   {
+    "title": "Crossword Clue Helper",
+    "desc": "Standard crossword blank notation (c_t or c?t) matched directly against the word list, no reformatting.",
+    "code": "CROSSWORD_HELPER",
+    "url": "pages/crossword-helper.html"
+  },
+  {
     "title": "Verify a Source Before You Share It",
     "desc": "Reverse-image search, account age, dead-link sourcing, and why a screenshot alone proves nothing.",
     "code": "HOWTO_VERIFY_SOURCE",
