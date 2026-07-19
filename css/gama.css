@@ -1138,6 +1138,35 @@ button:hover, .btn:hover {
   margin-bottom: 0.75rem;
 }
 
+.fav-preview-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 1rem;
+}
+.fav-preview-cell {
+  border: 1px solid var(--phosphor-dim);
+  padding: 0.75rem;
+  text-align: center;
+}
+.fav-preview-cell img {
+  image-rendering: pixelated;
+  border: 1px solid var(--phosphor-faint);
+  background: repeating-conic-gradient(#222 0% 25%, #2a2a2a 0% 50%) 50% / 12px 12px;
+}
+.fav-preview-cell p {
+  font-size: 0.75rem;
+  color: var(--phosphor-dim-text);
+  margin: 0.5rem 0;
+}
+.fav-code-block {
+  border: 1px solid var(--phosphor-dim);
+  padding: 0.75rem 1rem;
+  font-size: 0.8rem;
+  white-space: pre-wrap;
+  overflow-x: auto;
+  margin-top: 0.5rem;
+}
+
 /* ---- IIFYM macro calculator result ---- */
 .iifym-summary, .iifym-macros {
   display: grid;

@@ -169,6 +169,12 @@ const TOOL_LIST = [
     "url": "pages/ela-check.html"
   },
   {
+    "title": "Favicon Generator",
+    "desc": "Upload one image, crop it, and get every favicon size a real site needs - 16/32/48/180/192/512, PNG only, plus a ready-to-paste <head> and site.webmanifest snippet.",
+    "code": "FAVICON_FORGE",
+    "url": "pages/favicon-generator.html"
+  },
+  {
     "title": "JSON Formatter",
     "desc": "Beautify or minify JSON with real error messages.",
     "code": "JSON_FORMATTER",

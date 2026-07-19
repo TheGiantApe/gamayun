@@ -1,0 +1,47 @@
+            <section class="tool-card">
+                <h2>&gt; FAVICON_FORGE</h2>
+                <p style="color: var(--phosphor-dim-text); font-size:0.9rem;">Upload one image, get every favicon size a real site actually needs — PNG only, cropped and resized entirely on your machine. Nothing is uploaded anywhere.</p>
+
+                <div class="img-dropzone" id="fav-dropzone">
+                    <p>&gt; drop an image here, or click to choose one</p>
+                    <input type="file" id="fav-file-input" accept="image/*" style="display:none;">
+                </div>
+                <p id="fav-filename" style="color: var(--phosphor-dim-text); font-size:0.85rem; margin-top:0.5rem;"></p>
+
+                <div id="fav-crop-wrap" style="display:none; margin-top:1rem;">
+                    <h3 style="font-family:var(--font-display); font-size:1rem; margin:1.5rem 0 0.5rem;">&gt; CROP (square, center-anchored)</h3>
+                    <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">Drag the slider to zoom the crop; every output size comes from the same square region.</p>
+                    <canvas id="fav-crop-canvas" width="320" height="320" style="border:1px solid var(--phosphor-dim); max-width:100%; cursor:grab;"></canvas>
+                    <div class="tool-workspace" style="margin-top:0.75rem;">
+                        <label style="font-size:0.85rem; color:var(--phosphor-dim-text);">zoom:
+                            <input type="range" id="fav-zoom" min="100" max="300" value="100" style="width:180px; vertical-align:middle;">
+                        </label>
+                        <button id="fav-generate-btn">&gt; GENERATE ICON SET</button>
+                    </div>
+                    <p style="color: var(--phosphor-dim-text); font-size:0.8rem; margin-top:0.25rem;">Drag the preview above to reposition the crop.</p>
+                </div>
+
+                <div id="fav-output" style="display:none; margin-top:1.5rem;">
+                    <h3 style="font-family:var(--font-display); font-size:1rem; margin:0 0 0.75rem;">&gt; OUTPUT SET</h3>
+                    <div id="fav-preview-grid" class="fav-preview-grid"></div>
+
+                    <h3 style="font-family:var(--font-display); font-size:1rem; margin:1.5rem 0 0.5rem;">&gt; HEAD SNIPPET</h3>
+                    <div class="tool-workspace">
+                        <button id="fav-copy-head">&gt; COPY</button>
+                    </div>
+                    <pre id="fav-head-snippet" class="fav-code-block"></pre>
+
+                    <h3 style="font-family:var(--font-display); font-size:1rem; margin:1.5rem 0 0.5rem;">&gt; SITE.WEBMANIFEST SNIPPET</h3>
+                    <div class="tool-workspace">
+                        <button id="fav-copy-manifest">&gt; COPY</button>
+                    </div>
+                    <pre id="fav-manifest-snippet" class="fav-code-block"></pre>
+                </div>
+            </section>
+
+            <section class="prose" style="padding-left:0;padding-right:0;">
+                <h2>&gt; WHY SIX SIZES INSTEAD OF ONE</h2>
+                <p>A single 32&times;32 favicon used to be enough. It isn't anymore: browser tabs, iOS home-screen icons, Android/PWA install icons, and Windows tiles all read from different declared sizes, and a browser that only finds one oversized or undersized option will scale it badly rather than ask for another. 16&times;16 and 32&times;32 cover the browser tab itself (32 for high-DPI displays); 48&times;48 covers older Windows shortcut icons; 180&times;180 is Apple's specific apple-touch-icon size; 192&times;192 and 512&times;512 are the two sizes a PWA manifest actually declares for install icons and splash screens.</p>
+                <p>This tool skips the legacy <code>.ico</code> container on purpose. Every modern browser accepts a plain PNG via <code>&lt;link rel="icon" type="image/png"&gt;</code>, and hand-rolling an ICO file's multi-resolution format isn't worth the added code for a case that's already this well covered.</p>
+                <p class="related-block">RELATED: <a href="image-tools.html">Image Salvage</a> &middot; <a href="qr-code.html">QR Generator</a></p>
+            </section>

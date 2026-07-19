@@ -205,6 +205,9 @@ PAGES = [
     dict(out="pages/ela-check.html", fragment="ela-check.html", title="Error Level Analysis",
          desc="Re-compress an image and diff it against the original to surface possibly-edited regions.",
          root="../", code="ELA_CHECK", category="FILE_SALVAGE", js=["tool-ela-check.js"]),
+    dict(out="pages/favicon-generator.html", fragment="favicon-generator.html", title="Favicon Generator",
+         desc="Upload one image, crop it, and get every favicon size a real site needs - 16/32/48/180/192/512, PNG only, plus a ready-to-paste <head> and site.webmanifest snippet.",
+         root="../", code="FAVICON_FORGE", category="FILE_SALVAGE", js=["tool-favicon-generator.js"]),
 
     dict(out="pages/json-format.html", fragment="json-format.html", title="JSON Formatter",
          desc="Beautify or minify JSON with real error messages.",
