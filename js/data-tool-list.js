@@ -577,6 +577,12 @@ const TOOL_LIST = [
     "url": "pages/word-search-gen.html"
   },
   {
+    "title": "Sudoku",
+    "desc": "Generate a puzzle guaranteed to have exactly one solution, or paste/type any Sudoku and solve it - real backtracking, not a lookup.",
+    "code": "SUDOKU",
+    "url": "pages/sudoku.html"
+  },
+  {
     "title": "Verify a Source Before You Share It",
     "desc": "Reverse-image search, account age, dead-link sourcing, and why a screenshot alone proves nothing.",
     "code": "HOWTO_VERIFY_SOURCE",

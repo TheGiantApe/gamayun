@@ -1,0 +1,17 @@
+            <section class="tool-card">
+                <h2>&gt; SUDOKU</h2>
+                <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">Every generated puzzle is built by starting from a complete valid solution and removing cells one at a time, checking after each removal that exactly one solution still exists - not a puzzle that merely looks plausible. Paste or type your own puzzle into the grid and hit Solve to check any Sudoku, not just generated ones.</p>
+                <div class="tool-workspace">
+                    <select id="sudoku-difficulty">
+                        <option value="easy">easy (~40 clues)</option>
+                        <option value="medium" selected>medium (~32 clues)</option>
+                        <option value="hard">hard (~26 clues)</option>
+                    </select>
+                    <button onclick="generateSudokuPuzzle()">&gt; NEW PUZZLE</button>
+                    <button onclick="solveSudokuGrid()">&gt; SOLVE</button>
+                    <button onclick="clearSudokuGrid()">&gt; CLEAR</button>
+                </div>
+                <div id="sudoku-grid" style="margin-top:1rem; display:inline-block;"></div>
+                <div id="sudoku-status" style="margin-top:0.75rem; font-size:0.9rem;"></div>
+            </section>
+            <p style="padding:0 1.5rem; font-size:0.85rem;"><span style="color: var(--phosphor-dim-text)">See also:</span> <a href="crossword-helper.html">Crossword Clue Helper</a> &middot; <a href="tic-tac-toe.html">Tic-Tac-Toe</a></p>

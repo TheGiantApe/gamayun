@@ -433,6 +433,9 @@ PAGES = [
     dict(out="pages/word-search-gen.html", fragment="word-search-gen.html", title="Word Search Generator",
          desc="Real 8-direction grid placement, words genuinely allowed to cross and share letters, printable output.",
          root="../", code="WORD_SEARCH", category="GAMES_CURIOS", js=["data-words.js", "tool-word-search-gen.js"]),
+    dict(out="pages/sudoku.html", fragment="sudoku.html", title="Sudoku",
+         desc="Generate a puzzle guaranteed to have exactly one solution, or paste/type any Sudoku and solve it - real backtracking, not a lookup.",
+         root="../", code="SUDOKU", category="GAMES_CURIOS", js=["tool-sudoku.js"]),
 
     # Field Manuals: GAMA+-voice step-by-step guides. Content lives in
     # INSTRUCTABLES below; all 5 pages share one fragment shell
