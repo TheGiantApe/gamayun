@@ -115,6 +115,12 @@ const TOOL_LIST = [
     "url": "pages/calc-age.html"
   },
   {
+    "title": "Roman Numeral Converter",
+    "desc": "Convert between Arabic numbers and Roman numerals, both directions, with malformed input explained.",
+    "code": "ROMAN_NUMERAL",
+    "url": "pages/roman-numeral.html"
+  },
+  {
     "title": "Color Converter",
     "desc": "Hex, RGB integer, RGB float, and HSL, all at once.",
     "code": "COLOR_CONVERTER",
@@ -235,6 +241,12 @@ const TOOL_LIST = [
     "url": "pages/dead-drop.html"
   },
   {
+    "title": "Base Converter",
+    "desc": "Convert live between binary, octal, decimal, and hexadecimal, with a place-value breakdown.",
+    "code": "BASE_CONVERTER",
+    "url": "pages/base-converter.html"
+  },
+  {
     "title": "Cipher Deck",
     "desc": "Caesar shift (with brute-force), Vigenere, and Morse code (with audible playback).",
     "code": "CIPHER_DECK",
@@ -293,6 +305,12 @@ const TOOL_LIST = [
     "desc": "Ask a yes/no question, get a cryptographically random answer from an original 21-response pool.",
     "code": "MAGIC_8_BALL",
     "url": "pages/magic-8-ball.html"
+  },
+  {
+    "title": "Dice Roller",
+    "desc": "Tabletop dice notation (3d6+2), rolled with a cryptographic RNG instead of Math.random(), with a roll log.",
+    "code": "DICE_ROLLER",
+    "url": "pages/dice-roller.html"
   },
   {
     "title": "Verify a Source Before You Share It",

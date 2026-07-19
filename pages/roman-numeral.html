@@ -40,17 +40,17 @@
          changing hosts. -->
     <meta http-equiv="Content-Security-Policy" content="object-src 'none'; base-uri 'self'; form-action 'self'">
 
-    <title>Cool Text Generator // GAMAYUN⁺</title>
-    <meta name="description" content="Convert text into Unicode bold, italic, script, double-struck, and other fancy variants.">
-    <meta property="og:title" content="Cool Text Generator // GAMAYUN⁺">
-    <meta property="og:description" content="Convert text into Unicode bold, italic, script, double-struck, and other fancy variants.">
+    <title>Roman Numeral Converter // GAMAYUN⁺</title>
+    <meta name="description" content="Convert between Arabic numbers and Roman numerals, both directions, with malformed input explained.">
+    <meta property="og:title" content="Roman Numeral Converter // GAMAYUN⁺">
+    <meta property="og:description" content="Convert between Arabic numbers and Roman numerals, both directions, with malformed input explained.">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://gamayun.site/pages/cool-text.html">
+    <meta property="og:url" content="https://gamayun.site/pages/roman-numeral.html">
     <meta property="og:image" content="https://gamayun.site/assets/og-image.png">
     <meta property="og:site_name" content="GAMAYUN⁺">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Cool Text Generator // GAMAYUN⁺">
-    <meta name="twitter:description" content="Convert text into Unicode bold, italic, script, double-struck, and other fancy variants.">
+    <meta name="twitter:title" content="Roman Numeral Converter // GAMAYUN⁺">
+    <meta name="twitter:description" content="Convert between Arabic numbers and Roman numerals, both directions, with malformed input explained.">
     <meta name="twitter:image" content="https://gamayun.site/assets/og-image.png">
     <link href="https://fonts.googleapis.com/css2?family=VT323&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/gama.css">
@@ -62,7 +62,7 @@
          the static fallback so something correct shows before JS runs. -->
     <link rel="icon" id="favicon-link" href="/assets/icons/favicon-mascot.ico">
     <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
-    <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "Cool Text Generator", "description": "Convert text into Unicode bold, italic, script, double-struck, and other fancy variants.", "url": "https://gamayun.site/pages/cool-text.html", "applicationCategory": "UtilitiesApplication", "operatingSystem": "Any (runs in browser)", "isAccessibleForFree": true, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}}</script>
+    <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "Roman Numeral Converter", "description": "Convert between Arabic numbers and Roman numerals, both directions, with malformed input explained.", "url": "https://gamayun.site/pages/roman-numeral.html", "applicationCategory": "UtilitiesApplication", "operatingSystem": "Any (runs in browser)", "isAccessibleForFree": true, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}}</script>
 </head>
 <body class="crt-screen" data-root="../">
 
@@ -106,11 +106,11 @@
                     <a href="../pages/qr-code.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">QR_GEN</span></a>
                     <a href="../pages/tos-scan.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">TOS_SCAN</span></a>
                 </details>
-                <details class="nav-section" open>
+                <details class="nav-section">
                     <summary class="nav-section-label">[ TEXT_OPS&nbsp;]</summary>
                     <a href="../pages/text-case.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">CASE_CONVERTER</span></a>
                     <a href="../pages/letter-counter.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">LETTER_COUNTER</span></a>
-                    <a href="../pages/cool-text.html" class="nav-link active">&gt;&nbsp;<span class="nav-link-label">COOL_TEXT</span></a>
+                    <a href="../pages/cool-text.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">COOL_TEXT</span></a>
                     <a href="../pages/ascii-art.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">ASCII_BANNER</span></a>
                     <a href="../pages/base64.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">BASE64_CODEC</span></a>
                     <a href="../pages/url-encode.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">URL_CODEC</span></a>
@@ -120,13 +120,13 @@
                     <a href="../pages/nato-phonetic.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">NATO_PHONETIC</span></a>
                     <a href="../pages/dialect-deck.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">DIALECT_DECK</span></a>
                 </details>
-                <details class="nav-section">
+                <details class="nav-section" open>
                     <summary class="nav-section-label">[ NUMBER_CRUNCH&nbsp;]</summary>
                     <a href="../pages/calc-iifym.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">MACRO_CALC</span></a>
                     <a href="../pages/calc-percentage.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">PERCENT_CALC</span></a>
                     <a href="../pages/calc-tip.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">TIP_CALC</span></a>
                     <a href="../pages/calc-age.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">AGE_CALC</span></a>
-                    <a href="../pages/roman-numeral.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">ROMAN_NUMERAL</span></a>
+                    <a href="../pages/roman-numeral.html" class="nav-link active">&gt;&nbsp;<span class="nav-link-label">ROMAN_NUMERAL</span></a>
                 </details>
                 <details class="nav-section">
                     <summary class="nav-section-label">[ PAINT LOCKER&nbsp;]</summary>
@@ -204,16 +204,29 @@
 
         <main class="center-viewport" id="active-tool-zone">
             <div class="content-flex-fill">
-            <div class="breadcrumb">&gt; <a href="../index.html">DECK_LAUNCHER</a> <span class="breadcrumb-sep">/</span> TEXT_OPS <span class="breadcrumb-sep">/</span> COOL_TEXT</div>
+            <div class="breadcrumb">&gt; <a href="../index.html">DECK_LAUNCHER</a> <span class="breadcrumb-sep">/</span> NUMBER_CRUNCH <span class="breadcrumb-sep">/</span> ROMAN_NUMERAL</div>
             <section class="tool-card">
-                <h2>&gt; COOL_TEXT</h2>
-                <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">Converts plain text into Unicode fancy-font lookalikes. Copy-paste anywhere Unicode renders (bios, chats, captions). Click any result to copy it.</p>
+                <h2>&gt; ROMAN_NUMERAL_CONVERTER</h2>
+                <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">Convert between Arabic numbers (1-3999) and Roman numerals, both directions, with malformed input explained rather than silently rejected.</p>
+
+                <h3 style="font-family:var(--font-display); font-size:1rem; margin:1.5rem 0 0.5rem;">&gt; NUMBER &rarr; ROMAN</h3>
                 <div class="tool-workspace">
-                    <input type="text" id="cooltext-input" placeholder="type something..." oninput="executeCoolText()">
+                    <input type="number" id="roman-num-input" placeholder="e.g. 1994" min="1" max="3999" oninput="executeNumberToRoman()">
                 </div>
-                <div class="result-block" id="cooltext-result"></div>
+                <div class="result-block" id="roman-num-result"></div>
+
+                <h3 style="font-family:var(--font-display); font-size:1rem; margin:1.5rem 0 0.5rem;">&gt; ROMAN &rarr; NUMBER</h3>
+                <div class="tool-workspace">
+                    <input type="text" id="roman-text-input" placeholder="e.g. MCMXCIV" oninput="executeRomanToNumber()" style="text-transform:uppercase;">
+                </div>
+                <div class="result-block" id="roman-text-result"></div>
             </section>
-            <p style="padding:0 1.5rem; font-size:0.85rem;"><span style="color: var(--phosphor-dim-text)">See also:</span> <a href="symbol-index.html">Symbol Index</a> &middot; <a href="ascii-art.html">ASCII Banner</a></p>
+
+            <section class="prose" style="padding-left:0;padding-right:0;">
+                <h2>&gt; THE SUBTRACTIVE RULE</h2>
+                <p>Roman numerals mostly add left to right (VI = 5+1 = 6), but a smaller numeral placed immediately before a larger one subtracts instead (IV = 5-1 = 4). Only specific pairs are valid this way - I before V or X, X before L or C, C before D or M - and a numeral can only be repeated up to three times in a row (IIII is not valid, IV is). This tool checks both rules, so a malformed string like "IIII" or "VX" gets a specific explanation instead of a silent wrong answer.</p>
+                <p class="related-block">RELATED: <a href="base-converter.html">Base Converter</a> &middot; <a href="uuid.html">UUID Generator</a></p>
+            </section>
 
             </div>
             <div class="ad-leaderboard">
@@ -359,7 +372,7 @@
     <script src="../js/data-tool-list.js"></script>
     <script src="../js/site-search.js"></script>
     <script src="../js/page-transition.js"></script>
-    <script src="../js/tool-cool-text.js"></script>
+    <script src="../js/tool-roman-numeral.js"></script>
     <script>
       if ("serviceWorker" in navigator) {
         window.addEventListener("load", () => navigator.serviceWorker.register("/sw.js"));

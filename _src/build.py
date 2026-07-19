@@ -170,6 +170,9 @@ PAGES = [
     dict(out="pages/calc-age.html", fragment="calc-age.html", title="Age Calculator",
          desc="Exact age in years, months, and days from a birthdate.", root="../", code="AGE_CALC",
          category="NUMBER_CRUNCH", js=["tool-calculators.js"]),
+    dict(out="pages/roman-numeral.html", fragment="roman-numeral.html", title="Roman Numeral Converter",
+         desc="Convert between Arabic numbers and Roman numerals, both directions, with malformed input explained.",
+         root="../", code="ROMAN_NUMERAL", category="NUMBER_CRUNCH", js=["tool-roman-numeral.js"]),
     dict(out="pages/color.html", fragment="color.html", title="Color Converter",
          desc="Hex, RGB integer, RGB float, and HSL, all at once.",
          root="../", code="COLOR_CONVERTER", category="PAINT_LOCKER",
@@ -249,6 +252,10 @@ PAGES = [
          desc="Encrypt a message client-side and pack it into a shareable link - nothing is sent to or stored on any server, not even temporarily.",
          root="../", code="DEAD_DROP", category="DEV_VAULT",
          js=["tool-dead-drop.js"]),
+    dict(out="pages/base-converter.html", fragment="base-converter.html", title="Base Converter",
+         desc="Convert live between binary, octal, decimal, and hexadecimal, with a place-value breakdown.",
+         root="../", code="BASE_CONVERTER", category="DEV_VAULT",
+         js=["tool-base-converter.js"]),
 
     dict(out="pages/cipher-deck.html", fragment="cipher-deck.html", title="Cipher Deck",
          desc="Caesar shift (with brute-force), Vigenere, and Morse code (with audible playback).",
@@ -290,6 +297,10 @@ PAGES = [
          desc="Ask a yes/no question, get a cryptographically random answer from an original 21-response pool.",
          root="../", code="MAGIC_8_BALL", category="GAMES_CURIOS",
          js=["tool-magic-8-ball.js"]),
+    dict(out="pages/dice-roller.html", fragment="dice-roller.html", title="Dice Roller",
+         desc="Tabletop dice notation (3d6+2), rolled with a cryptographic RNG instead of Math.random(), with a roll log.",
+         root="../", code="DICE_ROLLER", category="GAMES_CURIOS",
+         js=["tool-dice-roller.js"]),
 
     # Field Manuals: GAMA+-voice step-by-step guides. Content lives in
     # INSTRUCTABLES below; all 5 pages share one fragment shell

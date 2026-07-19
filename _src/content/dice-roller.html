@@ -1,0 +1,29 @@
+            <section class="tool-card">
+                <h2>&gt; DICE_ROLLER</h2>
+                <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">Tabletop dice notation (e.g. <code>3d6+2</code>), rolled with a real cryptographic RNG, not <code>Math.random()</code>. Roll history kept below, most recent first.</p>
+
+                <div class="tool-workspace">
+                    <input type="text" id="dice-notation" placeholder="e.g. 1d20, 3d6+2, 2d10-1" value="1d20" style="max-width:200px;">
+                    <button onclick="executeDiceRoll()">&gt; ROLL</button>
+                </div>
+                <div class="tool-workspace" style="margin-top:0.5rem;">
+                    <button onclick="quickRoll('d4')">d4</button>
+                    <button onclick="quickRoll('d6')">d6</button>
+                    <button onclick="quickRoll('d8')">d8</button>
+                    <button onclick="quickRoll('d10')">d10</button>
+                    <button onclick="quickRoll('d12')">d12</button>
+                    <button onclick="quickRoll('d20')">d20</button>
+                    <button onclick="quickRoll('d100')">d100</button>
+                </div>
+
+                <div class="result-block" id="dice-result" style="font-size:1.3rem;"></div>
+
+                <h3 style="font-family:var(--font-display); font-size:1rem; margin:1.5rem 0 0.5rem;">&gt; ROLL_LOG</h3>
+                <div id="dice-history" style="font-size:0.85rem; color:var(--phosphor-dim-text);"></div>
+            </section>
+
+            <section class="prose" style="padding-left:0;padding-right:0;">
+                <h2>&gt; WHY THE RANDOMNESS SOURCE ACTUALLY MATTERS HERE</h2>
+                <p>Most browser-based dice rollers use <code>Math.random()</code>, which is fine for games but isn't a cryptographically secure random source - it's not built to resist prediction, just to be fast. This tool uses <code>crypto.getRandomValues()</code> instead, the same CSPRNG behind this site's <a href="password-gen.html">Password Generator</a> and <a href="uuid.html">UUID Generator</a>. It doesn't change how a d20 feels to roll, but it's the difference between "random enough for a board game" and "actually unpredictable," and there's no real cost to just using the better source by default.</p>
+                <p class="related-block">RELATED: <a href="decision-wheel.html">Decision Wheel</a> &middot; <a href="magic-8-ball.html">Magic 8-Ball</a></p>
+            </section>

@@ -1,0 +1,22 @@
+            <section class="tool-card">
+                <h2>&gt; ROMAN_NUMERAL_CONVERTER</h2>
+                <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">Convert between Arabic numbers (1-3999) and Roman numerals, both directions, with malformed input explained rather than silently rejected.</p>
+
+                <h3 style="font-family:var(--font-display); font-size:1rem; margin:1.5rem 0 0.5rem;">&gt; NUMBER &rarr; ROMAN</h3>
+                <div class="tool-workspace">
+                    <input type="number" id="roman-num-input" placeholder="e.g. 1994" min="1" max="3999" oninput="executeNumberToRoman()">
+                </div>
+                <div class="result-block" id="roman-num-result"></div>
+
+                <h3 style="font-family:var(--font-display); font-size:1rem; margin:1.5rem 0 0.5rem;">&gt; ROMAN &rarr; NUMBER</h3>
+                <div class="tool-workspace">
+                    <input type="text" id="roman-text-input" placeholder="e.g. MCMXCIV" oninput="executeRomanToNumber()" style="text-transform:uppercase;">
+                </div>
+                <div class="result-block" id="roman-text-result"></div>
+            </section>
+
+            <section class="prose" style="padding-left:0;padding-right:0;">
+                <h2>&gt; THE SUBTRACTIVE RULE</h2>
+                <p>Roman numerals mostly add left to right (VI = 5+1 = 6), but a smaller numeral placed immediately before a larger one subtracts instead (IV = 5-1 = 4). Only specific pairs are valid this way - I before V or X, X before L or C, C before D or M - and a numeral can only be repeated up to three times in a row (IIII is not valid, IV is). This tool checks both rules, so a malformed string like "IIII" or "VX" gets a specific explanation instead of a silent wrong answer.</p>
+                <p class="related-block">RELATED: <a href="base-converter.html">Base Converter</a> &middot; <a href="uuid.html">UUID Generator</a></p>
+            </section>

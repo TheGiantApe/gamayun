@@ -1,0 +1,26 @@
+            <section class="tool-card">
+                <h2>&gt; BASE_CONVERTER</h2>
+                <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">Type a value into any field, the other three update live. Also shows the decimal value's place-value breakdown, not just the final answer.</p>
+
+                <div class="tool-workspace" style="flex-direction:column; align-items:stretch; gap:0.75rem;">
+                    <label style="font-size:0.85rem; color:var(--phosphor-dim-text);">BINARY (base 2)
+                        <input type="text" id="base-bin" placeholder="e.g. 11111010000" oninput="executeBaseConvert('bin')" style="width:100%; margin-top:0.25rem;">
+                    </label>
+                    <label style="font-size:0.85rem; color:var(--phosphor-dim-text);">OCTAL (base 8)
+                        <input type="text" id="base-oct" placeholder="e.g. 3720" oninput="executeBaseConvert('oct')" style="width:100%; margin-top:0.25rem;">
+                    </label>
+                    <label style="font-size:0.85rem; color:var(--phosphor-dim-text);">DECIMAL (base 10)
+                        <input type="text" id="base-dec" placeholder="e.g. 2000" oninput="executeBaseConvert('dec')" style="width:100%; margin-top:0.25rem;">
+                    </label>
+                    <label style="font-size:0.85rem; color:var(--phosphor-dim-text);">HEXADECIMAL (base 16)
+                        <input type="text" id="base-hex" placeholder="e.g. 7d0" oninput="executeBaseConvert('hex')" style="width:100%; margin-top:0.25rem;">
+                    </label>
+                </div>
+                <div class="result-block" id="base-result"></div>
+            </section>
+
+            <section class="prose" style="padding-left:0;padding-right:0;">
+                <h2>&gt; WHY BASE 16 EXISTS AT ALL</h2>
+                <p>A byte is 8 bits, and 8 bits happens to split evenly into two 4-bit chunks - and 4 bits covers exactly 16 possible values (0000 through 1111). That's the entire reason hex exists: it's a compact, human-typeable shorthand for binary that lines up perfectly with how computers actually chunk data, instead of an arbitrary choice. Octal (base 8, three bits per digit) served the same purpose on older systems that grouped bits in threes rather than fours, which is why it still shows up in file permission notation (like <code>chmod 755</code>) long after most other uses faded.</p>
+                <p class="related-block">RELATED: <a href="roman-numeral.html">Roman Numeral Converter</a> &middot; <a href="hash.html">Hash Generator</a></p>
+            </section>
