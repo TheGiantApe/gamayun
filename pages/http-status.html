@@ -40,17 +40,17 @@
          changing hosts. -->
     <meta http-equiv="Content-Security-Policy" content="object-src 'none'; base-uri 'self'; form-action 'self'">
 
-    <title>Regex Tester // GAMAYUN⁺</title>
-    <meta name="description" content="Live regex matching with highlighted matches, capture groups, and named groups.">
-    <meta property="og:title" content="Regex Tester // GAMAYUN⁺">
-    <meta property="og:description" content="Live regex matching with highlighted matches, capture groups, and named groups.">
+    <title>HTTP Status Code Reference // GAMAYUN⁺</title>
+    <meta name="description" content="Searchable HTTP status codes with the common real-world cause, not just the dry official definition.">
+    <meta property="og:title" content="HTTP Status Code Reference // GAMAYUN⁺">
+    <meta property="og:description" content="Searchable HTTP status codes with the common real-world cause, not just the dry official definition.">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://gamayun.site/pages/regex-tester.html">
+    <meta property="og:url" content="https://gamayun.site/pages/http-status.html">
     <meta property="og:image" content="https://gamayun.site/assets/og-image.png">
     <meta property="og:site_name" content="GAMAYUN⁺">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Regex Tester // GAMAYUN⁺">
-    <meta name="twitter:description" content="Live regex matching with highlighted matches, capture groups, and named groups.">
+    <meta name="twitter:title" content="HTTP Status Code Reference // GAMAYUN⁺">
+    <meta name="twitter:description" content="Searchable HTTP status codes with the common real-world cause, not just the dry official definition.">
     <meta name="twitter:image" content="https://gamayun.site/assets/og-image.png">
     <link href="https://fonts.googleapis.com/css2?family=VT323&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/gama.css">
@@ -62,7 +62,7 @@
          the static fallback so something correct shows before JS runs. -->
     <link rel="icon" id="favicon-link" href="/assets/icons/favicon-mascot.ico">
     <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
-    <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "Regex Tester", "description": "Live regex matching with highlighted matches, capture groups, and named groups.", "url": "https://gamayun.site/pages/regex-tester.html", "applicationCategory": "UtilitiesApplication", "operatingSystem": "Any (runs in browser)", "isAccessibleForFree": true, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}}</script>
+    <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "HTTP Status Code Reference", "description": "Searchable HTTP status codes with the common real-world cause, not just the dry official definition.", "url": "https://gamayun.site/pages/http-status.html", "applicationCategory": "UtilitiesApplication", "operatingSystem": "Any (runs in browser)", "isAccessibleForFree": true, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}}</script>
 </head>
 <body class="crt-screen" data-root="../">
 
@@ -160,14 +160,14 @@
                     <a href="../pages/uuid.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">UUID_GEN</span></a>
                     <a href="../pages/hash.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">HASH_GEN</span></a>
                     <a href="../pages/password-gen.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">PASSWORD_GEN</span></a>
-                    <a href="../pages/regex-tester.html" class="nav-link active">&gt;&nbsp;<span class="nav-link-label">REGEX_TESTER</span></a>
+                    <a href="../pages/regex-tester.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">REGEX_TESTER</span></a>
                     <a href="../pages/jwt-decoder.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">JWT_DECODER</span></a>
                     <a href="../pages/cron-generator.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">CRON_GEN</span></a>
                     <a href="../pages/recipe-chain.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">RECIPE_CHAIN</span></a>
                     <a href="../pages/code-snap.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">CODE_SNAP</span></a>
                     <a href="../pages/dead-drop.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">DEAD_DROP</span></a>
                     <a href="../pages/base-converter.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">BASE_CONVERTER</span></a>
-                    <a href="../pages/http-status.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">HTTP_STATUS</span></a>
+                    <a href="../pages/http-status.html" class="nav-link active">&gt;&nbsp;<span class="nav-link-label">HTTP_STATUS</span></a>
                 </details>
                 <details class="nav-section">
                     <summary class="nav-section-label">[ GAMES & CURIOS&nbsp;]</summary>
@@ -213,20 +213,14 @@
 
         <main class="center-viewport" id="active-tool-zone">
             <div class="content-flex-fill">
-            <div class="breadcrumb">&gt; <a href="../index.html">DECK_LAUNCHER</a> <span class="breadcrumb-sep">/</span> DEV_VAULT <span class="breadcrumb-sep">/</span> REGEX_TESTER</div>
+            <div class="breadcrumb">&gt; <a href="../index.html">DECK_LAUNCHER</a> <span class="breadcrumb-sep">/</span> DEV_VAULT <span class="breadcrumb-sep">/</span> HTTP_STATUS</div>
             <section class="tool-card">
-                <h2>&gt; REGEX_TESTER</h2>
-                <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">Live matching against your browser's own regex engine. All matches highlighted, with capture groups and named groups broken out below.</p>
+                <h2>&gt; HTTP_STATUS_REFERENCE</h2>
+                <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">Search by code or keyword. Each entry includes the common real-world cause, not just the dry official definition most references stop at.</p>
                 <div class="tool-workspace">
-                    <input type="text" id="regex-pattern" placeholder="pattern, no slashes" oninput="executeRegexTest()" style="max-width:300px;">
-                    <input type="text" id="regex-flags" placeholder="flags (gimsuy)" oninput="executeRegexTest()" style="max-width:150px;">
+                    <input type="text" id="http-search" placeholder="e.g. 404, or 'cors', or 'timeout'..." oninput="renderHttpStatusList()">
                 </div>
-                <div class="tool-workspace">
-                    <textarea id="regex-test-string" placeholder="test string..." oninput="executeRegexTest()"></textarea>
-                </div>
-                <div style="color:var(--phosphor-dim); font-size:0.85rem; margin-top:0.5rem;">preview:</div>
-                <pre class="result-block" id="regex-highlight" style="white-space:pre-wrap;"></pre>
-                <div class="result-block" id="regex-result"></div>
+                <div id="http-status-list" style="margin-top:1rem;"></div>
             </section>
 
             </div>
@@ -373,7 +367,7 @@
     <script src="../js/data-tool-list.js"></script>
     <script src="../js/site-search.js"></script>
     <script src="../js/page-transition.js"></script>
-    <script src="../js/tool-regex.js"></script>
+    <script src="../js/tool-http-status.js"></script>
     <script>
       if ("serviceWorker" in navigator) {
         window.addEventListener("load", () => navigator.serviceWorker.register("/sw.js"));

@@ -52,7 +52,10 @@ function executeTextReverse() {
   if (!raw) { GAMA.say("idle"); out.textContent = ""; return; }
 
   let result = raw;
-  if (mode === "chars" || mode === "both") result = result.split("").reverse().join("");
+  // Array.from, not .split("") - a plain split breaks emoji/non-BMP
+  // characters into two lone surrogate halves, which then reverse
+  // relative to each other into an invalid, unrenderable sequence.
+  if (mode === "chars" || mode === "both") result = Array.from(result).reverse().join("");
   if (mode === "words" || mode === "both") result = result.split(" ").reverse().join(" ");
   // "both" reverses the full string first, then reverses word order on
   // top of that - net effect is each word's own spelling gets flipped

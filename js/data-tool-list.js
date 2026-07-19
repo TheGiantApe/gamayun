@@ -97,6 +97,18 @@ const TOOL_LIST = [
     "url": "pages/text-reverser.html"
   },
   {
+    "title": "Leetspeak Converter",
+    "desc": "Text to 1337sp34k with a light/medium/heavy intensity slider.",
+    "code": "LEETSPEAK",
+    "url": "pages/leetspeak.html"
+  },
+  {
+    "title": "Upside-Down Text",
+    "desc": "Flip text using real Unicode lookalike characters, with unflippable characters flagged rather than mangled.",
+    "code": "UPSIDE_DOWN_TEXT",
+    "url": "pages/upside-down-text.html"
+  },
+  {
     "title": "Dialect Deck",
     "desc": "Rewrite text in a Shakespearean, Pirate, Corporate, or Ye Olde English voice - word/phrase substitution, fully offline.",
     "code": "DIALECT_DECK",
@@ -275,6 +287,12 @@ const TOOL_LIST = [
     "desc": "Convert live between binary, octal, decimal, and hexadecimal, with a place-value breakdown.",
     "code": "BASE_CONVERTER",
     "url": "pages/base-converter.html"
+  },
+  {
+    "title": "HTTP Status Code Reference",
+    "desc": "Searchable HTTP status codes with the common real-world cause, not just the dry official definition.",
+    "code": "HTTP_STATUS",
+    "url": "pages/http-status.html"
   },
   {
     "title": "Cipher Deck",
