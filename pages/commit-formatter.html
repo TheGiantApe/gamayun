@@ -40,17 +40,17 @@
          changing hosts. -->
     <meta http-equiv="Content-Security-Policy" content="object-src 'none'; base-uri 'self'; form-action 'self'">
 
-    <title>Color Converter // GAMAYUN⁺</title>
-    <meta name="description" content="Hex, RGB integer, RGB float, and HSL, all at once.">
-    <meta property="og:title" content="Color Converter // GAMAYUN⁺">
-    <meta property="og:description" content="Hex, RGB integer, RGB float, and HSL, all at once.">
+    <title>Commit Message Formatter // GAMAYUN⁺</title>
+    <meta name="description" content="Assembles a properly formatted Conventional Commits message from separate fields, with an inline type cheat-sheet.">
+    <meta property="og:title" content="Commit Message Formatter // GAMAYUN⁺">
+    <meta property="og:description" content="Assembles a properly formatted Conventional Commits message from separate fields, with an inline type cheat-sheet.">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://gamayun.site/pages/color.html">
+    <meta property="og:url" content="https://gamayun.site/pages/commit-formatter.html">
     <meta property="og:image" content="https://gamayun.site/assets/og-image.png">
     <meta property="og:site_name" content="GAMAYUN⁺">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Color Converter // GAMAYUN⁺">
-    <meta name="twitter:description" content="Hex, RGB integer, RGB float, and HSL, all at once.">
+    <meta name="twitter:title" content="Commit Message Formatter // GAMAYUN⁺">
+    <meta name="twitter:description" content="Assembles a properly formatted Conventional Commits message from separate fields, with an inline type cheat-sheet.">
     <meta name="twitter:image" content="https://gamayun.site/assets/og-image.png">
     <link href="https://fonts.googleapis.com/css2?family=VT323&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/gama.css">
@@ -62,7 +62,7 @@
          the static fallback so something correct shows before JS runs. -->
     <link rel="icon" id="favicon-link" href="/assets/icons/favicon-mascot.ico">
     <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
-    <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "Color Converter", "description": "Hex, RGB integer, RGB float, and HSL, all at once.", "url": "https://gamayun.site/pages/color.html", "applicationCategory": "UtilitiesApplication", "operatingSystem": "Any (runs in browser)", "isAccessibleForFree": true, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}}</script>
+    <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "Commit Message Formatter", "description": "Assembles a properly formatted Conventional Commits message from separate fields, with an inline type cheat-sheet.", "url": "https://gamayun.site/pages/commit-formatter.html", "applicationCategory": "UtilitiesApplication", "operatingSystem": "Any (runs in browser)", "isAccessibleForFree": true, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}}</script>
 </head>
 <body class="crt-screen" data-root="../">
 
@@ -142,9 +142,9 @@
                     <a href="../pages/shoe-size.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">SHOE_SIZE</span></a>
                     <a href="../pages/work-hours.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">WORK_HOURS</span></a>
                 </details>
-                <details class="nav-section" open>
+                <details class="nav-section">
                     <summary class="nav-section-label">[ PAINT LOCKER&nbsp;]</summary>
-                    <a href="../pages/color.html" class="nav-link active">&gt;&nbsp;<span class="nav-link-label">COLOR_CONVERTER</span></a>
+                    <a href="../pages/color.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">COLOR_CONVERTER</span></a>
                     <a href="../pages/palette.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">PALETTE_FORGE</span></a>
                     <a href="../pages/contrast-check.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">CONTRAST_CHECK</span></a>
                     <a href="../pages/paper-size.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">PAPER_SIZE</span></a>
@@ -168,7 +168,7 @@
                     <a href="../pages/ela-check.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">ELA_CHECK</span></a>
                     <a href="../pages/favicon-generator.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">FAVICON_FORGE</span></a>
                 </details>
-                <details class="nav-section">
+                <details class="nav-section" open>
                     <summary class="nav-section-label">[ DEV_VAULT&nbsp;]</summary>
                     <a href="../pages/json-format.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">JSON_FORMATTER</span></a>
                     <a href="../pages/uuid.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">UUID_GEN</span></a>
@@ -187,7 +187,7 @@
                     <a href="../pages/json-csv.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">JSON_CSV</span></a>
                     <a href="../pages/meta-preview.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">META_PREVIEW</span></a>
                     <a href="../pages/robots-validator.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">ROBOTS_VALIDATOR</span></a>
-                    <a href="../pages/commit-formatter.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">COMMIT_FORMATTER</span></a>
+                    <a href="../pages/commit-formatter.html" class="nav-link active">&gt;&nbsp;<span class="nav-link-label">COMMIT_FORMATTER</span></a>
                 </details>
                 <details class="nav-section">
                     <summary class="nav-section-label">[ GAMES & CURIOS&nbsp;]</summary>
@@ -235,17 +235,38 @@
 
         <main class="center-viewport" id="active-tool-zone">
             <div class="content-flex-fill">
-            <div class="breadcrumb">&gt; <a href="../index.html">DECK_LAUNCHER</a> <span class="breadcrumb-sep">/</span> PAINT LOCKER <span class="breadcrumb-sep">/</span> COLOR_CONVERTER</div>
+            <div class="breadcrumb">&gt; <a href="../index.html">DECK_LAUNCHER</a> <span class="breadcrumb-sep">/</span> DEV_VAULT <span class="breadcrumb-sep">/</span> COMMIT_FORMATTER</div>
             <section class="tool-card">
-                <h2>&gt; COLOR_CONVERTER</h2>
-                <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">Hex, RGB integer, RGB float (0-1, for shaders/OpenGL), and HSL, all at once.</p>
-                <div class="tool-workspace">
-                    <input type="text" id="color-input" placeholder="#935757 or 147,87,87" oninput="executeColorConvert()">
-                    <div id="color-swatch" style="width:40px; height:40px; border:1px solid var(--phosphor-dim); flex-shrink:0;"></div>
+                <h2>&gt; COMMIT_MESSAGE_FORMATTER</h2>
+                <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">Fill in the pieces, get a properly formatted Conventional Commits message - includes an inline cheat-sheet of what each type actually means, since most people half-remember the convention.</p>
+                <div class="tool-workspace" style="flex-wrap:wrap;">
+                    <select id="commit-type" onchange="executeCommitFormat()">
+                        <option value="feat">feat - a new feature</option>
+                        <option value="fix">fix - a bug fix</option>
+                        <option value="docs">docs - documentation only</option>
+                        <option value="style">style - formatting, no logic change</option>
+                        <option value="refactor">refactor - neither a fix nor a feature</option>
+                        <option value="perf">perf - a performance improvement</option>
+                        <option value="test">test - adding/correcting tests</option>
+                        <option value="chore">chore - tooling/build/deps, no src change</option>
+                    </select>
+                    <input type="text" id="commit-scope" placeholder="scope (optional, e.g. api)" oninput="executeCommitFormat()" style="width:160px;">
                 </div>
-                <div class="result-block" id="color-result"></div>
+                <div class="tool-workspace" style="margin-top:0.5rem;">
+                    <input type="text" id="commit-summary" placeholder="short summary (imperative mood: 'add', not 'added')" oninput="executeCommitFormat()" style="width:100%;">
+                </div>
+                <div class="tool-workspace" style="margin-top:0.5rem;">
+                    <textarea id="commit-body" placeholder="longer description (optional)" oninput="executeCommitFormat()"></textarea>
+                </div>
+                <div class="tool-workspace" style="margin-top:0.5rem;">
+                    <label style="font-size:0.85rem; color:var(--phosphor-dim-text);"><input type="checkbox" id="commit-breaking" onchange="executeCommitFormat()"> breaking change</label>
+                </div>
+                <div class="tool-workspace">
+                    <button id="commit-copy-btn">&gt; COPY</button>
+                </div>
+                <pre class="result-block" id="commit-result" style="overflow-x:auto;"></pre>
             </section>
-            <p style="padding:0 1.5rem; font-size:0.85rem;"><span style="color: var(--phosphor-dim-text)">See also:</span> <a href="symbol-index.html">Symbol Index</a></p>
+            <p style="padding:0 1.5rem; font-size:0.85rem;"><span style="color: var(--phosphor-dim-text)">See also:</span> <a href="cron-generator.html">Cron Expression Parser</a> &middot; <a href="regex-tester.html">Regex Tester</a></p>
 
             </div>
             <div class="ad-leaderboard">
@@ -391,7 +412,7 @@
     <script src="../js/data-tool-list.js"></script>
     <script src="../js/site-search.js"></script>
     <script src="../js/page-transition.js"></script>
-    <script src="../js/tool-color.js"></script>
+    <script src="../js/tool-commit-formatter.js"></script>
     <script>
       if ("serviceWorker" in navigator) {
         window.addEventListener("load", () => navigator.serviceWorker.register("/sw.js"));

@@ -245,6 +245,9 @@ PAGES = [
     dict(out="pages/easing-visualizer.html", fragment="easing-visualizer.html", title="Easing Visualizer",
          desc="Adjust cubic-bezier control points and watch the curve plus a real moving-element preview, with a named-preset library.",
          root="../", code="EASING_VIZ", category="PAINT_LOCKER", js=["tool-easing-visualizer.js"]),
+    dict(out="pages/gradient-gen.html", fragment="gradient-gen.html", title="Gradient Generator",
+         desc="Arbitrary color stops, linear or radial, with live preview and copy-ready CSS in one panel.",
+         root="../", code="GRADIENT_GEN", category="PAINT_LOCKER", js=["tool-gradient-gen.js"]),
 
     dict(out="pages/symbol-index.html", fragment="symbol-index.html", title="Symbol Index",
          desc="349 searchable Unicode symbols with names and codepoints, click to copy.",
@@ -334,6 +337,9 @@ PAGES = [
     dict(out="pages/robots-validator.html", fragment="robots-validator.html", title="Robots.txt Validator",
          desc="Flags common robots.txt mistakes with a plain-English explanation of why each one is a problem.",
          root="../", code="ROBOTS_VALIDATOR", category="DEV_VAULT", js=["tool-robots-validator.js"]),
+    dict(out="pages/commit-formatter.html", fragment="commit-formatter.html", title="Commit Message Formatter",
+         desc="Assembles a properly formatted Conventional Commits message from separate fields, with an inline type cheat-sheet.",
+         root="../", code="COMMIT_FORMATTER", category="DEV_VAULT", js=["tool-commit-formatter.js"]),
 
     dict(out="pages/cipher-deck.html", fragment="cipher-deck.html", title="Cipher Deck",
          desc="Caesar shift (with brute-force), Vigenere, and Morse code (with audible playback).",

@@ -1,0 +1,22 @@
+            <section class="tool-card">
+                <h2>&gt; GRADIENT_GENERATOR</h2>
+                <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">Two or more color stops, linear or radial, live preview and copy-ready CSS in the same panel instead of two separate steps.</p>
+                <div class="tool-workspace">
+                    <label style="font-size:0.85rem; color:var(--phosphor-dim-text);">
+                        <input type="radio" name="gradient-type" value="linear" checked onchange="renderGradient()"> linear
+                    </label>
+                    <label style="font-size:0.85rem; color:var(--phosphor-dim-text);">
+                        <input type="radio" name="gradient-type" value="radial" onchange="renderGradient()"> radial
+                    </label>
+                    <label style="font-size:0.85rem; color:var(--phosphor-dim-text);" id="gradient-angle-label">angle
+                        <input type="range" id="gradient-angle" min="0" max="360" value="90" oninput="renderGradient()">
+                    </label>
+                </div>
+                <div id="gradient-stops"></div>
+                <div class="tool-workspace" style="margin-top:0.5rem;">
+                    <button onclick="addGradientStop()">&gt; ADD STOP</button>
+                </div>
+                <div id="gradient-preview" style="height:120px; margin-top:1rem; border:1px solid var(--phosphor-dim);"></div>
+                <pre class="result-block" id="gradient-css" style="overflow-x:auto;"></pre>
+            </section>
+            <p style="padding:0 1.5rem; font-size:0.85rem;"><span style="color: var(--phosphor-dim-text)">See also:</span> <a href="palette.html">Palette Forge</a> &middot; <a href="color.html">Color Converter</a></p>

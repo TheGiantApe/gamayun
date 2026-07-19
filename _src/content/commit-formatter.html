@@ -1,0 +1,31 @@
+            <section class="tool-card">
+                <h2>&gt; COMMIT_MESSAGE_FORMATTER</h2>
+                <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">Fill in the pieces, get a properly formatted Conventional Commits message - includes an inline cheat-sheet of what each type actually means, since most people half-remember the convention.</p>
+                <div class="tool-workspace" style="flex-wrap:wrap;">
+                    <select id="commit-type" onchange="executeCommitFormat()">
+                        <option value="feat">feat - a new feature</option>
+                        <option value="fix">fix - a bug fix</option>
+                        <option value="docs">docs - documentation only</option>
+                        <option value="style">style - formatting, no logic change</option>
+                        <option value="refactor">refactor - neither a fix nor a feature</option>
+                        <option value="perf">perf - a performance improvement</option>
+                        <option value="test">test - adding/correcting tests</option>
+                        <option value="chore">chore - tooling/build/deps, no src change</option>
+                    </select>
+                    <input type="text" id="commit-scope" placeholder="scope (optional, e.g. api)" oninput="executeCommitFormat()" style="width:160px;">
+                </div>
+                <div class="tool-workspace" style="margin-top:0.5rem;">
+                    <input type="text" id="commit-summary" placeholder="short summary (imperative mood: 'add', not 'added')" oninput="executeCommitFormat()" style="width:100%;">
+                </div>
+                <div class="tool-workspace" style="margin-top:0.5rem;">
+                    <textarea id="commit-body" placeholder="longer description (optional)" oninput="executeCommitFormat()"></textarea>
+                </div>
+                <div class="tool-workspace" style="margin-top:0.5rem;">
+                    <label style="font-size:0.85rem; color:var(--phosphor-dim-text);"><input type="checkbox" id="commit-breaking" onchange="executeCommitFormat()"> breaking change</label>
+                </div>
+                <div class="tool-workspace">
+                    <button id="commit-copy-btn">&gt; COPY</button>
+                </div>
+                <pre class="result-block" id="commit-result" style="overflow-x:auto;"></pre>
+            </section>
+            <p style="padding:0 1.5rem; font-size:0.85rem;"><span style="color: var(--phosphor-dim-text)">See also:</span> <a href="cron-generator.html">Cron Expression Parser</a> &middot; <a href="regex-tester.html">Regex Tester</a></p>

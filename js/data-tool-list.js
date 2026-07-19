@@ -259,6 +259,12 @@ const TOOL_LIST = [
     "url": "pages/easing-visualizer.html"
   },
   {
+    "title": "Gradient Generator",
+    "desc": "Arbitrary color stops, linear or radial, with live preview and copy-ready CSS in one panel.",
+    "code": "GRADIENT_GEN",
+    "url": "pages/gradient-gen.html"
+  },
+  {
     "title": "Symbol Index",
     "desc": "349 searchable Unicode symbols with names and codepoints, click to copy.",
     "code": "SYMBOL_INDEX",
@@ -401,6 +407,12 @@ const TOOL_LIST = [
     "desc": "Flags common robots.txt mistakes with a plain-English explanation of why each one is a problem.",
     "code": "ROBOTS_VALIDATOR",
     "url": "pages/robots-validator.html"
+  },
+  {
+    "title": "Commit Message Formatter",
+    "desc": "Assembles a properly formatted Conventional Commits message from separate fields, with an inline type cheat-sheet.",
+    "code": "COMMIT_FORMATTER",
+    "url": "pages/commit-formatter.html"
   },
   {
     "title": "Cipher Deck",

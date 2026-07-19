@@ -1,0 +1,47 @@
+/* GRADIENT_GENERATOR — arbitrary number of color stops (not locked to
+   exactly two), linear or radial, live preview and copy-ready CSS in one
+   panel instead of requiring an extra click to see the generated code. */
+
+let gradientStopCount = 0;
+
+function addGradientStop(color, position) {
+  const id = gradientStopCount++;
+  const row = document.createElement("div");
+  row.className = "tool-workspace";
+  row.dataset.stopId = id;
+  row.style.marginBottom = "0.4rem";
+  row.innerHTML = `
+    <input type="color" class="gradient-stop-color" value="${color || "#00ff66"}" oninput="renderGradient()">
+    <input type="number" class="gradient-stop-pos" min="0" max="100" value="${position ?? 0}" oninput="renderGradient()" style="width:70px;"> %
+    <button onclick="removeGradientStop(${id})">&times;</button>
+  `;
+  document.getElementById("gradient-stops").appendChild(row);
+  renderGradient();
+}
+
+function removeGradientStop(id) {
+  document.querySelector(`[data-stop-id="${id}"]`)?.remove();
+  renderGradient();
+}
+
+function renderGradient() {
+  const type = document.querySelector('input[name="gradient-type"]:checked').value;
+  document.getElementById("gradient-angle-label").style.display = type === "linear" ? "" : "none";
+  const angle = document.getElementById("gradient-angle").value;
+
+  const stops = [...document.querySelectorAll("#gradient-stops .tool-workspace")].map((row) => ({
+    color: row.querySelector(".gradient-stop-color").value,
+    pos: row.querySelector(".gradient-stop-pos").value,
+  }));
+  if (stops.length < 2) { document.getElementById("gradient-css").textContent = "// add at least 2 stops"; return; }
+
+  const stopsCss = stops.map((s) => `${s.color} ${s.pos}%`).join(", ");
+  const gradientValue = type === "linear" ? `linear-gradient(${angle}deg, ${stopsCss})` : `radial-gradient(circle, ${stopsCss})`;
+  document.getElementById("gradient-preview").style.background = gradientValue;
+  document.getElementById("gradient-css").textContent = `background: ${gradientValue};`;
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  addGradientStop("#00ff66", 0);
+  addGradientStop("#0a0a0a", 100);
+});
