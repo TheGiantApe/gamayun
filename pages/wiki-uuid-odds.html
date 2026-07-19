@@ -134,6 +134,7 @@
 
                 <h2>What actually goes wrong in practice</h2>
                 <p>Real UUID collisions in production systems are, unsurprisingly, essentially never caused by the random-number math failing - they're caused by something upstream of the math: a bad or predictable random number generator (this tool uses the browser's <code>crypto.getRandomValues()</code>, a cryptographic source, specifically to avoid this), a v1 UUID generated on a virtual machine that cloned its MAC address, or - far more common than either - a caching or retry bug that generates the same UUID twice by accident rather than the generator itself repeating. If two UUIDs in a real system ever collide, the math above is not where to start debugging.</p>
+                <p class="related-block">RELATED: <a href="uuid.html">UUID Generator</a></p>
             </article>
 
             </div>

@@ -639,7 +639,7 @@ INSTRUCTABLES = [
              dict(n=4, instruction="None of this applies to anything with real legal or financial weight - this is for throwaway signups, not for lying on anything that matters.",
                   gotcha="Worth being explicit about the line here, since the underlying tools could be misused past that point."),
          ],
-         related_tools=[], related_wiki=[]),
+         related_tools=["password-gen.html"], related_wiki=["wiki-fingerprinting.html"]),
 ]
 
 
@@ -654,7 +654,7 @@ def build_instructable_html(entry):
         related.append(f'<a href="{basename}">{title}</a>')
     related_html = ""
     if related:
-        related_html = f'                <p class="instructable-meta">RELATED: {" &middot; ".join(related)}</p>\n'
+        related_html = f'                <p class="related-block">RELATED: {" &middot; ".join(related)}</p>\n'
     return (
         '            <article class="prose">\n'
         f'                <h1>&gt; {entry["title"]}</h1>\n'

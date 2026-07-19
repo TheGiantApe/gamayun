@@ -1230,6 +1230,17 @@ button:hover, .btn:hover {
   letter-spacing: 0.05em;
   margin-top: -0.5em;
 }
+/* Consistent "RELATED:" footer for Field Manual and Wiki pages - same
+   markup/class everywhere so it doesn't drift into three slightly
+   different treatments across content types. */
+.related-block {
+  margin-top: 1.5rem;
+  padding-top: 0.75rem;
+  border-top: 1px dashed var(--void-raised);
+  font-size: 0.8rem;
+  color: var(--phosphor-dim-text);
+  letter-spacing: 0.05em;
+}
 
 /* Mission statement ("stone tablet"): direct, plain-spoken, explains
    itself on purpose - the opposite register from the cryptic Origin Log
