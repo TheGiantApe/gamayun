@@ -91,6 +91,18 @@ const TOOL_LIST = [
     "url": "pages/dialect-deck.html"
   },
   {
+    "title": "Palindrome Checker",
+    "desc": "Is this word or phrase a palindrome, ignoring case/spacing/punctuation - plus how many character changes a near-miss would need.",
+    "code": "PALINDROME_CHECK",
+    "url": "pages/palindrome-check.html"
+  },
+  {
+    "title": "Slug Generator",
+    "desc": "Text to a URL-safe slug, with accented/non-Latin letters transliterated instead of dropped.",
+    "code": "SLUG_GENERATOR",
+    "url": "pages/slug-generator.html"
+  },
+  {
     "title": "Macro Calculator",
     "desc": "Daily calorie target and protein/fat/carb macro split from your stats, activity, and goal.",
     "code": "MACRO_CALC",

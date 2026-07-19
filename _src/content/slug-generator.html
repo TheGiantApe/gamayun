@@ -1,0 +1,14 @@
+            <section class="tool-card">
+                <h2>&gt; SLUG_GENERATOR</h2>
+                <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">Text &rarr; a URL-safe slug. Accented/non-Latin letters are transliterated to their closest plain-ASCII equivalent (é&rarr;e, ü&rarr;u) instead of just being dropped, which is where most simple slugifiers leave gaps.</p>
+                <div class="tool-workspace">
+                    <input type="text" id="slug-input" placeholder="e.g. Café Life: A Résumé (2026 Edition)" oninput="executeSlugGenerate()" style="width:100%; max-width:400px;">
+                </div>
+                <div class="result-block" id="slug-result"></div>
+            </section>
+
+            <section class="prose" style="padding-left:0;padding-right:0;">
+                <h2>&gt; WHAT COUNTS AS "SAFE"</h2>
+                <p>A URL slug should survive being pasted anywhere without escaping: lowercase letters, digits, and hyphens only, no spaces, no punctuation that has special meaning in a URL. The naive approach - just deleting anything that isn't plain ASCII - silently mangles titles in other languages ("café" becomes "caf" instead of "cafe"). Unicode's own normalization form (NFD) splits an accented character into its base letter plus a separate "combining mark" character, which makes stripping the accent and keeping the letter a clean, general operation instead of a hand-maintained lookup table.</p>
+                <p class="related-block">RELATED: <a href="text-case.html">Case Converter</a> &middot; <a href="url-encode.html">URL Codec</a></p>
+            </section>

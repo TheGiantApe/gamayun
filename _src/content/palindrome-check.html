@@ -1,0 +1,14 @@
+            <section class="tool-card">
+                <h2>&gt; PALINDROME_CHECK</h2>
+                <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">Checks letters and digits only - case, spaces, and punctuation are ignored, the standard way palindromes are judged ("A man, a plan, a canal: Panama" counts).</p>
+                <div class="tool-workspace">
+                    <input type="text" id="pal-input" placeholder="type a word or phrase..." oninput="executePalindromeCheck()" style="width:100%; max-width:400px;">
+                </div>
+                <div class="result-block" id="pal-result"></div>
+            </section>
+
+            <section class="prose" style="padding-left:0;padding-right:0;">
+                <h2>&gt; NEAR-PALINDROMES</h2>
+                <p>A phrase that fails the strict check can still be close - this tool also reports how many single-character changes would be needed to make it a perfect palindrome, so "almost" isn't just a pass/fail dead end.</p>
+                <p class="related-block">RELATED: <a href="anagram-solver.html">Anagram Solver</a> &middot; <a href="letter-counter.html">Letter &amp; Word Counter</a></p>
+            </section>

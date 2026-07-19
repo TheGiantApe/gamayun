@@ -156,6 +156,12 @@ PAGES = [
          desc="Rewrite text in a Shakespearean, Pirate, Corporate, or Ye Olde English voice - word/phrase substitution, fully offline.",
          root="../", code="DIALECT_DECK", category="TEXT_OPS",
          js=["tool-dialect-deck.js"]),
+    dict(out="pages/palindrome-check.html", fragment="palindrome-check.html", title="Palindrome Checker",
+         desc="Is this word or phrase a palindrome, ignoring case/spacing/punctuation - plus how many character changes a near-miss would need.",
+         root="../", code="PALINDROME_CHECK", category="TEXT_OPS", js=["tool-text-utils.js"]),
+    dict(out="pages/slug-generator.html", fragment="slug-generator.html", title="Slug Generator",
+         desc="Text to a URL-safe slug, with accented/non-Latin letters transliterated instead of dropped.",
+         root="../", code="SLUG_GENERATOR", category="TEXT_OPS", js=["tool-text-utils.js"]),
 
     dict(out="pages/calc-iifym.html", fragment="calc-iifym.html", title="Macro Calculator",
          desc="Daily calorie target and protein/fat/carb macro split from your stats, activity, and goal.",
