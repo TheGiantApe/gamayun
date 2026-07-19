@@ -1,0 +1,28 @@
+            <section class="tool-card">
+                <h2>&gt; EASING_VISUALIZER</h2>
+                <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">Adjust the four cubic-bezier control points and watch both the curve and an actual moving element, side by side - a preset library covers the common named curves too.</p>
+                <div class="tool-workspace">
+                    <button onclick="setEasingPreset(0.25,0.1,0.25,1)">ease</button>
+                    <button onclick="setEasingPreset(0.42,0,1,1)">ease-in</button>
+                    <button onclick="setEasingPreset(0,0,0.58,1)">ease-out</button>
+                    <button onclick="setEasingPreset(0.42,0,0.58,1)">ease-in-out</button>
+                    <button onclick="setEasingPreset(0.55,0.085,0.68,0.53)">easeInQuad</button>
+                    <button onclick="setEasingPreset(0.25,0.46,0.45,0.94)">easeOutQuad</button>
+                    <button onclick="setEasingPreset(0.68,-0.55,0.265,1.55)">easeInOutBack</button>
+                </div>
+                <div class="tool-workspace" style="flex-wrap:wrap; margin-top:0.5rem;">
+                    <label style="font-size:0.8rem; color:var(--phosphor-dim-text);">x1 <input type="range" id="ease-x1" min="0" max="100" value="25" oninput="renderEasing()"></label>
+                    <label style="font-size:0.8rem; color:var(--phosphor-dim-text);">y1 <input type="range" id="ease-y1" min="-100" max="200" value="10" oninput="renderEasing()"></label>
+                    <label style="font-size:0.8rem; color:var(--phosphor-dim-text);">x2 <input type="range" id="ease-x2" min="0" max="100" value="25" oninput="renderEasing()"></label>
+                    <label style="font-size:0.8rem; color:var(--phosphor-dim-text);">y2 <input type="range" id="ease-y2" min="-100" max="200" value="100" oninput="renderEasing()"></label>
+                </div>
+                <canvas id="easing-canvas" width="200" height="200" style="border:1px solid var(--phosphor-dim); margin-top:1rem;"></canvas>
+                <div style="margin-top:1rem;">
+                    <div style="width:100%; height:2px; background:var(--phosphor-faint); position:relative; margin-top:20px;">
+                        <div id="easing-ball" style="width:16px; height:16px; border-radius:50%; background:var(--phosphor); position:absolute; top:-7px; left:0;"></div>
+                    </div>
+                    <button onclick="playEasingBall()" style="margin-top:1.5rem;">&gt; PLAY</button>
+                </div>
+                <pre class="result-block" id="easing-css"></pre>
+            </section>
+            <p style="padding:0 1.5rem; font-size:0.85rem;"><span style="color: var(--phosphor-dim-text)">See also:</span> <a href="box-shadow-gen.html">Box-Shadow Generator</a> &middot; <a href="decision-wheel.html">Decision Wheel</a></p>

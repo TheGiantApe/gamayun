@@ -242,6 +242,9 @@ PAGES = [
     dict(out="pages/clamp-calc.html", fragment="clamp-calc.html", title="Clamp() Calculator",
          desc="Real fluid-typography clamp() value from min/max font size and viewport width, with a live scaling preview.",
          root="../", code="CLAMP_CALC", category="PAINT_LOCKER", js=["tool-clamp-calc.js"]),
+    dict(out="pages/easing-visualizer.html", fragment="easing-visualizer.html", title="Easing Visualizer",
+         desc="Adjust cubic-bezier control points and watch the curve plus a real moving-element preview, with a named-preset library.",
+         root="../", code="EASING_VIZ", category="PAINT_LOCKER", js=["tool-easing-visualizer.js"]),
 
     dict(out="pages/symbol-index.html", fragment="symbol-index.html", title="Symbol Index",
          desc="349 searchable Unicode symbols with names and codepoints, click to copy.",

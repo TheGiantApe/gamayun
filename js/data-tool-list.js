@@ -253,6 +253,12 @@ const TOOL_LIST = [
     "url": "pages/clamp-calc.html"
   },
   {
+    "title": "Easing Visualizer",
+    "desc": "Adjust cubic-bezier control points and watch the curve plus a real moving-element preview, with a named-preset library.",
+    "code": "EASING_VIZ",
+    "url": "pages/easing-visualizer.html"
+  },
+  {
     "title": "Symbol Index",
     "desc": "349 searchable Unicode symbols with names and codepoints, click to copy.",
     "code": "SYMBOL_INDEX",
