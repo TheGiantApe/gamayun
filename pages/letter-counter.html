@@ -55,7 +55,12 @@
     <link href="https://fonts.googleapis.com/css2?family=VT323&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/gama.css">
     <link rel="manifest" href="/manifest.json">
-    <link rel="icon" href="/assets/favicon.ico">
+    <!-- Default/no-JS favicon. gama-core.js's updateFavicon() swaps this
+         between 3 real variants (GAMA's face, the raven-key seal, the
+         wordmark) once the page loads - see that function for the actual
+         page-related/event-related/random selection logic. This is just
+         the static fallback so something correct shows before JS runs. -->
+    <link rel="icon" id="favicon-link" href="/assets/icons/favicon-mascot.ico">
     <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
     <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "Letter & Word Counter", "description": "Character, word, sentence, and line counts, reading time, and Flesch-Kincaid readability score.", "url": "https://gamayun.site/pages/letter-counter.html", "applicationCategory": "UtilitiesApplication", "operatingSystem": "Any (runs in browser)", "isAccessibleForFree": true, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}}</script>
 </head>

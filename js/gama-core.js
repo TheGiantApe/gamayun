@@ -128,6 +128,49 @@ const GAMA = (() => {
     document.documentElement.style.setProperty("--header-actual-h", `${header.offsetHeight}px`);
   }
 
+  // Favicon rotation between GAMA's face, the raven-key seal, and the
+  // wordmark - "always appear, but somewhat randomly, page-related or
+  // event-based" per spec. Priority order, first match wins:
+  // 1. Event-based: a quiet chance at the wordmark once the Scrapbook's
+  //    unlocked (5+ eggs found) - reads as a small reward, not an
+  //    announcement.
+  // 2. Random: a small independent chance to show a different one than
+  //    the page would normally get, so it's never fully predictable.
+  // 3. Page-related: wiki/log/about/legal-type pages (the site's own
+  //    reference/institutional content) get the raven-key seal, since
+  //    that's the mark's actual job - the homepage gets the wordmark as
+  //    the first-impression brand mark - every real tool page gets GAMA's
+  //    own face, since she's the one narrating it.
+  // Picked once per page load, not swapped mid-session - a favicon
+  // changing under you while you're using a tool would read as broken,
+  // not charming. getEggCount() is defined further down but hoisted
+  // (function declaration, not const), safe to call from here.
+  function updateFavicon() {
+    const link = document.getElementById("favicon-link");
+    if (!link) return;
+    const ICONS = {
+      mascot: "/assets/icons/favicon-mascot.ico",
+      ravenkey: "/assets/icons/favicon-ravenkey.ico",
+      wordmark: "/assets/icons/favicon-wordmark.ico",
+    };
+
+    if (getEggCount() >= 5 && Math.random() < 0.4) {
+      link.href = ICONS.wordmark;
+      return;
+    }
+
+    if (Math.random() < 0.08) {
+      const pool = [ICONS.mascot, ICONS.ravenkey, ICONS.wordmark];
+      link.href = pool[Math.floor(Math.random() * pool.length)];
+      return;
+    }
+
+    const path = location.pathname;
+    const isHome = path === "/" || path.endsWith("/index.html");
+    const isInstitutional = /\/pages\/(wiki-|wiki-index|about|log|changelog|legal|privacy|terms|sitemap|contact|scrapbook)/.test(path);
+    link.href = isHome ? ICONS.wordmark : isInstitutional ? ICONS.ravenkey : ICONS.mascot;
+  }
+
   // The sidebar nav caps its own height so it scrolls internally instead of
   // running under GAMA's fixed box (see .terminal-nav in gama.css). That cap
   // used to be a guessed "24rem for her whole footprint" constant, which
@@ -167,6 +210,7 @@ const GAMA = (() => {
     updateGamaBottomClear();
     updateNavClearance();
     updateHeaderClearance();
+    updateFavicon();
     let resizeTimer;
     window.addEventListener("resize", () => {
       clearTimeout(resizeTimer);
