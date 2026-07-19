@@ -607,6 +607,18 @@ const TOOL_LIST = [
     "url": "pages/raffle-picker.html"
   },
   {
+    "title": "Restaurant Picker",
+    "desc": "Same spin-the-wheel engine as Decision Wheel, but your regular takeout rotation saves automatically between visits.",
+    "code": "RESTAURANT_PICKER",
+    "url": "pages/restaurant-picker.html"
+  },
+  {
+    "title": "Movie/Show Picker",
+    "desc": "Spin your saved watchlist to decide what to watch - the list persists automatically between visits.",
+    "code": "MOVIE_PICKER",
+    "url": "pages/movie-picker.html"
+  },
+  {
     "title": "Verify a Source Before You Share It",
     "desc": "Reverse-image search, account age, dead-link sourcing, and why a screenshot alone proves nothing.",
     "code": "HOWTO_VERIFY_SOURCE",

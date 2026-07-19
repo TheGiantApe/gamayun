@@ -1,0 +1,14 @@
+            <section class="tool-card">
+                <h2>&gt; MOVIE_SHOW_PICKER</h2>
+                <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">Your watchlist saves automatically in this browser - add to it over time, spin when it's time to actually pick something instead of scrolling forever. One title per line; add a weight to bias toward something you're more in the mood for.</p>
+                <div class="tool-workspace">
+                    <textarea id="wheel-input" data-storage-key="gama_watchlist" placeholder="add titles to your watchlist..." oninput="redrawWheelFromInput()"></textarea>
+                </div>
+                <button onclick="executeWheelSpin()">&gt; SPIN</button>
+                <div style="margin-top:1.5rem; display:flex; flex-direction:column; align-items:center;">
+                    <div style="color:var(--phosphor); font-size:1.4rem; line-height:1;">&#9660;</div>
+                    <canvas id="wheel-canvas" width="320" height="320" style="max-width:100%;"></canvas>
+                </div>
+                <div class="result-block" id="wheel-result" style="text-align:center; font-size:1.1rem;"></div>
+            </section>
+            <p style="padding:0 1.5rem; font-size:0.85rem;"><span style="color: var(--phosphor-dim-text)">See also:</span> <a href="decision-wheel.html">Decision Wheel</a> &middot; <a href="restaurant-picker.html">Restaurant Picker</a></p>

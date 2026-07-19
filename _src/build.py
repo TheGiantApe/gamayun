@@ -448,6 +448,12 @@ PAGES = [
     dict(out="pages/raffle-picker.html", fragment="raffle-picker.html", title="Raffle Winner Picker",
          desc="Crypto-random draw with an exportable, auditable proof log (timestamp + full entry list + winner).",
          root="../", code="RAFFLE_PICKER", category="GAMES_CURIOS", js=["tool-raffle-picker.js"]),
+    dict(out="pages/restaurant-picker.html", fragment="restaurant-picker.html", title="Restaurant Picker",
+         desc="Same spin-the-wheel engine as Decision Wheel, but your regular takeout rotation saves automatically between visits.",
+         root="../", code="RESTAURANT_PICKER", category="GAMES_CURIOS", js=["tool-decision-wheel.js", "tool-persistent-wheel-list.js"]),
+    dict(out="pages/movie-picker.html", fragment="movie-picker.html", title="Movie/Show Picker",
+         desc="Spin your saved watchlist to decide what to watch - the list persists automatically between visits.",
+         root="../", code="MOVIE_PICKER", category="GAMES_CURIOS", js=["tool-decision-wheel.js", "tool-persistent-wheel-list.js"]),
 
     # Field Manuals: GAMA+-voice step-by-step guides. Content lives in
     # INSTRUCTABLES below; all 5 pages share one fragment shell

@@ -40,17 +40,17 @@
          changing hosts. -->
     <meta http-equiv="Content-Security-Policy" content="object-src 'none'; base-uri 'self'; form-action 'self'">
 
-    <title>Color Converter // GAMAYUN⁺</title>
-    <meta name="description" content="Hex, RGB integer, RGB float, and HSL, all at once.">
-    <meta property="og:title" content="Color Converter // GAMAYUN⁺">
-    <meta property="og:description" content="Hex, RGB integer, RGB float, and HSL, all at once.">
+    <title>Restaurant Picker // GAMAYUN⁺</title>
+    <meta name="description" content="Same spin-the-wheel engine as Decision Wheel, but your regular takeout rotation saves automatically between visits.">
+    <meta property="og:title" content="Restaurant Picker // GAMAYUN⁺">
+    <meta property="og:description" content="Same spin-the-wheel engine as Decision Wheel, but your regular takeout rotation saves automatically between visits.">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://gamayun.site/pages/color.html">
+    <meta property="og:url" content="https://gamayun.site/pages/restaurant-picker.html">
     <meta property="og:image" content="https://gamayun.site/assets/og-image.png">
     <meta property="og:site_name" content="GAMAYUN⁺">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Color Converter // GAMAYUN⁺">
-    <meta name="twitter:description" content="Hex, RGB integer, RGB float, and HSL, all at once.">
+    <meta name="twitter:title" content="Restaurant Picker // GAMAYUN⁺">
+    <meta name="twitter:description" content="Same spin-the-wheel engine as Decision Wheel, but your regular takeout rotation saves automatically between visits.">
     <meta name="twitter:image" content="https://gamayun.site/assets/og-image.png">
     <link href="https://fonts.googleapis.com/css2?family=VT323&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/gama.css">
@@ -62,7 +62,7 @@
          the static fallback so something correct shows before JS runs. -->
     <link rel="icon" id="favicon-link" href="/assets/icons/favicon-mascot.ico">
     <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
-    <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "Color Converter", "description": "Hex, RGB integer, RGB float, and HSL, all at once.", "url": "https://gamayun.site/pages/color.html", "applicationCategory": "UtilitiesApplication", "operatingSystem": "Any (runs in browser)", "isAccessibleForFree": true, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}}</script>
+    <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "Restaurant Picker", "description": "Same spin-the-wheel engine as Decision Wheel, but your regular takeout rotation saves automatically between visits.", "url": "https://gamayun.site/pages/restaurant-picker.html", "applicationCategory": "UtilitiesApplication", "operatingSystem": "Any (runs in browser)", "isAccessibleForFree": true, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}}</script>
 </head>
 <body class="crt-screen" data-root="../">
 
@@ -142,9 +142,9 @@
                     <a href="../pages/shoe-size.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">SHOE_SIZE</span></a>
                     <a href="../pages/work-hours.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">WORK_HOURS</span></a>
                 </details>
-                <details class="nav-section" open>
+                <details class="nav-section">
                     <summary class="nav-section-label">[ PAINT LOCKER&nbsp;]</summary>
-                    <a href="../pages/color.html" class="nav-link active">&gt;&nbsp;<span class="nav-link-label">COLOR_CONVERTER</span></a>
+                    <a href="../pages/color.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">COLOR_CONVERTER</span></a>
                     <a href="../pages/palette.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">PALETTE_FORGE</span></a>
                     <a href="../pages/contrast-check.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">CONTRAST_CHECK</span></a>
                     <a href="../pages/paper-size.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">PAPER_SIZE</span></a>
@@ -197,7 +197,7 @@
                     <a href="../pages/robots-validator.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">ROBOTS_VALIDATOR</span></a>
                     <a href="../pages/commit-formatter.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">COMMIT_FORMATTER</span></a>
                 </details>
-                <details class="nav-section">
+                <details class="nav-section" open>
                     <summary class="nav-section-label">[ GAMES & CURIOS&nbsp;]</summary>
                     <a href="../pages/cipher-deck.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">CIPHER_DECK</span></a>
                     <a href="../pages/letter-rack-solver.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">LETTER_RACK_SOLVER</span></a>
@@ -223,7 +223,7 @@
                     <a href="../pages/team-picker.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">TEAM_PICKER</span></a>
                     <a href="../pages/trivia-quiz.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">TRIVIA_QUIZ</span></a>
                     <a href="../pages/raffle-picker.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">RAFFLE_PICKER</span></a>
-                    <a href="../pages/restaurant-picker.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">RESTAURANT_PICKER</span></a>
+                    <a href="../pages/restaurant-picker.html" class="nav-link active">&gt;&nbsp;<span class="nav-link-label">RESTAURANT_PICKER</span></a>
                     <a href="../pages/movie-picker.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">MOVIE_PICKER</span></a>
                 </details>
                 <details class="nav-section">
@@ -255,17 +255,24 @@
 
         <main class="center-viewport" id="active-tool-zone">
             <div class="content-flex-fill">
-            <div class="breadcrumb">&gt; <a href="../index.html">DECK_LAUNCHER</a> <span class="breadcrumb-sep">/</span> PAINT LOCKER <span class="breadcrumb-sep">/</span> COLOR_CONVERTER</div>
+            <div class="breadcrumb">&gt; <a href="../index.html">DECK_LAUNCHER</a> <span class="breadcrumb-sep">/</span> GAMES & CURIOS <span class="breadcrumb-sep">/</span> RESTAURANT_PICKER</div>
             <section class="tool-card">
-                <h2>&gt; COLOR_CONVERTER</h2>
-                <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">Hex, RGB integer, RGB float (0-1, for shaders/OpenGL), and HSL, all at once.</p>
+                <h2>&gt; RESTAURANT_PICKER</h2>
+                <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">Your list saves automatically in this browser - build your regular takeout rotation once, spin whenever "what should we eat" comes up again instead of retyping it every time. One option per line; add a weight ("Thai | 2") to make a place come up more often.</p>
                 <div class="tool-workspace">
-                    <input type="text" id="color-input" placeholder="#935757 or 147,87,87" oninput="executeColorConvert()">
-                    <div id="color-swatch" style="width:40px; height:40px; border:1px solid var(--phosphor-dim); flex-shrink:0;"></div>
+                    <textarea id="wheel-input" data-storage-key="gama_restaurant_list" placeholder="Thai place&#10;Pizza&#10;Taco truck&#10;Sushi | 2" oninput="redrawWheelFromInput()">Thai place
+Pizza
+Taco truck
+Sushi | 2</textarea>
                 </div>
-                <div class="result-block" id="color-result"></div>
+                <button onclick="executeWheelSpin()">&gt; SPIN</button>
+                <div style="margin-top:1.5rem; display:flex; flex-direction:column; align-items:center;">
+                    <div style="color:var(--phosphor); font-size:1.4rem; line-height:1;">&#9660;</div>
+                    <canvas id="wheel-canvas" width="320" height="320" style="max-width:100%;"></canvas>
+                </div>
+                <div class="result-block" id="wheel-result" style="text-align:center; font-size:1.1rem;"></div>
             </section>
-            <p style="padding:0 1.5rem; font-size:0.85rem;"><span style="color: var(--phosphor-dim-text)">See also:</span> <a href="symbol-index.html">Symbol Index</a></p>
+            <p style="padding:0 1.5rem; font-size:0.85rem;"><span style="color: var(--phosphor-dim-text)">See also:</span> <a href="decision-wheel.html">Decision Wheel</a> &middot; <a href="movie-picker.html">Movie/Show Picker</a></p>
 
             </div>
             <div class="ad-leaderboard">
@@ -411,7 +418,8 @@
     <script src="../js/data-tool-list.js"></script>
     <script src="../js/site-search.js"></script>
     <script src="../js/page-transition.js"></script>
-    <script src="../js/tool-color.js"></script>
+    <script src="../js/tool-decision-wheel.js"></script>
+    <script src="../js/tool-persistent-wheel-list.js"></script>
     <script>
       if ("serviceWorker" in navigator) {
         window.addEventListener("load", () => navigator.serviceWorker.register("/sw.js"));
