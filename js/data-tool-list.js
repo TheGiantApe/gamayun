@@ -559,6 +559,18 @@ const TOOL_LIST = [
     "url": "pages/crossword-helper.html"
   },
   {
+    "title": "Hangman",
+    "desc": "Classic hangman with ASCII gallows art, word length filterable for difficulty, pulled from the site's own word list.",
+    "code": "HANGMAN",
+    "url": "pages/hangman.html"
+  },
+  {
+    "title": "Tic-Tac-Toe",
+    "desc": "Three real difficulty tiers, the top one backed by true minimax - genuinely unbeatable, not just harder.",
+    "code": "TIC_TAC_TOE",
+    "url": "pages/tic-tac-toe.html"
+  },
+  {
     "title": "Verify a Source Before You Share It",
     "desc": "Reverse-image search, account age, dead-link sourcing, and why a screenshot alone proves nothing.",
     "code": "HOWTO_VERIFY_SOURCE",

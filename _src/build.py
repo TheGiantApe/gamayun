@@ -424,6 +424,12 @@ PAGES = [
     dict(out="pages/crossword-helper.html", fragment="crossword-helper.html", title="Crossword Clue Helper",
          desc="Standard crossword blank notation (c_t or c?t) matched directly against the word list, no reformatting.",
          root="../", code="CROSSWORD_HELPER", category="GAMES_CURIOS", js=["data-words.js", "tool-crossword-helper.js"]),
+    dict(out="pages/hangman.html", fragment="hangman.html", title="Hangman",
+         desc="Classic hangman with ASCII gallows art, word length filterable for difficulty, pulled from the site's own word list.",
+         root="../", code="HANGMAN", category="GAMES_CURIOS", js=["data-words.js", "tool-hangman.js"]),
+    dict(out="pages/tic-tac-toe.html", fragment="tic-tac-toe.html", title="Tic-Tac-Toe",
+         desc="Three real difficulty tiers, the top one backed by true minimax - genuinely unbeatable, not just harder.",
+         root="../", code="TIC_TAC_TOE", category="GAMES_CURIOS", js=["tool-tic-tac-toe.js"]),
 
     # Field Manuals: GAMA+-voice step-by-step guides. Content lives in
     # INSTRUCTABLES below; all 5 pages share one fragment shell

@@ -1,0 +1,15 @@
+            <section class="tool-card">
+                <h2>&gt; TIC_TAC_TOE</h2>
+                <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">Three real difficulty tiers - recruit (mostly random), veteran (mostly optimal), unbeatable (true minimax, cannot be beaten, best you can force is a draw).</p>
+                <div class="tool-workspace">
+                    <select id="ttt-difficulty" onchange="newTicTacToeGame()">
+                        <option value="easy">recruit</option>
+                        <option value="medium">veteran</option>
+                        <option value="hard" selected>unbeatable</option>
+                    </select>
+                    <button onclick="newTicTacToeGame()">&gt; NEW GAME</button>
+                </div>
+                <div id="ttt-board" style="display:grid; grid-template-columns:repeat(3, 70px); gap:4px; margin-top:1rem;"></div>
+                <div id="ttt-status" style="margin-top:0.75rem; font-size:1rem;"></div>
+            </section>
+            <p style="padding:0 1.5rem; font-size:0.85rem;"><span style="color: var(--phosphor-dim-text)">See also:</span> <a href="hangman.html">Hangman</a> &middot; <a href="decision-wheel.html">Decision Wheel</a></p>
