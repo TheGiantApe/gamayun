@@ -577,6 +577,7 @@ button:hover, .btn:hover {
    over whatever's behind her; it fades to nothing at the edges so it never
    reads as a container. */
 .gama-mascot-box {
+  position: relative;
   padding: 1rem;
   text-align: center;
   margin-bottom: 1rem;
@@ -649,16 +650,30 @@ button:hover, .btn:hover {
 /* 90s-RPG-style speech bubble: bordered box with a tail pointing down at
    her portrait, instead of bare floating text. The tail is two stacked
    CSS triangles (outer border-colored, inner background-colored, slightly
-   smaller/lower) - the classic cheap way to fake a bordered pointer. */
+   smaller/lower) - the classic cheap way to fake a bordered pointer.
+   Deliberately taken out of flow (absolute, anchored above the portrait)
+   rather than stacked in-line above it. It used to sit in normal flow,
+   which meant .gama-mascot-box's rendered height - and therefore its
+   fixed-position top edge - grew with however long the current greeting
+   text happened to be. Since updateNavClearance() in gama-core.js caps the
+   sidebar nav's height right at that top edge, a long greeting (e.g. the
+   "welcome back, visit number N" line) shrank the nav and visually welded
+   her whole box to the bottom of it. Floating the bubble above her instead
+   keeps the box's footprint constant (just portrait + eye) regardless of
+   message length, so nav clearance no longer depends on greeting text. */
 .gama-dialogue {
-  position: relative;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: calc(100% + 0.5rem);
   background: var(--void-raised);
   border: 2px solid var(--phosphor);
   padding: 0.6rem 0.7rem;
-  margin-bottom: 1.1rem;
   font-size: 0.85rem;
   line-height: 1.4;
   min-height: 3em;
+  max-height: 6em;
+  overflow: hidden;
   box-shadow: 0 0 10px rgba(0, 255, 102, 0.15);
 }
 .gama-dialogue::after,
