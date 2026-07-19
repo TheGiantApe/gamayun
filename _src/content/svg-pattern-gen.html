@@ -1,0 +1,21 @@
+            <section class="tool-card">
+                <h2>&gt; SVG_PATTERN_GENERATOR</h2>
+                <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">Seamless tiling backgrounds, previewed actually tiled across a full-width area (not just one isolated tile) so you can see the real repeat, not guess at it.</p>
+                <div class="tool-workspace">
+                    <select id="pattern-type" onchange="renderSvgPattern()">
+                        <option value="dots">dots</option>
+                        <option value="grid">grid</option>
+                        <option value="diagonal">diagonal lines</option>
+                        <option value="crosshatch">crosshatch</option>
+                    </select>
+                    <input type="color" id="pattern-bg" value="#0a0a0a" oninput="renderSvgPattern()">
+                    <input type="color" id="pattern-fg" value="#00ff66" oninput="renderSvgPattern()">
+                    <label style="font-size:0.85rem; color:var(--phosphor-dim-text);">size <input type="range" id="pattern-size" min="8" max="80" value="24" oninput="renderSvgPattern()"></label>
+                </div>
+                <div id="pattern-preview" style="height:200px; margin-top:1rem; border:1px solid var(--phosphor-dim);"></div>
+                <pre class="result-block" id="pattern-css" style="overflow-x:auto;"></pre>
+                <div class="tool-workspace">
+                    <a id="pattern-download" class="btn" download="pattern.svg">&gt; DOWNLOAD SVG</a>
+                </div>
+            </section>
+            <p style="padding:0 1.5rem; font-size:0.85rem;"><span style="color: var(--phosphor-dim-text)">See also:</span> <a href="blob-gen.html">SVG Blob Generator</a> &middot; <a href="gradient-gen.html">Gradient Generator</a></p>

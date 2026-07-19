@@ -1,0 +1,47 @@
+/* WORD_SCRAMBLER — Fisher-Yates shuffle per word, batch mode (one line
+   in, one line out) so a teacher/puzzle-maker can scramble a whole
+   vocabulary list in one pass instead of one word at a time. Re-rolls
+   once if the shuffle happens to reproduce the original word (common
+   for short words) rather than silently returning an unscrambled
+   "scramble." */
+
+function fisherYatesShuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function scrambleWord(word, preserveFirstLast) {
+  // Check preserveFirstLast before the short-word case, not after - a
+  // word length <= 3 was previously falling through to an unrestricted
+  // shuffle regardless of this flag, which broke the "keep first/last in
+  // place" promise for exactly the words most likely to be short
+  // vocabulary-list entries.
+  if (preserveFirstLast) {
+    if (word.length <= 3) return word; // nothing meaningful to scramble in a 0-or-1-character middle
+    const middle = word.slice(1, -1).split("");
+    let shuffled = fisherYatesShuffle(middle);
+    if (shuffled.join("") === middle.join("") && middle.length > 1) shuffled = fisherYatesShuffle(middle);
+    return word[0] + shuffled.join("") + word[word.length - 1];
+  }
+
+  if (word.length <= 3) return fisherYatesShuffle(word.split("")).join("");
+
+  const chars = word.split("");
+  let shuffled = fisherYatesShuffle(chars);
+  if (shuffled.join("") === word) shuffled = fisherYatesShuffle(chars);
+  return shuffled.join("");
+}
+
+function executeWordScramble() {
+  const raw = document.getElementById("scramble-input").value;
+  const preserveFirstLast = document.getElementById("scramble-preserve-first-last").checked;
+  const out = document.getElementById("scramble-result");
+  const words = raw.split("\n").map((w) => w.trim()).filter(Boolean);
+  if (!words.length) { GAMA.say("idle"); out.textContent = ""; return; }
+  out.innerHTML = words.map((w) => `${w} &rarr; ${scrambleWord(w, preserveFirstLast)}`).join("<br>");
+  GAMA.say("success");
+}

@@ -40,17 +40,17 @@
          changing hosts. -->
     <meta http-equiv="Content-Security-Policy" content="object-src 'none'; base-uri 'self'; form-action 'self'">
 
-    <title>Clamp() Calculator // GAMAYUN⁺</title>
-    <meta name="description" content="Real fluid-typography clamp() value from min/max font size and viewport width, with a live scaling preview.">
-    <meta property="og:title" content="Clamp() Calculator // GAMAYUN⁺">
-    <meta property="og:description" content="Real fluid-typography clamp() value from min/max font size and viewport width, with a live scaling preview.">
+    <title>SVG Pattern Generator // GAMAYUN⁺</title>
+    <meta name="description" content="Seamless tiling backgrounds, previewed actually tiled (not a single isolated tile) so the real repeat is visible.">
+    <meta property="og:title" content="SVG Pattern Generator // GAMAYUN⁺">
+    <meta property="og:description" content="Seamless tiling backgrounds, previewed actually tiled (not a single isolated tile) so the real repeat is visible.">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://gamayun.site/pages/clamp-calc.html">
+    <meta property="og:url" content="https://gamayun.site/pages/svg-pattern-gen.html">
     <meta property="og:image" content="https://gamayun.site/assets/og-image.png">
     <meta property="og:site_name" content="GAMAYUN⁺">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Clamp() Calculator // GAMAYUN⁺">
-    <meta name="twitter:description" content="Real fluid-typography clamp() value from min/max font size and viewport width, with a live scaling preview.">
+    <meta name="twitter:title" content="SVG Pattern Generator // GAMAYUN⁺">
+    <meta name="twitter:description" content="Seamless tiling backgrounds, previewed actually tiled (not a single isolated tile) so the real repeat is visible.">
     <meta name="twitter:image" content="https://gamayun.site/assets/og-image.png">
     <link href="https://fonts.googleapis.com/css2?family=VT323&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/gama.css">
@@ -62,7 +62,7 @@
          the static fallback so something correct shows before JS runs. -->
     <link rel="icon" id="favicon-link" href="/assets/icons/favicon-mascot.ico">
     <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
-    <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "Clamp() Calculator", "description": "Real fluid-typography clamp() value from min/max font size and viewport width, with a live scaling preview.", "url": "https://gamayun.site/pages/clamp-calc.html", "applicationCategory": "UtilitiesApplication", "operatingSystem": "Any (runs in browser)", "isAccessibleForFree": true, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}}</script>
+    <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "SVG Pattern Generator", "description": "Seamless tiling backgrounds, previewed actually tiled (not a single isolated tile) so the real repeat is visible.", "url": "https://gamayun.site/pages/svg-pattern-gen.html", "applicationCategory": "UtilitiesApplication", "operatingSystem": "Any (runs in browser)", "isAccessibleForFree": true, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}}</script>
 </head>
 <body class="crt-screen" data-root="../">
 
@@ -151,13 +151,13 @@
                     <a href="../pages/color-name.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">COLOR_NAME</span></a>
                     <a href="../pages/box-shadow-gen.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">BOX_SHADOW</span></a>
                     <a href="../pages/border-radius-gen.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">BORDER_RADIUS</span></a>
-                    <a href="../pages/clamp-calc.html" class="nav-link active">&gt;&nbsp;<span class="nav-link-label">CLAMP_CALC</span></a>
+                    <a href="../pages/clamp-calc.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">CLAMP_CALC</span></a>
                     <a href="../pages/easing-visualizer.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">EASING_VIZ</span></a>
                     <a href="../pages/gradient-gen.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">GRADIENT_GEN</span></a>
                     <a href="../pages/font-pairing.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">FONT_PAIRING</span></a>
                     <a href="../pages/blob-gen.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">BLOB_GEN</span></a>
                     <a href="../pages/placeholder-image.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">PLACEHOLDER_IMG</span></a>
-                    <a href="../pages/svg-pattern-gen.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">SVG_PATTERN</span></a>
+                    <a href="../pages/svg-pattern-gen.html" class="nav-link active">&gt;&nbsp;<span class="nav-link-label">SVG_PATTERN</span></a>
                 </details>
                 <details class="nav-section">
                     <summary class="nav-section-label">[ LOOKUP_DECK&nbsp;]</summary>
@@ -244,28 +244,28 @@
 
         <main class="center-viewport" id="active-tool-zone">
             <div class="content-flex-fill">
-            <div class="breadcrumb">&gt; <a href="../index.html">DECK_LAUNCHER</a> <span class="breadcrumb-sep">/</span> PAINT LOCKER <span class="breadcrumb-sep">/</span> CLAMP_CALC</div>
+            <div class="breadcrumb">&gt; <a href="../index.html">DECK_LAUNCHER</a> <span class="breadcrumb-sep">/</span> PAINT LOCKER <span class="breadcrumb-sep">/</span> SVG_PATTERN</div>
             <section class="tool-card">
-                <h2>&gt; CLAMP_CALCULATOR</h2>
-                <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">Min/max font size across a min/max viewport width &rarr; a real fluid <code>clamp()</code> value, computed from the actual linear-interpolation formula instead of a guessed slope.</p>
-                <div class="tool-workspace" style="flex-wrap:wrap;">
-                    <label style="font-size:0.85rem; color:var(--phosphor-dim-text);">min font (px) <input type="number" id="clamp-min-font" value="16" oninput="executeClampCalc()" style="width:70px;"></label>
-                    <label style="font-size:0.85rem; color:var(--phosphor-dim-text);">max font (px) <input type="number" id="clamp-max-font" value="32" oninput="executeClampCalc()" style="width:70px;"></label>
-                    <label style="font-size:0.85rem; color:var(--phosphor-dim-text);">min viewport (px) <input type="number" id="clamp-min-vw" value="375" oninput="executeClampCalc()" style="width:80px;"></label>
-                    <label style="font-size:0.85rem; color:var(--phosphor-dim-text);">max viewport (px) <input type="number" id="clamp-max-vw" value="1440" oninput="executeClampCalc()" style="width:80px;"></label>
-                </div>
+                <h2>&gt; SVG_PATTERN_GENERATOR</h2>
+                <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">Seamless tiling backgrounds, previewed actually tiled across a full-width area (not just one isolated tile) so you can see the real repeat, not guess at it.</p>
                 <div class="tool-workspace">
-                    <label style="font-size:0.85rem; color:var(--phosphor-dim-text);">preview viewport width:
-                        <input type="range" id="clamp-preview-vw" min="320" max="1920" value="768" oninput="updateClampPreview()" style="width:200px;">
-                        <span id="clamp-preview-vw-label">768px</span>
-                    </label>
+                    <select id="pattern-type" onchange="renderSvgPattern()">
+                        <option value="dots">dots</option>
+                        <option value="grid">grid</option>
+                        <option value="diagonal">diagonal lines</option>
+                        <option value="crosshatch">crosshatch</option>
+                    </select>
+                    <input type="color" id="pattern-bg" value="#0a0a0a" oninput="renderSvgPattern()">
+                    <input type="color" id="pattern-fg" value="#00ff66" oninput="renderSvgPattern()">
+                    <label style="font-size:0.85rem; color:var(--phosphor-dim-text);">size <input type="range" id="pattern-size" min="8" max="80" value="24" oninput="renderSvgPattern()"></label>
                 </div>
-                <div id="clamp-preview-box" style="border:1px solid var(--phosphor-faint); padding:1rem; margin-top:0.75rem;">
-                    <span id="clamp-preview-text">The quick brown fox jumps over the lazy dog</span>
+                <div id="pattern-preview" style="height:200px; margin-top:1rem; border:1px solid var(--phosphor-dim);"></div>
+                <pre class="result-block" id="pattern-css" style="overflow-x:auto;"></pre>
+                <div class="tool-workspace">
+                    <a id="pattern-download" class="btn" download="pattern.svg">&gt; DOWNLOAD SVG</a>
                 </div>
-                <pre class="result-block" id="clamp-result" style="overflow-x:auto;"></pre>
             </section>
-            <p style="padding:0 1.5rem; font-size:0.85rem;"><span style="color: var(--phosphor-dim-text)">See also:</span> <a href="aspect-ratio.html">Aspect Ratio Calculator</a> &middot; <a href="contrast-check.html">Contrast Checker</a></p>
+            <p style="padding:0 1.5rem; font-size:0.85rem;"><span style="color: var(--phosphor-dim-text)">See also:</span> <a href="blob-gen.html">SVG Blob Generator</a> &middot; <a href="gradient-gen.html">Gradient Generator</a></p>
 
             </div>
             <div class="ad-leaderboard">
@@ -411,7 +411,7 @@
     <script src="../js/data-tool-list.js"></script>
     <script src="../js/site-search.js"></script>
     <script src="../js/page-transition.js"></script>
-    <script src="../js/tool-clamp-calc.js"></script>
+    <script src="../js/tool-svg-pattern-gen.js"></script>
     <script>
       if ("serviceWorker" in navigator) {
         window.addEventListener("load", () => navigator.serviceWorker.register("/sw.js"));

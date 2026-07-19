@@ -283,6 +283,12 @@ const TOOL_LIST = [
     "url": "pages/placeholder-image.html"
   },
   {
+    "title": "SVG Pattern Generator",
+    "desc": "Seamless tiling backgrounds, previewed actually tiled (not a single isolated tile) so the real repeat is visible.",
+    "code": "SVG_PATTERN",
+    "url": "pages/svg-pattern-gen.html"
+  },
+  {
     "title": "Symbol Index",
     "desc": "349 searchable Unicode symbols with names and codepoints, click to copy.",
     "code": "SYMBOL_INDEX",
@@ -317,6 +323,12 @@ const TOOL_LIST = [
     "desc": "Re-compress an image and diff it against the original to surface possibly-edited regions.",
     "code": "ELA_CHECK",
     "url": "pages/ela-check.html"
+  },
+  {
+    "title": "Image to Base64",
+    "desc": "Upload an image, get a base64 data-URI string for embedding in CSS/HTML, with an honest size warning.",
+    "code": "IMAGE_TO_BASE64",
+    "url": "pages/image-to-base64.html"
   },
   {
     "title": "Favicon Generator",
@@ -533,6 +545,12 @@ const TOOL_LIST = [
     "desc": "Pronounceable username combinations from your own keywords, instead of a word glued to random noise.",
     "code": "USERNAME_GEN",
     "url": "pages/username-gen.html"
+  },
+  {
+    "title": "Word Scrambler",
+    "desc": "Batch-scramble a whole word list at once, with an option to keep the first/last letter in place.",
+    "code": "WORD_SCRAMBLER",
+    "url": "pages/word-scrambler.html"
   },
   {
     "title": "Verify a Source Before You Share It",

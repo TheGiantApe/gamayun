@@ -1,0 +1,14 @@
+            <section class="tool-card">
+                <h2>&gt; IMAGE_TO_BASE64</h2>
+                <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">Upload an image, get a base64 data-URI string for embedding directly in CSS/HTML. Warns when the result is impractically large to actually embed.</p>
+                <div class="img-dropzone" id="i2b64-dropzone">
+                    <p>&gt; drop an image here, or click to choose one</p>
+                    <input type="file" id="i2b64-file-input" accept="image/*" style="display:none;">
+                </div>
+                <div class="tool-workspace">
+                    <button id="i2b64-copy-btn">&gt; COPY DATA URI</button>
+                </div>
+                <div id="i2b64-warning" style="color:var(--amber); font-size:0.8rem; margin-top:0.5rem;"></div>
+                <pre class="result-block" id="i2b64-result" style="overflow-x:auto; word-break:break-all;"></pre>
+            </section>
+            <p style="padding:0 1.5rem; font-size:0.85rem;"><span style="color: var(--phosphor-dim-text)">See also:</span> <a href="base64.html">Base64 Codec</a> &middot; <a href="image-tools.html">Image Salvage</a></p>

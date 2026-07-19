@@ -1,0 +1,12 @@
+            <section class="tool-card">
+                <h2>&gt; WORD_SCRAMBLER</h2>
+                <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">One word per line, get each one scrambled - batch mode for making a whole vocabulary worksheet at once instead of one word at a time.</p>
+                <div class="tool-workspace">
+                    <textarea id="scramble-input" placeholder="one word per line..." oninput="executeWordScramble()"></textarea>
+                </div>
+                <div class="tool-workspace">
+                    <label style="font-size:0.85rem; color:var(--phosphor-dim-text);"><input type="checkbox" id="scramble-preserve-first-last" onchange="executeWordScramble()"> keep first/last letter in place</label>
+                </div>
+                <div class="result-block" id="scramble-result"></div>
+            </section>
+            <p style="padding:0 1.5rem; font-size:0.85rem;"><span style="color: var(--phosphor-dim-text)">See also:</span> <a href="anagram-solver.html">Anagram Solver</a> &middot; <a href="palindrome-check.html">Palindrome Checker</a></p>

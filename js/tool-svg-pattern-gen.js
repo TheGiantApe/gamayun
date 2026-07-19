@@ -1,0 +1,40 @@
+/* SVG_PATTERN_GENERATOR — each pattern is a small self-contained SVG
+   tile encoded as a data URI and set as a CSS background-image with
+   background-repeat, so the "live" preview IS the real tiling behavior
+   (not a fake mockup) - what you see is exactly what repeat-tiling
+   produces, not a single isolated tile you have to imagine repeated. */
+
+function buildPatternSvg(type, size, bg, fg) {
+  const s = size;
+  let shapes = "";
+  if (type === "dots") {
+    shapes = `<circle cx="${s / 2}" cy="${s / 2}" r="${Math.max(1, s * 0.1)}" fill="${fg}"/>`;
+  } else if (type === "grid") {
+    shapes = `<path d="M ${s} 0 L 0 0 0 ${s}" fill="none" stroke="${fg}" stroke-width="1"/>`;
+  } else if (type === "diagonal") {
+    shapes = `<path d="M0 ${s} L${s} 0" stroke="${fg}" stroke-width="${Math.max(1, s * 0.08)}"/>`;
+  } else if (type === "crosshatch") {
+    shapes = `<path d="M0 ${s} L${s} 0 M0 0 L${s} ${s}" stroke="${fg}" stroke-width="${Math.max(1, s * 0.06)}"/>`;
+  }
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${s}" height="${s}"><rect width="${s}" height="${s}" fill="${bg}"/>${shapes}</svg>`;
+}
+
+function renderSvgPattern() {
+  const type = document.getElementById("pattern-type").value;
+  const bg = document.getElementById("pattern-bg").value;
+  const fg = document.getElementById("pattern-fg").value;
+  const size = parseInt(document.getElementById("pattern-size").value, 10);
+
+  const svgSource = buildPatternSvg(type, size, bg, fg);
+  const encoded = `data:image/svg+xml,${encodeURIComponent(svgSource)}`;
+
+  document.getElementById("pattern-preview").style.backgroundImage = `url("${encoded}")`;
+  document.getElementById("pattern-preview").style.backgroundRepeat = "repeat";
+  document.getElementById("pattern-css").textContent = `background-image: url("${encoded}");\nbackground-repeat: repeat;`;
+
+  const blob = new Blob([svgSource], { type: "image/svg+xml" });
+  document.getElementById("pattern-download").href = URL.createObjectURL(blob);
+  GAMA.say("success");
+}
+
+document.addEventListener("DOMContentLoaded", renderSvgPattern);

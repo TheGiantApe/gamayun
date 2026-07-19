@@ -257,6 +257,9 @@ PAGES = [
     dict(out="pages/placeholder-image.html", fragment="placeholder-image.html", title="Placeholder Image Generator",
          desc="Mockup placeholder images defaulted to this site's own CRT phosphor styling instead of a generic gray box.",
          root="../", code="PLACEHOLDER_IMG", category="PAINT_LOCKER", js=["tool-placeholder-image.js"]),
+    dict(out="pages/svg-pattern-gen.html", fragment="svg-pattern-gen.html", title="SVG Pattern Generator",
+         desc="Seamless tiling backgrounds, previewed actually tiled (not a single isolated tile) so the real repeat is visible.",
+         root="../", code="SVG_PATTERN", category="PAINT_LOCKER", js=["tool-svg-pattern-gen.js"]),
 
     dict(out="pages/symbol-index.html", fragment="symbol-index.html", title="Symbol Index",
          desc="349 searchable Unicode symbols with names and codepoints, click to copy.",
@@ -280,6 +283,9 @@ PAGES = [
     dict(out="pages/ela-check.html", fragment="ela-check.html", title="Error Level Analysis",
          desc="Re-compress an image and diff it against the original to surface possibly-edited regions.",
          root="../", code="ELA_CHECK", category="FILE_SALVAGE", js=["tool-ela-check.js"]),
+    dict(out="pages/image-to-base64.html", fragment="image-to-base64.html", title="Image to Base64",
+         desc="Upload an image, get a base64 data-URI string for embedding in CSS/HTML, with an honest size warning.",
+         root="../", code="IMAGE_TO_BASE64", category="FILE_SALVAGE", js=["tool-image-to-base64.js"]),
     dict(out="pages/favicon-generator.html", fragment="favicon-generator.html", title="Favicon Generator",
          desc="Upload one image, crop it, and get every favicon size a real site needs - 16/32/48/180/192/512, PNG only, plus a ready-to-paste <head> and site.webmanifest snippet.",
          root="../", code="FAVICON_FORGE", category="FILE_SALVAGE", js=["tool-favicon-generator.js"]),
@@ -412,6 +418,9 @@ PAGES = [
     dict(out="pages/username-gen.html", fragment="username-gen.html", title="Username Generator",
          desc="Pronounceable username combinations from your own keywords, instead of a word glued to random noise.",
          root="../", code="USERNAME_GEN", category="GAMES_CURIOS", js=["tool-username-gen.js"]),
+    dict(out="pages/word-scrambler.html", fragment="word-scrambler.html", title="Word Scrambler",
+         desc="Batch-scramble a whole word list at once, with an option to keep the first/last letter in place.",
+         root="../", code="WORD_SCRAMBLER", category="GAMES_CURIOS", js=["tool-word-scrambler.js"]),
 
     # Field Manuals: GAMA+-voice step-by-step guides. Content lives in
     # INSTRUCTABLES below; all 5 pages share one fragment shell
