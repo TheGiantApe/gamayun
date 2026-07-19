@@ -1,0 +1,17 @@
+            <section class="tool-card">
+                <h2>&gt; WORD_SEARCH_GENERATOR</h2>
+                <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">One word per line (or leave blank for a random set), get a real word-search grid - all 8 directions, words genuinely allowed to cross and share letters like a real puzzle, not just placed in isolated rows.</p>
+                <div class="tool-workspace">
+                    <textarea id="wordsearch-input" placeholder="leave blank for a random word set..."></textarea>
+                </div>
+                <div class="tool-workspace">
+                    <label style="font-size:0.85rem; color:var(--phosphor-dim-text);">grid size <input type="range" id="wordsearch-size" min="10" max="20" value="14"></label>
+                    <button onclick="executeWordSearchGenerate()">&gt; GENERATE</button>
+                    <button onclick="toggleWordSearchSolution()" id="wordsearch-toggle-btn">&gt; SHOW SOLUTION</button>
+                    <button onclick="window.print()">&gt; PRINT</button>
+                </div>
+                <div id="wordsearch-warning" style="color:var(--amber); font-size:0.8rem; margin-top:0.5rem;"></div>
+                <div id="wordsearch-grid" style="font-family:var(--font-mono); margin-top:1rem; overflow-x:auto;"></div>
+                <div id="wordsearch-wordlist" style="margin-top:1rem; font-size:0.85rem; color:var(--phosphor-dim-text);"></div>
+            </section>
+            <p style="padding:0 1.5rem; font-size:0.85rem;"><span style="color: var(--phosphor-dim-text)">See also:</span> <a href="crossword-helper.html">Crossword Clue Helper</a> &middot; <a href="anagram-solver.html">Anagram Solver</a></p>

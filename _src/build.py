@@ -430,6 +430,9 @@ PAGES = [
     dict(out="pages/tic-tac-toe.html", fragment="tic-tac-toe.html", title="Tic-Tac-Toe",
          desc="Three real difficulty tiers, the top one backed by true minimax - genuinely unbeatable, not just harder.",
          root="../", code="TIC_TAC_TOE", category="GAMES_CURIOS", js=["tool-tic-tac-toe.js"]),
+    dict(out="pages/word-search-gen.html", fragment="word-search-gen.html", title="Word Search Generator",
+         desc="Real 8-direction grid placement, words genuinely allowed to cross and share letters, printable output.",
+         root="../", code="WORD_SEARCH", category="GAMES_CURIOS", js=["data-words.js", "tool-word-search-gen.js"]),
 
     # Field Manuals: GAMA+-voice step-by-step guides. Content lives in
     # INSTRUCTABLES below; all 5 pages share one fragment shell

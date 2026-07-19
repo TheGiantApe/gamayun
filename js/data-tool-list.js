@@ -571,6 +571,12 @@ const TOOL_LIST = [
     "url": "pages/tic-tac-toe.html"
   },
   {
+    "title": "Word Search Generator",
+    "desc": "Real 8-direction grid placement, words genuinely allowed to cross and share letters, printable output.",
+    "code": "WORD_SEARCH",
+    "url": "pages/word-search-gen.html"
+  },
+  {
     "title": "Verify a Source Before You Share It",
     "desc": "Reverse-image search, account age, dead-link sourcing, and why a screenshot alone proves nothing.",
     "code": "HOWTO_VERIFY_SOURCE",
