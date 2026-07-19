@@ -40,17 +40,17 @@
          changing hosts. -->
     <meta http-equiv="Content-Security-Policy" content="object-src 'none'; base-uri 'self'; form-action 'self'">
 
-    <title>OSINT Directory // GAMAYUN⁺</title>
-    <meta name="description" content="External OSINT/security tools, grouped by skill level, with caution notes carried over verbatim from GAMAYUN's own vetting pass.">
-    <meta property="og:title" content="OSINT Directory // GAMAYUN⁺">
-    <meta property="og:description" content="External OSINT/security tools, grouped by skill level, with caution notes carried over verbatim from GAMAYUN's own vetting pass.">
+    <title>Fake Data Generator // GAMAYUN⁺</title>
+    <meta name="description" content="Realistic-but-fake test rows (name/email/phone/address) for forms or databases, export to CSV or JSON in one click.">
+    <meta property="og:title" content="Fake Data Generator // GAMAYUN⁺">
+    <meta property="og:description" content="Realistic-but-fake test rows (name/email/phone/address) for forms or databases, export to CSV or JSON in one click.">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://gamayun.site/pages/osint-directory.html">
+    <meta property="og:url" content="https://gamayun.site/pages/fake-data-gen.html">
     <meta property="og:image" content="https://gamayun.site/assets/og-image.png">
     <meta property="og:site_name" content="GAMAYUN⁺">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="OSINT Directory // GAMAYUN⁺">
-    <meta name="twitter:description" content="External OSINT/security tools, grouped by skill level, with caution notes carried over verbatim from GAMAYUN's own vetting pass.">
+    <meta name="twitter:title" content="Fake Data Generator // GAMAYUN⁺">
+    <meta name="twitter:description" content="Realistic-but-fake test rows (name/email/phone/address) for forms or databases, export to CSV or JSON in one click.">
     <meta name="twitter:image" content="https://gamayun.site/assets/og-image.png">
     <link href="https://fonts.googleapis.com/css2?family=VT323&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/gama.css">
@@ -62,7 +62,7 @@
          the static fallback so something correct shows before JS runs. -->
     <link rel="icon" id="favicon-link" href="/assets/icons/favicon-mascot.ico">
     <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
-    <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "OSINT Directory", "description": "External OSINT/security tools, grouped by skill level, with caution notes carried over verbatim from GAMAYUN's own vetting pass.", "url": "https://gamayun.site/pages/osint-directory.html", "applicationCategory": "UtilitiesApplication", "operatingSystem": "Any (runs in browser)", "isAccessibleForFree": true, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}}</script>
+    <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "Fake Data Generator", "description": "Realistic-but-fake test rows (name/email/phone/address) for forms or databases, export to CSV or JSON in one click.", "url": "https://gamayun.site/pages/fake-data-gen.html", "applicationCategory": "UtilitiesApplication", "operatingSystem": "Any (runs in browser)", "isAccessibleForFree": true, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}}</script>
 </head>
 <body class="crt-screen" data-root="../">
 
@@ -168,11 +168,11 @@
                     <a href="../pages/ela-check.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">ELA_CHECK</span></a>
                     <a href="../pages/favicon-generator.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">FAVICON_FORGE</span></a>
                 </details>
-                <details class="nav-section">
+                <details class="nav-section" open>
                     <summary class="nav-section-label">[ DEV_VAULT&nbsp;]</summary>
                     <a href="../pages/json-format.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">JSON_FORMATTER</span></a>
                     <a href="../pages/xml-format.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">XML_FORMATTER</span></a>
-                    <a href="../pages/fake-data-gen.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">FAKE_DATA_GEN</span></a>
+                    <a href="../pages/fake-data-gen.html" class="nav-link active">&gt;&nbsp;<span class="nav-link-label">FAKE_DATA_GEN</span></a>
                     <a href="../pages/uuid.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">UUID_GEN</span></a>
                     <a href="../pages/hash.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">HASH_GEN</span></a>
                     <a href="../pages/password-gen.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">PASSWORD_GEN</span></a>
@@ -224,9 +224,9 @@
                     <a href="../pages/links-design-media.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">LINKS_DESIGN_MEDIA</span></a>
                     <a href="../pages/links-fun-curios.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">LINKS_FUN_CURIOS</span></a>
                 </details>
-                <details class="nav-section" open>
+                <details class="nav-section">
                     <summary class="nav-section-label">[ OSINT_DECK&nbsp;]</summary>
-                    <a href="../pages/osint-directory.html" class="nav-link active">&gt;&nbsp;<span class="nav-link-label">OSINT_DIRECTORY</span></a>
+                    <a href="../pages/osint-directory.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">OSINT_DIRECTORY</span></a>
                 </details>
                 <details class="nav-section">
                     <summary class="nav-section-label">[ STUDY_HALL&nbsp;]</summary>
@@ -237,69 +237,21 @@
 
         <main class="center-viewport" id="active-tool-zone">
             <div class="content-flex-fill">
-            <div class="breadcrumb">&gt; <a href="../index.html">DECK_LAUNCHER</a> <span class="breadcrumb-sep">/</span> OSINT_DECK <span class="breadcrumb-sep">/</span> OSINT_DIRECTORY</div>
-            <article class="prose">
-                <h1>&gt; OSINT Directory</h1>
-                <p>External tools for checking your own exposure and learning how the field works - not a directory of leaked data, and not a route to any. Anything that indexes or distributes stolen data was excluded outright during vetting, not just flagged. Caution notes are carried over verbatim where they apply.</p>
-                <p style="font-size:0.85rem; color:var(--phosphor-dim-text);">OSINT means gathering information from publicly available sources rather than hacking or stealing anything - a breach checker is OSINT, a site that sells the actual leaked passwords is not, and the difference is the whole skill. Full breakdown, including where Google dorking fits in and how professional investigators actually work, lives in the <a href="wiki-osint.html">GAMA<sup>+</sup> Wiki</a>.</p>
-            </article>
-            <section class="card-grid">
-                <div class="card-grid-label">[ BEGINNER ]</div>
-                <div class="tool-grid-row">
-                <a class="tool-grid-item" href="https://haveibeenpwned.com" target="_blank" rel="noopener">
-                    <div class="tool-name">&gt; haveibeenpwned.com <span class="tool-name-arrow">&#8599;</span></div>
-                    <div class="tool-desc">Check if your email/password appeared in a known data breach.</div><div class="field-note">Run by an independent, well-known security researcher (Troy Hunt); only confirms exposure, doesn't expose the data itself - the model every other "breach check" tool should be judged against.</div>
-                </a>
-                <a class="tool-grid-item" href="https://hacker101.com" target="_blank" rel="noopener">
-                    <div class="tool-name">&gt; hacker101.com <span class="tool-name-arrow">&#8599;</span></div>
-                    <div class="tool-desc">Free web-security class with CTF levels, run by HackerOne.</div>
-                </a>
-                <a class="tool-grid-item" href="https://tryhackme.com" target="_blank" rel="noopener">
-                    <div class="tool-name">&gt; tryhackme.com <span class="tool-name-arrow">&#8599;</span></div>
-                    <div class="tool-desc">Hands-on cybersecurity training through guided real-world scenarios.</div>
-                </a>
-                <a class="tool-grid-item" href="https://hackthissite.org" target="_blank" rel="noopener">
-                    <div class="tool-name">&gt; hackthissite.org <span class="tool-name-arrow">&#8599;</span></div>
-                    <div class="tool-desc">Long-running, legal practice environment for ethical hacking.</div>
-                </a>
-                <a class="tool-grid-item" href="https://tineye.com" target="_blank" rel="noopener">
-                    <div class="tool-name">&gt; tineye.com <span class="tool-name-arrow">&#8599;</span></div>
-                    <div class="tool-desc">Reverse image search across 60B+ indexed images.</div>
-                </a>
-                <a class="tool-grid-item" href="https://builtwith.com" target="_blank" rel="noopener">
-                    <div class="tool-name">&gt; builtwith.com <span class="tool-name-arrow">&#8599;</span></div>
-                    <div class="tool-desc">Identifies the technology stack behind any website.</div>
-                </a>
-                <a class="tool-grid-item" href="https://tosdr.org" target="_blank" rel="noopener">
-                    <div class="tool-name">&gt; tosdr.org <span class="tool-name-arrow">&#8599;</span></div>
-                    <div class="tool-desc">Plain-English ratings of what services actually do with your data per their own Terms of Service.</div>
-                </a>
+            <div class="breadcrumb">&gt; <a href="../index.html">DECK_LAUNCHER</a> <span class="breadcrumb-sep">/</span> DEV_VAULT <span class="breadcrumb-sep">/</span> FAKE_DATA_GEN</div>
+            <section class="tool-card">
+                <h2>&gt; FAKE_DATA_GENERATOR</h2>
+                <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">Realistic-but-fake test rows (name, email, phone, address) for filling a form or seeding a database - export straight to CSV or JSON in one click, instead of copy-pasting row by row.</p>
+                <div class="tool-workspace">
+                    <label style="font-size:0.85rem; color:var(--phosphor-dim-text);">rows:
+                        <input type="number" id="fakedata-count" value="10" min="1" max="500" style="width:70px;">
+                    </label>
+                    <button onclick="executeFakeDataGenerate()">&gt; GENERATE</button>
+                    <button onclick="exportFakeData('csv')">&gt; COPY AS CSV</button>
+                    <button onclick="exportFakeData('json')">&gt; COPY AS JSON</button>
                 </div>
-                <div class="card-grid-label">[ INTERMEDIATE ]</div>
-                <div class="tool-grid-row">
-                <a class="tool-grid-item" href="https://gchq.github.io/CyberChef/" target="_blank" rel="noopener">
-                    <div class="tool-name">&gt; gchq.github.io/CyberChef <span class="tool-name-arrow">&#8599;</span></div>
-                    <div class="tool-desc">The "cyber Swiss army knife" - encode/decode/parse/analyze data recipes, browser-based.</div><div class="field-note">Built and open-sourced by GCHQ, gold-standard tool in the field.</div>
-                </a>
-                <a class="tool-grid-item" href="https://shodan.io" target="_blank" rel="noopener">
-                    <div class="tool-name">&gt; shodan.io <span class="tool-name-arrow">&#8599;</span></div>
-                    <div class="tool-desc">Search engine for internet-connected devices (IoT, servers, webcams).</div><div class="field-note">Legitimate, industry-standard - defensive/research use, not a "find unsecured cameras" novelty.</div>
-                </a>
-                <a class="tool-grid-item" href="https://zoomeye.ai" target="_blank" rel="noopener">
-                    <div class="tool-name">&gt; zoomeye.ai <span class="tool-name-arrow">&#8599;</span></div>
-                    <div class="tool-desc">Shodan-equivalent device/vulnerability search engine.</div><div class="field-note">Legitimate, but its homepage surfaces live CVE exploit search queries directly - defender/researcher framing only.</div>
-                </a>
-                <a class="tool-grid-item" href="https://dorksearch.com" target="_blank" rel="noopener">
-                    <div class="tool-name">&gt; dorksearch.com <span class="tool-name-arrow">&#8599;</span></div>
-                    <div class="tool-desc">Ready-to-use Google dorking queries for finding exposed data.</div><div class="field-note">Educational use per the tool's own disclaimer - misuse can be treated as unauthorized access in some jurisdictions.</div>
-                </a>
-                <a class="tool-grid-item" href="https://fotoforensics.com" target="_blank" rel="noopener">
-                    <div class="tool-name">&gt; fotoforensics.com <span class="tool-name-arrow">&#8599;</span></div>
-                    <div class="tool-desc">Error-level analysis to spot edited/manipulated photos.</div>
-                </a>
-                </div>
+                <pre class="result-block" id="fakedata-result" style="overflow-x:auto;"></pre>
             </section>
-
+            <p style="padding:0 1.5rem; font-size:0.85rem;"><span style="color: var(--phosphor-dim-text)">See also:</span> <a href="json-csv.html">JSON &harr; CSV Converter</a> &middot; <a href="username-gen.html">Username Generator</a></p>
 
             </div>
             <div class="ad-leaderboard">
@@ -445,7 +397,7 @@
     <script src="../js/data-tool-list.js"></script>
     <script src="../js/site-search.js"></script>
     <script src="../js/page-transition.js"></script>
-
+    <script src="../js/tool-fake-data-gen.js"></script>
     <script>
       if ("serviceWorker" in navigator) {
         window.addEventListener("load", () => navigator.serviceWorker.register("/sw.js"));

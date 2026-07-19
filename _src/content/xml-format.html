@@ -1,0 +1,17 @@
+            <section class="tool-card">
+                <h2>&gt; XML_FORMATTER</h2>
+                <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">Beautify or minify XML, with the browser's own real parse error (line/column included) instead of a bare "invalid XML."</p>
+                <div class="tool-workspace">
+                    <textarea id="xml-input" placeholder="&lt;root&gt;&lt;item&gt;text&lt;/item&gt;&lt;/root&gt;" oninput="executeXmlFormatDebounced()"></textarea>
+                </div>
+                <div style="margin-top:0.5rem; display:flex; gap:1rem; flex-wrap:wrap;">
+                    <label style="font-size:0.85rem; color:var(--phosphor-dim-text);">
+                        <input type="radio" name="xml-mode" value="beautify" checked onchange="executeXmlFormatDebounced()"> beautify
+                    </label>
+                    <label style="font-size:0.85rem; color:var(--phosphor-dim-text);">
+                        <input type="radio" name="xml-mode" value="minify" onchange="executeXmlFormatDebounced()"> minify
+                    </label>
+                </div>
+                <pre class="result-block" id="xml-result" style="overflow-x:auto;"></pre>
+            </section>
+            <p style="padding:0 1.5rem; font-size:0.85rem;"><span style="color: var(--phosphor-dim-text)">See also:</span> <a href="json-format.html">JSON Formatter</a> &middot; <a href="json-csv.html">JSON &harr; CSV Converter</a></p>

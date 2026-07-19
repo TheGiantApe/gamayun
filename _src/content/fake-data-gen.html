@@ -1,0 +1,14 @@
+            <section class="tool-card">
+                <h2>&gt; FAKE_DATA_GENERATOR</h2>
+                <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">Realistic-but-fake test rows (name, email, phone, address) for filling a form or seeding a database - export straight to CSV or JSON in one click, instead of copy-pasting row by row.</p>
+                <div class="tool-workspace">
+                    <label style="font-size:0.85rem; color:var(--phosphor-dim-text);">rows:
+                        <input type="number" id="fakedata-count" value="10" min="1" max="500" style="width:70px;">
+                    </label>
+                    <button onclick="executeFakeDataGenerate()">&gt; GENERATE</button>
+                    <button onclick="exportFakeData('csv')">&gt; COPY AS CSV</button>
+                    <button onclick="exportFakeData('json')">&gt; COPY AS JSON</button>
+                </div>
+                <pre class="result-block" id="fakedata-result" style="overflow-x:auto;"></pre>
+            </section>
+            <p style="padding:0 1.5rem; font-size:0.85rem;"><span style="color: var(--phosphor-dim-text)">See also:</span> <a href="json-csv.html">JSON &harr; CSV Converter</a> &middot; <a href="username-gen.html">Username Generator</a></p>

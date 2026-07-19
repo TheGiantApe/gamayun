@@ -1,0 +1,68 @@
+/* FAKE_DATA_GENERATOR — combinatoric generation from curated word banks,
+   formatted to look plausible without being real (no actual person's
+   name/address/phone number is assembled here, just structurally
+   realistic fakes for testing forms/databases). */
+
+const FAKE_FIRST_NAMES = ["Ava", "Liam", "Maya", "Noah", "Elena", "Kai", "Priya", "Marcus", "Sofia", "Ren", "Talia", "Diego", "Nora", "Hassan", "June", "Theo"];
+const FAKE_LAST_NAMES = ["Nakamura", "Reyes", "Okafor", "Petrov", "Lindqvist", "Osei", "Kowalski", "Marsh", "Delgado", "Whitfield", "Iyer", "Novak"];
+const FAKE_STREET_NAMES = ["Maple", "Sunset", "Harbor", "Willow", "Cedar", "Ridge", "Fremont", "Birch", "Lakeview", "Orchard"];
+const FAKE_STREET_TYPES = ["St", "Ave", "Rd", "Ln", "Ct", "Dr"];
+const FAKE_CITIES = ["Rivertown", "Fairview", "Millbrook", "Ashford", "Crestwood", "Northgate", "Elm Harbor", "Brookside"];
+const FAKE_STATES = ["CA", "TX", "NY", "WA", "CO", "IL", "OR", "NV"];
+const FAKE_EMAIL_DOMAINS = ["example.com", "mailtest.io", "fakebox.dev", "sample.org"];
+
+function randomFrom(arr) {
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+
+function generateFakeRow() {
+  const first = randomFrom(FAKE_FIRST_NAMES);
+  const last = randomFrom(FAKE_LAST_NAMES);
+  const email = `${first.toLowerCase()}.${last.toLowerCase()}${Math.floor(Math.random() * 100)}@${randomFrom(FAKE_EMAIL_DOMAINS)}`;
+  const phone = `(${100 + Math.floor(Math.random() * 900)}) ${100 + Math.floor(Math.random() * 900)}-${1000 + Math.floor(Math.random() * 9000)}`;
+  const street = `${100 + Math.floor(Math.random() * 9900)} ${randomFrom(FAKE_STREET_NAMES)} ${randomFrom(FAKE_STREET_TYPES)}`;
+  const zip = String(10000 + Math.floor(Math.random() * 89999));
+  return {
+    name: `${first} ${last}`,
+    email,
+    phone,
+    street,
+    city: randomFrom(FAKE_CITIES),
+    state: randomFrom(FAKE_STATES),
+    zip,
+  };
+}
+
+let fakeDataRows = [];
+
+function executeFakeDataGenerate() {
+  const count = Math.max(1, Math.min(500, parseInt(document.getElementById("fakedata-count").value, 10) || 10));
+  fakeDataRows = Array.from({ length: count }, generateFakeRow);
+  const out = document.getElementById("fakedata-result");
+  out.textContent = fakeDataRows
+    .map((r) => `${r.name} | ${r.email} | ${r.phone} | ${r.street}, ${r.city}, ${r.state} ${r.zip}`)
+    .join("\n");
+  GAMA.log(`Generated ${count} fake test rows`);
+  GAMA.say("success");
+}
+
+function csvEscapeFakeData(value) {
+  const str = String(value);
+  return /[",\n]/.test(str) ? `"${str.replace(/"/g, '""')}"` : str;
+}
+
+function exportFakeData(format) {
+  if (!fakeDataRows.length) { GAMA.say("idle"); return; }
+  let text;
+  if (format === "json") {
+    text = JSON.stringify(fakeDataRows, null, 2);
+  } else {
+    const headers = Object.keys(fakeDataRows[0]);
+    text = [headers.join(",")].concat(fakeDataRows.map((r) => headers.map((h) => csvEscapeFakeData(r[h])).join(","))).join("\n");
+  }
+  navigator.clipboard.writeText(text);
+  GAMA.log(`Copied ${fakeDataRows.length} rows as ${format.toUpperCase()}`);
+  GAMA.say("success");
+}
+
+document.addEventListener("DOMContentLoaded", executeFakeDataGenerate);

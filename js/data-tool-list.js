@@ -313,6 +313,18 @@ const TOOL_LIST = [
     "url": "pages/json-format.html"
   },
   {
+    "title": "XML Formatter",
+    "desc": "Beautify or minify XML with a real browser parse error (line/column) instead of a bare 'invalid XML'.",
+    "code": "XML_FORMATTER",
+    "url": "pages/xml-format.html"
+  },
+  {
+    "title": "Fake Data Generator",
+    "desc": "Realistic-but-fake test rows (name/email/phone/address) for forms or databases, export to CSV or JSON in one click.",
+    "code": "FAKE_DATA_GEN",
+    "url": "pages/fake-data-gen.html"
+  },
+  {
     "title": "UUID Generator",
     "desc": "Cryptographically random v4 UUIDs.",
     "code": "UUID_GEN",
