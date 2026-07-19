@@ -181,6 +181,12 @@ const TOOL_LIST = [
     "url": "pages/calc-date-diff.html"
   },
   {
+    "title": "Unit Converter",
+    "desc": "Length, weight, volume, and temperature, one interface with category tabs instead of separate pages per unit type.",
+    "code": "UNIT_CONVERTER",
+    "url": "pages/unit-converter.html"
+  },
+  {
     "title": "Color Converter",
     "desc": "Hex, RGB integer, RGB float, and HSL, all at once.",
     "code": "COLOR_CONVERTER",
@@ -197,6 +203,12 @@ const TOOL_LIST = [
     "desc": "WCAG 2.x contrast ratio for any foreground/background pair, checked against AA/AAA at normal and large text sizes, with a nearest-passing-color suggestion when it fails.",
     "code": "CONTRAST_CHECK",
     "url": "pages/contrast-check.html"
+  },
+  {
+    "title": "Paper Size Reference",
+    "desc": "A-series and North American paper sizes in mm and inches, plus real print-DPI and margin guidance.",
+    "code": "PAPER_SIZE",
+    "url": "pages/paper-size.html"
   },
   {
     "title": "Symbol Index",

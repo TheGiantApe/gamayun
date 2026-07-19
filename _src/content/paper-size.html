@@ -1,0 +1,31 @@
+            <section class="tool-card">
+                <h2>&gt; PAPER_SIZE_REFERENCE</h2>
+                <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">A-series, Letter/Legal/Tabloid, dimensions in both mm and inches, plus practical print-DPI guidance most size charts leave out.</p>
+
+                <h3 style="font-family:var(--font-display); font-size:1rem; margin:1.5rem 0 0.5rem;">&gt; ISO A-SERIES</h3>
+                <div class="exif-table">
+                    <div class="exif-row"><span class="exif-key">A0</span><span>841 &times; 1189 mm &nbsp;(33.1 &times; 46.8 in)</span></div>
+                    <div class="exif-row"><span class="exif-key">A1</span><span>594 &times; 841 mm &nbsp;(23.4 &times; 33.1 in)</span></div>
+                    <div class="exif-row"><span class="exif-key">A2</span><span>420 &times; 594 mm &nbsp;(16.5 &times; 23.4 in)</span></div>
+                    <div class="exif-row"><span class="exif-key">A3</span><span>297 &times; 420 mm &nbsp;(11.7 &times; 16.5 in)</span></div>
+                    <div class="exif-row"><span class="exif-key">A4</span><span>210 &times; 297 mm &nbsp;(8.3 &times; 11.7 in)</span></div>
+                    <div class="exif-row"><span class="exif-key">A5</span><span>148 &times; 210 mm &nbsp;(5.8 &times; 8.3 in)</span></div>
+                    <div class="exif-row"><span class="exif-key">A6</span><span>105 &times; 148 mm &nbsp;(4.1 &times; 5.8 in)</span></div>
+                </div>
+
+                <h3 style="font-family:var(--font-display); font-size:1rem; margin:1.5rem 0 0.5rem;">&gt; NORTH AMERICAN</h3>
+                <div class="exif-table">
+                    <div class="exif-row"><span class="exif-key">Letter</span><span>216 &times; 279 mm &nbsp;(8.5 &times; 11 in)</span></div>
+                    <div class="exif-row"><span class="exif-key">Legal</span><span>216 &times; 356 mm &nbsp;(8.5 &times; 14 in)</span></div>
+                    <div class="exif-row"><span class="exif-key">Tabloid</span><span>279 &times; 432 mm &nbsp;(11 &times; 17 in)</span></div>
+                    <div class="exif-row"><span class="exif-key">Statement</span><span>140 &times; 216 mm &nbsp;(5.5 &times; 8.5 in)</span></div>
+                </div>
+            </section>
+
+            <section class="prose" style="padding-left:0;padding-right:0;">
+                <h2>&gt; DPI AND MARGINS, THE PART MOST CHARTS SKIP</h2>
+                <p>A dimension alone doesn't tell you what resolution to design at. For print, 300 DPI (dots per inch) is the standard target for anything viewed up close (documents, photos); 150 DPI is usually fine for large-format posters viewed from a distance, since the eye can't resolve the extra detail anyway. At 300 DPI, an A4 page (8.3 &times; 11.7 in) needs a canvas of roughly 2481 &times; 3510 pixels; US Letter (8.5 &times; 11 in) needs roughly 2550 &times; 3300.</p>
+                <p>Every A-series size is exactly half the area of the size above it, cut along the long edge (A4 folded in half makes two A5 sheets) - the same aspect ratio (1:&radic;2) is preserved at every step, which is why A-series paper stacks and scales so cleanly and North American sizes don't (Letter and Legal share a width but not the same ratio, and neither shares a ratio with Tabloid).</p>
+                <p>A safe default print margin is 0.5 in (12.7 mm) on all sides for home/office printers - most consumer printers can't reliably print closer to the edge than that without risk of clipping, regardless of what the page size itself allows.</p>
+                <p class="related-block">RELATED: <a href="aspect-ratio.html">Aspect Ratio Calculator</a> &middot; <a href="unit-converter.html">Unit Converter</a></p>
+            </section>

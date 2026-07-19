@@ -1,0 +1,18 @@
+            <section class="tool-card">
+                <h2>&gt; UNIT_CONVERTER</h2>
+                <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">Length, weight, volume, and temperature - one interface, category tabs instead of separate pages per unit type.</p>
+                <div class="tool-workspace">
+                    <button onclick="setUnitCategory('length')" id="unitcat-length">&gt; LENGTH</button>
+                    <button onclick="setUnitCategory('weight')" id="unitcat-weight">&gt; WEIGHT</button>
+                    <button onclick="setUnitCategory('volume')" id="unitcat-volume">&gt; VOLUME</button>
+                    <button onclick="setUnitCategory('temperature')" id="unitcat-temperature">&gt; TEMPERATURE</button>
+                </div>
+                <div class="tool-workspace" style="margin-top:0.75rem;">
+                    <input type="number" id="unitconv-value" placeholder="value" oninput="executeUnitConvert()" style="width:120px;">
+                    <select id="unitconv-from" onchange="executeUnitConvert()"></select>
+                    <span style="align-self:center;">&rarr;</span>
+                    <select id="unitconv-to" onchange="executeUnitConvert()"></select>
+                </div>
+                <div class="result-block" id="unitconv-result"></div>
+            </section>
+            <p style="padding:0 1.5rem; font-size:0.85rem;"><span style="color: var(--phosphor-dim-text)">See also:</span> <a href="aspect-ratio.html">Aspect Ratio Calculator</a> &middot; <a href="calc-iifym.html">Macro Calculator</a></p>
