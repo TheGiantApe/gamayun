@@ -1,4 +1,4 @@
-/* TEXT_UTILS — Palindrome Checker and Slug Generator. Two small,
+/* TEXT_UTILS — Palindrome Checker, Slug Generator, Text Reverser. Small,
    unrelated text tools, one file (same pattern as tool-calculators.js). */
 
 function executePalindromeCheck() {
@@ -43,4 +43,21 @@ function executeSlugGenerate() {
   const slug = slugify(raw);
   out.textContent = slug || "// nothing left after stripping non-URL-safe characters";
   GAMA.say(slug ? "success" : "error");
+}
+
+function executeTextReverse() {
+  const raw = document.getElementById("rev-input").value;
+  const mode = document.querySelector('input[name="rev-mode"]:checked').value;
+  const out = document.getElementById("rev-result");
+  if (!raw) { GAMA.say("idle"); out.textContent = ""; return; }
+
+  let result = raw;
+  if (mode === "chars" || mode === "both") result = result.split("").reverse().join("");
+  if (mode === "words" || mode === "both") result = result.split(" ").reverse().join(" ");
+  // "both" reverses the full string first, then reverses word order on
+  // top of that - net effect is each word's own spelling gets flipped
+  // ("hello" -> "olleh") while the words stay in their original left-to-
+  // right positions, a third distinct result from either mode alone.
+  out.textContent = result;
+  GAMA.say("success");
 }

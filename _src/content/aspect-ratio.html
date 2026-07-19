@@ -1,0 +1,25 @@
+            <section class="tool-card">
+                <h2>&gt; ASPECT_RATIO_CALC</h2>
+                <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">Fill in any two of width, height, and ratio - the third solves itself. Presets below fill in the ratio field for the common video/image crops.</p>
+                <div class="tool-workspace">
+                    <button onclick="setAspectPreset('16:9')">16:9</button>
+                    <button onclick="setAspectPreset('9:16')">9:16</button>
+                    <button onclick="setAspectPreset('4:5')">4:5</button>
+                    <button onclick="setAspectPreset('1:1')">1:1</button>
+                    <button onclick="setAspectPreset('4:3')">4:3</button>
+                    <button onclick="setAspectPreset('21:9')">21:9</button>
+                </div>
+                <div class="tool-workspace" style="margin-top:0.75rem;">
+                    <label style="font-size:0.85rem; color:var(--phosphor-dim-text);">width (px)
+                        <input type="number" id="ar-width" oninput="executeAspectRatio('width')" style="width:100px;">
+                    </label>
+                    <label style="font-size:0.85rem; color:var(--phosphor-dim-text);">height (px)
+                        <input type="number" id="ar-height" oninput="executeAspectRatio('height')" style="width:100px;">
+                    </label>
+                    <label style="font-size:0.85rem; color:var(--phosphor-dim-text);">ratio (W:H)
+                        <input type="text" id="ar-ratio" placeholder="e.g. 16:9" oninput="executeAspectRatio('ratio')" style="width:100px;">
+                    </label>
+                </div>
+                <div class="result-block" id="ar-result"></div>
+            </section>
+            <p style="padding:0 1.5rem; font-size:0.85rem;"><span style="color: var(--phosphor-dim-text)">See also:</span> <a href="image-tools.html">Image Salvage</a> &middot; <a href="palette.html">Palette Forge</a></p>

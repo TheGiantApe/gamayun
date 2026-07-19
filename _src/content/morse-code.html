@@ -1,0 +1,21 @@
+            <section class="tool-card">
+                <h2>&gt; MORSE_CODE</h2>
+                <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">Text &harr; Morse, direction auto-detected (Morse only ever uses dots/dashes/spaces, so unlike Dialect Deck or NATO Phonetic there's nothing real to confuse it with). Play button turns the current Morse into actual tones.</p>
+                <div class="tool-workspace">
+                    <textarea id="morse-input" placeholder="type text, or paste morse (.-- / --- / .-.)..." oninput="executeMorseDebounced()"></textarea>
+                </div>
+                <div class="result-block" id="morse-result"></div>
+                <div class="tool-workspace" style="margin-top:0.75rem;">
+                    <label style="font-size:0.85rem; color:var(--phosphor-dim-text);">speed:
+                        <input type="range" id="morse-wpm" min="5" max="30" value="15" style="width:140px; vertical-align:middle;">
+                        <span id="morse-wpm-label">15 wpm</span>
+                    </label>
+                    <button id="morse-play-btn">&gt; PLAY TONES</button>
+                </div>
+            </section>
+
+            <section class="prose" style="padding-left:0;padding-right:0;">
+                <h2>&gt; WHY MORSE STILL HAS TEETH</h2>
+                <p>Morse code survives past its telegraph origins because it degrades gracefully - a dot/dash pattern gets through noisy, weak, or intermittent signals (a flashlight, a foghorn, a faint radio tone) far better than spoken words do. It's still an actual FCC amateur-radio skill, still used in aviation for identifying navigational beacons, and still occasionally the fastest way to signal for help when nothing else works. The timing is standardized too, not just the symbols: a dash is exactly three dots long, and the gaps between letters and words follow their own fixed ratios - which is what makes the tone playback here actually sound "right" instead of just beeping arbitrarily.</p>
+                <p class="related-block">RELATED: <a href="nato-phonetic.html">NATO Phonetic Alphabet</a> &middot; <a href="cipher-deck.html">Cipher Deck</a></p>
+            </section>

@@ -40,17 +40,17 @@
          changing hosts. -->
     <meta http-equiv="Content-Security-Policy" content="object-src 'none'; base-uri 'self'; form-action 'self'">
 
-    <title>Error Level Analysis // GAMAYUN⁺</title>
-    <meta name="description" content="Re-compress an image and diff it against the original to surface possibly-edited regions.">
-    <meta property="og:title" content="Error Level Analysis // GAMAYUN⁺">
-    <meta property="og:description" content="Re-compress an image and diff it against the original to surface possibly-edited regions.">
+    <title>Aspect Ratio Calculator // GAMAYUN⁺</title>
+    <meta name="description" content="Fill in any two of width, height, and ratio - the third solves itself. Common video/image presets included.">
+    <meta property="og:title" content="Aspect Ratio Calculator // GAMAYUN⁺">
+    <meta property="og:description" content="Fill in any two of width, height, and ratio - the third solves itself. Common video/image presets included.">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://gamayun.site/pages/ela-check.html">
+    <meta property="og:url" content="https://gamayun.site/pages/aspect-ratio.html">
     <meta property="og:image" content="https://gamayun.site/assets/og-image.png">
     <meta property="og:site_name" content="GAMAYUN⁺">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Error Level Analysis // GAMAYUN⁺">
-    <meta name="twitter:description" content="Re-compress an image and diff it against the original to surface possibly-edited regions.">
+    <meta name="twitter:title" content="Aspect Ratio Calculator // GAMAYUN⁺">
+    <meta name="twitter:description" content="Fill in any two of width, height, and ratio - the third solves itself. Common video/image presets included.">
     <meta name="twitter:image" content="https://gamayun.site/assets/og-image.png">
     <link href="https://fonts.googleapis.com/css2?family=VT323&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/gama.css">
@@ -62,7 +62,7 @@
          the static fallback so something correct shows before JS runs. -->
     <link rel="icon" id="favicon-link" href="/assets/icons/favicon-mascot.ico">
     <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
-    <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "Error Level Analysis", "description": "Re-compress an image and diff it against the original to surface possibly-edited regions.", "url": "https://gamayun.site/pages/ela-check.html", "applicationCategory": "UtilitiesApplication", "operatingSystem": "Any (runs in browser)", "isAccessibleForFree": true, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}}</script>
+    <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "Aspect Ratio Calculator", "description": "Fill in any two of width, height, and ratio - the third solves itself. Common video/image presets included.", "url": "https://gamayun.site/pages/aspect-ratio.html", "applicationCategory": "UtilitiesApplication", "operatingSystem": "Any (runs in browser)", "isAccessibleForFree": true, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}}</script>
 </head>
 <body class="crt-screen" data-root="../">
 
@@ -124,14 +124,14 @@
                     <a href="../pages/palindrome-check.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">PALINDROME_CHECK</span></a>
                     <a href="../pages/slug-generator.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">SLUG_GENERATOR</span></a>
                 </details>
-                <details class="nav-section">
+                <details class="nav-section" open>
                     <summary class="nav-section-label">[ NUMBER_CRUNCH&nbsp;]</summary>
                     <a href="../pages/calc-iifym.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">MACRO_CALC</span></a>
                     <a href="../pages/calc-percentage.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">PERCENT_CALC</span></a>
                     <a href="../pages/calc-tip.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">TIP_CALC</span></a>
                     <a href="../pages/calc-age.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">AGE_CALC</span></a>
                     <a href="../pages/roman-numeral.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">ROMAN_NUMERAL</span></a>
-                    <a href="../pages/aspect-ratio.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">ASPECT_RATIO</span></a>
+                    <a href="../pages/aspect-ratio.html" class="nav-link active">&gt;&nbsp;<span class="nav-link-label">ASPECT_RATIO</span></a>
                 </details>
                 <details class="nav-section">
                     <summary class="nav-section-label">[ PAINT LOCKER&nbsp;]</summary>
@@ -145,11 +145,11 @@
                     <a href="../pages/emoji-index.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">EMOJI_INDEX</span></a>
                     <a href="../pages/acronym-index.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">ACRONYM_INDEX</span></a>
                 </details>
-                <details class="nav-section" open>
+                <details class="nav-section">
                     <summary class="nav-section-label">[ FILE_SALVAGE&nbsp;]</summary>
                     <a href="../pages/image-tools.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">IMAGE_SALVAGE</span></a>
                     <a href="../pages/steganography.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">STEGANOGRAPHY</span></a>
-                    <a href="../pages/ela-check.html" class="nav-link active">&gt;&nbsp;<span class="nav-link-label">ELA_CHECK</span></a>
+                    <a href="../pages/ela-check.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">ELA_CHECK</span></a>
                     <a href="../pages/favicon-generator.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">FAVICON_FORGE</span></a>
                 </details>
                 <details class="nav-section">
@@ -210,26 +210,32 @@
 
         <main class="center-viewport" id="active-tool-zone">
             <div class="content-flex-fill">
-            <div class="breadcrumb">&gt; <a href="../index.html">DECK_LAUNCHER</a> <span class="breadcrumb-sep">/</span> FILE_SALVAGE <span class="breadcrumb-sep">/</span> ELA_CHECK</div>
+            <div class="breadcrumb">&gt; <a href="../index.html">DECK_LAUNCHER</a> <span class="breadcrumb-sep">/</span> NUMBER_CRUNCH <span class="breadcrumb-sep">/</span> ASPECT_RATIO</div>
             <section class="tool-card">
-                <h2>&gt; ELA_CHECK</h2>
-                <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">Error Level Analysis - re-compresses your image and diffs it against the original to surface regions that may have been edited in after the fact. Not proof of anything by itself. A signal to look closer, not a verdict. Nothing is uploaded anywhere - the image never leaves your browser.</p>
+                <h2>&gt; ASPECT_RATIO_CALC</h2>
+                <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">Fill in any two of width, height, and ratio - the third solves itself. Presets below fill in the ratio field for the common video/image crops.</p>
                 <div class="tool-workspace">
-                    <input type="file" id="ela-file" accept="image/*">
+                    <button onclick="setAspectPreset('16:9')">16:9</button>
+                    <button onclick="setAspectPreset('9:16')">9:16</button>
+                    <button onclick="setAspectPreset('4:5')">4:5</button>
+                    <button onclick="setAspectPreset('1:1')">1:1</button>
+                    <button onclick="setAspectPreset('4:3')">4:3</button>
+                    <button onclick="setAspectPreset('21:9')">21:9</button>
                 </div>
-                <p id="ela-format-note" style="color: var(--phosphor-dim-text); font-size:0.8rem; margin-top:0.5rem;"></p>
-                <div style="margin-top:0.75rem; display:flex; gap:1.5rem; flex-wrap:wrap; align-items:center; font-size:0.85rem; color:var(--phosphor-dim-text);">
-                    <label>recompress quality: <input type="range" id="ela-quality" min="50" max="99" value="85"></label>
-                    <label>amplify: <input type="range" id="ela-amplify" min="1" max="40" value="10"></label>
+                <div class="tool-workspace" style="margin-top:0.75rem;">
+                    <label style="font-size:0.85rem; color:var(--phosphor-dim-text);">width (px)
+                        <input type="number" id="ar-width" oninput="executeAspectRatio('width')" style="width:100px;">
+                    </label>
+                    <label style="font-size:0.85rem; color:var(--phosphor-dim-text);">height (px)
+                        <input type="number" id="ar-height" oninput="executeAspectRatio('height')" style="width:100px;">
+                    </label>
+                    <label style="font-size:0.85rem; color:var(--phosphor-dim-text);">ratio (W:H)
+                        <input type="text" id="ar-ratio" placeholder="e.g. 16:9" oninput="executeAspectRatio('ratio')" style="width:100px;">
+                    </label>
                 </div>
-                <div style="margin-top:0.75rem;">
-                    <button onclick="downloadElaOutput()">&gt; DOWNLOAD ELA OUTPUT</button>
-                </div>
-                <div style="margin-top:1rem; overflow-x:auto;">
-                    <canvas id="ela-output" style="max-width:100%; background:#111;"></canvas>
-                </div>
+                <div class="result-block" id="ar-result"></div>
             </section>
-            <p style="padding:0 1.5rem; font-size:0.85rem;"><span style="color: var(--phosphor-dim-text)">See also:</span> <a href="image-tools.html">Image Salvage</a> &middot; <a href="wiki-reverse-image.html">GAMA<sup>+</sup> Wiki: Reverse Image Search &amp; Metadata</a></p>
+            <p style="padding:0 1.5rem; font-size:0.85rem;"><span style="color: var(--phosphor-dim-text)">See also:</span> <a href="image-tools.html">Image Salvage</a> &middot; <a href="palette.html">Palette Forge</a></p>
 
             </div>
             <div class="ad-leaderboard">
@@ -375,7 +381,7 @@
     <script src="../js/data-tool-list.js"></script>
     <script src="../js/site-search.js"></script>
     <script src="../js/page-transition.js"></script>
-    <script src="../js/tool-ela-check.js"></script>
+    <script src="../js/tool-aspect-ratio.js"></script>
     <script>
       if ("serviceWorker" in navigator) {
         window.addEventListener("load", () => navigator.serviceWorker.register("/sw.js"));

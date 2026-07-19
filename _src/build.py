@@ -152,6 +152,12 @@ PAGES = [
          desc="Text to ICAO/NATO spelling alphabet and back.",
          root="../", code="NATO_PHONETIC", category="TEXT_OPS",
          js=["tool-nato-phonetic.js"]),
+    dict(out="pages/morse-code.html", fragment="morse-code.html", title="Morse Code Converter",
+         desc="Text to Morse and back, direction auto-detected, with real tone playback at an adjustable WPM speed.",
+         root="../", code="MORSE_CODE", category="TEXT_OPS", js=["tool-morse-code.js"]),
+    dict(out="pages/text-reverser.html", fragment="text-reverser.html", title="Text Reverser",
+         desc="Reverse characters, reverse word order, or both, as separate options.",
+         root="../", code="TEXT_REVERSER", category="TEXT_OPS", js=["tool-text-utils.js"]),
     dict(out="pages/dialect-deck.html", fragment="dialect-deck.html", title="Dialect Deck",
          desc="Rewrite text in a Shakespearean, Pirate, Corporate, or Ye Olde English voice - word/phrase substitution, fully offline.",
          root="../", code="DIALECT_DECK", category="TEXT_OPS",
@@ -179,6 +185,9 @@ PAGES = [
     dict(out="pages/roman-numeral.html", fragment="roman-numeral.html", title="Roman Numeral Converter",
          desc="Convert between Arabic numbers and Roman numerals, both directions, with malformed input explained.",
          root="../", code="ROMAN_NUMERAL", category="NUMBER_CRUNCH", js=["tool-roman-numeral.js"]),
+    dict(out="pages/aspect-ratio.html", fragment="aspect-ratio.html", title="Aspect Ratio Calculator",
+         desc="Fill in any two of width, height, and ratio - the third solves itself. Common video/image presets included.",
+         root="../", code="ASPECT_RATIO", category="NUMBER_CRUNCH", js=["tool-aspect-ratio.js"]),
     dict(out="pages/color.html", fragment="color.html", title="Color Converter",
          desc="Hex, RGB integer, RGB float, and HSL, all at once.",
          root="../", code="COLOR_CONVERTER", category="PAINT_LOCKER",
@@ -307,6 +316,9 @@ PAGES = [
          desc="Tabletop dice notation (3d6+2), rolled with a cryptographic RNG instead of Math.random(), with a roll log.",
          root="../", code="DICE_ROLLER", category="GAMES_CURIOS",
          js=["tool-dice-roller.js"]),
+    dict(out="pages/coin-flip.html", fragment="coin-flip.html", title="Coin Flip",
+         desc="Single flips or a batch of up to 100, with a running tally.",
+         root="../", code="COIN_FLIP", category="GAMES_CURIOS", js=["tool-coin-flip.js"]),
 
     # Field Manuals: GAMA+-voice step-by-step guides. Content lives in
     # INSTRUCTABLES below; all 5 pages share one fragment shell

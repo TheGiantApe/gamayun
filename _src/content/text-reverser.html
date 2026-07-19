@@ -1,0 +1,20 @@
+            <section class="tool-card">
+                <h2>&gt; TEXT_REVERSER</h2>
+                <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">Reversing characters and reversing word order are two different operations that most simple reversers conflate into one button - this keeps them separate.</p>
+                <div class="tool-workspace">
+                    <textarea id="rev-input" placeholder="type something..." oninput="executeTextReverse()"></textarea>
+                </div>
+                <div style="margin-top:0.5rem; display:flex; gap:1rem; flex-wrap:wrap;">
+                    <label style="font-size:0.85rem; color:var(--phosphor-dim-text);">
+                        <input type="radio" name="rev-mode" value="chars" checked onchange="executeTextReverse()"> reverse characters
+                    </label>
+                    <label style="font-size:0.85rem; color:var(--phosphor-dim-text);">
+                        <input type="radio" name="rev-mode" value="words" onchange="executeTextReverse()"> reverse word order
+                    </label>
+                    <label style="font-size:0.85rem; color:var(--phosphor-dim-text);">
+                        <input type="radio" name="rev-mode" value="both" onchange="executeTextReverse()"> both
+                    </label>
+                </div>
+                <div class="result-block" id="rev-result"></div>
+            </section>
+            <p style="padding:0 1.5rem; font-size:0.85rem;"><span style="color: var(--phosphor-dim-text)">See also:</span> <a href="palindrome-check.html">Palindrome Checker</a> &middot; <a href="anagram-solver.html">Anagram Solver</a></p>

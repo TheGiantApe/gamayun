@@ -85,6 +85,18 @@ const TOOL_LIST = [
     "url": "pages/nato-phonetic.html"
   },
   {
+    "title": "Morse Code Converter",
+    "desc": "Text to Morse and back, direction auto-detected, with real tone playback at an adjustable WPM speed.",
+    "code": "MORSE_CODE",
+    "url": "pages/morse-code.html"
+  },
+  {
+    "title": "Text Reverser",
+    "desc": "Reverse characters, reverse word order, or both, as separate options.",
+    "code": "TEXT_REVERSER",
+    "url": "pages/text-reverser.html"
+  },
+  {
     "title": "Dialect Deck",
     "desc": "Rewrite text in a Shakespearean, Pirate, Corporate, or Ye Olde English voice - word/phrase substitution, fully offline.",
     "code": "DIALECT_DECK",
@@ -131,6 +143,12 @@ const TOOL_LIST = [
     "desc": "Convert between Arabic numbers and Roman numerals, both directions, with malformed input explained.",
     "code": "ROMAN_NUMERAL",
     "url": "pages/roman-numeral.html"
+  },
+  {
+    "title": "Aspect Ratio Calculator",
+    "desc": "Fill in any two of width, height, and ratio - the third solves itself. Common video/image presets included.",
+    "code": "ASPECT_RATIO",
+    "url": "pages/aspect-ratio.html"
   },
   {
     "title": "Color Converter",
@@ -323,6 +341,12 @@ const TOOL_LIST = [
     "desc": "Tabletop dice notation (3d6+2), rolled with a cryptographic RNG instead of Math.random(), with a roll log.",
     "code": "DICE_ROLLER",
     "url": "pages/dice-roller.html"
+  },
+  {
+    "title": "Coin Flip",
+    "desc": "Single flips or a batch of up to 100, with a running tally.",
+    "code": "COIN_FLIP",
+    "url": "pages/coin-flip.html"
   },
   {
     "title": "Verify a Source Before You Share It",
