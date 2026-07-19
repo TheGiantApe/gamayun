@@ -248,6 +248,9 @@ PAGES = [
     dict(out="pages/gradient-gen.html", fragment="gradient-gen.html", title="Gradient Generator",
          desc="Arbitrary color stops, linear or radial, with live preview and copy-ready CSS in one panel.",
          root="../", code="GRADIENT_GEN", category="PAINT_LOCKER", js=["tool-gradient-gen.js"]),
+    dict(out="pages/font-pairing.html", fragment="font-pairing.html", title="Font Pairing Previewer",
+         desc="Hand-curated web-safe heading/body font pairings with editable live sample text, no Google Fonts CDN call.",
+         root="../", code="FONT_PAIRING", category="PAINT_LOCKER", js=["tool-font-pairing.js"]),
 
     dict(out="pages/symbol-index.html", fragment="symbol-index.html", title="Symbol Index",
          desc="349 searchable Unicode symbols with names and codepoints, click to copy.",

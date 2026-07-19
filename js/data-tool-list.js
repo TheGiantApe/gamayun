@@ -265,6 +265,12 @@ const TOOL_LIST = [
     "url": "pages/gradient-gen.html"
   },
   {
+    "title": "Font Pairing Previewer",
+    "desc": "Hand-curated web-safe heading/body font pairings with editable live sample text, no Google Fonts CDN call.",
+    "code": "FONT_PAIRING",
+    "url": "pages/font-pairing.html"
+  },
+  {
     "title": "Symbol Index",
     "desc": "349 searchable Unicode symbols with names and codepoints, click to copy.",
     "code": "SYMBOL_INDEX",
