@@ -177,27 +177,40 @@ const GAMA = (() => {
   }
 
   // The sidebar nav caps its own height so it scrolls internally instead of
-  // running under the ticker at the bottom of the pinned frame. This used
-  // to chase GAMA's own position instead (measuring .gama-mascot-box/
-  // .gama-dialogue's top edge) - fixed to stop overlapping her correctly,
-  // but that meant nav's height was still coupled to her, and shrank
-  // whenever her own footprint grew (e.g. once she needed real footer
-  // clearance, not just the ticker's). Explicitly not what's wanted: she's
-  // a fixed, translucent, pointer-events:none decorative overlay by
-  // design ("she just sits on the page" - see .gama-mascot-box's own
-  // comment) - closer to Clippy than to real UI chrome. It's fine for her
-  // to sit over the tail end of a long nav list sometimes; it's not fine
-  // for nav's own size to be at her mercy. The ticker, unlike her, is real
-  // functional content nav genuinely shouldn't render under - that's the
-  // only boundary nav needs to respect now.
+  // spilling arbitrarily far down the page. History of getting this wrong,
+  // because it matters for judging any future change here:
+  //
+  // - Originally chased GAMA's dialogue top exactly (zero overlap, but
+  //   coupled nav's size to her, which shrank whenever her own footprint
+  //   grew).
+  // - Tried decoupling entirely by measuring against the ticker instead -
+  //   real content nav shouldn't render under, and NOT her position at
+  //   all. But the ticker sits well below where she actually is (she
+  //   needs clearance above the footer+ticker), so that let nav grow tall
+  //   enough on pages with a long active category that her fixed,
+  //   constant-height box ended up stranded in the MIDDLE of a long
+  //   scrolled-into-view nav list instead of just grazing its tail -
+  //   reads as "blocking everything," not the "hovers over a couple
+  //   inconsequential lines" that's actually fine.
+  //
+  // The real fix: bound nav against her PORTRAIT BOX's top edge (not the
+  // dialogue, not the ticker). The box is what has a stable, page-
+  // independent height (portrait + fixed padding); the dialogue is
+  // explicitly the "inconsequential" part that's fine to graze since it's
+  // small and only ever overlaps a line or two at most. This keeps nav's
+  // tail consistently near her, never past her - never "in the middle" -
+  // while still allowing the minor dialogue overlap Vin explicitly said
+  // was fine. Also shrunk her portrait itself (160px -> 120px, see
+  // .gama-portrait) so this boundary sits lower on the page than before,
+  // giving nav more real room without changing the boundary rule itself.
   function updateNavClearance() {
     if (window.innerWidth < 901) return;
     const nav = document.querySelector(".terminal-nav");
-    const ticker = document.querySelector(".archival-log-footer");
-    if (!nav) return;
+    const gamaBox = document.querySelector(".gama-mascot-box");
+    if (!nav || !gamaBox) return;
     const navTop = nav.getBoundingClientRect().top;
-    const tickerTop = ticker ? ticker.getBoundingClientRect().top : window.innerHeight;
-    const clear = Math.max(160, tickerTop - navTop - 16);
+    const boxTop = gamaBox.getBoundingClientRect().top;
+    const clear = Math.max(160, boxTop - navTop - 8);
     document.documentElement.style.setProperty("--gama-nav-clear", `${clear}px`);
   }
 

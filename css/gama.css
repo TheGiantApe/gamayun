@@ -687,7 +687,11 @@ button:hover, .btn:hover {
 }
 .gama-portrait {
   width: 100%;
-  max-width: 160px;
+  /* Was 160px - shrunk to buy back real vertical space for nav-beta
+     without needing to let nav grow tall enough to reach past her whole
+     footprint (see updateNavClearance in gama-core.js for why that went
+     wrong). Smaller box, less to clear, more room for both. */
+  max-width: 120px;
   margin: 0 auto;
   display: block;
   cursor: pointer;
