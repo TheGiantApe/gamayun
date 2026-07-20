@@ -96,10 +96,17 @@
         <div class="tab-scroll-row">
 {{TABS}}
         </div>
+        <!-- No blinking terminal cursor here (unlike other inputs on the
+             site) - it's a separate sibling element positioned at a fixed
+             spot in the row, which only looked right back when the
+             placeholder was "> search tools..." and filled the input's
+             whole width. With a short "search" placeholder in a wider box,
+             the cursor sat well past the actual visible text - looked
+             like a misplaced blink, not a real terminal cursor. Killing
+             it here beats faking the alignment. -->
         <div class="site-search-box nav-alpha-search">
             <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
             <input type="text" id="site-search-input" placeholder="search" oninput="executeSiteSearch()" autocomplete="off">
-            <span class="search-cursor-blink" aria-hidden="true">_</span>
             <div id="site-search-results" class="site-search-results"></div>
         </div>
     </nav>

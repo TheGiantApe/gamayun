@@ -189,27 +189,39 @@ const GAMA = (() => {
   //   "nav's size depends on her" - technically not coupled to her content
   //   anymore, but the dependency itself was the objection.
   //
-  // Current model (Vin's spec): nav-beta gets a FIXED PERCENTAGE of the
-  // distance between nav-alpha's bottom (nav's own top edge already
-  // reflects that - wherever the header+tabs actually render) and the
-  // ticker at the bottom of the frame - a zone defined purely by the page
-  // chrome, with zero reference to GAMA anywhere in the formula. She gets
-  // the conceptual remainder simply by being positioned in her own
-  // corner, independently (see updateGamaBottomClear) - this doesn't
-  // enforce that against her pixel-for-pixel, it's a fixed share picked
-  // to comfortably clear her typical footprint (portrait + dialogue +
-  // her own footer/ticker clearance) on ordinary viewport heights, same
-  // spirit as "hovers over an inconsequential line or two" being
-  // acceptable on the shorter end rather than something to chase exactly.
+  // Tried a fixed 60/40 percentage split of the nav-alpha-to-ticker
+  // distance next - clean in theory, but measured against her REAL
+  // rendered position on a real page: her actual footprint (portrait +
+  // dialogue + the footer/ticker clearance she needs below her, which is
+  // a separate, legitimate requirement from anything about nav-beta) ate
+  // roughly 65-70% of that same zone on an ordinary viewport, not 40%. A
+  // fixed percentage can't be honored when the thing it's supposed to
+  // leave room for is bigger than the room it's given - it just produces
+  // confident, wrong overlap instead of the honest, minor kind.
+  //
+  // What "her position depends on the ticker, not on nav" actually means
+  // in code: her `bottom` value is computed purely from the ticker/
+  // footer (updateGamaBottomClear, unchanged, never referenced nav) -
+  // that's a real, one-way fact about her. Nav, in turn, has to know
+  // where that leaves her in order to not render on top of her - that
+  // dependency runs the other way and is unavoidable, not a bug to
+  // engineer around. So: measure her REAL current top edge (dialogue if
+  // present, since it extends further up than the portrait box) and cap
+  // nav just short of it. Zero overlap, no artificial floor forcing nav
+  // to claim space that isn't there, and nav's size is a direct
+  // consequence of her real position rather than a percentage guess that
+  // doesn't match her real footprint.
   function updateNavClearance() {
     if (window.innerWidth < 901) return;
     const nav = document.querySelector(".terminal-nav");
-    const ticker = document.querySelector(".archival-log-footer");
-    if (!nav) return;
+    const gamaBox = document.querySelector(".gama-mascot-box");
+    if (!nav || !gamaBox) return;
+    const dialogue = document.querySelector(".gama-dialogue");
     const navTop = nav.getBoundingClientRect().top;
-    const tickerTop = ticker ? ticker.getBoundingClientRect().top : window.innerHeight;
-    const NAV_SHARE = 0.45; // nav-beta's fixed share of the nav-alpha-to-ticker distance
-    const clear = Math.max(120, (tickerTop - navTop) * NAV_SHARE);
+    const boxTop = gamaBox.getBoundingClientRect().top;
+    const dialogueTop = dialogue ? dialogue.getBoundingClientRect().top : boxTop;
+    const gamaTop = Math.min(boxTop, dialogueTop);
+    const clear = Math.max(80, gamaTop - navTop - 12);
     document.documentElement.style.setProperty("--gama-nav-clear", `${clear}px`);
   }
 

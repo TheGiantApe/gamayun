@@ -321,7 +321,11 @@ a:hover, a:focus {
   flex-shrink: 0;
   margin-left: auto;
   padding: 0 0.75rem;
-  border-left: 1px solid var(--phosphor-faint);
+  /* No border-left here on purpose - it used to draw a vertical divider
+     line, but nothing ties this box's width to .right-deck's column, so
+     the line never actually lined up with .right-deck's own left border
+     and just read as a stray, slightly-off rule instead of an intentional
+     echo of it. */
 }
 .search-icon {
   width: 1rem;
@@ -340,22 +344,6 @@ a:hover, a:focus {
 }
 .nav-alpha-search input:focus { outline: none; }
 .nav-alpha-search input::placeholder { color: var(--phosphor-dim-text); }
-/* Blinking terminal cursor, CSS-only: visible whenever the input is
-   showing its placeholder (empty, whether focused or not), hidden the
-   instant real text exists - the :placeholder-shown/~ sibling trick
-   means that hide/show needs zero JS. */
-.search-cursor-blink {
-  color: var(--phosphor);
-  font-family: var(--font-mono);
-  pointer-events: none;
-  animation: cursor-blink 1s step-end infinite;
-  margin-left: -0.5rem;
-}
-.nav-alpha-search input:not(:placeholder-shown) ~ .search-cursor-blink { display: none; }
-@keyframes cursor-blink { 50% { opacity: 0; } }
-@media (prefers-reduced-motion: reduce) {
-  .search-cursor-blink { animation: none; }
-}
 .site-search-results {
   display: none;
   position: absolute;
@@ -697,6 +685,22 @@ button:hover, .btn:hover {
 }
 @media (max-width: 480px) {
   .gama-mascot-box { width: 140px; left: 0.75rem; padding: 0.5rem; }
+}
+/* Her real pixel footprint (portrait + padding + dialogue) needs to fit
+   inside her 40% share of the nav-alpha-to-ticker distance (see
+   updateNavClearance in gama-core.js) - that share is a percentage of a
+   viewport HEIGHT, so a short window is what actually threatens the fit,
+   not a narrow one specifically (the max-width:480px rule above is about
+   phone width, a separate concern). Shrinking further under a short
+   viewport gives her a real chance of fitting her allotted share instead
+   of just being told to. */
+@media (max-height: 700px) {
+  .gama-mascot-box { width: 130px; padding: 0.6rem; }
+  .gama-portrait { max-width: 90px; }
+  /* Her dialogue's own max-height (6em) is the single biggest piece of
+     her real footprint above the portrait - shrinking it too matters
+     more here than shrinking the portrait alone would. */
+  .gama-dialogue { font-size: 0.75rem; min-height: 2.2em; max-height: 4em; }
 }
 .gama-portrait {
   width: 100%;
