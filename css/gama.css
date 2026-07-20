@@ -224,8 +224,27 @@ a:hover, a:focus {
   .command-bridge-grid {
     grid-template-columns: 1fr;
   }
-  .left-deck, .right-deck { order: 2; }
-  .center-viewport { order: 1; }
+  /* .left-deck bundled the search box, RANDOM_TOOL button, and the full
+     (often long) category nav into one box that moved below the content
+     as a unit - on a tool page with a tall content block + ad slot, that
+     buried RANDOM_TOOL under a full scroll's worth of stuff, when it's
+     meant to be a quick, always-nearby action. display:contents un-boxes
+     .left-deck so its children become direct grid items here, letting the
+     search box and RANDOM_TOOL keep their own order (right after the
+     header, before content) while only the long category nav still defers
+     below the content - same reasoning as .center-viewport being ahead of
+     it. */
+  .left-deck { display: contents; }
+  .site-search-box,
+  .random-tool-btn {
+    order: 1;
+    margin-left: 1rem;
+    margin-right: 1rem;
+  }
+  .random-tool-btn { width: calc(100% - 2rem); }
+  .center-viewport { order: 2; }
+  .left-deck .terminal-nav { order: 3; margin: 0 1rem 1rem; }
+  .right-deck { order: 4; }
 }
 
 .left-deck, .right-deck {
