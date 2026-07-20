@@ -96,17 +96,25 @@ const GAMA = (() => {
   }
 
   // GAMA's fixed corner box should clear whatever's pinned below it in the
-  // fixed frame. Used to be ticker + site-footer, back when .site-footer
-  // was itself a pinned body-level sibling of .command-bridge-grid instead
-  // of scrolling content - moving the footer inside .center-viewport (so
-  // it no longer eats frame space on short viewports, see the footer fix)
-  // means it's not part of this fixed stack anymore. Only the ticker is.
-  // Still measuring its real height (not a guessed constant) rather than
-  // assuming it never changes.
+  // fixed frame. .site-footer moved inside .center-viewport a while back so
+  // it no longer eats frame space on short viewports - but .content-flex-
+  // fill's flex-grow (see .center-viewport in gama.css) still pins the
+  // footer to the frame's visual bottom edge on any page whose own content
+  // doesn't overflow the pane, which is most tool pages. From the user's
+  // eye, the footer IS still part of the fixed-looking stack most of the
+  // time, even though it's technically scrolling content - it only actually
+  // scrolls out of this spot on pages long enough to overflow. Measuring
+  // only the ticker (as this used to) left her floating at the ticker's
+  // height alone, landing her right on top of the footer's brand column on
+  // any normal-length page - reproduced live on BASE64_CODEC. Measuring
+  // both and summing them fixes that; on a long page where the footer has
+  // actually scrolled away this still just reserves a bit of unused space
+  // above the ticker, not a visible problem.
   function updateGamaBottomClear() {
     const ticker = document.querySelector(".archival-log-footer");
+    const footer = document.querySelector(".site-footer");
     if (!ticker) return;
-    const clear = ticker.offsetHeight;
+    const clear = ticker.offsetHeight + (footer ? footer.offsetHeight : 0);
     document.documentElement.style.setProperty("--gama-bottom-clear", `${clear}px`);
   }
 
