@@ -1,0 +1,39 @@
+            <section class="tool-card">
+                <h2>&gt; WALLPAPER_FORGE</h2>
+                <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">Free GAMA<sup>+</sup> desktop/phone wallpapers, generated fresh in your browser at whatever resolution you actually need. Nothing to download from a stock site, nothing to sign up for.</p>
+                <div class="tool-workspace">
+                    <div class="wallpaper-controls">
+                        <label class="wallpaper-field">
+                            resolution
+                            <select id="wp-resolution">
+                                <option value="1920x1080">Desktop 1080p (1920&times;1080)</option>
+                                <option value="2560x1440">Desktop 1440p (2560&times;1440)</option>
+                                <option value="3840x2160">Desktop 4K (3840&times;2160)</option>
+                                <option value="3440x1440">Ultrawide (3440&times;1440)</option>
+                                <option value="1170x2532">Phone (1170&times;2532)</option>
+                                <option value="1080x2400">Phone, Android-ish (1080&times;2400)</option>
+                            </select>
+                        </label>
+                        <label class="wallpaper-field">
+                            palette
+                            <select id="wp-palette">
+                                <option value="green">phosphor green</option>
+                                <option value="amber">amber CRT</option>
+                            </select>
+                        </label>
+                        <label class="wallpaper-field wallpaper-field-checkbox">
+                            <input type="checkbox" id="wp-show-quote" checked>
+                            show a GAMA<sup>+</sup> line
+                        </label>
+                    </div>
+                    <div class="wallpaper-controls">
+                        <button type="button" onclick="regenerateWallpaper()">&gt; REROLL</button>
+                        <button type="button" onclick="downloadWallpaper()">&gt; DOWNLOAD_PNG</button>
+                    </div>
+                    <div class="wallpaper-preview-frame">
+                        <canvas id="wp-canvas"></canvas>
+                    </div>
+                </div>
+                <div class="result-block" id="wp-result"></div>
+            </section>
+            <p style="padding:0 1.5rem; font-size:0.85rem;"><span style="color: var(--phosphor-dim-text)">See also:</span> <a href="palette.html">Palette Forge</a> &middot; <a href="svg-pattern-gen.html">SVG Pattern Generator</a> &middot; <a href="placeholder-image.html">Placeholder Image Generator</a></p>

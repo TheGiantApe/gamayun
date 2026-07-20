@@ -559,6 +559,46 @@ a:hover, a:focus {
   padding: 0.6rem;
 }
 .tool-workspace textarea { width: 100%; min-height: 6rem; }
+
+.wallpaper-controls {
+  display: flex;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  margin-bottom: 1rem;
+  width: 100%;
+}
+.wallpaper-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  font-size: 0.8rem;
+  color: var(--phosphor-dim-text);
+}
+.wallpaper-field select {
+  font-family: var(--font-body);
+  padding: 0.4rem;
+}
+.wallpaper-field-checkbox {
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5rem;
+}
+.wallpaper-preview-frame {
+  width: 100%;
+  border: 1px solid var(--phosphor-dim);
+  background: var(--void);
+  padding: 0.5rem;
+  overflow: auto;
+}
+#wp-canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 70vh;
+  object-fit: contain;
+  margin: 0 auto;
+}
 button, .btn {
   background: transparent;
   border: 1px solid var(--phosphor);

@@ -217,6 +217,12 @@ const TOOL_LIST = [
     "url": "pages/palette.html"
   },
   {
+    "title": "Wallpaper Forge",
+    "desc": "Free GAMA-themed desktop and phone wallpapers, generated in your browser at the resolution you need. No stock site, no account.",
+    "code": "WALLPAPER_FORGE",
+    "url": "pages/wallpaper-forge.html"
+  },
+  {
     "title": "Contrast Checker",
     "desc": "WCAG 2.x contrast ratio for any foreground/background pair, checked against AA/AAA at normal and large text sizes, with a nearest-passing-color suggestion when it fails.",
     "code": "CONTRAST_CHECK",
