@@ -686,22 +686,18 @@ button:hover, .btn:hover {
 @media (max-width: 480px) {
   .gama-mascot-box { width: 140px; left: 0.75rem; padding: 0.5rem; }
 }
-/* Her real pixel footprint (portrait + padding + dialogue) needs to fit
-   inside her 40% share of the nav-alpha-to-ticker distance (see
-   updateNavClearance in gama-core.js) - that share is a percentage of a
-   viewport HEIGHT, so a short window is what actually threatens the fit,
-   not a narrow one specifically (the max-width:480px rule above is about
-   phone width, a separate concern). Shrinking further under a short
-   viewport gives her a real chance of fitting her allotted share instead
-   of just being told to. */
-@media (max-height: 700px) {
-  .gama-mascot-box { width: 130px; padding: 0.6rem; }
-  .gama-portrait { max-width: 90px; }
-  /* Her dialogue's own max-height (6em) is the single biggest piece of
-     her real footprint above the portrait - shrinking it too matters
-     more here than shrinking the portrait alone would. */
-  .gama-dialogue { font-size: 0.75rem; min-height: 2.2em; max-height: 4em; }
-}
+/* A previous version of this file also shrunk her further under a short
+   (max-height:700px) viewport, on the theory that a smaller footprint
+   would help her fit a fixed percentage share of the nav-alpha-to-ticker
+   distance. That percentage-share model turned out to be wrong on its
+   own terms (see updateNavClearance in gama-core.js) and got replaced -
+   nav now measures her real position directly instead of assuming a
+   share of the space. The real fix for "not enough room" turned out to
+   be updateGamaBottomClear no longer reserving her clearance for a
+   footer that's scrolled out of view (previously a permanent, often
+   200px+, dead zone under her) - once that's reclaimed, shrinking her on
+   top of it wasn't buying anything real, just making her smaller for no
+   reason a shorter window specifically required. */
 .gama-portrait {
   width: 100%;
   /* Was 160px - shrunk to buy back real vertical space for nav-beta

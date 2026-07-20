@@ -88,25 +88,38 @@ const GAMA = (() => {
   }
 
   // GAMA's fixed corner box should clear whatever's pinned below it in the
-  // fixed frame. .site-footer moved inside .center-viewport a while back so
-  // it no longer eats frame space on short viewports - but .content-flex-
-  // fill's flex-grow (see .center-viewport in gama.css) still pins the
-  // footer to the frame's visual bottom edge on any page whose own content
-  // doesn't overflow the pane, which is most tool pages. From the user's
-  // eye, the footer IS still part of the fixed-looking stack most of the
-  // time, even though it's technically scrolling content - it only actually
-  // scrolls out of this spot on pages long enough to overflow. Measuring
-  // only the ticker (as this used to) left her floating at the ticker's
-  // height alone, landing her right on top of the footer's brand column on
-  // any normal-length page - reproduced live on BASE64_CODEC. Measuring
-  // both and summing them fixes that; on a long page where the footer has
-  // actually scrolled away this still just reserves a bit of unused space
-  // above the ticker, not a visible problem.
+  // fixed frame - the ticker, always, and .site-footer only when it's
+  // actually anywhere near being visible. Used to just always add the
+  // footer's full height unconditionally, on the theory that "reserving
+  // unused space when the footer's scrolled away isn't a visible problem"
+  // - measured wrong. On a page with enough content that the footer sits
+  // far below the fold (confirmed live: site-footer at y=1046 while the
+  // viewport itself was only 852px tall), that unconditional reservation
+  // was a genuine, large, visible dead zone between her box and the
+  // ticker for content that wasn't within a screen's reach - not a
+  // rounding error, over 200px of it. Checking whether the footer is
+  // actually within (or close to) the current viewport before adding its
+  // height fixes that, and a scroll listener on .center-viewport (where
+  // added below) keeps it correct as the user scrolls the footer into or
+  // out of view, instead of only ever checking once on load.
   function updateGamaBottomClear() {
     const ticker = document.querySelector(".archival-log-footer");
     const footer = document.querySelector(".site-footer");
     if (!ticker) return;
-    const clear = ticker.offsetHeight + (footer ? footer.offsetHeight : 0);
+    let clear = ticker.offsetHeight;
+    if (footer) {
+      const footerTop = footer.getBoundingClientRect().top;
+      // 48px early margin so the clearance updates a beat before the
+      // footer's edge actually crosses into view, not exactly on it.
+      if (footerTop < window.innerHeight + 48) {
+        // +32px safety pad, not just the bare measured height - the debounce
+        // window plus scroll-position rounding meant "exactly touching, zero
+        // gap" in the math sometimes landed as a few pixels of real overlap
+        // once actually rendered (confirmed live while testing this - a
+        // smaller +16px pad still left about 10px of overlap).
+        clear += footer.offsetHeight + 32;
+      }
+    }
     document.documentElement.style.setProperty("--gama-bottom-clear", `${clear}px`);
   }
 
@@ -250,6 +263,24 @@ const GAMA = (() => {
         updateHeaderClearance();
       }, 150);
     });
+    // updateGamaBottomClear's footer-visibility check needs to be re-run
+    // as the page actually scrolls, not just once on load - the footer
+    // scrolls into and out of view within .center-viewport on desktop
+    // (its own overflow-y:auto region) or within the whole page on
+    // mobile (where .center-viewport doesn't scroll independently).
+    // Listening on both covers whichever one is real for the current
+    // layout. nav's own clearance gets re-checked in the same pass since
+    // her position moving changes what nav needs to clear too.
+    let scrollTimer;
+    const onScroll = () => {
+      clearTimeout(scrollTimer);
+      scrollTimer = setTimeout(() => {
+        updateGamaBottomClear();
+        updateNavClearance();
+      }, 100);
+    };
+    document.querySelector(".center-viewport")?.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("scroll", onScroll, { passive: true });
     // All three measurements above run at DOMContentLoaded, before her
     // portrait image (and the footer/raven-watermark images) have
     // necessarily finished loading - .gama-mascot-box's rendered height
