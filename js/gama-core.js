@@ -75,12 +75,9 @@ const GAMA = (() => {
     if (faceEl) faceEl.textContent = state.face;
     if (speechEl) speechEl.textContent = pick(state.lines);
     if (stateKey === "success") bumpTally();
-    // Dialogue lines vary a lot in length, so her box's real height (and
-    // therefore how far up she reaches) changes with every line - not just
-    // on load/resize like the ticker/footer/ad stack below her. Recompute
-    // the nav's clearance every time she speaks so a long success message
-    // can't grow her box back over the nav text underneath it.
-    updateNavClearance();
+    // No nav-clearance recompute needed here anymore - updateNavClearance()
+    // no longer depends on anything about her (position, dialogue length),
+    // just the viewport and nav's own top. See its own comment for why.
   }
 
   function log(msg) {
@@ -180,23 +177,44 @@ const GAMA = (() => {
   }
 
   // The sidebar nav caps its own height so it scrolls internally instead of
-  // running under GAMA's fixed box (see .terminal-nav in gama.css). That cap
-  // used to be a guessed "24rem for her whole footprint" constant, which
-  // drifted out of sync the moment --gama-bottom-clear above grew past what
-  // 24rem assumed - nav text ended up rendering right under her dialogue
-  // box. Reading her actual rendered top edge (must run after
-  // updateGamaBottomClear, since that's what determines her position)
-  // keeps the two in sync regardless of what either one measures to.
-  // Below 901px she's not fixed-positioned and this max-height cap doesn't
-  // apply (see gama.css), so there's nothing to measure there.
+  // running under GAMA's fixed corner box. Two real, separate bugs lived
+  // here:
+  //
+  // 1. This only ever measured .gama-mascot-box's own top edge. Her
+  //    dialogue bubble floats absolutely ABOVE the portrait box (see
+  //    .gama-dialogue in gama.css - bottom: calc(100% + 0.5rem)) and its
+  //    height varies with whatever random line she's currently saying -
+  //    that overhang was never accounted for, so nav could render past
+  //    where the dialogue actually was and visibly overlap it.
+  //
+  // 2. A fixed "RESERVE" constant was tried here briefly to stop nav's
+  //    height from depending on her position at all - but her real
+  //    footprint (portrait + dialogue + the footer/ticker clearance she
+  //    needs below her) can genuinely exceed 500px, while the total frame
+  //    height above her (header + search box + nav) is often only
+  //    700-900px to begin with. A guessed constant either overlapped her
+  //    (too small) or crushed nav down to nothing (too large) - there's no
+  //    single right number, because how much room actually exists varies
+  //    by real viewport height, not something safe to hardcode.
+  //
+  // Fix: measure her REAL topmost visual edge (dialogue bubble if present,
+  // since it extends higher than the box), and let nav's height reflect
+  // whatever's actually left above that - including "not much" on a short
+  // window. No artificial floor forcing nav to claim space that doesn't
+  // exist: a floor that exceeds the real gap is exactly what was
+  // guaranteeing overlap on tight viewports. A nav that's honestly short
+  // (still scrollable) beats a nav that's a fixed size and wrong.
   function updateNavClearance() {
     if (window.innerWidth < 901) return;
     const nav = document.querySelector(".terminal-nav");
     const gamaBox = document.querySelector(".gama-mascot-box");
     if (!nav || !gamaBox) return;
+    const dialogue = document.querySelector(".gama-dialogue");
     const navTop = nav.getBoundingClientRect().top;
-    const gamaTop = gamaBox.getBoundingClientRect().top;
-    const clear = Math.max(160, gamaTop - navTop - 16);
+    const boxTop = gamaBox.getBoundingClientRect().top;
+    const dialogueTop = dialogue ? dialogue.getBoundingClientRect().top : boxTop;
+    const gamaTop = Math.min(boxTop, dialogueTop);
+    const clear = Math.max(60, gamaTop - navTop - 16);
     document.documentElement.style.setProperty("--gama-nav-clear", `${clear}px`);
   }
 
@@ -227,6 +245,22 @@ const GAMA = (() => {
         updateNavClearance();
         updateHeaderClearance();
       }, 150);
+    });
+    // All three measurements above run at DOMContentLoaded, before her
+    // portrait image (and the footer/raven-watermark images) have
+    // necessarily finished loading - .gama-mascot-box's rendered height
+    // depends on that image's real dimensions, so measuring before it
+    // loads can capture a box that's shorter than its final size, which
+    // then understates how far up she actually reaches once everything
+    // settles. Re-measuring once on window "load" (fires after every
+    // resource, including images, has finished) catches that instead of
+    // leaving nav clearance permanently wrong on whatever it guessed pre-
+    // load. Was the real cause of nav-beta still overlapping her dialogue
+    // even after the measurement logic itself was fixed to be correct.
+    window.addEventListener("load", () => {
+      updateGamaBottomClear();
+      updateNavClearance();
+      updateHeaderClearance();
     });
 
     // Any input field on the page nudges GAMA to "working" on focus.

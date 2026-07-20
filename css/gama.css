@@ -444,10 +444,20 @@ a:hover, a:focus {
    on hover or when active (current page). */
 .nav-section-label {
   display: block;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   font-weight: bold;
   color: var(--phosphor);
-  letter-spacing: 0.1em;
+  /* The 220px sidebar column leaves very little room per character once
+     padding is subtracted - the longer category names (NUMBER_CRUNCH,
+     FILE_SALVAGE, EXTERNAL_LINKS) were landing right at that edge and
+     wrapping mid-word in whatever spot the browser's default line-
+     breaking picked, which reads as broken rather than intentional.
+     Tighter letter-spacing buys back just enough width that none of the
+     current category names need to wrap at all; overflow-wrap:anywhere
+     is a deliberate fallback for if a future category name is still too
+     long - an even, predictable break beats an arbitrary one. */
+  letter-spacing: 0.04em;
+  overflow-wrap: anywhere;
   margin: 0 0 0.35rem;
   cursor: pointer;
   list-style: none;
