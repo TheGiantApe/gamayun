@@ -144,11 +144,19 @@ function renderSudokuGrid(puzzle, givens) {
       input.style.fontSize = "1.1rem";
       input.style.background = givens && givens[r][c] ? "var(--phosphor-faint)" : "var(--void)";
       input.style.color = "var(--phosphor)";
+      // 3x3 box dividers need to actually read as dividers at a glance -
+      // a 1px/2px width difference in the same dim color was there in
+      // logic but invisible in practice. Bright color + a real width jump
+      // makes the box structure legible the way a real Sudoku grid needs.
       input.style.border = "1px solid var(--phosphor-dim)";
-      input.style.borderTopWidth = r % 3 === 0 ? "2px" : "1px";
-      input.style.borderLeftWidth = c % 3 === 0 ? "2px" : "1px";
-      input.style.borderRightWidth = c === 8 ? "2px" : "1px";
-      input.style.borderBottomWidth = r === 8 ? "2px" : "1px";
+      input.style.borderTopWidth = r % 3 === 0 ? "3px" : "1px";
+      input.style.borderTopColor = r % 3 === 0 ? "var(--phosphor)" : "var(--phosphor-dim)";
+      input.style.borderLeftWidth = c % 3 === 0 ? "3px" : "1px";
+      input.style.borderLeftColor = c % 3 === 0 ? "var(--phosphor)" : "var(--phosphor-dim)";
+      input.style.borderRightWidth = c === 8 ? "3px" : "1px";
+      input.style.borderRightColor = c === 8 ? "var(--phosphor)" : "var(--phosphor-dim)";
+      input.style.borderBottomWidth = r === 8 ? "3px" : "1px";
+      input.style.borderBottomColor = r === 8 ? "var(--phosphor)" : "var(--phosphor-dim)";
       input.readOnly = !!(givens && givens[r][c]);
       input.addEventListener("input", (e) => {
         e.target.value = e.target.value.replace(/[^1-9]/g, "").slice(0, 1);
