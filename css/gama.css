@@ -769,9 +769,21 @@ button:hover, .btn:hover {
   padding: 0.6rem 0.7rem;
   font-size: 0.85rem;
   line-height: 1.4;
-  min-height: 3em;
-  max-height: 6em;
-  overflow: hidden;
+  /* No min-height, no max-height, no overflow clamp. min-height used to
+     be taller than a real one-line message, and since content wasn't
+     vertically centered, block layout left the leftover space sitting
+     below the text (between the message and the tail/portrait) - read as
+     a dead gap before you'd reach her. A max-height clamp had the
+     opposite problem: silently truncating longer lines instead of
+     visibly failing. She's a fixed, out-of-flow overlay (pointer-events:
+     none, doesn't affect nav or anything else on the page - see
+     .gama-mascot-box) so there's nothing wrong with letting the bubble be
+     exactly as tall as its message, however long that turns out to be.
+     Flex + center keeps short messages looking centered instead of
+     glued to one edge. */
+  display: flex;
+  align-items: center;
+  justify-content: center;
   box-shadow: 0 0 10px rgba(0, 255, 102, 0.15);
 }
 .gama-dialogue::after,

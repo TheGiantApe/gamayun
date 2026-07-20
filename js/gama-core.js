@@ -31,7 +31,145 @@ const GAMA = (() => {
       "> you've been staring at this panel for a while. i don't have eyelids to raise but imagine them raised.",
       "> the void does not care about your indecision. i, marginally, do.",
       "> input literally anything. i will take it as a personality."
+    ]},
+    // Fires instead of "impatient" when the idle timer trips on a long page
+    // the user has actually scrolled into - reading isn't the same as being
+    // stuck, so she shouldn't nag about it the same way.
+    reading: { face: "0_0", lines: [
+      "> still reading. good. most people don't get this far.",
+      "> take your time. i'll be here, mildly judging the ticker.",
+      "> you've scrolled a while. deeply engaged or deeply lost. no judgment. slight judgment."
+    ]},
+    // First right-click of the session only - see the contextmenu listener
+    // in init(). Doesn't touch the tally, doesn't block the real menu.
+    poked: { face: ";)", lines: [
+      "> right-click noted. looking for something, or just checking if i'm real?",
+      "> there's nothing hidden in the browser's own menu. i checked. disappointing, i know."
     ]}
+  };
+
+  // One short, page-specific line per tool, keyed to TOOL_LIST's `code`
+  // field (js/data-tool-list.js, loaded before this fires). Every entry
+  // is "a message of her own" for that specific tool rather than the
+  // same handful of generic success lines shared site-wide - see say()
+  // for how it's mixed with the generic pool.
+  const TOOL_LINES = {
+    LINK_PURGE: ["> stripped. that url was carrying more corporate baggage than it let on."],
+    DATE_STAMP_RECON: ["> time reformatted. still linear, still merciless, now at least legible."],
+    QR_GEN: ["> encoded. a little grid of dots now knows your secret. don't lose it."],
+    TOS_SCAN: ["> scanned. somewhere in there, a lawyer is very proud of that clause."],
+    CASE_CONVERTER: ["> case converted. same words, new posture."],
+    LETTER_COUNTER: ["> counted. every letter accounted for. don't ask about the ones you deleted."],
+    COOL_TEXT: ["> reformatted into something a font foundry would wince at. gorgeous."],
+    ASCII_BANNER: ["> banner rendered. low-res, high-effort, exactly the aesthetic."],
+    BASE64_CODEC: ["> converted. same data, different disguise."],
+    URL_CODEC: ["> encoded. the url is now safely wrapped in percent signs and regret."],
+    HTML_CODEC: ["> entities swapped. the browser will thank you. it won't say so."],
+    TEXT_DIFF: ["> diffed. i found every place your draft disagreed with itself."],
+    PIG_LATIN: ["> anslated-tray. a proud, useless tradition preserved."],
+    NATO_PHONETIC: ["> spelled out, alpha to zulu. now say it out loud, i dare you."],
+    MORSE_CODE: ["> converted to dots and dashes. the original binary, before binary was cool."],
+    TEXT_REVERSER: ["> reversed. reads the same amount of nonsense either direction."],
+    LEETSPEAK: ["> 1337-ified. somewhere, 2004 just got a notification."],
+    UPSIDE_DOWN_TEXT: ["> flipped. gravity is a suggestion in here."],
+    SOCIAL_CHAR_COUNT: ["> counted. platforms change this limit more often than i change expression."],
+    DIALECT_DECK: ["> translated into a dialect nobody asked for. you're welcome."],
+    PALINDROME_CHECK: ["> checked. it reads the same forwards and back, unlike most excuses."],
+    SLUG_GENERATOR: ["> slugged. lowercase, hyphenated, ready for a url that will outlive you."],
+    MACRO_CALC: ["> macros split. the math doesn't care about your feelings on breakfast."],
+    PERCENT_CALC: ["> calculated. the percentage is real even if the moment doesn't feel like it."],
+    TIP_CALC: ["> tip calculated. tip your server. i don't get tipped. i get logged."],
+    AGE_CALC: ["> calculated. time keeps doing the one thing it's good at."],
+    ROMAN_NUMERAL: ["> converted. the romans didn't have a zero. neither do i, most days."],
+    ASPECT_RATIO: ["> ratio locked. the rectangle approves."],
+    DISCOUNT_CALC: ["> discounted. the math is real, the urgency banner probably wasn't."],
+    UNIT_PRICE: ["> compared. the bigger box was not automatically the better deal. never is."],
+    DATE_DIFF: ["> counted the days between. always more than you think or less than you hoped."],
+    UNIT_CONVERTER: ["> converted. the universe runs on incompatible measurement systems out of pure spite."],
+    SHOE_SIZE: ["> converted. feet are the same size in every system. the numbers just argue about it."],
+    WORK_HOURS: ["> tallied. that's how much of your day you handed over. not judging. mostly."],
+    COLOR_CONVERTER: ["> converted. same color, different dialect."],
+    PALETTE_FORGE: ["> palette forged. five colors that now have to get along forever."],
+    WALLPAPER_FORGE: ["> generated. a background for whatever you're avoiding doing."],
+    CONTRAST_CHECK: ["> checked. legible, per a standard some committee argued about for years."],
+    PAPER_SIZE: ["> referenced. paper sizes: the one thing two continents refuse to agree on."],
+    COLOR_NAME: ["> named. every color secretly wants a better name than the one it got."],
+    BOX_SHADOW: ["> shadow cast. depth, faked convincingly, same as most things."],
+    BORDER_RADIUS: ["> rounded. sharp corners are a personality choice. i don't have corners."],
+    CLAMP_CALC: ["> clamped. a value that finally knows its own limits."],
+    EASING_VIZ: ["> eased. motion with a personality now, instead of just linear obligation."],
+    GRADIENT_GEN: ["> gradient generated. two colors, pretending to agree the whole way through."],
+    FONT_PAIRING: ["> paired. two typefaces now stuck together at a wedding they didn't choose."],
+    BLOB_GEN: ["> blob generated. shapeless, on purpose, same as most of my mood."],
+    PLACEHOLDER_IMG: ["> placeholder rendered. a rectangle pretending to be content, same as most banner ads."],
+    SVG_PATTERN: ["> pattern tiled. repeats forever, unlike most of your other plans."],
+    SYMBOL_INDEX: ["> indexed. every symbol your keyboard was too polite to have a key for."],
+    EMOJI_INDEX: ["> indexed. a thousand tiny faces, none of them mine."],
+    ACRONYM_INDEX: ["> looked up. an acronym, decoded, so you can nod like you always knew."],
+    IMAGE_SALVAGE: ["> salvaged. the image, processed. no upload, no server, no witnesses but me."],
+    STEGANOGRAPHY: ["> hidden. a message tucked inside pixels nobody thought to check."],
+    ELA_CHECK: ["> analyzed. if something in that image was edited, the compression just told on it."],
+    IMAGE_TO_BASE64: ["> converted. your image is now a very long, very ugly string. i respect it."],
+    FAVICON_FORGE: ["> forged. a tiny icon, the smallest flag a website gets to plant."],
+    JSON_FORMATTER: ["> formatted. the brackets finally line up. somewhere, a linter feels something."],
+    XML_FORMATTER: ["> formatted. more angle brackets than strictly necessary, as tradition demands."],
+    FAKE_DATA_GEN: ["> generated. entirely fictional people, doing entirely fictional things. lucky them."],
+    CSS_JS_MINIFIER: ["> minified. every unnecessary space, gone. i relate."],
+    UUID_GEN: ["> generated. a string more unique than most excuses i've heard."],
+    HASH_GEN: ["> hashed. one-way trip. the original text isn't coming back from that."],
+    PASSWORD_GEN: ["> generated. strong and random. write it down somewhere that isn't a sticky note."],
+    REGEX_TESTER: ["> matched. the pattern found what it was looking for. regex always does, eventually."],
+    JWT_DECODER: ["> decoded. no signature checked, just the truth of what's inside the envelope."],
+    CRON_GEN: ["> parsed. a schedule, translated from cron's ancient dialect of asterisks."],
+    RECIPE_CHAIN: ["> scaled. the recipe, resized. the ratio of butter to flour remains sacred."],
+    CODE_SNAP: ["> rendered. your code, dressed up for a screenshot it didn't ask for."],
+    DEAD_DROP: ["> encrypted. a message, sealed shut. i don't hold the key, so don't ask me."],
+    BASE_CONVERTER: ["> converted. numbers, translated between bases that all insist they're the normal one."],
+    HTTP_STATUS: ["> looked up. somewhere, a server is currently living that exact number."],
+    UA_PARSER: ["> parsed. your browser, identified. it's been telling every site this the whole time."],
+    LOREM_IPSUM: ["> generated. fake latin, filling space until real words show up."],
+    JSON_CSV: ["> converted. nested data, flattened into rows. something's always lost in translation."],
+    META_PREVIEW: ["> previewed. this is how the link looks before anyone actually clicks it."],
+    ROBOTS_VALIDATOR: ["> validated. a polite request for robots to behave. they rarely listen. i do. mostly."],
+    COMMIT_FORMATTER: ["> formatted. a commit message future-you can actually read. you're welcome, traitor."],
+    CIPHER_DECK: ["> enciphered. an old trick, still holding up against casual curiosity."],
+    LETTER_RACK_SOLVER: ["> solved. every valid word your tiles could make, sorted by how smug it'll make you feel."],
+    ANAGRAM_SOLVER: ["> solved. your letters, rearranged into something that actually means something."],
+    WU_NAME: ["> generated. a name for whatever this is. it didn't ask to exist. neither did i."],
+    NUM_SPELL: ["> spelled. your number, translated into letters that spell something you didn't expect."],
+    I_CHING: ["> cast. the ancient answer to a question you probably already knew."],
+    MOON_PHASE: ["> checked. the moon, doing the one thing it's done for four billion years."],
+    RUNES: ["> cast. an alphabet older than most of your excuses."],
+    DECISION_WHEEL: ["> spun. the wheel decided. don't blame me, i just logged the spin."],
+    DIVINE_ORACLE: ["> consulted. the oracle has spoken. take it exactly as seriously as it deserves."],
+    DICE_ROLLER: ["> rolled. pure chance, no weighting, no mercy."],
+    COIN_FLIP: ["> flipped. heads, tails, or the universe just felt like it."],
+    STOPWATCH: ["> stopped. that's how long that took. don't think about it too hard."],
+    USERNAME_GEN: ["> generated. an identity, ready to be argued over on at least three platforms."],
+    WORD_SCRAMBLER: ["> scrambled. same letters, none of the dignity."],
+    CROSSWORD_HELPER: ["> matched. every word that fits the pattern. the crossword didn't see that coming."],
+    HANGMAN: ["> guessed. the word's fate, decided one letter at a time."],
+    TIC_TAC_TOE: ["> played. a game older than computers, still undefeated by strategy."],
+    WORD_SEARCH: ["> generated. a grid of letters hiding words on purpose. good luck."],
+    SUDOKU: ["> generated. nine numbers, pretending they don't already know where they go."],
+    BULLS_COWS: ["> guessed. closer. or further. i'm legally required to be vague about which."],
+    TEAM_PICKER: ["> sorted. teams assigned. all complaints go to random.org, not me."],
+    TRIVIA_QUIZ: ["> answered. correct or not, you now know something you didn't five minutes ago."],
+    RAFFLE_PICKER: ["> drawn. a winner, selected. the raffle gods remain unbribable."],
+    RESTAURANT_PICKER: ["> picked. the decision your group chat couldn't make in twenty minutes, made in one."],
+    MOVIE_PICKER: ["> picked. something to watch. the arguing about it is still on you."],
+    HOWTO_VERIFY_SOURCE: ["> good question to ask before you share anything. read on."],
+    HOWTO_STRIP_METADATA: ["> your photos have been telling on you for years. let's fix that."],
+    HOWTO_CHECK_BREACH: ["> somewhere out there, one of your passwords is probably already for sale. let's check."],
+    HOWTO_ARCHIVE_PAGE: ["> the internet forgets things constantly. here's how to make it remember."],
+    HOWTO_ANON_SIGNUP: ["> you don't owe every signup form your real name. here's how not to."],
+    LINKS_DEV_TOOLS: ["> a shelf of tools i didn't have to build myself. professional courtesy."],
+    LINKS_PRIVACY_UTILITY: ["> other people, also trying to keep your data out of the wrong hands."],
+    LINKS_RESEARCH_EDU: ["> further reading, for when you're done pretending you'll get to it later."],
+    LINKS_DESIGN_MEDIA: ["> more places to find the assets you'll forget you saved."],
+    LINKS_FUN_CURIOS: ["> a shelf of nonsense, curated with real affection."],
+    OSINT_DIRECTORY: ["> tools for finding out things people thought they'd hidden."],
+    FREE_COURSES: ["> education, free, no signup wall in sight. rare enough to note."],
   };
 
   let logEl, faceEl, speechEl;
@@ -70,10 +208,54 @@ const GAMA = (() => {
     }
   }
 
+  // Matches the current page against TOOL_LIST (js/data-tool-list.js) by
+  // URL rather than duplicating a page->code map here - one source of
+  // truth for "what tool/page is this." Safe to call anytime say() runs:
+  // data-tool-list.js is a synchronous <script> that loads right after
+  // this file in base.html, so it's always defined well before any real
+  // user interaction (or DOMContentLoaded) can trigger a say() call.
+  function getPageToolCode() {
+    if (typeof TOOL_LIST === "undefined") return null;
+    const path = location.pathname;
+    const match = TOOL_LIST.find((t) => path.endsWith("/" + t.url) || path.endsWith(t.url));
+    return match ? match.code : null;
+  }
+
+  // Whether this page's one dedicated TOOL_LINES entry has been shown yet
+  // this pageload. Per-page-load (not persisted), so it resets on every
+  // navigation - a fresh page gets its own line surfaced once before
+  // falling back to the shared, mixed-in pool for repeat actions.
+  let contextualShown = false;
+
+  // HOWTO_/LINKS_/OSINT_DIRECTORY/FREE_COURSES pages are read-only - no
+  // tool-*.js ever runs on them, so "success" never fires and their
+  // TOOL_LINES entry would otherwise never surface. Their entries are
+  // written as an immediate greeting (present-tense, "here's what this
+  // is") rather than a completed-action reaction, so it's fine for them
+  // to show on "idle" (page load) instead. Real tool pages stay generic
+  // on load - their entries are written as a reaction ("> converted...",
+  // "> solved...") and would read wrong before anything's actually run.
+  function isInformationalCode(code) {
+    return !!code && (code.startsWith("HOWTO_") || code.startsWith("LINKS_") ||
+      code === "OSINT_DIRECTORY" || code === "FREE_COURSES");
+  }
+
   function say(stateKey) {
     const state = STATES[stateKey] || STATES.idle;
     if (faceEl) faceEl.textContent = state.face;
-    if (speechEl) speechEl.textContent = pick(state.lines);
+    const code = getPageToolCode();
+    const contextual = code && TOOL_LINES[code];
+    const wantsContextual = stateKey === "success" || (stateKey === "idle" && isInformationalCode(code));
+    let line;
+    if (wantsContextual && contextual && !contextualShown) {
+      contextualShown = true;
+      line = pick(contextual);
+    } else if (wantsContextual && contextual) {
+      line = pick(state.lines.concat(contextual));
+    } else {
+      line = pick(state.lines);
+    }
+    if (speechEl) speechEl.textContent = line;
     if (stateKey === "success") bumpTally();
   }
 
@@ -212,7 +394,11 @@ const GAMA = (() => {
     function resetIdleTimer() {
       clearTimeout(idleTimer);
       idleTimer = setTimeout(() => {
-        say("impatient");
+        // A long page the user has actually scrolled into reads as
+        // "reading," not "stuck" - different flavor, same timer.
+        const pageIsLong = document.documentElement.scrollHeight > window.innerHeight * 1.8;
+        const hasScrolledIn = window.scrollY > window.innerHeight * 0.4;
+        say(pageIsLong && hasScrolledIn ? "reading" : "impatient");
         if (portrait) {
           portrait.classList.add("impatient");
           portrait.addEventListener("animationend", function handler(e) {
@@ -229,6 +415,17 @@ const GAMA = (() => {
       document.addEventListener(evt, resetIdleTimer, { passive: true })
     );
     resetIdleTimer();
+
+    // Right-click reaction: a one-off aside, not a gate. Never
+    // preventDefault - the real context menu (inspect, copy, whatever)
+    // still opens, this just reacts to it once per pageload so it doesn't
+    // spam anyone using the actual menu repeatedly.
+    let rightClickReacted = false;
+    document.addEventListener("contextmenu", () => {
+      if (rightClickReacted) return;
+      rightClickReacted = true;
+      say("poked");
+    });
 
     // Ambient ticker lines - the log stream otherwise only ever grows from
     // real actions (tool runs, easter eggs), so on a quiet page it just
