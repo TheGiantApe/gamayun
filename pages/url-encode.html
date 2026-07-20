@@ -391,16 +391,30 @@
                     <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
                 </div>
             </div>
-
-            <div class="gama-mascot-box">
-                <div class="gama-dialogue">
-                    <p id="gama-speech">&gt; awaiting input...</p>
-                </div>
-                <img class="gama-portrait" id="gama-portrait" src="../assets/gama-corner-mascot.png" alt="GAMA⁺" draggable="false">
-                <div class="aperture-eye" style="display:none;">0_0</div>
-            </div>
         </aside>
 
+    </div>
+
+    <!-- GAMA's corner mascot used to live inside .right-deck, several
+         boxes deep (right-deck > command-bridge-grid > body). Desktop's
+         position:fixed always genuinely escaped that nesting to anchor to
+         the real viewport corner - none of those ancestors set a
+         transform/filter/perspective/contain that would've trapped it -
+         but living several boxes deep made that escape easy to doubt just
+         from reading the markup, and left it one careless future ancestor
+         style away from silently breaking. Moved to a plain body-level
+         sibling instead, same level as the header/command-bridge-grid/
+         ticker footer, so "this is independently anchored, not nested
+         layout" is obvious from the DOM structure itself. Mobile (where
+         she's not fixed, just normal in-flow content) renders this in the
+         same natural tail-of-page spot she already occupied inside
+         right-deck - no order/positioning override needed. -->
+    <div class="gama-mascot-box">
+        <div class="gama-dialogue">
+            <p id="gama-speech">&gt; awaiting input...</p>
+        </div>
+        <img class="gama-portrait" id="gama-portrait" src="../assets/gama-corner-mascot.png" alt="GAMA⁺" draggable="false">
+        <div class="aperture-eye" style="display:none;">0_0</div>
     </div>
 
     <footer class="archival-log-footer">
