@@ -1,4 +1,4 @@
-/* SCRABBLE_SOLVER — given a rack of letters (+ optional ? wildcards), find every
+/* LETTER_RACK_SOLVER — given a rack of letters (+ optional ? wildcards), find every
    valid word makeable from them. Depends on WORD_LIST from data-words.js. */
 
 function canForm(word, rackCounts) {
@@ -15,7 +15,7 @@ function canForm(word, rackCounts) {
   return true;
 }
 
-function solveScrabble(rackRaw) {
+function solveRack(rackRaw) {
   const rack = rackRaw.toLowerCase().replace(/[^a-z?]/g, "");
   if (!rack) return [];
   const counts = {};
@@ -26,8 +26,8 @@ function solveScrabble(rackRaw) {
   return results;
 }
 
-// Standard Scrabble point values, for score display.
-const SCRABBLE_POINTS = {
+// Standard tile point values, for score display.
+const TILE_POINTS = {
   a:1,e:1,i:1,o:1,u:1,l:1,n:1,s:1,t:1,r:1,
   d:2,g:2,
   b:3,c:3,m:3,p:3,
@@ -38,18 +38,18 @@ const SCRABBLE_POINTS = {
 };
 function scoreWord(w) {
   let s = 0;
-  for (const ch of w) s += SCRABBLE_POINTS[ch] || 0;
+  for (const ch of w) s += TILE_POINTS[ch] || 0;
   return s;
 }
 
-function executeScrabble() {
+function executeRackSolve() {
   const input = document.getElementById("rack-input");
-  const out = document.getElementById("scrabble-result");
+  const out = document.getElementById("rack-result");
   const raw = input.value;
   if (!raw.trim()) { GAMA.say("idle"); return; }
   GAMA.say("working");
   setTimeout(() => {
-    const results = solveScrabble(raw);
+    const results = solveRack(raw);
     if (results.length === 0) {
       GAMA.say("error");
       out.textContent = "// nothing formable from that rack";
@@ -64,4 +64,4 @@ function executeScrabble() {
     GAMA.log(`Rack "${raw}" -> ${results.length} valid words`);
   }, 150);
 }
-const executeScrabbleDebounced = GAMA.debounce(executeScrabble, 300);
+const executeRackSolveDebounced = GAMA.debounce(executeRackSolve, 300);

@@ -372,7 +372,7 @@ PAGES = [
     dict(out="pages/letter-rack-solver.html", fragment="letter-rack-solver.html", title="Letter Rack Solver",
          desc="Find every valid word from a letter rack, including blank tiles, sorted by point value. Independent tool, not affiliated with or endorsed by any board game publisher.",
          root="../", code="LETTER_RACK_SOLVER", category="GAMES_CURIOS",
-         js=["data-words.js", "tool-scrabble.js"]),
+         js=["data-words.js", "tool-letter-rack-solver.js"]),
     dict(out="pages/anagram-solver.html", fragment="anagram-solver.html", title="Anagram Solver",
          desc="Exact anagrams and sub-word matches from any set of letters, 52,000-word dictionary.",
          root="../", code="ANAGRAM_SOLVER", category="GAMES_CURIOS",
