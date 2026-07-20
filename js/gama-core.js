@@ -75,9 +75,6 @@ const GAMA = (() => {
     if (faceEl) faceEl.textContent = state.face;
     if (speechEl) speechEl.textContent = pick(state.lines);
     if (stateKey === "success") bumpTally();
-    // No nav-clearance recompute needed here anymore - updateNavClearance()
-    // no longer depends on anything about her (position, dialogue length),
-    // just the viewport and nav's own top. See its own comment for why.
   }
 
   function log(msg) {
@@ -87,54 +84,34 @@ const GAMA = (() => {
     logEl.textContent = entry + "   //   " + logEl.textContent;
   }
 
-  // GAMA's fixed corner box should clear whatever's pinned below it in the
-  // fixed frame - the ticker, always, and .site-footer only when it's
-  // actually anywhere near being visible. Used to just always add the
-  // footer's full height unconditionally, on the theory that "reserving
-  // unused space when the footer's scrolled away isn't a visible problem"
-  // - measured wrong. On a page with enough content that the footer sits
-  // far below the fold (confirmed live: site-footer at y=1046 while the
-  // viewport itself was only 852px tall), that unconditional reservation
-  // was a genuine, large, visible dead zone between her box and the
-  // ticker for content that wasn't within a screen's reach - not a
-  // rounding error, over 200px of it. Checking whether the footer is
-  // actually within (or close to) the current viewport before adding its
-  // height fixes that, and a scroll listener on .center-viewport (where
-  // added below) keeps it correct as the user scrolls the footer into or
-  // out of view, instead of only ever checking once on load.
-  function updateGamaBottomClear() {
+  // GAMA's `bottom` value depends on exactly one thing: the ticker's real
+  // height, in case it ever wraps to a second line. That's it. Four
+  // previous versions of this function tried to also account for the
+  // footer (unconditionally, then conditionally on scroll position) to
+  // stop her overlapping it, which was solving the wrong problem the
+  // wrong way - she and the footer overlapping is cosmetic (she's
+  // pointer-events:none), not a bug, and reserving space against content
+  // that varies by page/scroll position is exactly the kind of dynamic
+  // negotiation that kept producing a different wrong number on every
+  // page. She doesn't need to know the footer exists. See .gama-mascot-box
+  // in gama.css for the full reasoning.
+  function updateTickerHeight() {
     const ticker = document.querySelector(".archival-log-footer");
-    const footer = document.querySelector(".site-footer");
     if (!ticker) return;
-    let clear = ticker.offsetHeight;
-    if (footer) {
-      const footerTop = footer.getBoundingClientRect().top;
-      // 48px early margin so the clearance updates a beat before the
-      // footer's edge actually crosses into view, not exactly on it.
-      if (footerTop < window.innerHeight + 48) {
-        // +32px safety pad, not just the bare measured height - the debounce
-        // window plus scroll-position rounding meant "exactly touching, zero
-        // gap" in the math sometimes landed as a few pixels of real overlap
-        // once actually rendered (confirmed live while testing this - a
-        // smaller +16px pad still left about 10px of overlap).
-        clear += footer.offsetHeight + 32;
-      }
-    }
-    document.documentElement.style.setProperty("--gama-bottom-clear", `${clear}px`);
+    document.documentElement.style.setProperty("--ticker-height", `${ticker.offsetHeight}px`);
   }
 
   // The header can wrap to a second line below ~480px viewport width (the
-  // brand mark + "LINK: STABLE // MAG-LOCK: ENGAGED // <clock>" status text
-  // don't both fit on one row), but its CSS height was a static constant
+  // brand mark + "LINK: STABLE // MAG-LOCK: ENGAGED" status text don't
+  // both fit on one row), but its CSS height was a static constant
   // (--header-h) that only ever accounted for one line. .terminal-header
   // itself now uses min-height so it grows to fit wrapped content instead
   // of clipping/overflowing past its own bottom edge - but .terminal-tabs
   // sticks at top: var(--header-h), so on a 2-line header the tabs bar was
   // still sticking at the 1-line height, overlapping the header's second
-  // line (the clock) instead of sitting below it. Same "measure the real
-  // height, don't guess" fix as updateGamaBottomClear/updateNavClearance
-  // above - read the header's actual rendered height and let the tabs bar
-  // stick exactly there, whether it wrapped or not.
+  // line instead of sitting below it. Read the header's actual rendered
+  // height and let the tabs bar stick exactly there, whether it wrapped
+  // or not, rather than guessing.
   function updateHeaderClearance() {
     const header = document.querySelector(".terminal-header");
     if (!header) return;
@@ -184,59 +161,15 @@ const GAMA = (() => {
     link.href = isHome ? ICONS.wordmark : isInstitutional ? ICONS.ravenkey : ICONS.mascot;
   }
 
-  // The sidebar nav caps its own height so it scrolls internally instead of
-  // spilling arbitrarily far down the page. History of getting this wrong,
-  // because it matters for judging any future change here:
-  //
-  // - Originally chased GAMA's dialogue top exactly (zero overlap, but
-  //   coupled nav's size to her, which shrank whenever her own footprint
-  //   grew).
-  // - Tried decoupling entirely by measuring against the ticker instead -
-  //   real content nav shouldn't render under, and NOT her position at
-  //   all. But the ticker sits well below where she actually is (she
-  //   needs clearance above the footer+ticker), so that let nav grow tall
-  //   enough on pages with a long active category that her fixed,
-  //   constant-height box ended up stranded in the MIDDLE of a long
-  //   scrolled-into-view nav list instead of just grazing its tail.
-  // - Bounding against her real box-top worked but was still, structurally,
-  //   "nav's size depends on her" - technically not coupled to her content
-  //   anymore, but the dependency itself was the objection.
-  //
-  // Tried a fixed 60/40 percentage split of the nav-alpha-to-ticker
-  // distance next - clean in theory, but measured against her REAL
-  // rendered position on a real page: her actual footprint (portrait +
-  // dialogue + the footer/ticker clearance she needs below her, which is
-  // a separate, legitimate requirement from anything about nav-beta) ate
-  // roughly 65-70% of that same zone on an ordinary viewport, not 40%. A
-  // fixed percentage can't be honored when the thing it's supposed to
-  // leave room for is bigger than the room it's given - it just produces
-  // confident, wrong overlap instead of the honest, minor kind.
-  //
-  // What "her position depends on the ticker, not on nav" actually means
-  // in code: her `bottom` value is computed purely from the ticker/
-  // footer (updateGamaBottomClear, unchanged, never referenced nav) -
-  // that's a real, one-way fact about her. Nav, in turn, has to know
-  // where that leaves her in order to not render on top of her - that
-  // dependency runs the other way and is unavoidable, not a bug to
-  // engineer around. So: measure her REAL current top edge (dialogue if
-  // present, since it extends further up than the portrait box) and cap
-  // nav just short of it. Zero overlap, no artificial floor forcing nav
-  // to claim space that isn't there, and nav's size is a direct
-  // consequence of her real position rather than a percentage guess that
-  // doesn't match her real footprint.
-  function updateNavClearance() {
-    if (window.innerWidth < 901) return;
-    const nav = document.querySelector(".terminal-nav");
-    const gamaBox = document.querySelector(".gama-mascot-box");
-    if (!nav || !gamaBox) return;
-    const dialogue = document.querySelector(".gama-dialogue");
-    const navTop = nav.getBoundingClientRect().top;
-    const boxTop = gamaBox.getBoundingClientRect().top;
-    const dialogueTop = dialogue ? dialogue.getBoundingClientRect().top : boxTop;
-    const gamaTop = Math.min(boxTop, dialogueTop);
-    const clear = Math.max(80, gamaTop - navTop - 12);
-    document.documentElement.style.setProperty("--gama-nav-clear", `${clear}px`);
-  }
+  // nav-beta's max-height is a plain static CSS calc() now (see
+  // .terminal-nav in gama.css) - no JS function here at all. Four
+  // straight attempts at computing this in JS against some aspect of
+  // GAMA's rendered position (her dialogue top, her box top, a
+  // percentage share of the space, in that order) each produced a
+  // different wrong number on a different page, because the actual bug
+  // was having nav-beta and GAMA negotiate the same space at all, not
+  // which measurement the negotiation used. Removed the negotiation
+  // instead of refining it further.
 
   function init() {
     logEl = document.getElementById("log-stream-feed");
@@ -250,53 +183,22 @@ const GAMA = (() => {
     renderTally(getTally());
     initEasterEggs();
 
-    updateGamaBottomClear();
-    updateNavClearance();
+    updateTickerHeight();
     updateHeaderClearance();
     updateFavicon();
     let resizeTimer;
     window.addEventListener("resize", () => {
       clearTimeout(resizeTimer);
       resizeTimer = setTimeout(() => {
-        updateGamaBottomClear();
-        updateNavClearance();
+        updateTickerHeight();
         updateHeaderClearance();
       }, 150);
     });
-    // updateGamaBottomClear's footer-visibility check needs to be re-run
-    // as the page actually scrolls, not just once on load - the footer
-    // scrolls into and out of view within .center-viewport on desktop
-    // (its own overflow-y:auto region) or within the whole page on
-    // mobile (where .center-viewport doesn't scroll independently).
-    // Listening on both covers whichever one is real for the current
-    // layout. nav's own clearance gets re-checked in the same pass since
-    // her position moving changes what nav needs to clear too.
-    let scrollTimer;
-    const onScroll = () => {
-      clearTimeout(scrollTimer);
-      scrollTimer = setTimeout(() => {
-        updateGamaBottomClear();
-        updateNavClearance();
-      }, 100);
-    };
-    document.querySelector(".center-viewport")?.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("scroll", onScroll, { passive: true });
-    // All three measurements above run at DOMContentLoaded, before her
-    // portrait image (and the footer/raven-watermark images) have
-    // necessarily finished loading - .gama-mascot-box's rendered height
-    // depends on that image's real dimensions, so measuring before it
-    // loads can capture a box that's shorter than its final size, which
-    // then understates how far up she actually reaches once everything
-    // settles. Re-measuring once on window "load" (fires after every
-    // resource, including images, has finished) catches that instead of
-    // leaving nav clearance permanently wrong on whatever it guessed pre-
-    // load. Was the real cause of nav-beta still overlapping her dialogue
-    // even after the measurement logic itself was fixed to be correct.
-    window.addEventListener("load", () => {
-      updateGamaBottomClear();
-      updateNavClearance();
-      updateHeaderClearance();
-    });
+    // No scroll listener here anymore - neither the ticker's height nor
+    // the header's height changes as the page scrolls, only on resize
+    // (the ticker could wrap to a second line, the header can too below
+    // ~480px width). GAMA's position depending on scroll position at all
+    // was itself the earlier bug (see updateTickerHeight's comment).
 
     // Any input field on the page nudges GAMA to "working" on focus.
     document.querySelectorAll("input[type=text], textarea").forEach((el) => {

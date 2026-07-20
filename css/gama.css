@@ -386,18 +386,22 @@ a:hover, a:focus {
   background: var(--void-raised);
   padding: 0.75rem;
 }
-/* Desktop: the nav now lists every tool grouped by category, which is
-   tall enough to run under GAMA's fixed corner spot. Give it its own
-   scroll region that stops short of her instead of overlapping. The 24rem
-   below was a guessed constant for "GAMA's whole footprint" - same anti-
-   pattern as her old hardcoded 13rem bottom-clear - and drifted out of
-   sync as soon as her real clearance (ad-leaderboard + footer + ticker)
-   grew past what 24rem assumed. gama-core.js now measures her actual
-   on-screen top edge and sets --gama-nav-clear directly; 24rem is just the
-   pre-JS fallback for the first paint. */
+/* Desktop: the nav can list every tool grouped by category, which can run
+   long. Give it its own internal scroll region so a long list never
+   pushes the frame around - a plain, static CSS calc(), not a JS
+   measurement of anything else on the page. Four earlier attempts here
+   all tried to compute this against GAMA's rendered position/footprint
+   in one way or another, and all four produced a different wrong number
+   on a different page, because that coupling was the actual bug (see the
+   comment on .gama-mascot-box). 20rem is a deliberately generous static
+   estimate for her whole footprint (full-size portrait + dialogue +
+   padding) - if she and nav's tail end up overlapping slightly on an
+   unusually short window, that's fine and expected (she's pointer-
+   events:none, purely cosmetic), not something worth re-introducing a
+   JS negotiation to chase down to the last pixel. */
 @media (min-width: 901px) {
   .terminal-nav {
-    max-height: var(--gama-nav-clear, calc(100vh - var(--header-h) - 2rem - 24rem));
+    max-height: calc(100vh - var(--header-actual-h, var(--header-h)) - 3rem - var(--ticker-height, 2rem) - 20rem);
     overflow-y: auto;
     padding-right: 0.25rem;
     /* Fully invisible scrollbar - the nav still scrolls (wheel, drag, arrow
@@ -667,15 +671,32 @@ button:hover, .btn:hover {
    to guarantee that regardless of page length or viewport size. Sized
    down further on narrow viewports (see the max-width:480px block below)
    so she doesn't eat a large fraction of a phone screen's width. */
+/* Every previous fix here (four of them) tried to have nav-beta and GAMA
+   dynamically negotiate the same vertical space - measure her to size
+   nav, measure the footer to position her, measure nav to cap her, some
+   combination of the two chasing each other. All four failed the same
+   way: a bidirectional (or even a one-way-but-content-dependent)
+   coupling between two things that should never coordinate produces a
+   different wrong answer on every page, because "her real footprint" and
+   "nav's real content height" both vary independently per page. The fix
+   is to stop calculating a relationship between them at all.
+   GAMA is a true fixed overlay, full stop:
+   - position: fixed, unconditional, every breakpoint, every page
+   - bottom is anchored to the ticker's real height (the ONE thing that's
+     actually pinned to the bottom of the frame) plus a constant pad -
+     not the footer, not nav, not a JS-measured "clearance" combining
+     several things
+   - she does not cause nav (or anything else) to resize, move, or
+     reserve space for her, and nothing resizes/repositions her either
+   - pointer-events:none means any visual overlap with nav-beta's tail or
+     the scrolled-into-view footer is cosmetic only, never a functional
+     block - this is the same pattern as a chat widget or cookie banner:
+     fixed position, static constraints, no coordination with the page
+     under it. */
 .gama-mascot-box {
   position: fixed;
   left: 1.25rem;
-  /* Was a hardcoded 13rem guessing at "ad banner + footer" height - broke
-     whenever the footer nav wrapped to an extra line, pushing her up
-     into the sidebar nav. gama-core.js measures the real ticker+site-
-     footer height on load/resize and sets this var. 13rem is just the
-     pre-JS fallback for the first paint. */
-  bottom: var(--gama-bottom-clear, 13rem);
+  bottom: calc(var(--ticker-height, 2rem) + 0.75rem);
   width: 200px;
   padding: 1rem;
   text-align: center;
@@ -686,25 +707,9 @@ button:hover, .btn:hover {
 @media (max-width: 480px) {
   .gama-mascot-box { width: 140px; left: 0.75rem; padding: 0.5rem; }
 }
-/* A previous version of this file also shrunk her further under a short
-   (max-height:700px) viewport, on the theory that a smaller footprint
-   would help her fit a fixed percentage share of the nav-alpha-to-ticker
-   distance. That percentage-share model turned out to be wrong on its
-   own terms (see updateNavClearance in gama-core.js) and got replaced -
-   nav now measures her real position directly instead of assuming a
-   share of the space. The real fix for "not enough room" turned out to
-   be updateGamaBottomClear no longer reserving her clearance for a
-   footer that's scrolled out of view (previously a permanent, often
-   200px+, dead zone under her) - once that's reclaimed, shrinking her on
-   top of it wasn't buying anything real, just making her smaller for no
-   reason a shorter window specifically required. */
 .gama-portrait {
   width: 100%;
-  /* Was 160px - shrunk to buy back real vertical space for nav-beta
-     without needing to let nav grow tall enough to reach past her whole
-     footprint (see updateNavClearance in gama-core.js for why that went
-     wrong). Smaller box, less to clear, more room for both. */
-  max-width: 120px;
+  max-width: 160px;
   margin: 0 auto;
   display: block;
   cursor: pointer;
@@ -747,15 +752,13 @@ button:hover, .btn:hover {
    CSS triangles (outer border-colored, inner background-colored, slightly
    smaller/lower) - the classic cheap way to fake a bordered pointer.
    Deliberately taken out of flow (absolute, anchored above the portrait)
-   rather than stacked in-line above it. It used to sit in normal flow,
-   which meant .gama-mascot-box's rendered height - and therefore its
-   fixed-position top edge - grew with however long the current greeting
-   text happened to be. Since updateNavClearance() in gama-core.js caps the
-   sidebar nav's height right at that top edge, a long greeting (e.g. the
-   "welcome back, visit number N" line) shrank the nav and visually welded
-   her whole box to the bottom of it. Floating the bubble above her instead
-   keeps the box's footprint constant (just portrait + eye) regardless of
-   message length, so nav clearance no longer depends on greeting text. */
+   rather than stacked in-line above it) so a long greeting (e.g. the
+   "welcome back, visit number N" line) doesn't grow .gama-mascot-box's
+   own rendered height - keeps her fixed-position footprint constant
+   (just portrait + eye) regardless of message length. GAMA is a fixed
+   overlay with no layout coupling to nav or anything else on the page
+   (see .gama-mascot-box below), so this is purely about her own visual
+   stability, not about clearing space for other elements. */
 .gama-dialogue {
   position: absolute;
   left: 0;
