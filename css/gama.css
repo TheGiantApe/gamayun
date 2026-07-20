@@ -367,6 +367,15 @@ a:hover, a:focus {
   text-align: center;
 }
 .random-tool-btn:hover { border-color: var(--phosphor); color: var(--phosphor); background: var(--void-raised); }
+/* Matches the footer social-icon convention (viewBox 24x24, currentColor
+   stroke) rather than a raster asset, so it tints with the button's own
+   dim/hover color for free instead of needing a separate hover-state PNG. */
+.dice-icon {
+  width: 0.95em;
+  height: 0.95em;
+  vertical-align: -0.15em;
+  margin-right: 0.3em;
+}
 
 .terminal-nav {
   display: flex;
