@@ -177,44 +177,27 @@ const GAMA = (() => {
   }
 
   // The sidebar nav caps its own height so it scrolls internally instead of
-  // running under GAMA's fixed corner box. Two real, separate bugs lived
-  // here:
-  //
-  // 1. This only ever measured .gama-mascot-box's own top edge. Her
-  //    dialogue bubble floats absolutely ABOVE the portrait box (see
-  //    .gama-dialogue in gama.css - bottom: calc(100% + 0.5rem)) and its
-  //    height varies with whatever random line she's currently saying -
-  //    that overhang was never accounted for, so nav could render past
-  //    where the dialogue actually was and visibly overlap it.
-  //
-  // 2. A fixed "RESERVE" constant was tried here briefly to stop nav's
-  //    height from depending on her position at all - but her real
-  //    footprint (portrait + dialogue + the footer/ticker clearance she
-  //    needs below her) can genuinely exceed 500px, while the total frame
-  //    height above her (header + search box + nav) is often only
-  //    700-900px to begin with. A guessed constant either overlapped her
-  //    (too small) or crushed nav down to nothing (too large) - there's no
-  //    single right number, because how much room actually exists varies
-  //    by real viewport height, not something safe to hardcode.
-  //
-  // Fix: measure her REAL topmost visual edge (dialogue bubble if present,
-  // since it extends higher than the box), and let nav's height reflect
-  // whatever's actually left above that - including "not much" on a short
-  // window. No artificial floor forcing nav to claim space that doesn't
-  // exist: a floor that exceeds the real gap is exactly what was
-  // guaranteeing overlap on tight viewports. A nav that's honestly short
-  // (still scrollable) beats a nav that's a fixed size and wrong.
+  // running under the ticker at the bottom of the pinned frame. This used
+  // to chase GAMA's own position instead (measuring .gama-mascot-box/
+  // .gama-dialogue's top edge) - fixed to stop overlapping her correctly,
+  // but that meant nav's height was still coupled to her, and shrank
+  // whenever her own footprint grew (e.g. once she needed real footer
+  // clearance, not just the ticker's). Explicitly not what's wanted: she's
+  // a fixed, translucent, pointer-events:none decorative overlay by
+  // design ("she just sits on the page" - see .gama-mascot-box's own
+  // comment) - closer to Clippy than to real UI chrome. It's fine for her
+  // to sit over the tail end of a long nav list sometimes; it's not fine
+  // for nav's own size to be at her mercy. The ticker, unlike her, is real
+  // functional content nav genuinely shouldn't render under - that's the
+  // only boundary nav needs to respect now.
   function updateNavClearance() {
     if (window.innerWidth < 901) return;
     const nav = document.querySelector(".terminal-nav");
-    const gamaBox = document.querySelector(".gama-mascot-box");
-    if (!nav || !gamaBox) return;
-    const dialogue = document.querySelector(".gama-dialogue");
+    const ticker = document.querySelector(".archival-log-footer");
+    if (!nav) return;
     const navTop = nav.getBoundingClientRect().top;
-    const boxTop = gamaBox.getBoundingClientRect().top;
-    const dialogueTop = dialogue ? dialogue.getBoundingClientRect().top : boxTop;
-    const gamaTop = Math.min(boxTop, dialogueTop);
-    const clear = Math.max(60, gamaTop - navTop - 16);
+    const tickerTop = ticker ? ticker.getBoundingClientRect().top : window.innerHeight;
+    const clear = Math.max(160, tickerTop - navTop - 16);
     document.documentElement.style.setProperty("--gama-nav-clear", `${clear}px`);
   }
 
