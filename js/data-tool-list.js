@@ -517,10 +517,10 @@ const TOOL_LIST = [
     "url": "pages/decision-wheel.html"
   },
   {
-    "title": "Magic 8-Ball",
+    "title": "Divine Oracle",
     "desc": "Ask a yes/no question, get a cryptographically random answer from an original 21-response pool.",
-    "code": "MAGIC_8_BALL",
-    "url": "pages/magic-8-ball.html"
+    "code": "DIVINE_ORACLE",
+    "url": "pages/divine-oracle.html"
   },
   {
     "title": "Dice Roller",

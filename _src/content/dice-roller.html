@@ -25,5 +25,5 @@
             <section class="prose" style="padding-left:0;padding-right:0;">
                 <h2>&gt; WHY THE RANDOMNESS SOURCE ACTUALLY MATTERS HERE</h2>
                 <p>Most browser-based dice rollers use <code>Math.random()</code>, which is fine for games but isn't a cryptographically secure random source - it's not built to resist prediction, just to be fast. This tool uses <code>crypto.getRandomValues()</code> instead, the same CSPRNG behind this site's <a href="password-gen.html">Password Generator</a> and <a href="uuid.html">UUID Generator</a>. It doesn't change how a d20 feels to roll, but it's the difference between "random enough for a board game" and "actually unpredictable," and there's no real cost to just using the better source by default.</p>
-                <p class="related-block">RELATED: <a href="decision-wheel.html">Decision Wheel</a> &middot; <a href="magic-8-ball.html">Magic 8-Ball</a></p>
+                <p class="related-block">RELATED: <a href="decision-wheel.html">Decision Wheel</a> &middot; <a href="divine-oracle.html">Divine Oracle</a></p>
             </section>

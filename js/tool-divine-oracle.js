@@ -1,11 +1,7 @@
-/* MAGIC_8_BALL — CSPRNG pick from a curated response pool. Original
-   phrasing throughout, not the toy's own 20 printed answers: the
-   ask-a-yes/no-question-shake-for-an-answer format itself is generic and
-   centuries older than any one toy, but the specific wording printed
-   inside a real Magic 8-Ball belongs to Mattel, so this is GAMA+'s own
-   oracle rather than a lookalike of theirs. */
+/* DIVINE_ORACLE — CSPRNG pick from a curated response pool. Original
+   phrasing throughout, GAMA+'s own oracle. */
 
-const EIGHTBALL_RESPONSES = [
+const ORACLE_RESPONSES = [
   // affirmative
   "The data supports it.",
   "Every signal says yes.",
@@ -32,28 +28,28 @@ const EIGHTBALL_RESPONSES = [
   "Ask again. I have infinite patience and nothing else to do.",
 ];
 
-function executeEightBall() {
-  const orb = document.getElementById("eightball-orb");
-  const orbText = document.getElementById("eightball-orb-text");
-  const out = document.getElementById("eightball-result");
-  const question = document.getElementById("eightball-question").value.trim();
+function executeOracle() {
+  const orb = document.getElementById("oracle-orb");
+  const orbText = document.getElementById("oracle-orb-text");
+  const out = document.getElementById("oracle-result");
+  const question = document.getElementById("oracle-question").value.trim();
 
   GAMA.say("working");
-  orb.classList.remove("eightball-orb-shake");
+  orb.classList.remove("oracle-orb-shake");
   void orb.offsetWidth; // restart the animation even on back-to-back clicks
-  orb.classList.add("eightball-orb-shake");
-  orbText.textContent = "8";
+  orb.classList.add("oracle-orb-shake");
+  orbText.textContent = "☆";
   out.textContent = "";
 
   setTimeout(() => {
     const buf = new Uint32Array(1);
     crypto.getRandomValues(buf);
-    const answer = EIGHTBALL_RESPONSES[buf[0] % EIGHTBALL_RESPONSES.length];
+    const answer = ORACLE_RESPONSES[buf[0] % ORACLE_RESPONSES.length];
     orbText.textContent = "";
     out.innerHTML =
       (question ? `<div style="color:var(--phosphor-dim-text); font-size:0.85rem; margin-bottom:0.5rem;">"${question.replace(/&/g, "&amp;").replace(/</g, "&lt;")}"</div>` : "") +
       `<div>${answer}</div>`;
     GAMA.say("success");
-    GAMA.log("Consulted the 8-ball: " + answer);
+    GAMA.log("Consulted the oracle: " + answer);
   }, 500);
 }
