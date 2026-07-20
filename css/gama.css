@@ -165,20 +165,25 @@ a:hover, a:focus {
   font-size: 0.8rem;
   color: var(--phosphor-dim-text);
 }
-.terminal-header .system-status .clock { color: var(--phosphor); }
 
-/* ---- Top-level section tabs (TOOLS/WIKI/LOG/ABOUT) ---- */
+/* ---- Top-level section tabs (TOOLS/WIKI/LOG/ABOUT), plus the keystone
+   RANDOM_TOOL button and search box that used to live stacked above
+   nav-beta in .left-deck ---- */
 /* Real links to real pages (see build_tabs_html in _src/build.py), not a
    client-side show/hide - every section keeps its own crawlable URL.
    Sticky below the header on mobile (where the whole page scrolls);
    on desktop the frame around it already doesn't scroll, same as the
-   header, so sticky is a no-op there but harmless. */
+   header, so sticky is a no-op there but harmless.
+   Three-part row: keystone button (fixed) | .tab-scroll-row (the part
+   that scrolls horizontally if there are more tabs than fit) | search
+   (fixed, pushed to the far right via margin-left:auto). Only the middle
+   part gets overflow-x - the keystone and search should never be able to
+   scroll out of reach the way the plain tab row could on a narrow phone. */
 .terminal-tabs {
   display: flex;
+  align-items: stretch;
   border-bottom: 1px solid var(--phosphor-dim);
   background: var(--void-raised);
-  overflow-x: auto;
-  scrollbar-width: none;
   position: sticky;
   /* --header-actual-h (set by updateHeaderClearance() in gama-core.js) is
      the header's real rendered height, whether it wrapped to 2 lines or
@@ -187,7 +192,13 @@ a:hover, a:focus {
   top: var(--header-actual-h, var(--header-h));
   z-index: 90;
 }
-.terminal-tabs::-webkit-scrollbar { display: none; }
+.tab-scroll-row {
+  display: flex;
+  overflow-x: auto;
+  scrollbar-width: none;
+  min-width: 0;
+}
+.tab-scroll-row::-webkit-scrollbar { display: none; }
 .tab-btn {
   padding: 0.6rem 1.25rem;
   font-family: var(--font-mono);
@@ -211,6 +222,22 @@ a:hover, a:focus {
   text-shadow: 0 0 6px var(--phosphor);
   background: var(--void);
 }
+.nav-alpha-keystone {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  background: transparent;
+  border: none;
+  border-right: 1px solid var(--phosphor-faint);
+  color: var(--phosphor-dim-text);
+  cursor: pointer;
+  padding: 0;
+  min-height: 44px;
+}
+.nav-alpha-keystone:hover { color: var(--phosphor); background: var(--phosphor-faint); }
+.nav-alpha-keystone .dice-icon { width: 1.2rem; height: 1.2rem; margin: 0; }
 
 /* ---- Command bridge grid: 3-column desktop deck ---- */
 .command-bridge-grid {
@@ -224,27 +251,15 @@ a:hover, a:focus {
   .command-bridge-grid {
     grid-template-columns: 1fr;
   }
-  /* .left-deck bundled the search box, RANDOM_TOOL button, and the full
-     (often long) category nav into one box that moved below the content
-     as a unit - on a tool page with a tall content block + ad slot, that
-     buried RANDOM_TOOL under a full scroll's worth of stuff, when it's
-     meant to be a quick, always-nearby action. display:contents un-boxes
-     .left-deck so its children become direct grid items here, letting the
-     search box and RANDOM_TOOL keep their own order (right after the
-     header, before content) while only the long category nav still defers
-     below the content - same reasoning as .center-viewport being ahead of
-     it. */
-  .left-deck { display: contents; }
-  .site-search-box,
-  .random-tool-btn {
-    order: 1;
-    margin-left: 1rem;
-    margin-right: 1rem;
-  }
-  .random-tool-btn { width: calc(100% - 2rem); }
-  .center-viewport { order: 2; }
-  .left-deck .terminal-nav { order: 3; margin: 0 1rem 1rem; }
-  .right-deck { order: 4; }
+  /* Used to need display:contents here to pull the search box and
+     RANDOM_TOOL out of .left-deck so they wouldn't get buried under a
+     full scroll's worth of content on mobile - moot now that both live
+     in the always-sticky top tab bar instead (see .terminal-tabs),
+     completely outside this grid. .left-deck now only wraps the category
+     nav itself, which is fine deferring below the main content on
+     mobile, same as .right-deck. */
+  .left-deck, .right-deck { order: 2; }
+  .center-viewport { order: 1; }
 }
 
 .left-deck, .right-deck {
@@ -296,36 +311,47 @@ a:hover, a:focus {
   .raven-watermark { width: 40vw; right: 1vw; bottom: 1vw; opacity: 0.18; }
 }
 
-/* ---- Site search + random tool button (top of left-deck, above the nav) ---- */
-.site-search-box {
+/* ---- Search, now living in the far right of nav-alpha (.terminal-tabs)
+   instead of stacked above nav-beta in .left-deck ---- */
+.nav-alpha-search {
   position: relative;
-  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-shrink: 0;
+  margin-left: auto;
+  padding: 0 0.75rem;
+  border-left: 1px solid var(--phosphor-faint);
 }
-.site-search-box input {
-  width: 100%;
-  background: var(--void);
-  border: 1px solid var(--phosphor-dim);
+.search-icon {
+  width: 1rem;
+  height: 1rem;
+  flex-shrink: 0;
+  color: var(--phosphor-dim-text);
+}
+.nav-alpha-search input {
+  width: 9rem;
+  background: transparent;
+  border: none;
   color: var(--phosphor);
   font-family: var(--font-body);
   font-size: 0.85rem;
-  padding: 0.5rem;
+  padding: 0.4rem 0;
 }
-.site-search-box input::placeholder { color: var(--phosphor-dim-text); }
+.nav-alpha-search input:focus { outline: none; }
+.nav-alpha-search input::placeholder { color: var(--phosphor-dim-text); }
 /* Blinking terminal cursor, CSS-only: visible whenever the input is
    showing its placeholder (empty, whether focused or not), hidden the
    instant real text exists - the :placeholder-shown/~ sibling trick
    means that hide/show needs zero JS. */
 .search-cursor-blink {
-  position: absolute;
-  right: 0.6rem;
-  top: 50%;
-  transform: translateY(-50%);
   color: var(--phosphor);
   font-family: var(--font-mono);
   pointer-events: none;
   animation: cursor-blink 1s step-end infinite;
+  margin-left: -0.5rem;
 }
-.site-search-box input:not(:placeholder-shown) ~ .search-cursor-blink { display: none; }
+.nav-alpha-search input:not(:placeholder-shown) ~ .search-cursor-blink { display: none; }
 @keyframes cursor-blink { 50% { opacity: 0; } }
 @media (prefers-reduced-motion: reduce) {
   .search-cursor-blink { animation: none; }
@@ -334,8 +360,9 @@ a:hover, a:focus {
   display: none;
   position: absolute;
   top: 100%;
-  left: 0;
   right: 0;
+  width: 20rem;
+  max-width: 90vw;
   z-index: 600;
   background: var(--void);
   border: 1px solid var(--phosphor);
@@ -353,28 +380,14 @@ a:hover, a:focus {
 .site-search-result-title { display: block; font-size: 0.85rem; }
 .site-search-result-desc { display: block; font-size: 0.75rem; color: var(--phosphor-dim-text); margin-top: 0.15rem; }
 .site-search-empty { padding: 0.5rem 0.6rem; font-size: 0.8rem; color: var(--phosphor-dim-text); }
-.random-tool-btn {
-  display: block;
-  width: 100%;
-  margin-bottom: 0.75rem;
-  background: transparent;
-  border: 1px dashed var(--phosphor-dim);
-  color: var(--phosphor-dim-text);
-  font-family: var(--font-mono);
-  font-size: 0.8rem;
-  padding: 0.4rem;
-  cursor: pointer;
-  text-align: center;
-}
-.random-tool-btn:hover { border-color: var(--phosphor); color: var(--phosphor); background: var(--void-raised); }
 /* Matches the footer social-icon convention (viewBox 24x24, currentColor
-   stroke) rather than a raster asset, so it tints with the button's own
-   dim/hover color for free instead of needing a separate hover-state PNG. */
+   stroke) rather than a raster asset, so it tints with its button's own
+   dim/hover color for free instead of needing a separate hover-state PNG.
+   Used by .nav-alpha-keystone now (was .random-tool-btn, moved into
+   nav-alpha - see .terminal-tabs). */
 .dice-icon {
   width: 0.95em;
   height: 0.95em;
-  vertical-align: -0.15em;
-  margin-right: 0.3em;
 }
 
 .terminal-nav {
@@ -654,36 +667,36 @@ button:hover, .btn:hover {
    UI box. The radial gradient is only there to keep her dialogue readable
    over whatever's behind her; it fades to nothing at the edges so it never
    reads as a container. */
+/* GAMA always floats fixed in the bottom-left corner of the viewport -
+   not just on desktop. Used to only go position:fixed above 901px, normal
+   in-flow content below it - meant that on mobile, or on any page with no
+   nav-beta content to anchor near (About/Contact/Legal-type pages with an
+   empty/near-empty .left-deck), she'd render wherever her body-level DOM
+   position happened to land in the page's normal scroll flow, which could
+   put her dead center of a mostly-empty page instead of pinned to a
+   corner. "Positioned in the lower left of the screen regardless of other
+   content" is the actual spec - fixed, unconditionally, is the only way
+   to guarantee that regardless of page length or viewport size. Sized
+   down further on narrow viewports (see the max-width:480px block below)
+   so she doesn't eat a large fraction of a phone screen's width. */
 .gama-mascot-box {
-  position: relative;
+  position: fixed;
+  left: 1.25rem;
+  /* Was a hardcoded 13rem guessing at "ad banner + footer" height - broke
+     whenever the footer nav wrapped to an extra line, pushing her up
+     into the sidebar nav. gama-core.js measures the real ticker+site-
+     footer height on load/resize and sets this var. 13rem is just the
+     pre-JS fallback for the first paint. */
+  bottom: var(--gama-bottom-clear, 13rem);
+  width: 200px;
   padding: 1rem;
   text-align: center;
-  margin-bottom: 1rem;
+  background: radial-gradient(ellipse at 50% 60%, rgba(10,10,10,0.55) 0%, rgba(10,10,10,0.28) 50%, rgba(10,10,10,0) 75%);
+  z-index: 500;
+  pointer-events: none;
 }
-/* Desktop: GAMA detaches from the right-deck column and floats fixed
-   in the bottom-left corner (closer to where eyes actually land than the
-   far right edge). With the frame now pinned (see body's overflow:hidden
-   above) she doesn't need to "stay put during scroll" anymore - the whole
-   frame just never moves - but fixed positioning is still how she escapes
-   right-deck's own box to sit in that specific bottom-left spot. She sits
-   above the raven watermark, which shares that corner as a background
-   flourish. */
-@media (min-width: 901px) {
-  .gama-mascot-box {
-    position: fixed;
-    left: 1.25rem;
-    /* Was a hardcoded 13rem guessing at "ad banner + footer" height - broke
-       whenever the footer nav wrapped to an extra line, pushing her up
-       into the sidebar nav. gama-core.js measures the real ticker+site-
-       footer height on load/resize and sets this var. 13rem is just the
-       pre-JS fallback for the first paint. */
-    bottom: var(--gama-bottom-clear, 13rem);
-    width: 200px;
-    background: radial-gradient(ellipse at 50% 60%, rgba(10,10,10,0.55) 0%, rgba(10,10,10,0.28) 50%, rgba(10,10,10,0) 75%);
-    z-index: 500;
-    margin-bottom: 0;
-    pointer-events: none;
-  }
+@media (max-width: 480px) {
+  .gama-mascot-box { width: 140px; left: 0.75rem; padding: 0.5rem; }
 }
 .gama-portrait {
   width: 100%;

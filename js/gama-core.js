@@ -34,7 +34,7 @@ const GAMA = (() => {
     ]}
   };
 
-  let logEl, faceEl, speechEl, clockEl;
+  let logEl, faceEl, speechEl;
 
   function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
 
@@ -85,11 +85,6 @@ const GAMA = (() => {
     const time = new Date().toTimeString().slice(0, 8);
     const entry = `[${time}] ${msg}`;
     logEl.textContent = entry + "   //   " + logEl.textContent;
-  }
-
-  function tickClock() {
-    if (!clockEl) return;
-    clockEl.textContent = new Date().toTimeString().slice(0, 8);
   }
 
   // GAMA's fixed corner box should clear whatever's pinned below it in the
@@ -189,28 +184,32 @@ const GAMA = (() => {
   //   needs clearance above the footer+ticker), so that let nav grow tall
   //   enough on pages with a long active category that her fixed,
   //   constant-height box ended up stranded in the MIDDLE of a long
-  //   scrolled-into-view nav list instead of just grazing its tail -
-  //   reads as "blocking everything," not the "hovers over a couple
-  //   inconsequential lines" that's actually fine.
+  //   scrolled-into-view nav list instead of just grazing its tail.
+  // - Bounding against her real box-top worked but was still, structurally,
+  //   "nav's size depends on her" - technically not coupled to her content
+  //   anymore, but the dependency itself was the objection.
   //
-  // The real fix: bound nav against her PORTRAIT BOX's top edge (not the
-  // dialogue, not the ticker). The box is what has a stable, page-
-  // independent height (portrait + fixed padding); the dialogue is
-  // explicitly the "inconsequential" part that's fine to graze since it's
-  // small and only ever overlaps a line or two at most. This keeps nav's
-  // tail consistently near her, never past her - never "in the middle" -
-  // while still allowing the minor dialogue overlap Vin explicitly said
-  // was fine. Also shrunk her portrait itself (160px -> 120px, see
-  // .gama-portrait) so this boundary sits lower on the page than before,
-  // giving nav more real room without changing the boundary rule itself.
+  // Current model (Vin's spec): nav-beta gets a FIXED PERCENTAGE of the
+  // distance between nav-alpha's bottom (nav's own top edge already
+  // reflects that - wherever the header+tabs actually render) and the
+  // ticker at the bottom of the frame - a zone defined purely by the page
+  // chrome, with zero reference to GAMA anywhere in the formula. She gets
+  // the conceptual remainder simply by being positioned in her own
+  // corner, independently (see updateGamaBottomClear) - this doesn't
+  // enforce that against her pixel-for-pixel, it's a fixed share picked
+  // to comfortably clear her typical footprint (portrait + dialogue +
+  // her own footer/ticker clearance) on ordinary viewport heights, same
+  // spirit as "hovers over an inconsequential line or two" being
+  // acceptable on the shorter end rather than something to chase exactly.
   function updateNavClearance() {
     if (window.innerWidth < 901) return;
     const nav = document.querySelector(".terminal-nav");
-    const gamaBox = document.querySelector(".gama-mascot-box");
-    if (!nav || !gamaBox) return;
+    const ticker = document.querySelector(".archival-log-footer");
+    if (!nav) return;
     const navTop = nav.getBoundingClientRect().top;
-    const boxTop = gamaBox.getBoundingClientRect().top;
-    const clear = Math.max(160, boxTop - navTop - 8);
+    const tickerTop = ticker ? ticker.getBoundingClientRect().top : window.innerHeight;
+    const NAV_SHARE = 0.45; // nav-beta's fixed share of the nav-alpha-to-ticker distance
+    const clear = Math.max(120, (tickerTop - navTop) * NAV_SHARE);
     document.documentElement.style.setProperty("--gama-nav-clear", `${clear}px`);
   }
 
@@ -218,15 +217,12 @@ const GAMA = (() => {
     logEl = document.getElementById("log-stream-feed");
     faceEl = document.querySelector(".aperture-eye");
     speechEl = document.getElementById("gama-speech");
-    clockEl = document.getElementById("system-clock");
     say("idle");
     const visits = bumpReturnVisits();
     if (visits > 1 && speechEl) {
       speechEl.textContent = `> welcome back. this is visit number ${visits}, not that i'm counting. (i'm counting.)`;
     }
     renderTally(getTally());
-    tickClock();
-    setInterval(tickClock, 1000);
     initEasterEggs();
 
     updateGamaBottomClear();
