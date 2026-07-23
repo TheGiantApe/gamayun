@@ -856,6 +856,8 @@ button:hover, .btn:hover {
 .kofi-link { display: block; width: 100%; text-align: center; box-sizing: border-box; }
 .adsense-slot {
   min-height: 250px;
+  max-width: 100%;
+  overflow: hidden;
   border: 1px solid var(--phosphor-faint);
   display: flex;
   align-items: center;
@@ -863,6 +865,15 @@ button:hover, .btn:hover {
   font-size: 0.7rem;
   color: var(--phosphor-dim-text);
 }
+/* AdSense's own script sets a fixed inline pixel width on the <ins>/
+   <iframe> it injects, based on the ad unit's format - that width can be
+   wider than the slot actually has room for (confirmed: the sidebar slot
+   is ~204px, the injected iframe came back 304px), and neither element
+   respects the parent's box on its own. Without a hard clip here the ad
+   pokes out past the sidebar and off the right edge of the viewport -
+   a real bug, reproduced with no ad blocker involved, not just an
+   ad-blocker artifact in a screenshot. */
+.adsense-slot > * { max-width: 100%; }
 
 /* ---- Ad format variants: leaderboard (wide banner, appended at the end
    of every page's scrollable content - lives inside .center-viewport, not
@@ -1012,7 +1023,14 @@ button:hover, .btn:hover {
 }
 .footer-brand {
   font-family: var(--font-display);
-  font-size: 1rem;
+  /* Was 1rem - with html/body's own 17px root font-size that's a literal
+     17px, identical to body copy (confirmed via computed style), so the
+     footer's own brand mark carried no size hierarchy at all despite
+     sitting in what's supposed to read as secondary/legal territory.
+     0.9rem keeps it the loudest thing in its own column (still bigger
+     than .footer-col-label's 0.7rem and the 0.8rem link/copy text below
+     it) without matching body text size. */
+  font-size: 0.9rem;
   color: var(--phosphor);
 }
 .footer-col-brand p { margin: 0; max-width: 26ch; }
