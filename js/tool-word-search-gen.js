@@ -3,7 +3,16 @@
    conflict, so two words are free to cross and share a letter the way a
    real word search does (a naive generator that refuses ANY overlap
    wastes a huge amount of the grid and fails to place longer word
-   lists). Longest words placed first since they're hardest to fit. */
+   lists). Longest words placed first since they're hardest to fit.
+
+   Solving is interactive, not just generate-and-print: drag (mouse or
+   touch) across a straight line of cells to select, release to check it
+   against the real placements. Selection tracking uses
+   document.elementFromPoint() on pointermove rather than per-cell
+   pointerenter listeners - touch input implicitly captures the pointer
+   to the cell where the drag started, so pointerenter never fires on
+   the cells you drag across afterward. elementFromPoint sidesteps that
+   entirely and behaves identically for mouse and touch. */
 
 const WS_DIRECTIONS = [[0, 1], [0, -1], [1, 0], [-1, 0], [1, 1], [1, -1], [-1, 1], [-1, -1]];
 const WS_MAX_ATTEMPTS = 200;
@@ -11,6 +20,10 @@ const WS_MAX_ATTEMPTS = 200;
 let wsGrid = [];
 let wsPlacements = {};
 let wsSolutionShown = false;
+let wsFoundWords = new Set();
+let wsDragging = false;
+let wsDragStart = null;   // [r, c] | null
+let wsSelection = [];     // array of [r, c]
 
 function wsTryPlaceWord(grid, size, word, [dr, dc], startRow, startCol) {
   const endRow = startRow + dr * (word.length - 1);
@@ -58,20 +71,167 @@ function generateWordSearchGrid(words, size) {
   return { grid, placements, unplaced };
 }
 
+/* --- Drag-selection geometry, pure and unit-testable --- */
+
+function wsComputeDragPath(startR, startC, endR, endC) {
+  const dr = endR - startR, dc = endC - startC;
+  if (dr === 0 && dc === 0) return [[startR, startC]];
+  const isStraight = dr === 0 || dc === 0 || Math.abs(dr) === Math.abs(dc);
+  if (!isStraight) return null;
+  const steps = Math.max(Math.abs(dr), Math.abs(dc));
+  const stepR = dr === 0 ? 0 : dr / Math.abs(dr);
+  const stepC = dc === 0 ? 0 : dc / Math.abs(dc);
+  const path = [];
+  for (let i = 0; i <= steps; i++) path.push([startR + stepR * i, startC + stepC * i]);
+  return path;
+}
+
+function wsCellsEqual(a, b) {
+  if (a.length !== b.length) return false;
+  return a.every(([r, c], i) => r === b[i][0] && c === b[i][1]);
+}
+
+function wsSelectionMatchesPlacement(selection, placement) {
+  return wsCellsEqual(selection, placement) || wsCellsEqual(selection, [...placement].reverse());
+}
+
+function wsFindMatchedWord(selection) {
+  for (const [word, placement] of Object.entries(wsPlacements)) {
+    if (wsFoundWords.has(word)) continue;
+    if (wsSelectionMatchesPlacement(selection, placement)) return word;
+  }
+  return null;
+}
+
+/* --- Rendering --- */
+
 function renderWordSearch() {
   const size = wsGrid.length;
   const solutionCells = new Set();
   if (wsSolutionShown) {
-    Object.values(wsPlacements).forEach((cells) => cells.forEach(([r, c]) => solutionCells.add(`${r},${c}`)));
+    Object.entries(wsPlacements).forEach(([word, cells]) => {
+      if (!wsFoundWords.has(word)) cells.forEach(([r, c]) => solutionCells.add(`${r},${c}`));
+    });
   }
-  const rows = wsGrid.map((row, r) =>
-    row.map((ch, c) => {
-      const highlighted = solutionCells.has(`${r},${c}`);
-      return `<span style="display:inline-block; width:1.4em; text-align:center; ${highlighted ? "color:var(--void); background:var(--phosphor);" : ""}">${ch}</span>`;
-    }).join("")
-  );
-  document.getElementById("wordsearch-grid").innerHTML = rows.join("<br>");
+  const foundCells = new Set();
+  wsFoundWords.forEach((word) => {
+    (wsPlacements[word] || []).forEach(([r, c]) => foundCells.add(`${r},${c}`));
+  });
+  const selectedCells = new Set(wsSelection.map(([r, c]) => `${r},${c}`));
+
+  const container = document.getElementById("wordsearch-grid");
+  container.style.display = "grid";
+  container.style.gridTemplateColumns = `repeat(${size}, 1.4em)`;
+  container.style.userSelect = "none";
+  container.style.touchAction = "none"; // real touch support - without this, a drag scrolls the page instead of selecting cells
+  container.textContent = "";
+
+  for (let r = 0; r < size; r++) {
+    for (let c = 0; c < size; c++) {
+      const key = `${r},${c}`;
+      const cell = document.createElement("span");
+      cell.className = "ws-cell";
+      cell.dataset.r = r;
+      cell.dataset.c = c;
+      cell.textContent = wsGrid[r][c];
+      cell.style.display = "flex";
+      cell.style.alignItems = "center";
+      cell.style.justifyContent = "center";
+      cell.style.width = "1.4em";
+      cell.style.height = "1.4em";
+      cell.style.cursor = "pointer";
+      if (selectedCells.has(key)) {
+        cell.style.background = "rgba(57,255,20,0.35)";
+      } else if (foundCells.has(key)) {
+        cell.style.color = "var(--void)";
+        cell.style.background = "var(--phosphor)";
+      } else if (solutionCells.has(key)) {
+        cell.style.color = "var(--void)";
+        cell.style.background = "var(--phosphor-dim)";
+      }
+      container.appendChild(cell);
+    }
+  }
 }
+
+function renderWordSearchList() {
+  const el = document.getElementById("wordsearch-wordlist");
+  const words = el.dataset.words ? JSON.parse(el.dataset.words) : [];
+  const unplaced = el.dataset.unplaced ? JSON.parse(el.dataset.unplaced) : [];
+  el.innerHTML = words
+    .map((w) => {
+      if (unplaced.includes(w)) return `<s>${w}</s>`;
+      if (wsFoundWords.has(w)) return `<s style="color:var(--phosphor);">${w}</s>`;
+      return w;
+    })
+    .join(" &middot; ");
+
+  const placedCount = Object.keys(wsPlacements).length;
+  const status = document.getElementById("wordsearch-status");
+  if (status) {
+    status.textContent = placedCount > 0 && wsFoundWords.size === placedCount
+      ? `> all ${placedCount} words found`
+      : wsFoundWords.size > 0
+      ? `${wsFoundWords.size}/${placedCount} found`
+      : "";
+  }
+}
+
+/* --- Drag interaction --- */
+
+function wsCellFromPoint(x, y) {
+  const el = document.elementFromPoint(x, y);
+  const cell = el && el.closest(".ws-cell");
+  return cell ? [parseInt(cell.dataset.r, 10), parseInt(cell.dataset.c, 10)] : null;
+}
+
+function wsStartDrag(r, c) {
+  wsDragging = true;
+  wsDragStart = [r, c];
+  wsSelection = [[r, c]];
+  renderWordSearch();
+}
+
+function wsUpdateDrag(r, c) {
+  if (!wsDragging || !wsDragStart) return;
+  const path = wsComputeDragPath(wsDragStart[0], wsDragStart[1], r, c);
+  if (path) wsSelection = path;
+  renderWordSearch();
+}
+
+function wsEndDrag() {
+  if (!wsDragging) return;
+  wsDragging = false;
+  if (wsSelection.length > 1) {
+    const word = wsFindMatchedWord(wsSelection);
+    if (word) {
+      wsFoundWords.add(word);
+      GAMA.say("success");
+    }
+  }
+  wsSelection = [];
+  wsDragStart = null;
+  renderWordSearch();
+  renderWordSearchList();
+}
+
+document.addEventListener("pointerdown", (e) => {
+  const cell = e.target.closest(".ws-cell");
+  if (!cell) return;
+  wsStartDrag(parseInt(cell.dataset.r, 10), parseInt(cell.dataset.c, 10));
+  e.preventDefault();
+});
+
+document.addEventListener("pointermove", (e) => {
+  if (!wsDragging) return;
+  const pos = wsCellFromPoint(e.clientX, e.clientY);
+  if (pos) wsUpdateDrag(pos[0], pos[1]);
+});
+
+document.addEventListener("pointerup", wsEndDrag);
+document.addEventListener("pointercancel", wsEndDrag);
+
+/* --- Toolbar actions --- */
 
 function executeWordSearchGenerate() {
   const size = parseInt(document.getElementById("wordsearch-size").value, 10);
@@ -91,10 +251,17 @@ function executeWordSearchGenerate() {
   wsGrid = result.grid;
   wsPlacements = result.placements;
   wsSolutionShown = false;
+  wsFoundWords = new Set();
+  wsSelection = [];
+  wsDragging = false;
+  wsDragStart = null;
   document.getElementById("wordsearch-toggle-btn").textContent = "> SHOW SOLUTION";
 
   renderWordSearch();
-  document.getElementById("wordsearch-wordlist").innerHTML = words.map((w) => (result.unplaced.includes(w) ? `<s>${w}</s>` : w)).join(" &middot; ");
+  const listEl = document.getElementById("wordsearch-wordlist");
+  listEl.dataset.words = JSON.stringify(words);
+  listEl.dataset.unplaced = JSON.stringify(result.unplaced);
+  renderWordSearchList();
   document.getElementById("wordsearch-warning").textContent = result.unplaced.length
     ? `⚠ couldn't fit: ${result.unplaced.join(", ")} - try a larger grid size`
     : "";
