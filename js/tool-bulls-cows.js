@@ -41,13 +41,20 @@ function scoreBullsCows(target, guess) {
   return { bulls, cows };
 }
 
+// Scales with digit length (longer sequences are genuinely harder to
+// crack) rather than a flat number regardless of difficulty - floored at
+// 10 so short sequences still get a real, non-trivial number of tries.
+function bullsCowsMaxGuesses(length) {
+  return Math.max(10, length * 3);
+}
+
 function newBullsCowsGame() {
   bcLength = parseInt(document.getElementById("bc-length").value, 10);
   bcAllowDupes = document.getElementById("bc-allow-dupes").checked;
   bcTarget = generateBullsCowsTarget(bcLength, bcAllowDupes);
   bcGuesses = [];
   bcOver = false;
-  document.getElementById("bc-status").textContent = `> new sequence locked in: ${bcLength} digits${bcAllowDupes ? "" : ", no repeats"}`;
+  document.getElementById("bc-status").textContent = `> new sequence locked in: ${bcLength} digits${bcAllowDupes ? "" : ", no repeats"} - ${bullsCowsMaxGuesses(bcLength)} guesses before it's revealed`;
   renderBullsCowsHistory();
   GAMA.say("idle");
 }
@@ -80,12 +87,17 @@ function executeBullsCowsGuess() {
   renderBullsCowsHistory();
 
   const status = document.getElementById("bc-status");
+  const maxGuesses = bullsCowsMaxGuesses(bcLength);
   if (bulls === bcLength) {
     bcOver = true;
     status.textContent = `> cracked it in ${bcGuesses.length} guess${bcGuesses.length === 1 ? "" : "es"}: ${bcTarget}`;
     GAMA.say("success");
+  } else if (bcGuesses.length >= maxGuesses) {
+    bcOver = true;
+    status.textContent = `> out of guesses (${maxGuesses} used). the sequence was: ${bcTarget}`;
+    GAMA.say("error");
   } else {
-    status.textContent = `${bulls} bulls, ${cows} cows`;
+    status.textContent = `${bulls} bulls, ${cows} cows - ${maxGuesses - bcGuesses.length} guess${maxGuesses - bcGuesses.length === 1 ? "" : "es"} left`;
     GAMA.say("idle");
   }
 }

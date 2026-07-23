@@ -101,7 +101,7 @@ function renderTriviaQuestion() {
   document.getElementById("trivia-question").textContent = `${triviaCurrentIndex + 1}/${triviaQueue.length}: ${item.q}`;
   const options = shuffleArray([item.a, ...item.d]);
   document.getElementById("trivia-options").innerHTML = options
-    .map((opt) => `<button style="display:block; width:100%; text-align:left; margin-bottom:0.4rem;" onclick="executeTriviaAnswer(this, ${opt === item.a})">${opt}</button>`)
+    .map((opt, i) => `<button style="display:block; width:100%; text-align:left; margin-bottom:0.4rem;" onclick="executeTriviaAnswer(this, ${opt === item.a})">${i + 1}. ${opt}</button>`)
     .join("");
   renderTriviaScoreLine();
 }
@@ -137,5 +137,20 @@ function executeTriviaAnswer(btn, isCorrect) {
     setTimeout(() => { triviaCurrentIndex++; renderTriviaQuestion(); }, 1200);
   }
 }
+
+function triviaIsTypingElsewhere() {
+  const el = document.activeElement;
+  if (!el) return false;
+  return el.tagName === "INPUT" || el.tagName === "TEXTAREA" || el.tagName === "SELECT" || el.isContentEditable;
+}
+
+document.addEventListener("keydown", (e) => {
+  if (!document.getElementById("trivia-options") || triviaIsTypingElsewhere()) return;
+  const index = parseInt(e.key, 10) - 1;
+  const buttons = document.getElementById("trivia-options").children;
+  if (Number.isNaN(index) || index < 0 || index >= buttons.length) return;
+  buttons[index].click();
+  e.preventDefault();
+});
 
 document.addEventListener("DOMContentLoaded", newTriviaQuiz);

@@ -39,18 +39,33 @@ function renderHangman() {
     .join(" ");
   const wrongLetters = [...hangmanGuessed].filter((ch) => !hangmanWord.includes(ch));
   document.getElementById("hangman-guessed").textContent = wrongLetters.length ? `wrong guesses: ${wrongLetters.join(", ")}` : "";
+  renderHangmanKeyboard();
 }
 
-function executeHangmanGuess() {
-  if (hangmanOver) return;
-  const input = document.getElementById("hangman-letter-input");
-  const letter = input.value.trim().toLowerCase();
-  input.value = "";
-  if (!/^[a-z]$/.test(letter) || hangmanGuessed.has(letter)) return;
+// On-screen A-Z buttons - the text input already worked, but typing a
+// single letter on mobile means popping the OS keyboard just to tap one
+// key. Real buttons are the touch-friendly path most hangman
+// implementations offer alongside (not instead of) typed input.
+function renderHangmanKeyboard() {
+  const container = document.getElementById("hangman-keyboard");
+  if (!container) return;
+  container.innerHTML = "abcdefghijklmnopqrstuvwxyz"
+    .split("")
+    .map((ch) => {
+      const guessed = hangmanGuessed.has(ch);
+      const correct = guessed && hangmanWord.includes(ch);
+      const disabled = guessed || hangmanOver;
+      const color = guessed ? (correct ? "var(--phosphor)" : "var(--phosphor-dim-text)") : "var(--phosphor)";
+      return `<button onclick="guessHangmanLetter('${ch}')" ${disabled ? "disabled" : ""} style="width:1.9rem; height:1.9rem; padding:0; font-size:0.85rem; color:${color}; opacity:${guessed ? "0.5" : "1"};">${ch.toUpperCase()}</button>`;
+    })
+    .join("");
+}
+
+function guessHangmanLetter(letter) {
+  if (hangmanOver || !/^[a-z]$/.test(letter) || hangmanGuessed.has(letter)) return;
 
   hangmanGuessed.add(letter);
   if (!hangmanWord.includes(letter)) hangmanWrongCount++;
-  renderHangman();
 
   const status = document.getElementById("hangman-status");
   if (hangmanWord.split("").every((ch) => hangmanGuessed.has(ch))) {
@@ -64,6 +79,14 @@ function executeHangmanGuess() {
   } else {
     GAMA.say(hangmanWord.includes(letter) ? "success" : "idle");
   }
+  renderHangman();
+}
+
+function executeHangmanGuess() {
+  const input = document.getElementById("hangman-letter-input");
+  const letter = input.value.trim().toLowerCase();
+  input.value = "";
+  guessHangmanLetter(letter);
 }
 
 document.addEventListener("DOMContentLoaded", newHangmanGame);

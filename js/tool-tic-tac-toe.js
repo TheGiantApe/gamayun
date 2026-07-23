@@ -97,4 +97,23 @@ function newTicTacToeGame() {
   GAMA.say("idle");
 }
 
+// Numpad-layout key mapping (7-8-9 top row, 4-5-6 middle, 1-2-3 bottom) -
+// matches the physical keypad convention most players already know for a
+// 3x3 grid, rather than reading-order 1-9 which nobody reaches for.
+const TTT_KEYPAD_TO_INDEX = { 7: 0, 8: 1, 9: 2, 4: 3, 5: 4, 6: 5, 1: 6, 2: 7, 3: 8 };
+
+function tttIsTypingElsewhere() {
+  const el = document.activeElement;
+  if (!el) return false;
+  return el.tagName === "INPUT" || el.tagName === "TEXTAREA" || el.tagName === "SELECT" || el.isContentEditable;
+}
+
+document.addEventListener("keydown", (e) => {
+  if (!document.getElementById("ttt-board") || tttIsTypingElsewhere()) return;
+  const index = TTT_KEYPAD_TO_INDEX[e.key];
+  if (index === undefined) return;
+  tttPlayerMove(index);
+  e.preventDefault();
+});
+
 document.addEventListener("DOMContentLoaded", newTicTacToeGame);
