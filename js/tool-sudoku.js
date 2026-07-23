@@ -279,7 +279,14 @@ function renderSudoku() {
   container.textContent = "";
   const table = document.createElement("div");
   table.style.display = "grid";
-  table.style.gridTemplateColumns = "repeat(9, 2.4rem)";
+  // minmax(0, 2.4rem), not a bare 2.4rem: a fixed track size never
+  // shrinks below its own value regardless of container width, which
+  // forced the whole grid (and the page under it) wider than the
+  // viewport on a real mobile-width render - confirmed 367px grid in a
+  // 320px tool-card. minmax's 0 floor lets grid actually shrink the
+  // columns to fit when there's less than 9 * 2.4rem of room.
+  table.style.gridTemplateColumns = "repeat(9, minmax(0, 2.4rem))";
+  table.style.maxWidth = "100%";
 
   for (let r = 0; r < 9; r++) {
     for (let c = 0; c < 9; c++) {
@@ -288,8 +295,13 @@ function renderSudoku() {
       cell.dataset.c = c;
       cell.tabIndex = 0;
       cell.className = "sudoku-cell";
-      cell.style.width = "2.4rem";
-      cell.style.height = "2.4rem";
+      // Fill whatever width the (now-shrinkable) grid track actually
+      // gave this column, rather than insisting on a fixed 2.4rem that
+      // would just overflow its own track again on a narrow grid.
+      // aspect-ratio keeps it square as it shrinks instead of a fixed
+      // height fighting the now-variable width.
+      cell.style.width = "100%";
+      cell.style.aspectRatio = "1";
       cell.style.display = "flex";
       cell.style.alignItems = "center";
       cell.style.justifyContent = "center";

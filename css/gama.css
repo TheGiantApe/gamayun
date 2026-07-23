@@ -1385,7 +1385,14 @@ button:hover, .btn:hover {
 }
 
 /* ---- Prose pages (about/legal/wiki) ---- */
-.prose { padding: 1.5rem; max-width: 68ch; line-height: 1.6; font-size: 0.95rem; }
+/* overflow-wrap: a long unbroken URL used as visible link text
+   ("policies.google.com/technologies/partner-sites" on privacy.html) has
+   no space for normal wrapping and forced a real document-level
+   horizontal overflow on a real mobile-width render - general fix since
+   any future prose content (About/Wiki/Legal/Log) could hit the same
+   thing with any long URL-as-text link. break-word only breaks when a
+   word truly can't fit any other way. */
+.prose { padding: 1.5rem; max-width: 68ch; line-height: 1.6; font-size: 0.95rem; overflow-wrap: break-word; }
 /* h1/h2 were inheriting plain browser defaults (2em/1.5em) on top of the
    1.05rem base - a wiki entry's own title was rendering close to 2rem+,
    absurdly large for a single short reference page. Fixed sizes instead. */
