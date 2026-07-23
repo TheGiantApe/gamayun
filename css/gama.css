@@ -571,12 +571,53 @@ a:hover, a:focus {
   font-family: var(--font-display);
   font-size: 1.3rem;
   margin-top: 0;
+  /* Tool titles are one long underscore-joined word ("DATE_DIFFERENCE_
+     CALCULATOR") with no space for the browser's normal line-breaking to
+     use - confirmed via a real mobile-width render that this forces the
+     whole page wider than the viewport on longer titles (calc-date-diff
+     specifically: h2 scrollWidth 376 vs its container's clientWidth 269,
+     the actual source of a real document-level horizontal overflow, not
+     a false positive). break-word (not anywhere, see nav-link-label's
+     CSS comment on why anywhere was wrong there) only breaks a word when
+     it truly can't fit any other way, so short titles are unaffected. */
+  overflow-wrap: break-word;
 }
 .tool-workspace {
   display: flex;
   gap: 0.5rem;
   flex-wrap: wrap;
   margin-top: 1rem;
+}
+/* Confirmed via real mobile-width renders: a <select> with long option
+   text (commit-formatter's type dropdown - "chore - tooling/build/deps,
+   no src change") sizes itself to its widest option with no cap, wider
+   than the tool-card at narrow viewports - a real document-level
+   horizontal overflow, not wrapping (.tool-workspace's flex-wrap can't
+   help when a single item's own intrinsic width exceeds the container).
+   max-width:100% lets the browser's normal select truncation handle it
+   instead. Some inline label styles (contrast-check, qr-code - a text
+   prefix + color swatch + hex input) set display:flex without wrap,
+   which caused the same real overflow for the same reason; flex-wrap
+   here is a no-op for any label that isn't itself a flex container.
+   Scoped to .tool-card rather than just .tool-workspace - qr-code's
+   selects (one with "H (30% recovery, best for damaged/dirty print)" as
+   an option) sit in plain unstyled divs outside .tool-workspace and hit
+   the identical real overflow. */
+.tool-card select { max-width: 100%; }
+.tool-workspace label { flex-wrap: wrap; }
+/* max-width:100% alone didn't fix qr-code's error-correction select -
+   confirmed live it still rendered at its full 390px content width
+   despite computing maxWidth:100% correctly, because percentage
+   max-width needs a definite containing block width to resolve against,
+   and this select's chain (a plain inline label inside a flex div,
+   blockified as a flex item with default auto min-width) never gives it
+   one. width:100% doesn't have that resolution requirement and reliably
+   wins - but forcing it unconditionally would break desktop cases like
+   commit-formatter's type select, which is meant to sit beside a scope
+   input on one line and has plenty of room there. Mobile-only, same
+   breakpoint as the rest of the layout collapse. */
+@media (max-width: 900px) {
+  .tool-card select { width: 100%; box-sizing: border-box; }
 }
 .tool-workspace input[type="text"],
 .tool-workspace textarea {

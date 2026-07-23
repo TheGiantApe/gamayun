@@ -11,6 +11,7 @@ to PAGES below, run this script.
 import datetime
 import json
 import os
+import re
 
 SRC = os.path.dirname(os.path.abspath(__file__))
 ROOT_DIR = os.path.dirname(SRC)
@@ -1051,6 +1052,23 @@ def build_human_sitemap_html():
     return "\n".join(sections)
 
 
+def wrap_h2_underscores(content):
+    """Tool titles are one long underscore-joined word ("DATE_DIFFERENCE_
+    CALCULATOR") with no space for the browser's normal line-breaking to
+    use - confirmed via a real mobile-width render that a long enough one
+    forces the whole page wider than the viewport (calc-date-diff
+    specifically). <wbr> after each underscore, same fix already applied
+    to nav_link_label() for the same underlying problem, so the browser
+    only ever breaks at an underscore seam instead of picking an
+    arbitrary (often mid-word) spot via CSS overflow-wrap alone."""
+    return re.sub(
+        r"(<h2>.*?</h2>)",
+        lambda m: m.group(1).replace("_", "_<wbr>"),
+        content,
+        flags=re.DOTALL,
+    )
+
+
 def build():
     count = 0
     tool_grid_html = build_tool_grid_html()
@@ -1067,6 +1085,7 @@ def build():
     for page in PAGES:
         with open(os.path.join(SRC, "content", page["fragment"]), encoding="utf-8") as f:
             content = f.read()
+        content = wrap_h2_underscores(content)
         content = content.replace("{{TOOL_GRID}}", tool_grid_html)
         content = content.replace("{{HUMAN_SITEMAP}}", human_sitemap_html)
         content = content.replace("{{WIKI_INDEX}}", wiki_index_html)
