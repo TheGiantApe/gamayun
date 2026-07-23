@@ -649,6 +649,12 @@ const TOOL_LIST = [
     "url": "pages/habit-tracker.html"
   },
   {
+    "title": "Password Breach",
+    "desc": "Terminal-style password-cracking puzzle - click a candidate word, get told how many letters are in the right position, narrow it down before you're locked out.",
+    "code": "ACCESS_BREACH",
+    "url": "pages/password-breach.html"
+  },
+  {
     "title": "Verify a Source Before You Share It",
     "desc": "Reverse-image search, account age, dead-link sourcing, and why a screenshot alone proves nothing.",
     "code": "HOWTO_VERIFY_SOURCE",

@@ -162,6 +162,7 @@ const GAMA = (() => {
     CHECKLIST: ["> added. one more thing that exists now, in writing."],
     FOCUS_WRITE: ["> word count updated. that's the whole feature. that's the point."],
     HABIT_TRACKER: ["> logged. the grid remembers even on the days you'd rather it didn't."],
+    ACCESS_BREACH: ["> access granted. the system never even saw you coming."],
     HOWTO_VERIFY_SOURCE: ["> good question to ask before you share anything. read on."],
     HOWTO_STRIP_METADATA: ["> your photos have been telling on you for years. let's fix that."],
     HOWTO_CHECK_BREACH: ["> somewhere out there, one of your passwords is probably already for sale. let's check."],

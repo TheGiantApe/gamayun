@@ -470,6 +470,9 @@ PAGES = [
     dict(out="pages/habit-tracker.html", fragment="habit-tracker.html", title="Habit Tracker",
          desc="Track a few habits on a simple 21-day grid, entirely local - no account, no push notifications.",
          root="../", code="HABIT_TRACKER", category="GAMES_CURIOS", js=["tool-habit-tracker.js"]),
+    dict(out="pages/password-breach.html", fragment="password-breach.html", title="Password Breach",
+         desc="Terminal-style password-cracking puzzle - click a candidate word, get told how many letters are in the right position, narrow it down before you're locked out.",
+         root="../", code="ACCESS_BREACH", category="GAMES_CURIOS", js=["data-words.js", "tool-password-breach.js"]),
 
     # Field Manuals: GAMA+-voice step-by-step guides. Content lives in
     # INSTRUCTABLES below; all 5 pages share one fragment shell
