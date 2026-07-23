@@ -661,10 +661,7 @@ def build_nav_html(current_out, root, current_section):
             has_active = any(p["out"] == current_out for p in pages_in_cat)
             open_attr = " open" if has_active else ""
             lines.append(f'                <details class="nav-section"{open_attr}>')
-            # Non-breaking space before the closing bracket - without it, a
-            # category label that wraps (LOOKUP_DECK, FILE_SALVAGE) breaks
-            # right before "]", stranding the bracket alone on its own line.
-            lines.append(f'                    <summary class="nav-section-label">[ {cat_label}&nbsp;]</summary>')
+            lines.append(f'                    <summary class="nav-section-label">{cat_label}</summary>')
             for p in pages_in_cat:
                 active = " active" if p["out"] == current_out else ""
                 lines.append(f'                    <a href="{root}{p["out"]}" class="nav-link{active}">{nav_link_label(p["code"])}</a>')
@@ -675,13 +672,16 @@ def build_nav_html(current_out, root, current_section):
 
 
 def nav_link_label(code):
-    """'&gt;' glued to the label via a non-breaking space, and the label
-    itself allowed to break internally (overflow-wrap:anywhere in CSS) -
-    without this, a long underscore-joined code like HTML_ENTITY_CODEC has
-    no ordinary break point except the space after '&gt;', so the arrow
-    stranded itself alone on its own line with the label overflowing below
-    it instead of wrapping."""
-    return f'&gt;&nbsp;<span class="nav-link-label">{code}</span>'
+    """'&gt;' glued to the label via a non-breaking space. The label itself
+    gets a <wbr> after every underscore so long codes (RESTAURANT_PICKER,
+    LETTER_RACK_SOLVER) wrap at those seams - underscore-joined text has no
+    ordinary break point of its own, and CSS overflow-wrap:anywhere (the
+    old fix) broke wherever it needed to, including mid-word, which reads
+    as a rendering bug rather than a wrap. Explicit <wbr>s give the
+    browser a real break point at every underscore so it never has to
+    fall back to breaking a token in half."""
+    wrapped = code.replace("_", "_<wbr>")
+    return f'&gt;&nbsp;<span class="nav-link-label">{wrapped}</span>'
 
 
 def build_jsonld_html(page):
@@ -747,7 +747,7 @@ def build_tool_grid_html():
                 f'                </a>'
             )
         sections.append(
-            f'                <div class="grid-section-label">[ {cat_label} ]</div>\n'
+            f'                <div class="grid-section-label">{cat_label}</div>\n'
             f'                <div class="tool-grid-row">\n' + "\n".join(items) + "\n                </div>"
         )
     return "\n".join(sections)

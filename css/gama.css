@@ -47,6 +47,19 @@ html.theme-amber {
 
 * { box-sizing: border-box; }
 
+/* Form fields don't inherit page background/color by default - browsers
+   fall back to their own (white) unless told otherwise, which reads as a
+   glaring white splotch against the dark theme on every tool with a text
+   input, textarea, or select (confirmed on cipher-deck.html). Sitewide
+   rule rather than per-tool, since any tool can add one of these. */
+input, textarea, select {
+  background: var(--void-raised);
+  color: var(--phosphor);
+  border: 1px solid var(--phosphor-dim);
+  font-family: var(--font-body);
+}
+input::placeholder, textarea::placeholder { color: var(--phosphor-dim-text); }
+
 html, body {
   margin: 0;
   padding: 0;
@@ -490,11 +503,13 @@ a:hover, a:focus {
 }
 .nav-link:hover { border-bottom: none; color: var(--phosphor); }
 .nav-link.active { color: var(--amber); }
-/* HTML_ENTITY_CODEC-length codes have no ordinary break point except the
-   space after the arrow - see nav_link_label() in build.py, which glues
-   '&gt;' to the label with a non-breaking space so the arrow can't strand
-   itself alone on a line, then lets the label wrap internally instead. */
-.nav-link-label { overflow-wrap: anywhere; }
+/* Long codes (RESTAURANT_PICKER, HTML_ENTITY_CODEC) wrap at a <wbr> after
+   each underscore (see nav_link_label() in build.py) rather than via
+   overflow-wrap:anywhere, which used to break wherever it needed to,
+   including mid-word ("RESTAURANT_PICKE" / "R") - a real bug, not a
+   stylistic choice. Normal wrapping plus explicit <wbr> seams means it
+   only ever breaks at an underscore. */
+.nav-link-label { overflow-wrap: normal; }
 /* Wiki's flat nav-link list has no parent .nav-section label to carry the
    lead role, so its links keep the default (bright, unindented) treatment
    rather than the tools-section dependent styling above. */
