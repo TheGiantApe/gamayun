@@ -625,6 +625,30 @@ const TOOL_LIST = [
     "url": "pages/movie-picker.html"
   },
   {
+    "title": "Task Picker",
+    "desc": "Same spin-the-wheel engine as Decision Wheel, aimed at your to-do list instead - for when deciding what to do next is the hard part.",
+    "code": "TASK_PICKER",
+    "url": "pages/task-picker.html"
+  },
+  {
+    "title": "Checklist",
+    "desc": "A quick to-do list that saves itself locally - no account, no sync, no notifications.",
+    "code": "CHECKLIST",
+    "url": "pages/checklist.html"
+  },
+  {
+    "title": "Focus Write",
+    "desc": "A blank page and nothing else - local-storage autosave, live word count, optional typewriter scroll.",
+    "code": "FOCUS_WRITE",
+    "url": "pages/focus-write.html"
+  },
+  {
+    "title": "Habit Tracker",
+    "desc": "Track a few habits on a simple 21-day grid, entirely local - no account, no push notifications.",
+    "code": "HABIT_TRACKER",
+    "url": "pages/habit-tracker.html"
+  },
+  {
     "title": "Verify a Source Before You Share It",
     "desc": "Reverse-image search, account age, dead-link sourcing, and why a screenshot alone proves nothing.",
     "code": "HOWTO_VERIFY_SOURCE",

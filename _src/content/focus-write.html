@@ -1,0 +1,13 @@
+            <section class="tool-card">
+                <h2>&gt; FOCUS_WRITE</h2>
+                <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">A blank page and nothing else. Autosaves in this browser as you type - no account, no sync, no export required to keep your draft. Optional typewriter scroll keeps your current line centered instead of pinned to the bottom.</p>
+                <div class="tool-workspace" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.5rem;">
+                    <label style="font-size:0.85rem; display:flex; align-items:center; gap:0.4rem;"><input type="checkbox" id="focus-typewriter"> typewriter scroll</label>
+                    <span id="focus-wordcount" style="color:var(--phosphor-dim-text); font-size:0.85rem;">0 words</span>
+                </div>
+                <textarea id="focus-editor" placeholder="start writing..." style="width:100%; min-height:55vh; box-sizing:border-box; margin-top:0.75rem; font-family:var(--font-mono); font-size:1rem; line-height:1.6; padding:1rem; resize:vertical;"></textarea>
+                <div style="margin-top:0.75rem; display:flex; justify-content:space-between; align-items:center;">
+                    <button onclick="executeFocusClear()">&gt; CLEAR</button>
+                    <span id="focus-savestatus" style="color:var(--phosphor-dim-text); font-size:0.8rem;"></span>
+                </div>
+            </section>

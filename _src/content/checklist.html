@@ -1,0 +1,14 @@
+            <section class="tool-card">
+                <h2>&gt; CHECKLIST</h2>
+                <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">Quick to-do list, saves automatically in this browser. No account, no sync, no notifications - just a list that remembers itself between visits.</p>
+                <div class="tool-workspace">
+                    <input type="text" id="checklist-input" placeholder="add a task..." onkeydown="if(event.key==='Enter')executeChecklistAdd()" style="max-width:400px;">
+                    <button onclick="executeChecklistAdd()">&gt; ADD</button>
+                </div>
+                <ul id="checklist-list" style="list-style:none; padding:0; margin-top:1rem;"></ul>
+                <div style="margin-top:1rem; display:flex; gap:1rem; align-items:center;">
+                    <span id="checklist-count" style="color:var(--phosphor-dim-text); font-size:0.85rem;"></span>
+                    <button onclick="executeChecklistClearDone()" style="margin-left:auto;">&gt; CLEAR_COMPLETED</button>
+                </div>
+            </section>
+            <p style="padding:0 1.5rem; font-size:0.85rem;"><span style="color: var(--phosphor-dim-text)">See also:</span> <a href="task-picker.html">Task Picker</a> &middot; <a href="habit-tracker.html">Habit Tracker</a></p>

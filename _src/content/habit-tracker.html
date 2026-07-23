@@ -1,0 +1,9 @@
+            <section class="tool-card">
+                <h2>&gt; HABIT_TRACKER</h2>
+                <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">Track a few habits on a simple 21-day grid, all local to this browser. No account, no reminders, no streak-shaming push notifications - click a square to mark a day done.</p>
+                <div class="tool-workspace">
+                    <input type="text" id="habit-input" placeholder="add a habit..." onkeydown="if(event.key==='Enter')executeHabitAdd()" style="max-width:300px;">
+                    <button onclick="executeHabitAdd()">&gt; ADD</button>
+                </div>
+                <div id="habit-list" style="margin-top:1.25rem;"></div>
+            </section>

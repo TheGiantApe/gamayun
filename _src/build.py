@@ -458,6 +458,18 @@ PAGES = [
     dict(out="pages/movie-picker.html", fragment="movie-picker.html", title="Movie/Show Picker",
          desc="Spin your saved watchlist to decide what to watch - the list persists automatically between visits.",
          root="../", code="MOVIE_PICKER", category="GAMES_CURIOS", js=["tool-decision-wheel.js", "tool-persistent-wheel-list.js"]),
+    dict(out="pages/task-picker.html", fragment="task-picker.html", title="Task Picker",
+         desc="Same spin-the-wheel engine as Decision Wheel, aimed at your to-do list instead - for when deciding what to do next is the hard part.",
+         root="../", code="TASK_PICKER", category="GAMES_CURIOS", js=["tool-decision-wheel.js", "tool-persistent-wheel-list.js"]),
+    dict(out="pages/checklist.html", fragment="checklist.html", title="Checklist",
+         desc="A quick to-do list that saves itself locally - no account, no sync, no notifications.",
+         root="../", code="CHECKLIST", category="GAMES_CURIOS", js=["tool-checklist.js"]),
+    dict(out="pages/focus-write.html", fragment="focus-write.html", title="Focus Write",
+         desc="A blank page and nothing else - local-storage autosave, live word count, optional typewriter scroll.",
+         root="../", code="FOCUS_WRITE", category="GAMES_CURIOS", js=["tool-focus-write.js"]),
+    dict(out="pages/habit-tracker.html", fragment="habit-tracker.html", title="Habit Tracker",
+         desc="Track a few habits on a simple 21-day grid, entirely local - no account, no push notifications.",
+         root="../", code="HABIT_TRACKER", category="GAMES_CURIOS", js=["tool-habit-tracker.js"]),
 
     # Field Manuals: GAMA+-voice step-by-step guides. Content lives in
     # INSTRUCTABLES below; all 5 pages share one fragment shell
