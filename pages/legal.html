@@ -290,10 +290,15 @@
          style away from silently breaking. Moved to a plain body-level
          sibling instead, same level as the header/command-bridge-grid/
          ticker footer, so "this is independently anchored, not nested
-         layout" is obvious from the DOM structure itself. Mobile (where
-         she's not fixed, just normal in-flow content) renders this in the
-         same natural tail-of-page spot she already occupied inside
-         right-deck - no order/positioning override needed. -->
+         layout" is obvious from the DOM structure itself. This paragraph
+         used to say mobile rendered her un-fixed/in-flow at this DOM
+         position - that was true of an earlier version and is stale now:
+         see the comment on .gama-mascot-box in gama.css, she's fixed
+         unconditionally on every breakpoint on purpose (in-flow mobile
+         rendering was tried and reverted - it let her land dead-center of
+         short pages instead of pinned to a corner). This DOM position is
+         just where the markup lives, not where she renders on any
+         viewport. -->
     <div class="gama-mascot-box">
         <div class="gama-dialogue">
             <p id="gama-speech">&gt; awaiting input...</p>
