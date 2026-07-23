@@ -289,8 +289,8 @@
             <div class="breadcrumb">&gt; <a href="../index.html">DECK_LAUNCHER</a> <span class="breadcrumb-sep">/</span> GAMES_CURIOS <span class="breadcrumb-sep">/</span> SUDOKU</div>
             <section class="tool-card">
                 <h2>&gt; SUDOKU</h2>
-                <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">Every generated puzzle is built by starting from a complete valid solution and removing cells one at a time, checking after each removal that exactly one solution still exists - not a puzzle that merely looks plausible. Paste or type your own puzzle into the grid and hit Solve to check any Sudoku, not just generated ones.</p>
-                <div class="tool-workspace">
+                <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">Every generated puzzle is built by starting from a complete valid solution and removing cells one at a time, checking after each removal that exactly one solution still exists - not a puzzle that merely looks plausible. Click a cell and type to play; arrow keys move, N toggles notes mode.</p>
+                <div class="tool-workspace" style="flex-wrap:wrap; gap:0.6rem;">
                     <select id="sudoku-difficulty">
                         <option value="easy">easy (~40 clues)</option>
                         <option value="medium" selected>medium (~32 clues)</option>
@@ -299,6 +299,12 @@
                     <button onclick="generateSudokuPuzzle()">&gt; NEW PUZZLE</button>
                     <button onclick="solveSudokuGrid()">&gt; SOLVE</button>
                     <button onclick="clearSudokuGrid()">&gt; CLEAR</button>
+                    <button id="sudoku-mode-toggle" onclick="toggleSudokuMode()">&gt; MODE: DIGIT</button>
+                    <button onclick="giveSudokuHint()">&gt; HINT</button>
+                </div>
+                <div class="tool-workspace" style="font-size:0.8rem; gap:1.25rem; margin-top:0.4rem;">
+                    <label><input type="checkbox" id="sudoku-autoclear-notes" checked onchange="saveSudokuSettings()"> auto-clear notes on placement</label>
+                    <label><input type="checkbox" id="sudoku-conflict-highlight" checked onchange="saveSudokuSettings()"> highlight conflicts</label>
                 </div>
                 <div id="sudoku-grid" style="margin-top:1rem; display:inline-block;"></div>
                 <div id="sudoku-status" style="margin-top:0.75rem; font-size:0.9rem;"></div>
