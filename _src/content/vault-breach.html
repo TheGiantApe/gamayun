@@ -1,0 +1,30 @@
+            <section class="tool-card">
+                <h2>&gt; VAULT_BREACH</h2>
+                <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">GAMA locks in a hidden code, you crack it. Every guess reports two plain counts: how many digits are in the exact right position, and how many are the right digit sitting in the wrong spot - no jargon, no glossary required. Length, digit range, repeats, and attempt count are all yours to set.</p>
+
+                <div class="tool-workspace">
+                    <label style="font-size:0.85rem; color:var(--phosphor-dim-text);">code length: <span id="vb-length-val">4</span>
+                        <input type="range" id="vb-length" min="3" max="6" value="4" oninput="document.getElementById('vb-length-val').textContent=this.value" onchange="newVaultBreachGame()">
+                    </label>
+                    <label style="font-size:0.85rem; color:var(--phosphor-dim-text);">digit range: 0-<span id="vb-pool-val">9</span>
+                        <input type="range" id="vb-pool" min="3" max="9" value="9" oninput="document.getElementById('vb-pool-val').textContent=this.value" onchange="newVaultBreachGame()">
+                    </label>
+                    <label style="font-size:0.85rem; color:var(--phosphor-dim-text);">attempts: <span id="vb-attempts-val">10</span>
+                        <input type="range" id="vb-attempts" min="5" max="20" value="10" oninput="document.getElementById('vb-attempts-val').textContent=this.value" onchange="newVaultBreachGame()">
+                    </label>
+                    <label style="font-size:0.85rem; color:var(--phosphor-dim-text);"><input type="checkbox" id="vb-allow-dupes" onchange="newVaultBreachGame()"> allow repeated digits</label>
+                </div>
+                <div class="tool-workspace">
+                    <button onclick="newVaultBreachGame()">&gt; NEW CONNECTION</button>
+                </div>
+
+                <div id="vb-meta" style="margin-top:0.75rem; font-size:0.8rem; color:var(--phosphor-dim-text);"></div>
+                <div class="tool-workspace">
+                    <input type="text" id="vb-guess-input" placeholder="your guess..." onkeydown="if(event.key==='Enter') executeVaultBreachGuess()">
+                    <button onclick="executeVaultBreachGuess()">&gt; SUBMIT</button>
+                </div>
+                <div id="vb-result" style="margin-top:0.75rem; font-size:1rem;"></div>
+                <div id="vb-terminal" style="margin-top:0.5rem; font-size:0.85rem; overflow-x:auto; background:var(--void); border:1px solid var(--phosphor-dim); padding:0.75rem; font-family:var(--font-mono); white-space:pre; line-height:1.5;"></div>
+                <div id="vb-stats" style="margin-top:1rem; font-size:0.8rem; color:var(--phosphor-dim-text);"></div>
+            </section>
+            <p style="padding:0 1.5rem; font-size:0.85rem;"><span style="color: var(--phosphor-dim-text)">See also:</span> <a href="password-breach.html">Password Breach</a> &middot; <a href="hangman.html">Hangman</a></p>

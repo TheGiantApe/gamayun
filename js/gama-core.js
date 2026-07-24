@@ -158,7 +158,7 @@ const GAMA = (() => {
     TIC_TAC_TOE: ["> played. a game older than computers, still undefeated by strategy."],
     WORD_SEARCH: ["> generated. a grid of letters hiding words on purpose. good luck."],
     SUDOKU: ["> generated. nine numbers, pretending they don't already know where they go."],
-    BULLS_COWS: ["> guessed. closer. or further. i'm legally required to be vague about which."],
+    VAULT_BREACH: ["> cracked. or locked out. the vault doesn't care which, it just resets."],
     TEAM_PICKER: ["> sorted. teams assigned. all complaints go to random.org, not me."],
     TRIVIA_QUIZ: ["> answered. correct or not, you now know something you didn't five minutes ago."],
     CHECKLIST: ["> added. one more thing that exists now, in writing."],

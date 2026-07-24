@@ -577,10 +577,10 @@ const TOOL_LIST = [
     "url": "pages/sudoku.html"
   },
   {
-    "title": "Bulls & Cows",
-    "desc": "Guess the hidden digit sequence - adjustable length and a repeated-digit toggle, unlike most fixed-difficulty versions.",
-    "code": "BULLS_COWS",
-    "url": "pages/bulls-cows.html"
+    "title": "Vault Breach",
+    "desc": "Terminal-styled sibling to Password Breach - crack a hidden numeric code with plain in-position/wrong-spot feedback, no bulls-and-cows jargon. Length, digit range, repeats, and attempts all adjustable.",
+    "code": "VAULT_BREACH",
+    "url": "pages/vault-breach.html"
   },
   {
     "title": "Team/Group Picker",
