@@ -313,6 +313,12 @@ const TOOL_LIST = [
     "url": "pages/acronym-index.html"
   },
   {
+    "title": "Slang Dictionary",
+    "desc": "50 modern slang terms with plain-English definitions and rough era tags, searchable by term or meaning.",
+    "code": "SLANG_DICTIONARY",
+    "url": "pages/slang-dictionary.html"
+  },
+  {
     "title": "Image Salvage",
     "desc": "Read EXIF metadata (including GPS location) before it leaks, then strip it, resize, and convert format.",
     "code": "IMAGE_SALVAGE",
@@ -563,6 +569,12 @@ const TOOL_LIST = [
     "desc": "Standard crossword blank notation (c_t or c?t) matched directly against the word list, no reformatting.",
     "code": "CROSSWORD_HELPER",
     "url": "pages/crossword-helper.html"
+  },
+  {
+    "title": "Rhyme Finder",
+    "desc": "Spelling-suffix matches from the site's word list - an honest heuristic, not a real phonetic rhyme dataset.",
+    "code": "RHYME_FINDER",
+    "url": "pages/rhyme-finder.html"
   },
   {
     "title": "Hangman",
