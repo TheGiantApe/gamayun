@@ -142,6 +142,7 @@ const GAMA = (() => {
     MOON_PHASE: ["> checked. the moon, doing the one thing it's done for four billion years."],
     RUNES: ["> cast. an alphabet older than most of your excuses."],
     DIVINE_ORACLE: ["> consulted. the oracle has spoken. take it exactly as seriously as it deserves."],
+    FATE_DRAW: ["> drawn. make of it what you will. i certainly won't."],
     PICK_ONE: [
       "> flipped. heads, tails, or the universe just felt like it.",
       "> rolled. pure chance, no weighting, no mercy.",

@@ -1,0 +1,21 @@
+            <section class="tool-card">
+                <h2>&gt; FATE_DRAW</h2>
+                <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">Six ways to ask for a sign, none of them real predictions - same honesty as GAMA<sup>+</sup>'s other novelty tools. Tarot uses the traditional 22-card Major Arcana structure (centuries old, nobody's trademark) with GAMA<sup>+</sup>'s own original readings, not any particular deck's published wording.</p>
+                <div class="tool-workspace">
+                    <label style="font-size:0.85rem; color:var(--phosphor-dim-text); width:100%;">CATEGORY
+                        <select id="fate-category" onchange="executeFateDraw()" style="width:100%; margin-top:0.25rem;">
+                            <option value="tarot">Tarot Card Draw</option>
+                            <option value="fortune">Fortune Cookie</option>
+                            <option value="lucky-numbers">Lucky Numbers</option>
+                            <option value="universe-sign">Sign From the Universe</option>
+                            <option value="motto">Personal Motto &amp; Crest</option>
+                            <option value="deity">Fictional Deity Name</option>
+                        </select>
+                    </label>
+                </div>
+                <div class="tool-workspace">
+                    <button onclick="executeFateDraw()">&gt; DRAW</button>
+                </div>
+                <div class="result-block" id="fate-result" style="font-size:1.1rem;"></div>
+            </section>
+            <p style="padding:0 1.5rem; font-size:0.85rem;"><span style="color: var(--phosphor-dim-text)">See also:</span> <a href="divine-oracle.html">Divine Oracle</a> &middot; <a href="iching.html">I Ching</a> &middot; <a href="runes.html">Rune Generator</a></p>

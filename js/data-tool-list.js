@@ -529,6 +529,12 @@ const TOOL_LIST = [
     "url": "pages/divine-oracle.html"
   },
   {
+    "title": "Fate Draw",
+    "desc": "Six novelty draws in one tool - tarot, fortune cookie, lucky numbers, sign from the universe, personal motto & crest, fictional deity name.",
+    "code": "FATE_DRAW",
+    "url": "pages/fate-draw.html"
+  },
+  {
     "title": "Pick One",
     "desc": "Coin, dice, spinner, or a raffle draw with a proof log - every 'just choose for me' tool on this site in one place.",
     "code": "PICK_ONE",
