@@ -291,7 +291,7 @@
             <section class="tool-card">
                 <h2>&gt; UNIT_<wbr>CONVERTER</h2>
                 <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">Length, weight, volume, and temperature - one interface, category tabs instead of separate pages per unit type.</p>
-                <div class="tool-workspace">
+                <div class="tool-workspace control-row">
                     <button onclick="setUnitCategory('length')" id="unitcat-length">&gt; LENGTH</button>
                     <button onclick="setUnitCategory('weight')" id="unitcat-weight">&gt; WEIGHT</button>
                     <button onclick="setUnitCategory('volume')" id="unitcat-volume">&gt; VOLUME</button>
@@ -337,11 +337,6 @@
                  stays pinned below the frame - negligible footprint, reads
                  as ambient status chrome rather than a page footer. -->
             <footer class="site-footer">
-                <div class="trust-block">
-                    <span title="Runs in your browser. No accounts. No telemetry.">100% client-side</span>
-                    <span>no accounts, ever</span>
-                </div>
-
                 <div class="footer-columns">
                     <div class="footer-col footer-col-brand">
                         <div class="footer-brand">GAMAYUN<sup>+</sup></div>
@@ -389,7 +384,13 @@
                     </div>
                 </div>
 
-                <div class="footer-bottom">&copy; 2026 GAMAYUN.SITE</div>
+                <div class="footer-bottom">
+                    <div class="trust-block">
+                        <span title="Runs in your browser. No accounts. No telemetry.">100% client-side</span>
+                        <span>no accounts, ever</span>
+                    </div>
+                    <div class="footer-copyright">&copy; 2026 GAMAYUN.SITE</div>
+                </div>
             </footer>
         </main>
 

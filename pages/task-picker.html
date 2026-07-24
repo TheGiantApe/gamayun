@@ -288,7 +288,7 @@
         <main class="center-viewport" id="active-tool-zone">
             <div class="content-flex-fill">
             <div class="breadcrumb">&gt; <a href="../index.html">DECK_LAUNCHER</a> <span class="breadcrumb-sep">/</span> GAMES_CURIOS <span class="breadcrumb-sep">/</span> TASK_PICKER</div>
-            <section class="tool-card">
+            <section class="tool-card tool-card--wide">
                 <h2>&gt; TASK_<wbr>PICKER</h2>
                 <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">Paste your to-do list, spin to pick what to tackle when you're stuck deciding. Your list saves automatically in this browser. One task per line; add a weight ("finish the report | 2") to make something come up more often - decision fatigue is real, this is just a tiebreaker.</p>
                 <div class="tool-workspace">
@@ -336,11 +336,6 @@ Call the dentist</textarea>
                  stays pinned below the frame - negligible footprint, reads
                  as ambient status chrome rather than a page footer. -->
             <footer class="site-footer">
-                <div class="trust-block">
-                    <span title="Runs in your browser. No accounts. No telemetry.">100% client-side</span>
-                    <span>no accounts, ever</span>
-                </div>
-
                 <div class="footer-columns">
                     <div class="footer-col footer-col-brand">
                         <div class="footer-brand">GAMAYUN<sup>+</sup></div>
@@ -388,7 +383,13 @@ Call the dentist</textarea>
                     </div>
                 </div>
 
-                <div class="footer-bottom">&copy; 2026 GAMAYUN.SITE</div>
+                <div class="footer-bottom">
+                    <div class="trust-block">
+                        <span title="Runs in your browser. No accounts. No telemetry.">100% client-side</span>
+                        <span>no accounts, ever</span>
+                    </div>
+                    <div class="footer-copyright">&copy; 2026 GAMAYUN.SITE</div>
+                </div>
             </footer>
         </main>
 

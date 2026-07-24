@@ -30,6 +30,20 @@
 
   --header-h: 3rem;
   --footer-h: auto;
+
+  /* Spacing scale - sitewide standard, added 2026-07-23 per the Sitewide
+     Layout Consistency ticket. Use these for new margin/padding/gap
+     values instead of picking an arbitrary rem number; existing values
+     are being migrated opportunistically, not all at once, since a
+     blind find-replace across 1500+ lines risks silently changing a
+     value that was actually load-bearing (e.g. a fine-tuned overlap fix).
+     4/8/16/24/32/48px at the 17px root font-size. */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 1rem;
+  --space-4: 1.5rem;
+  --space-5: 2rem;
+  --space-6: 3rem;
 }
 
 /* Amber CRT scheme - the 25-easter-egg reward (see initEasterEggs() in
@@ -561,11 +575,46 @@ a:hover, a:focus {
   .right-deck::-webkit-scrollbar { display: none; }
 }
 
+/* Container/content-width rule, added 2026-07-23 per the Sitewide Layout
+   Consistency ticket: a short form (a couple of inputs and a button) left
+   to fill the full center-viewport width reads as a tiny cluster of
+   controls stranded in the top-left corner of an otherwise-empty card
+   (confirmed live on calc-tip.html and the same shape recurs across most
+   of the calculator/generator/picker tools - anything without a grid,
+   canvas, or textarea as its primary content). Capping .tool-card's width
+   by default gives those tools a composed, intentional-looking card
+   instead of dead space to the right. Tools whose actual content needs
+   real width - a textarea, a grid, a canvas, anything visual - opt out
+   with .tool-card--wide. */
 .tool-card {
   border: 1px solid var(--phosphor-dim);
-  padding: 1.5rem;
-  margin-bottom: 1.5rem;
+  padding: var(--space-4);
+  margin-bottom: var(--space-4);
   background: var(--void-raised);
+  max-width: 640px;
+}
+.tool-card--wide { max-width: none; }
+
+/* Shared control-panel/button-row component, added 2026-07-23 per the
+   Sitewide Layout Consistency ticket. .tool-workspace's plain flex-wrap
+   is fine for the common case (one or two controls in a row - a text
+   input plus a button), but any row with several same-tier buttons
+   (confirmed live on sudoku.html: 5 action buttons each sized to their
+   own label, ragged right edge, big gap before the card's own edge) reads
+   as buttons randomly stacked rather than a composed panel. .control-row
+   is an opt-in modifier (add alongside tool-workspace, not a replacement
+   for it) for exactly that case: a real grid with equal-width tracks
+   instead of shrink-to-fit flex children. auto-fit/minmax so it still
+   wraps sensibly at narrow widths without a separate breakpoint. */
+.tool-workspace.control-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(8.5rem, 1fr));
+  align-items: stretch;
+}
+.tool-workspace.control-row > button,
+.tool-workspace.control-row > select {
+  width: 100%;
+  margin: 0;
 }
 .tool-card h2 {
   font-family: var(--font-display);
@@ -1012,11 +1061,16 @@ button:hover, .btn:hover {
 
 /* Column layout: brand/social + link columns, same shape as a normal
    corporate footer (brand blurb, sections, legal) instead of one row
-   with copyright, six nav links, and social icons all crammed together. */
+   with copyright, six nav links, and social icons all crammed together.
+   Equal-width tracks (not 1.4fr/1fr/1fr), per Vin's own reference point
+   (porkbun.com's footer): every column sized the same on a real grid,
+   not sized to how much content happens to be in it. The brand column's
+   own content (.footer-col-brand p) already caps at max-width:26ch so it
+   doesn't need the extra track width to read fine at equal width. */
 .footer-columns {
   display: grid;
-  grid-template-columns: 1.4fr 1fr 1fr;
-  gap: 1.5rem;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-4);
 }
 @media (max-width: 700px) {
   .footer-columns { grid-template-columns: 1fr 1fr; }
@@ -1076,11 +1130,26 @@ button:hover, .btn:hover {
 }
 .footer-col-brand p { margin: 0; max-width: 26ch; }
 
+/* Capping bar, restructured 2026-07-23 per the footer-grid addendum:
+   Porkbun's footer treats its trust badges + copyright as one visually
+   distinct bottom strip, separated from the link columns above by its
+   own border - not copyright trailing off as plain centered text below a
+   separately-positioned badge row (the trust-block used to sit above
+   .footer-columns instead of down here with the copyright line). */
 .footer-bottom {
   border-top: 1px solid var(--phosphor-faint);
-  padding: 0.6rem 0;
-  text-align: center;
+  padding: var(--space-3) 0 0;
+  margin-top: var(--space-2);
   font-size: 0.75rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2) var(--space-3);
+}
+.footer-copyright { color: var(--phosphor-dim-text); }
+@media (max-width: 500px) {
+  .footer-bottom { justify-content: center; text-align: center; }
 }
 
 /* Social icons: self-contained inline SVG, no icon font/CDN, so they stay

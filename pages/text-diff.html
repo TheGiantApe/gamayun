@@ -288,7 +288,7 @@
         <main class="center-viewport" id="active-tool-zone">
             <div class="content-flex-fill">
             <div class="breadcrumb">&gt; <a href="../index.html">DECK_LAUNCHER</a> <span class="breadcrumb-sep">/</span> TEXT_OPS <span class="breadcrumb-sep">/</span> TEXT_DIFF</div>
-            <section class="tool-card">
+            <section class="tool-card tool-card--wide">
                 <h2>&gt; TEXT_<wbr>DIFF</h2>
                 <div class="tool-workspace" style="display:flex; gap:1rem; flex-wrap:wrap;">
                     <textarea id="diff-input-a" placeholder="original text..." style="flex:1; min-width:250px;" oninput="executeTextDiffDebounced()"></textarea>
@@ -330,11 +330,6 @@
                  stays pinned below the frame - negligible footprint, reads
                  as ambient status chrome rather than a page footer. -->
             <footer class="site-footer">
-                <div class="trust-block">
-                    <span title="Runs in your browser. No accounts. No telemetry.">100% client-side</span>
-                    <span>no accounts, ever</span>
-                </div>
-
                 <div class="footer-columns">
                     <div class="footer-col footer-col-brand">
                         <div class="footer-brand">GAMAYUN<sup>+</sup></div>
@@ -382,7 +377,13 @@
                     </div>
                 </div>
 
-                <div class="footer-bottom">&copy; 2026 GAMAYUN.SITE</div>
+                <div class="footer-bottom">
+                    <div class="trust-block">
+                        <span title="Runs in your browser. No accounts. No telemetry.">100% client-side</span>
+                        <span>no accounts, ever</span>
+                    </div>
+                    <div class="footer-copyright">&copy; 2026 GAMAYUN.SITE</div>
+                </div>
             </footer>
         </main>
 

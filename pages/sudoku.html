@@ -288,10 +288,10 @@
         <main class="center-viewport" id="active-tool-zone">
             <div class="content-flex-fill">
             <div class="breadcrumb">&gt; <a href="../index.html">DECK_LAUNCHER</a> <span class="breadcrumb-sep">/</span> GAMES_CURIOS <span class="breadcrumb-sep">/</span> SUDOKU</div>
-            <section class="tool-card">
+            <section class="tool-card tool-card--wide">
                 <h2>&gt; SUDOKU</h2>
                 <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">Every generated puzzle is built by starting from a complete valid solution and removing cells one at a time, checking after each removal that exactly one solution still exists - not a puzzle that merely looks plausible. Click a cell and type to play; arrow keys move, N toggles notes mode.</p>
-                <div class="tool-workspace" style="flex-wrap:wrap; gap:0.6rem;">
+                <div class="tool-workspace control-row" style="flex-wrap:wrap; gap:0.6rem;">
                     <select id="sudoku-difficulty">
                         <option value="easy">easy (~40 clues)</option>
                         <option value="medium" selected>medium (~32 clues)</option>
@@ -342,11 +342,6 @@
                  stays pinned below the frame - negligible footprint, reads
                  as ambient status chrome rather than a page footer. -->
             <footer class="site-footer">
-                <div class="trust-block">
-                    <span title="Runs in your browser. No accounts. No telemetry.">100% client-side</span>
-                    <span>no accounts, ever</span>
-                </div>
-
                 <div class="footer-columns">
                     <div class="footer-col footer-col-brand">
                         <div class="footer-brand">GAMAYUN<sup>+</sup></div>
@@ -394,7 +389,13 @@
                     </div>
                 </div>
 
-                <div class="footer-bottom">&copy; 2026 GAMAYUN.SITE</div>
+                <div class="footer-bottom">
+                    <div class="trust-block">
+                        <span title="Runs in your browser. No accounts. No telemetry.">100% client-side</span>
+                        <span>no accounts, ever</span>
+                    </div>
+                    <div class="footer-copyright">&copy; 2026 GAMAYUN.SITE</div>
+                </div>
             </footer>
         </main>
 

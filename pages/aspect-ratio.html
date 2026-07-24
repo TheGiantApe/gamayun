@@ -291,7 +291,7 @@
             <section class="tool-card">
                 <h2>&gt; ASPECT_<wbr>RATIO_<wbr>CALC</h2>
                 <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">Fill in any two of width, height, and ratio - the third solves itself. Presets below fill in the ratio field for the common video/image crops.</p>
-                <div class="tool-workspace">
+                <div class="tool-workspace control-row">
                     <button onclick="setAspectPreset('16:9')">16:9</button>
                     <button onclick="setAspectPreset('9:16')">9:16</button>
                     <button onclick="setAspectPreset('4:5')">4:5</button>
@@ -344,11 +344,6 @@
                  stays pinned below the frame - negligible footprint, reads
                  as ambient status chrome rather than a page footer. -->
             <footer class="site-footer">
-                <div class="trust-block">
-                    <span title="Runs in your browser. No accounts. No telemetry.">100% client-side</span>
-                    <span>no accounts, ever</span>
-                </div>
-
                 <div class="footer-columns">
                     <div class="footer-col footer-col-brand">
                         <div class="footer-brand">GAMAYUN<sup>+</sup></div>
@@ -396,7 +391,13 @@
                     </div>
                 </div>
 
-                <div class="footer-bottom">&copy; 2026 GAMAYUN.SITE</div>
+                <div class="footer-bottom">
+                    <div class="trust-block">
+                        <span title="Runs in your browser. No accounts. No telemetry.">100% client-side</span>
+                        <span>no accounts, ever</span>
+                    </div>
+                    <div class="footer-copyright">&copy; 2026 GAMAYUN.SITE</div>
+                </div>
             </footer>
         </main>
 

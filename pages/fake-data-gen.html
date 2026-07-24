@@ -291,7 +291,7 @@
             <section class="tool-card">
                 <h2>&gt; FAKE_<wbr>DATA_<wbr>GENERATOR</h2>
                 <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">Realistic-but-fake test rows (name, email, phone, address) for filling a form or seeding a database - export straight to CSV or JSON in one click, instead of copy-pasting row by row.</p>
-                <div class="tool-workspace">
+                <div class="tool-workspace control-row">
                     <label style="font-size:0.85rem; color:var(--phosphor-dim-text);">rows:
                         <input type="number" id="fakedata-count" value="10" min="1" max="500" style="width:70px;">
                     </label>
@@ -333,11 +333,6 @@
                  stays pinned below the frame - negligible footprint, reads
                  as ambient status chrome rather than a page footer. -->
             <footer class="site-footer">
-                <div class="trust-block">
-                    <span title="Runs in your browser. No accounts. No telemetry.">100% client-side</span>
-                    <span>no accounts, ever</span>
-                </div>
-
                 <div class="footer-columns">
                     <div class="footer-col footer-col-brand">
                         <div class="footer-brand">GAMAYUN<sup>+</sup></div>
@@ -385,7 +380,13 @@
                     </div>
                 </div>
 
-                <div class="footer-bottom">&copy; 2026 GAMAYUN.SITE</div>
+                <div class="footer-bottom">
+                    <div class="trust-block">
+                        <span title="Runs in your browser. No accounts. No telemetry.">100% client-side</span>
+                        <span>no accounts, ever</span>
+                    </div>
+                    <div class="footer-copyright">&copy; 2026 GAMAYUN.SITE</div>
+                </div>
             </footer>
         </main>
 

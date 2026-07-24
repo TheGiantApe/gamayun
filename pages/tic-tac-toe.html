@@ -288,7 +288,7 @@
         <main class="center-viewport" id="active-tool-zone">
             <div class="content-flex-fill">
             <div class="breadcrumb">&gt; <a href="../index.html">DECK_LAUNCHER</a> <span class="breadcrumb-sep">/</span> GAMES_CURIOS <span class="breadcrumb-sep">/</span> TIC_TAC_TOE</div>
-            <section class="tool-card">
+            <section class="tool-card tool-card--wide">
                 <h2>&gt; TIC_<wbr>TAC_<wbr>TOE</h2>
                 <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">Three real difficulty tiers - recruit (mostly random), veteran (mostly optimal), unbeatable (true minimax, cannot be beaten, best you can force is a draw). Numpad keys 1-9 also play a square, mapped like a real keypad (7-8-9 top row).</p>
                 <div class="tool-workspace">
@@ -334,11 +334,6 @@
                  stays pinned below the frame - negligible footprint, reads
                  as ambient status chrome rather than a page footer. -->
             <footer class="site-footer">
-                <div class="trust-block">
-                    <span title="Runs in your browser. No accounts. No telemetry.">100% client-side</span>
-                    <span>no accounts, ever</span>
-                </div>
-
                 <div class="footer-columns">
                     <div class="footer-col footer-col-brand">
                         <div class="footer-brand">GAMAYUN<sup>+</sup></div>
@@ -386,7 +381,13 @@
                     </div>
                 </div>
 
-                <div class="footer-bottom">&copy; 2026 GAMAYUN.SITE</div>
+                <div class="footer-bottom">
+                    <div class="trust-block">
+                        <span title="Runs in your browser. No accounts. No telemetry.">100% client-side</span>
+                        <span>no accounts, ever</span>
+                    </div>
+                    <div class="footer-copyright">&copy; 2026 GAMAYUN.SITE</div>
+                </div>
             </footer>
         </main>
 

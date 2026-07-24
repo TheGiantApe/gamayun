@@ -288,7 +288,7 @@
         <main class="center-viewport" id="active-tool-zone">
             <div class="content-flex-fill">
             <div class="breadcrumb">&gt; <a href="../index.html">DECK_LAUNCHER</a> <span class="breadcrumb-sep">/</span> GAMES_CURIOS <span class="breadcrumb-sep">/</span> FOCUS_WRITE</div>
-            <section class="tool-card">
+            <section class="tool-card tool-card--wide">
                 <h2>&gt; FOCUS_<wbr>WRITE</h2>
                 <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">A blank page and nothing else. Autosaves in this browser as you type - no account, no sync, no export required to keep your draft. Optional typewriter scroll keeps your current line centered instead of pinned to the bottom.</p>
                 <div class="tool-workspace" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.5rem;">
@@ -332,11 +332,6 @@
                  stays pinned below the frame - negligible footprint, reads
                  as ambient status chrome rather than a page footer. -->
             <footer class="site-footer">
-                <div class="trust-block">
-                    <span title="Runs in your browser. No accounts. No telemetry.">100% client-side</span>
-                    <span>no accounts, ever</span>
-                </div>
-
                 <div class="footer-columns">
                     <div class="footer-col footer-col-brand">
                         <div class="footer-brand">GAMAYUN<sup>+</sup></div>
@@ -384,7 +379,13 @@
                     </div>
                 </div>
 
-                <div class="footer-bottom">&copy; 2026 GAMAYUN.SITE</div>
+                <div class="footer-bottom">
+                    <div class="trust-block">
+                        <span title="Runs in your browser. No accounts. No telemetry.">100% client-side</span>
+                        <span>no accounts, ever</span>
+                    </div>
+                    <div class="footer-copyright">&copy; 2026 GAMAYUN.SITE</div>
+                </div>
             </footer>
         </main>
 

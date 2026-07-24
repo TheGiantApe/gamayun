@@ -288,13 +288,13 @@
         <main class="center-viewport" id="active-tool-zone">
             <div class="content-flex-fill">
             <div class="breadcrumb">&gt; <a href="../index.html">DECK_LAUNCHER</a> <span class="breadcrumb-sep">/</span> GAMES_CURIOS <span class="breadcrumb-sep">/</span> WORD_SEARCH</div>
-            <section class="tool-card">
+            <section class="tool-card tool-card--wide">
                 <h2>&gt; WORD_<wbr>SEARCH_<wbr>GENERATOR</h2>
                 <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">One word per line (or leave blank for a random set), get a real word-search grid - all 8 directions, words genuinely allowed to cross and share letters like a real puzzle, not just placed in isolated rows. Click or touch-drag across a word to find it, or print a blank copy to solve on paper.</p>
                 <div class="tool-workspace">
                     <textarea id="wordsearch-input" placeholder="leave blank for a random word set..."></textarea>
                 </div>
-                <div class="tool-workspace">
+                <div class="tool-workspace control-row">
                     <label style="font-size:0.85rem; color:var(--phosphor-dim-text);">grid size <input type="range" id="wordsearch-size" min="10" max="20" value="14"></label>
                     <button onclick="executeWordSearchGenerate()">&gt; GENERATE</button>
                     <button onclick="toggleWordSearchSolution()" id="wordsearch-toggle-btn">&gt; SHOW SOLUTION</button>
@@ -337,11 +337,6 @@
                  stays pinned below the frame - negligible footprint, reads
                  as ambient status chrome rather than a page footer. -->
             <footer class="site-footer">
-                <div class="trust-block">
-                    <span title="Runs in your browser. No accounts. No telemetry.">100% client-side</span>
-                    <span>no accounts, ever</span>
-                </div>
-
                 <div class="footer-columns">
                     <div class="footer-col footer-col-brand">
                         <div class="footer-brand">GAMAYUN<sup>+</sup></div>
@@ -389,7 +384,13 @@
                     </div>
                 </div>
 
-                <div class="footer-bottom">&copy; 2026 GAMAYUN.SITE</div>
+                <div class="footer-bottom">
+                    <div class="trust-block">
+                        <span title="Runs in your browser. No accounts. No telemetry.">100% client-side</span>
+                        <span>no accounts, ever</span>
+                    </div>
+                    <div class="footer-copyright">&copy; 2026 GAMAYUN.SITE</div>
+                </div>
             </footer>
         </main>
 

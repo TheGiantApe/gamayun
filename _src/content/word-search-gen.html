@@ -1,10 +1,10 @@
-            <section class="tool-card">
+            <section class="tool-card tool-card--wide">
                 <h2>&gt; WORD_SEARCH_GENERATOR</h2>
                 <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">One word per line (or leave blank for a random set), get a real word-search grid - all 8 directions, words genuinely allowed to cross and share letters like a real puzzle, not just placed in isolated rows. Click or touch-drag across a word to find it, or print a blank copy to solve on paper.</p>
                 <div class="tool-workspace">
                     <textarea id="wordsearch-input" placeholder="leave blank for a random word set..."></textarea>
                 </div>
-                <div class="tool-workspace">
+                <div class="tool-workspace control-row">
                     <label style="font-size:0.85rem; color:var(--phosphor-dim-text);">grid size <input type="range" id="wordsearch-size" min="10" max="20" value="14"></label>
                     <button onclick="executeWordSearchGenerate()">&gt; GENERATE</button>
                     <button onclick="toggleWordSearchSolution()" id="wordsearch-toggle-btn">&gt; SHOW SOLUTION</button>
