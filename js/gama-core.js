@@ -136,6 +136,7 @@ const GAMA = (() => {
     LETTER_RACK_SOLVER: ["> solved. every valid word your tiles could make, sorted by how smug it'll make you feel."],
     ANAGRAM_SOLVER: ["> solved. your letters, rearranged into something that actually means something."],
     WU_NAME: ["> generated. a name for whatever this is. it didn't ask to exist. neither did i."],
+    NAME_FORGE: ["> forged. a name, a persona, a small fiction to hide behind. i approve."],
     NUM_SPELL: ["> spelled. your number, translated into letters that spell something you didn't expect."],
     I_CHING: ["> cast. the ancient answer to a question you probably already knew."],
     MOON_PHASE: ["> checked. the moon, doing the one thing it's done for four billion years."],

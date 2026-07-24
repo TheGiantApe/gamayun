@@ -1,0 +1,24 @@
+            <section class="tool-card">
+                <h2>&gt; NAME_FORGE</h2>
+                <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">Nine name generators in one place instead of nine separate pages. Original word tables for every category - nothing lifted from an existing generator, no real bands/franchises/people referenced. Pick a category, generate as many times as you want.</p>
+                <div class="tool-workspace">
+                    <label style="font-size:0.85rem; color:var(--phosphor-dim-text); width:100%;">CATEGORY
+                        <select id="nameforge-category" onchange="executeNameForge()" style="width:100%; margin-top:0.25rem;">
+                            <option value="metal">Metal Band</option>
+                            <option value="pirate">Pirate (individual)</option>
+                            <option value="pirate-crew">Pirate Ship &amp; Crew</option>
+                            <option value="fantasy">Fantasy / RPG Character</option>
+                            <option value="superhero">Superhero</option>
+                            <option value="supervillain">Supervillain</option>
+                            <option value="dnd">D&amp;D Character + Backstory Seed</option>
+                            <option value="persona">Drag / Stage Persona</option>
+                            <option value="cocktail">Cocktail</option>
+                        </select>
+                    </label>
+                </div>
+                <div class="tool-workspace">
+                    <button onclick="executeNameForge()">&gt; GENERATE</button>
+                </div>
+                <div class="result-block" id="nameforge-result" style="font-size:1.2rem;"></div>
+            </section>
+            <p style="padding:0 1.5rem; font-size:0.85rem;"><span style="color: var(--phosphor-dim-text)">See also:</span> <a href="wu-name.html">Name Generator</a> &middot; <a href="username-gen.html">Username Generator</a></p>

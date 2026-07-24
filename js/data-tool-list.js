@@ -493,6 +493,12 @@ const TOOL_LIST = [
     "url": "pages/wu-name.html"
   },
   {
+    "title": "Name Forge",
+    "desc": "Nine themed name generators in one tool - metal band, pirate, fantasy/RPG character, superhero, supervillain, D&D backstory seed, drag persona, cocktail, pirate ship & crew.",
+    "code": "NAME_FORGE",
+    "url": "pages/name-forge.html"
+  },
+  {
     "title": "What Does My Number Spell",
     "desc": "Decode any phone number against a 52,000-word dictionary via classic T9 mapping.",
     "code": "NUM_SPELL",
