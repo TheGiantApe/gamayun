@@ -517,28 +517,16 @@ const TOOL_LIST = [
     "url": "pages/runes.html"
   },
   {
-    "title": "Decision Wheel",
-    "desc": "Paste a list of options (with optional weights), spin an animated wheel, get a cryptographically random pick.",
-    "code": "DECISION_WHEEL",
-    "url": "pages/decision-wheel.html"
-  },
-  {
     "title": "Divine Oracle",
     "desc": "Ask a yes/no question, get a cryptographically random answer from an original 21-response pool.",
     "code": "DIVINE_ORACLE",
     "url": "pages/divine-oracle.html"
   },
   {
-    "title": "Dice Roller",
-    "desc": "Tabletop dice notation (3d6+2), rolled with a cryptographic RNG instead of Math.random(), with a roll log.",
-    "code": "DICE_ROLLER",
-    "url": "pages/dice-roller.html"
-  },
-  {
-    "title": "Coin Flip",
-    "desc": "Single flips or a batch of up to 100, with a running tally.",
-    "code": "COIN_FLIP",
-    "url": "pages/coin-flip.html"
+    "title": "Pick One",
+    "desc": "Coin, dice, spinner, or a raffle draw with a proof log - every 'just choose for me' tool on this site in one place.",
+    "code": "PICK_ONE",
+    "url": "pages/pick-one.html"
   },
   {
     "title": "Stopwatch",
@@ -605,30 +593,6 @@ const TOOL_LIST = [
     "desc": "5-question rounds across 4 categories with a local streak/best-score tracker, no repeats within a round.",
     "code": "TRIVIA_QUIZ",
     "url": "pages/trivia-quiz.html"
-  },
-  {
-    "title": "Raffle Winner Picker",
-    "desc": "Crypto-random draw with an exportable, auditable proof log (timestamp + full entry list + winner).",
-    "code": "RAFFLE_PICKER",
-    "url": "pages/raffle-picker.html"
-  },
-  {
-    "title": "Restaurant Picker",
-    "desc": "Same spin-the-wheel engine as Decision Wheel, but your regular takeout rotation saves automatically between visits.",
-    "code": "RESTAURANT_PICKER",
-    "url": "pages/restaurant-picker.html"
-  },
-  {
-    "title": "Movie/Show Picker",
-    "desc": "Spin your saved watchlist to decide what to watch - the list persists automatically between visits.",
-    "code": "MOVIE_PICKER",
-    "url": "pages/movie-picker.html"
-  },
-  {
-    "title": "Task Picker",
-    "desc": "Same spin-the-wheel engine as Decision Wheel, aimed at your to-do list instead - for when deciding what to do next is the hard part.",
-    "code": "TASK_PICKER",
-    "url": "pages/task-picker.html"
   },
   {
     "title": "Checklist",

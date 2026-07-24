@@ -1,0 +1,93 @@
+            <section class="tool-card tool-card--wide">
+                <h2>&gt; PICK_ONE</h2>
+                <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">Every "just pick one for me" tool on this site, one engine, seven flavors. Coin and dice get their own real dice-roll/coin-flip mechanics; Restaurant, Movie, Task, and a bare custom list all share the same spinning wheel (each with its own saved list); Raffle gets a real multi-winner draw with an auditable proof log.</p>
+
+                <div class="tool-workspace">
+                    <label style="font-size:0.85rem; color:var(--phosphor-dim-text); width:100%;">MODE
+                        <select id="pickone-topic" onchange="switchPickOneTopic()" style="width:100%; margin-top:0.25rem;">
+                            <option value="coin">COIN FLIP</option>
+                            <option value="dice">DICE ROLLER</option>
+                            <option value="wheel">CUSTOM LIST (spin)</option>
+                            <option value="restaurant">RESTAURANT PICKER</option>
+                            <option value="movie">MOVIE / SHOW PICKER</option>
+                            <option value="task">TASK PICKER</option>
+                            <option value="raffle">RAFFLE (proof log)</option>
+                        </select>
+                    </label>
+                </div>
+
+                <!-- COIN -->
+                <div class="pickone-panel" data-pickone-panel="coin">
+                    <div class="tool-workspace control-row">
+                        <button onclick="executeCoinFlip(1)">&gt; FLIP ONE</button>
+                        <button onclick="executeCoinFlip(10)">&gt; FLIP 10</button>
+                        <button onclick="executeCoinFlip(100)">&gt; FLIP 100</button>
+                        <button onclick="resetCoinTally()">&gt; RESET TALLY</button>
+                    </div>
+                    <div class="result-block" id="coin-result" style="text-align:center; font-size:1.4rem;"></div>
+                    <div id="coin-tally" style="margin-top:0.75rem; font-size:0.9rem; color:var(--phosphor-dim-text);"></div>
+                </div>
+
+                <!-- DICE -->
+                <div class="pickone-panel" data-pickone-panel="dice" hidden>
+                    <div class="tool-workspace">
+                        <input type="text" id="dice-notation" placeholder="e.g. 1d20, 3d6+2, 2d10-1" value="1d20" style="max-width:200px;">
+                        <button onclick="executeDiceRoll()">&gt; ROLL</button>
+                    </div>
+                    <div class="tool-workspace control-row" style="margin-top:0.5rem;">
+                        <button onclick="quickRoll('d4')">d4</button>
+                        <button onclick="quickRoll('d6')">d6</button>
+                        <button onclick="quickRoll('d8')">d8</button>
+                        <button onclick="quickRoll('d10')">d10</button>
+                        <button onclick="quickRoll('d12')">d12</button>
+                        <button onclick="quickRoll('d20')">d20</button>
+                        <button onclick="quickRoll('d100')">d100</button>
+                    </div>
+                    <div class="result-block" id="dice-result" style="font-size:1.3rem;"></div>
+                    <h3 style="font-family:var(--font-display); font-size:1rem; margin:1.5rem 0 0.5rem;">&gt; ROLL_LOG</h3>
+                    <div id="dice-history" style="font-size:0.85rem; color:var(--phosphor-dim-text);"></div>
+                </div>
+
+                <!-- WHEEL FAMILY: wheel / restaurant / movie / task, one shared engine -->
+                <div class="pickone-panel" data-pickone-panel="wheel-family" hidden>
+                    <p id="pickone-wheel-desc" style="color: var(--phosphor-dim-text); font-size:0.85rem;"></p>
+                    <div class="tool-workspace" id="pickone-preset-row" style="display:none;">
+                        <label style="font-size:0.85rem; color:var(--phosphor-dim-text); width:100%;">PRESET LIST
+                            <select id="pickone-preset-select" onchange="applyPickOnePreset()" style="width:100%; margin-top:0.25rem;">
+                            </select>
+                        </label>
+                    </div>
+                    <div class="tool-workspace">
+                        <textarea id="wheel-input" oninput="redrawWheelFromInput(); savePickOneWheelList();"></textarea>
+                    </div>
+                    <button onclick="executeWheelSpin()">&gt; SPIN</button>
+                    <div style="margin-top:1.5rem; display:flex; flex-direction:column; align-items:center;">
+                        <div style="color:var(--phosphor); font-size:1.4rem; line-height:1;">&#9660;</div>
+                        <canvas id="wheel-canvas" width="320" height="320" style="max-width:100%;"></canvas>
+                    </div>
+                    <div class="result-block" id="wheel-result" style="text-align:center; font-size:1.1rem;"></div>
+                </div>
+
+                <!-- RAFFLE -->
+                <div class="pickone-panel" data-pickone-panel="raffle" hidden>
+                    <div class="tool-workspace">
+                        <textarea id="raffle-entries" placeholder="one entry per line..."></textarea>
+                    </div>
+                    <div class="tool-workspace">
+                        <label style="font-size:0.85rem; color:var(--phosphor-dim-text);">winners <input type="number" id="raffle-winner-count" value="1" min="1" style="width:60px;"></label>
+                        <label style="font-size:0.85rem; color:var(--phosphor-dim-text);"><input type="checkbox" id="raffle-allow-repeat-entries" checked> allow duplicate entries (weighted by count)</label>
+                        <button onclick="executeRaffleDraw()">&gt; DRAW</button>
+                    </div>
+                    <div class="result-block" id="raffle-result" style="text-align:center; font-size:1.2rem;"></div>
+                    <div class="tool-workspace">
+                        <button id="raffle-copy-log-btn" style="display:none;">&gt; COPY PROOF LOG</button>
+                    </div>
+                    <pre id="raffle-log" style="font-size:0.8rem; color:var(--phosphor-dim-text); margin-top:0.75rem; overflow-x:auto;"></pre>
+                </div>
+            </section>
+
+            <section class="prose" style="padding-left:0;padding-right:0;">
+                <h2>&gt; WHY THE RANDOMNESS SOURCE ACTUALLY MATTERS HERE</h2>
+                <p>Every mode above pulls from <code>crypto.getRandomValues()</code>, not <code>Math.random()</code> - the same CSPRNG standard as this site's security tools. It doesn't change how a coin flip feels, but it's the difference between "random enough for a board game" and "actually unpredictable," and there's no real cost to just using the better source by default.</p>
+                <p class="related-block">RELATED: <a href="divine-oracle.html">Divine Oracle</a> &middot; <a href="team-picker.html">Team/Group Picker</a> &middot; <a href="checklist.html">Checklist</a></p>
+            </section>
