@@ -1,6 +1,6 @@
             <section class="tool-card tool-card--wide">
                 <h2>&gt; REGEX_TESTER</h2>
-                <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">Live matching against your browser's own regex engine. All matches highlighted, with capture groups and named groups broken out below.</p>
+                <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">Live matching against your browser's own native regex engine - the exact engine your actual code runs against, not a reimplementation that could disagree with it on an edge case. Uses <code>matchAll()</code> rather than the classic manual <code>exec()</code>-in-a-while-loop, which sidesteps that pattern's well-known infinite-loop bug on a zero-length match for free. All matches highlighted, with capture groups and named groups broken out below.</p>
                 <div class="tool-workspace">
                     <input type="text" id="regex-pattern" placeholder="pattern, no slashes" oninput="executeRegexTest()" style="max-width:300px;">
                     <input type="text" id="regex-flags" placeholder="flags (gimsuy)" oninput="executeRegexTest()" style="max-width:150px;">

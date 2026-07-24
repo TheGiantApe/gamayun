@@ -292,7 +292,7 @@
             <div class="breadcrumb">&gt; <a href="../index.html">DECK_LAUNCHER</a> <span class="breadcrumb-sep">/</span> DEV_VAULT <span class="breadcrumb-sep">/</span> XML_FORMATTER</div>
             <section class="tool-card tool-card--wide">
                 <h1>&gt; XML_<wbr>FORMATTER</h1>
-                <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">Beautify or minify XML, with the browser's own real parse error (line/column included) instead of a bare "invalid XML."</p>
+                <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">Beautify or minify XML, with the browser's own real parse error (line/column included) instead of a bare "invalid XML." Minify strips whitespace between tags; beautify walks the parsed node tree and re-indents it manually, since the browser's built-in <code>XMLSerializer</code> only re-serializes flat, it doesn't pretty-print on its own.</p>
                 <div class="tool-workspace">
                     <textarea id="xml-input" placeholder="&lt;root&gt;&lt;item&gt;text&lt;/item&gt;&lt;/root&gt;" oninput="executeXmlFormatDebounced()"></textarea>
                 </div>

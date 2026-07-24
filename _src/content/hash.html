@@ -1,6 +1,6 @@
             <section class="tool-card">
                 <h2>&gt; HASH_GEN</h2>
-                <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">SHA-1, SHA-256, SHA-384, SHA-512. No MD5 — it's cryptographically broken and isn't in the browser's native crypto API on purpose. For checksums, dev/testing, and general hashing curiosity - not a security-circumvention tool.</p>
+                <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">SHA-1, SHA-256, SHA-384, SHA-512, computed by the browser's own native <code>SubtleCrypto</code> (Web Crypto API) rather than a hand-rolled JS implementation of a security algorithm - a category of code that's genuinely easy to get subtly wrong. No MD5: it's cryptographically broken and was deliberately left out of the browser's native crypto API, and this tool isn't going to ship a bespoke implementation just to tick a checkbox that shouldn't be ticked. For checksums, dev/testing, and general hashing curiosity - not a security-circumvention tool.</p>
                 <div class="tool-workspace">
                     <input type="text" id="hash-input" placeholder="text to hash..." oninput="executeHash()">
                 </div>

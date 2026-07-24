@@ -292,7 +292,7 @@
             <div class="breadcrumb">&gt; <a href="../index.html">DECK_LAUNCHER</a> <span class="breadcrumb-sep">/</span> TEXT_OPS <span class="breadcrumb-sep">/</span> URL_CODEC</div>
             <section class="tool-card tool-card--wide">
                 <h1>&gt; URL_<wbr>CODEC</h1>
-                <p style="color: var(--phosphor-dim-text); font-size:0.8rem;">Direction is auto-detected - paste a percent-encoded string to decode it, or plain text to encode it.</p>
+                <p style="color: var(--phosphor-dim-text); font-size:0.8rem;">Direction is auto-detected - paste a percent-encoded string to decode it, or plain text to encode it, no mode switch to remember. Detection works because a real percent-encoded byte (%2F, %3D, and so on) is a hex pair plain text essentially never contains by coincidence. Decoding also handles the older <code>application/x-www-form-urlencoded</code> convention where a literal <code>+</code> means a space, which a bare <code>decodeURIComponent()</code> call leaves untranslated.</p>
                 <div class="tool-workspace">
                     <textarea id="url-input" placeholder="text or a percent-encoded URL component..." oninput="executeUrlAutoDebounced()"></textarea>
                 </div>

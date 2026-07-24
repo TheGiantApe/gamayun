@@ -292,6 +292,7 @@
             <div class="breadcrumb">&gt; <a href="../index.html">DECK_LAUNCHER</a> <span class="breadcrumb-sep">/</span> TEXT_OPS <span class="breadcrumb-sep">/</span> BASE64_CODEC</div>
             <section class="tool-card tool-card--wide">
                 <h1>&gt; BASE64_<wbr>CODEC</h1>
+                <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">Base64 is the text-safe encoding behind embedding images in CSS/HTML, packing binary data into JSON or a URL, and most "data:" URIs. This one handles UTF-8 correctly - a plain <code>btoa()</code>/<code>atob()</code> call (still common in quick online tools) breaks the moment the input has anything outside plain ASCII, silently mangling emoji, accented letters, or non-Latin text instead of erroring honestly. Paste either a Base64 string or plain text; the toggle below picks the direction.</p>
                 <div class="tool-workspace">
                     <textarea id="b64-input" placeholder="text or base64 string..." oninput="executeBase64Debounced()"></textarea>
                 </div>

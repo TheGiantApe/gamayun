@@ -1,6 +1,6 @@
             <section class="tool-card tool-card--wide">
                 <h2>&gt; HTML_CODEC</h2>
-                <p style="color: var(--phosphor-dim-text); font-size:0.8rem;">Direction is auto-detected - paste an entity string to decode it, or plain text to escape it.</p>
+                <p style="color: var(--phosphor-dim-text); font-size:0.8rem;">Direction is auto-detected - paste an entity string to decode it, or plain text to escape it. Escaping covers the 5 reserved HTML characters plus any non-ASCII codepoint as a numeric entity. Decoding runs through <code>DOMParser</code> against a detached document that's never attached to the live page, rather than the classic innerHTML-on-a-textarea trick - that older approach can be broken out of with a literal <code>&lt;/textarea&gt;</code> in the input, letting whatever comes after it render as real markup instead of decoded text.</p>
                 <div class="tool-workspace">
                     <textarea id="entity-input" placeholder="text or &amp;entity; string..." oninput="executeHtmlEntityAutoDebounced()"></textarea>
                 </div>
