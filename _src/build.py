@@ -1052,6 +1052,21 @@ def build_human_sitemap_html():
     return "\n".join(sections)
 
 
+def promote_page_title_heading(content):
+    """Every page needs exactly one <h1> for real SEO/accessibility, but
+    ~110 tool-page content fragments open with <h2> as their only heading
+    (a .tool-card styling choice, not a semantic one) and have no <h1>
+    anywhere. Pages that already lead with a real <h1> (wiki entries,
+    legal/privacy/terms, changelog, about, etc.) are untouched. For the
+    rest, promote only the FIRST <h2> - the page's own title - to <h1>;
+    any later <h2> in the same fragment is a genuine subsection heading
+    (e.g. dice-roller's "WHY THE RANDOMNESS SOURCE ACTUALLY MATTERS
+    HERE") and must stay <h2> or the hierarchy breaks."""
+    if "<h1" in content:
+        return content
+    return content.replace("<h2>", "<h1>", 1).replace("</h2>", "</h1>", 1)
+
+
 def wrap_h2_underscores(content):
     """Tool titles are one long underscore-joined word ("DATE_DIFFERENCE_
     CALCULATOR") with no space for the browser's normal line-breaking to
@@ -1060,9 +1075,12 @@ def wrap_h2_underscores(content):
     specifically). <wbr> after each underscore, same fix already applied
     to nav_link_label() for the same underlying problem, so the browser
     only ever breaks at an underscore seam instead of picking an
-    arbitrary (often mid-word) spot via CSS overflow-wrap alone."""
+    arbitrary (often mid-word) spot via CSS overflow-wrap alone. Matches
+    both <h1> and <h2> since promote_page_title_heading() runs first and
+    turns most pages' title heading into an <h1> - the underscore-joined
+    title still needs the same wbr treatment regardless of tag level."""
     return re.sub(
-        r"(<h2>.*?</h2>)",
+        r"(<h([12])>.*?</h\2>)",
         lambda m: m.group(1).replace("_", "_<wbr>"),
         content,
         flags=re.DOTALL,
@@ -1085,6 +1103,7 @@ def build():
     for page in PAGES:
         with open(os.path.join(SRC, "content", page["fragment"]), encoding="utf-8") as f:
             content = f.read()
+        content = promote_page_title_heading(content)
         content = wrap_h2_underscores(content)
         content = content.replace("{{TOOL_GRID}}", tool_grid_html)
         content = content.replace("{{HUMAN_SITEMAP}}", human_sitemap_html)
@@ -1099,7 +1118,8 @@ def build():
         out = out.replace("{{TITLE}}", page["title"])
         out = out.replace("{{DESCRIPTION}}", page["desc"])
         out = out.replace("{{JSONLD}}", build_jsonld_html(page))
-        out = out.replace("{{OG_URL}}", f'https://gamayun.site/{page["out"]}')
+        canonical_path = "" if page["out"] == "index.html" else page["out"]
+        out = out.replace("{{OG_URL}}", f'https://gamayun.site/{canonical_path}')
         out = out.replace("{{OG_IMAGE}}", "https://gamayun.site/assets/og-image.png")
         out = out.replace("{{ROOT}}", page["root"])
         out = out.replace("{{TABS}}", build_tabs_html(section, page["root"]))
@@ -1180,7 +1200,8 @@ def build_sitemap_xml():
     for page in PAGES:
         if page["out"].endswith("404.html") or page["out"].endswith("gndn.html") or page["out"].endswith("scrapbook.html"):
             continue  # don't invite crawlers to index the error page or the easter eggs
-        urls.append(f'  <url>\n    <loc>{domain}/{page["out"]}</loc>\n  </url>')
+        loc_path = "" if page["out"] == "index.html" else page["out"]
+        urls.append(f'  <url>\n    <loc>{domain}/{loc_path}</loc>\n  </url>')
     xml = (
         '<?xml version="1.0" encoding="UTF-8"?>\n'
         '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
