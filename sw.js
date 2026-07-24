@@ -4,10 +4,14 @@
    the site loads instantly even offline, then cache everything else
    opportunistically as it's actually visited - stale-while-revalidate,
    so a cached response is served immediately while a fresh one updates
-   the cache in the background for next time. */
+   the cache in the background for next time.
 
-const CACHE_NAME = "gamayun-shell-v2";
-const CORE_ASSETS = ["/", "/index.html", "/js/gama-core.js", "/css/gama.css"];
+   Paths point at the .min.js/.min.css build artifacts (added 2026-07-23,
+   Site Cleanup ticket's minify step) since those are what the page
+   templates actually request now, not the human-edited source files. */
+
+const CACHE_NAME = "gamayun-shell-v3";
+const CORE_ASSETS = ["/", "/index.html", "/js/gama-core.min.js", "/css/gama.min.css"];
 
 self.addEventListener("install", (event) => {
   event.waitUntil(

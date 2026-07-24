@@ -1109,7 +1109,7 @@ def build():
         out = out.replace("{{YEAR}}", str(datetime.date.today().year))
 
         extra_js_html = "\n".join(
-            f'    <script src="{page["root"]}js/{fname}"></script>' for fname in page["js"]
+            f'    <script src="{page["root"]}js/{fname[:-3]}.min.js"></script>' for fname in page["js"]
         )
         out = out.replace("{{EXTRA_JS}}", extra_js_html)
 
@@ -1205,5 +1205,69 @@ def build_robots_txt():
     print("  built robots.txt")
 
 
+def minify_assets():
+    """Build-time CSS/JS minify step (Site Cleanup ticket - flagged as the
+    cheapest available fix). Runs _src/minify.mjs (a Node CLI wrapper
+    around the exact same string/comment-aware tokenizer already used by
+    the site's own live CSS/JS Minifier tool - not a naive regex pass,
+    see that file's own header comment for why a naive pass is unsafe
+    here). Source files (css/gama.css, js/*.js) stay exactly as they are
+    - human-edited, fully commented - and are NOT what gets referenced by
+    the page templates. Each gets a sibling *.min.* build artifact that
+    IS what's referenced, regenerated fresh every build.
+
+    Soft-fails (prints a warning, does not raise) if `node` isn't on
+    PATH: this keeps build.py's own "stdlib only" promise for the core
+    HTML assembly - a machine without Node still gets a fully working
+    (just unminified) site instead of a broken build.
+    """
+    import shutil
+    import subprocess
+
+    if shutil.which("node") is None:
+        print("  ! node not found on PATH - skipping CSS/JS minify step "
+              "(site still builds and works, just unminified)")
+        return
+
+    def minify_one(mode, src_path):
+        min_path = src_path[:-len(".css")] + ".min.css" if mode == "css" else src_path[:-len(".js")] + ".min.js"
+        result = subprocess.run(
+            ["node", os.path.join(SRC, "minify.mjs"), mode, src_path],
+            capture_output=True, text=True,
+        )
+        if result.returncode != 0:
+            print(f"  ! minify failed for {src_path}: {result.stderr.strip()}")
+            return
+        with open(min_path, "w", encoding="utf-8") as f:
+            f.write(result.stdout)
+
+    css_path = os.path.join(ROOT_DIR, "css", "gama.css")
+    minify_one("css", css_path)
+
+    js_dir = os.path.join(ROOT_DIR, "js")
+    # Every JS file actually referenced somewhere: the 4 shared ones
+    # hardcoded in base.html, plus every page's own "js" list.
+    referenced = {"gama-core.js", "data-tool-list.js", "site-search.js", "page-transition.js"}
+    for page in PAGES:
+        referenced.update(page["js"])
+    before_total = 0
+    after_total = 0
+    for fname in sorted(referenced):
+        src_path = os.path.join(js_dir, fname)
+        if not os.path.exists(src_path):
+            print(f"  ! referenced JS file missing, skipped: {fname}")
+            continue
+        minify_one("js", src_path)
+        min_path = src_path[:-3] + ".min.js"
+        before_total += os.path.getsize(src_path)
+        after_total += os.path.getsize(min_path)
+
+    css_before = os.path.getsize(css_path)
+    css_after = os.path.getsize(css_path[:-4] + ".min.css")
+    print(f"  minified css/gama.css: {css_before}B -> {css_after}B")
+    print(f"  minified {len(referenced)} referenced JS files: {before_total}B -> {after_total}B total")
+
+
 if __name__ == "__main__":
     build()
+    minify_assets()
