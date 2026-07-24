@@ -40,19 +40,19 @@
          changing hosts. -->
     <meta http-equiv="Content-Security-Policy" content="object-src 'none'; base-uri 'self'; form-action 'self'">
 
-    <title>Google Dorking // GAMAYUN⁺</title>
-    <meta name="description" content="Advanced search operators that surface technically-public content nobody meant to be found.">
-    <meta property="og:title" content="Google Dorking // GAMAYUN⁺">
-    <meta property="og:description" content="Advanced search operators that surface technically-public content nobody meant to be found.">
+    <title>Calendars Are Political // GAMAYUN⁺</title>
+    <meta name="description" content="Ten lost days in 1582, Sweden's February 30th, the thirteenth zodiac sign that never left, and why Kodak ran on its own 13-month year.">
+    <meta property="og:title" content="Calendars Are Political // GAMAYUN⁺">
+    <meta property="og:description" content="Ten lost days in 1582, Sweden's February 30th, the thirteenth zodiac sign that never left, and why Kodak ran on its own 13-month year.">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://gamayun.site/pages/wiki-google-dorking.html">
+    <meta property="og:url" content="https://gamayun.site/pages/wiki-calendars.html">
     <meta property="og:image" content="https://gamayun.site/assets/og-image.png">
     <meta property="og:site_name" content="GAMAYUN⁺">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Google Dorking // GAMAYUN⁺">
-    <meta name="twitter:description" content="Advanced search operators that surface technically-public content nobody meant to be found.">
+    <meta name="twitter:title" content="Calendars Are Political // GAMAYUN⁺">
+    <meta name="twitter:description" content="Ten lost days in 1582, Sweden's February 30th, the thirteenth zodiac sign that never left, and why Kodak ran on its own 13-month year.">
     <meta name="twitter:image" content="https://gamayun.site/assets/og-image.png">
-    <link rel="canonical" href="https://gamayun.site/pages/wiki-google-dorking.html">
+    <link rel="canonical" href="https://gamayun.site/pages/wiki-calendars.html">
     <link href="https://fonts.googleapis.com/css2?family=VT323&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/gama.min.css">
     <link rel="manifest" href="/manifest.json">
@@ -130,7 +130,7 @@
         <aside class="left-deck">
             <nav class="terminal-nav">
                 <a href="../pages/wiki-time.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">On Time, and Why It's Hard</span></a>
-                <a href="../pages/wiki-calendars.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">Calendars Are Political</span></a>
+                <a href="../pages/wiki-calendars.html" class="nav-link active">&gt;&nbsp;<span class="nav-link-label">Calendars Are Political</span></a>
                 <a href="../pages/wiki-foobar.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">Where "Foo" and "Bar" Came From</span></a>
                 <a href="../pages/wiki-uuid-odds.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">The Odds a UUID Ever Repeats</span></a>
                 <a href="../pages/wiki-fingerprinting.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">Browser Fingerprinting</span></a>
@@ -138,7 +138,7 @@
                 <a href="../pages/wiki-reverse-image.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">Reverse Image Search & Metadata</span></a>
                 <a href="../pages/wiki-tos.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">Terms of Service (and Why Nobody Reads Them)</span></a>
                 <a href="../pages/wiki-link-rot.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">Digital Preservation & Link Rot</span></a>
-                <a href="../pages/wiki-google-dorking.html" class="nav-link active">&gt;&nbsp;<span class="nav-link-label">Google Dorking</span></a>
+                <a href="../pages/wiki-google-dorking.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">Google Dorking</span></a>
                 <a href="../pages/wiki-paywall.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">Why There's No Paywall-Bypass Tool Here</span></a>
                 <a href="../pages/wiki-steganography.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">Steganography</span></a>
             </nav>
@@ -146,26 +146,17 @@
 
         <main class="center-viewport" id="active-tool-zone">
             <div class="content-flex-fill">
-            <div class="breadcrumb">&gt; <a href="../index.html">DECK_LAUNCHER</a> <span class="breadcrumb-sep">/</span> WIKI <span class="breadcrumb-sep">/</span> Google Dorking</div>
+            <div class="breadcrumb">&gt; <a href="../index.html">DECK_LAUNCHER</a> <span class="breadcrumb-sep">/</span> WIKI <span class="breadcrumb-sep">/</span> Calendars Are Political</div>
             <article class="prose">
-                <h1>&gt; Google Dorking</h1>
-                <p>Google's search operators (<code>site:</code>, <code>filetype:</code>, <code>intitle:</code>, and combinations of them) can surface content that's technically public but never meant to be easily found - exposed documents, misconfigured directories, forgotten login pages. It's just advanced search syntax, but the results it turns up can look like they came from somewhere darker than "a search engine." The technique is legal - it's just Google search. What you do with what you find is where the ethics and the law both start to matter.</p>
-
-                <h2>Where "dork" actually comes from</h2>
-                <p>The term has a genuinely funny origin: starting in December 2002, security researcher Johnny Long began collecting Google search queries that turned up vulnerable systems or accidentally-exposed sensitive information, and called the people who left that stuff exposed - not the technique - "google dorks," using "dork" in its older, milder sense of "inept or foolish person." The name for the person stuck to the technique instead. Long's collection grew into the Google Hacking Database (GHDB), organized in 2004 and popularized through his book <em>Google Hacking for Penetration Testers</em>. In 2010 he handed maintenance over to Offensive Security (the team behind Kali Linux and the OSCP certification), and the GHDB has lived on their Exploit-DB site ever since, still taking community-submitted queries.</p>
-
-                <h2>The operators worth knowing</h2>
-                <ul>
-                    <li><code>site:example.com</code> - restrict results to one domain, useful for seeing what a site has indexed that you didn't expect to be public.</li>
-                    <li><code>filetype:pdf</code> / <code>filetype:xls</code> - surface documents of a specific type, which is how a lot of accidentally-published internal spreadsheets and reports get found.</li>
-                    <li><code>intitle:</code> / <code>inurl:</code> - match text specifically in a page's title or URL, useful for finding known default login-panel titles or predictable URL patterns for exposed admin interfaces.</li>
-                    <li><code>intext:</code> combined with a distinctive phrase - default configuration text, a specific error message, a boilerplate string a particular piece of software always includes - can surface every public instance of software that a targeted vulnerability affects.</li>
-                </ul>
-                <p>None of these are secret or restricted - they're documented, ordinary Google search syntax. The "hacking" in Google hacking is entirely in the combination and the intent, not in any operator being off-limits.</p>
-
-                <h2>The legal line is real, and it's blurrier than it sounds</h2>
-                <p>Running the search itself is legal in essentially every jurisdiction - it's a search engine returning results it already indexed. What happens next is where things get genuinely case-specific: viewing a document Google surfaced is generally treated very differently from using what you found to log into a system, and several real prosecutions have turned on exactly that distinction - finding an exposed database is one thing, querying it is another, and downloading or redistributing its contents is a third, each carrying different legal exposure depending on jurisdiction and what, specifically, was accessed. This is also why dorking tools that generate ready-made query lists (like dorksearch.com, in the <a href="osint-directory.html">OSINT Directory</a>) carry their own disclaimer: educational and research use is the stated purpose, and treating a discovery as something to report responsibly - not something to exploit - is the difference between security research and a much worse outcome.</p>
-                <p class="related-block">RELATED: <a href="osint-directory.html">OSINT Directory</a> &middot; <a href="wiki-osint.html">OSINT (Open Source Intelligence)</a></p>
+                <h1>&gt; Calendars Are Political</h1>
+                <p>Every calendar on this page is a compromise somebody in charge forced onto everyone else. None of them are "the" calendar - they're the surviving proposals. See <a href="wiki-time.html">On Time, and Why It's Hard</a> for the machine side of this problem; this one's the human side.</p>
+                <p><strong>Ten days that never happened.</strong> Thursday, October 4, 1582 was followed by Friday, October 15, 1582 - by papal decree. The Julian calendar (46 BCE, one leap year every 4 years flat) overcounted the true solar year by about 11 minutes annually. Over 1,600-odd years that drifted the calendar 10 days away from the actual seasons, which mattered to the Catholic Church mainly because it threw off the calculated date of Easter. Pope Gregory XIII's fix, laid out in the 1582 bull <em>Inter gravissimas</em>, was one new rule: century years are leap years only if divisible by 400. 1700, 1800, and 1900 lost their leap day; 2000 kept it. That single rule is accurate enough that the Gregorian calendar won't need another correction like it for about 3,000 years.</p>
+                <p><strong>The adoption lag is the real story.</strong> Catholic Spain, Portugal, Italy, and Poland switched immediately in 1582. Protestant and Orthodox territories weren't taking calendar advice from Rome and held out for over a century. Britain and its colonies (including what would become the US) didn't switch until 1752 - by then the drift had grown to 11 days, so Wednesday, September 2, 1752 was followed by Thursday, September 14. Russia held out until after the 1917 revolution; the "October Revolution" happened in <em>November</em> by the Gregorian count, which is why the anniversary date and the actual season never lined up for anyone using the newer calendar. Sweden, in a botched attempt to switch gradually by skipping leap years, ended up with a calendar so wrong they gave up and added an extra day back in - giving 1712 a February 30th, the only one in recorded history. Nobody planned that. It happened because a bureaucracy tried to be clever about a 10-day correction and lost track of its own math.</p>
+                <p><strong>The thirteenth sign that keeps "returning."</strong> Every few years, a headline resurfaces claiming astrologers "added" a 13th zodiac sign, Ophiuchus, and everyone's sign changed. Nothing was added. The sun's actual path against the fixed background of constellations does pass through 13 of them, including Ophiuchus, for about 18 days in late November/early December - that's just where the constellations happen to sit. Western tropical astrology was never built on the actual constellations to begin with; it divides the year into 12 equal 30-degree slices anchored to the seasons (the equinoxes and solstices), a system that split off from the literal night sky roughly 2,000 years ago because of the same slow wobble that also, unrelatedly, keeps Polaris from being the North Star forever - axial precession. Sidereal astrology (used in Vedic tradition) does track the actual constellations and has effectively always included Ophiuchus-adjacent overlap. Neither camp "changed" anything; the headline just rediscovers, every few years, that two different systems were never measuring the same thing.</p>
+                <p><strong>The calendar Kodak actually ran on.</strong> The International Fixed Calendar - 13 months of exactly 28 days (four even weeks each), plus one or two days a year that belong to no month or week at all - was pitched across the late 1800s and early 1900s as a genuinely better structure: every date lands on the same weekday every year, forever, no more "what day of the week is the 15th" lookup. It never got adopted nationally anywhere. Kodak's George Eastman liked it enough to run the company's entire internal payroll and production calendar on it from 1928 to 1989, one of the only large-scale real-world trials the design ever got. It died with a business decision, not a technical flaw - shipping software and international customers were increasingly unwilling to talk to a company running a private 13-month year.</p>
+                <p><strong>The ten-hour day.</strong> Revolutionary France didn't stop at replacing the monarchy. The French Republican Calendar (1793-1805) rebuilt the year into twelve 30-day months with poetic, season-based names (Thermidor, "heat," Brumaire, "fog") plus 5-6 leftover days, and briefly mandated decimal time alongside it: 10 hours a day, 100 minutes an hour, 100 seconds a minute, so midnight was 0 and noon was exactly 5. It required manufacturing new clock faces and lasted about two years in practice before quietly getting dropped - the metric system's meter and kilogram survived the Revolution; the ten-hour day didn't, because nobody was going to re-machine every clock in the country to accommodate an act of ideology. Switzerland's Swatch tried a much smaller version of the same idea in 1998: <strong>Internet Time</strong>, dividing the day into 1,000 ".beats" with no timezones at all, beat 0 fixed to midnight in Biel, Switzerland, home of Swatch's headquarters. It got real dot-com-era press coverage and a handful of websites that displayed the current .beat as a novelty. It solved a coordination problem nobody actually had (global chat and gaming already just used UTC) and quietly disappeared once the hype cycle that birthed it did too.</p>
+                <p><strong>The throughline.</strong> A pope fixing Easter math, a monarchy erasing itself down to the clock face, a film-processing company running its factories on a calendar built for evenly-spaced paydays, a watch brand trying to make Swiss time the world's time - none of these were really about time. They were about who gets to decide what time it is for everyone else. The Gregorian calendar won not because it was more correct than the alternatives on offer (the International Fixed Calendar arguably solves more real annoyances) but because it had a 350-year head start and an empire's worth of trade routes behind it.</p>
+                <p class="related-block">RELATED: <a href="wiki-time.html">On Time, and Why It's Hard</a> &middot; <a href="calc-age.html">Age Calculator</a> &middot; <a href="time-logic.html">Date Stamp Recon</a></p>
             </article>
 
             </div>
