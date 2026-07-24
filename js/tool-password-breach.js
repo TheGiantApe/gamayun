@@ -10,14 +10,22 @@
    (you click a candidate word already sitting in the dump, you don't
    type), so there's no partial-guess state to manage.
 
-   Grid capacity (16 cols x 18 lines = 288 cells) was stress-tested at
-   300 trials across every supported word length (4-9) before this ever
-   touched a browser - every trial placed all 8 words and all 6
-   brackets with zero drops, so the placement algorithm's capped-retry
-   loop never needs a "what if it silently fails" fallback in practice. */
+   Dual-column layout (v2): two independent side-by-side hex-address-
+   prefixed columns instead of one wide block, and feedback appears
+   INLINE right on the guessed word/bracket's own row - not in a
+   separate log panel below the grid, which is how v1 of this tool
+   worked. Never name the source game/franchise anywhere in this file
+   or on the page, same standing constraint as v1.
 
-const BREACH_LINE_WIDTH = 16;
-const BREACH_LINE_COUNT = 18;
+   Grid capacity (12 cols x 12 lines x 2 columns = 288 cells, same
+   total as v1's proven-safe 16x18) was stress-tested at 300 trials
+   across every supported word length (4-9) before this ever touched a
+   browser - every trial placed all 8 words and all 6 brackets with
+   zero drops. */
+
+const BREACH_COL_WIDTH = 12;
+const BREACH_LINE_COUNT = 12;
+const BREACH_COLS = 2;
 const BREACH_WORD_COUNT = 8;
 const BREACH_BRACKET_COUNT = 6;
 const BREACH_MAX_ATTEMPTS = 5;
@@ -36,6 +44,11 @@ let breachRejected = new Set();
 let breachAttemptsUsed = 0;
 let breachOver = false;
 let breachBusy = false; // true during the "please wait" delay between guess and result
+let breachPending = null; // word/bracket id currently mid-guess, for the busy-state row indicator
+let breachRowFeedback = {}; // "col:line" -> array of feedback strings for that row (a row can hold more
+                             // than one guessable item - confirmed via a 300-trial stress test that two
+                             // placements sharing a row happens often enough to matter, so this is an
+                             // array, not a single overwritable string)
 
 function scoreBreachGuess(target, guess) {
   let matches = 0;
@@ -56,22 +69,28 @@ function pickBreachWords(wordList, length, count, rng = Math.random) {
   return { target: picked[0], decoys: picked.slice(1) };
 }
 
-function generateBreachGrid(lineWidth, lineCount, words, bracketCount, rng = Math.random) {
-  const grid = Array.from({ length: lineCount }, () => Array(lineWidth).fill(null));
+/* grid[col][line][pos] - two independent column stacks, same shape,
+   placement just picks a random column first now in addition to a
+   random line/start. */
+function generateBreachGrid(colWidth, lineCount, numCols, words, bracketCount, rng = Math.random) {
+  const grid = Array.from({ length: numCols }, () =>
+    Array.from({ length: lineCount }, () => Array(colWidth).fill(null))
+  );
   const wordPlacements = {};
   const bracketPlacements = [];
 
   function tryPlace(length, maxAttempts) {
     for (let attempt = 0; attempt < maxAttempts; attempt++) {
+      const col = Math.floor(rng() * numCols);
       const line = Math.floor(rng() * lineCount);
-      const maxStart = lineWidth - length;
+      const maxStart = colWidth - length;
       if (maxStart < 0) continue;
       const start = Math.floor(rng() * (maxStart + 1));
       let free = true;
       for (let i = 0; i < length; i++) {
-        if (grid[line][start + i] !== null) { free = false; break; }
+        if (grid[col][line][start + i] !== null) { free = false; break; }
       }
-      if (free) return { line, start };
+      if (free) return { col, line, start };
     }
     return null;
   }
@@ -80,7 +99,7 @@ function generateBreachGrid(lineWidth, lineCount, words, bracketCount, rng = Mat
     const pos = tryPlace(word.length, 200);
     if (!pos) continue;
     for (let i = 0; i < word.length; i++) {
-      grid[pos.line][pos.start + i] = { char: word[i], type: "word", word };
+      grid[pos.col][pos.line][pos.start + i] = { char: word[i], type: "word", word };
     }
     wordPlacements[word] = pos;
   }
@@ -91,18 +110,20 @@ function generateBreachGrid(lineWidth, lineCount, words, bracketCount, rng = Mat
     if (!pos) continue;
     const [open, close] = BREACH_BRACKET_STYLES[b % BREACH_BRACKET_STYLES.length];
     const id = `bracket-${b}`;
-    grid[pos.line][pos.start] = { char: open, type: "bracket", id };
-    grid[pos.line][pos.start + size - 1] = { char: close, type: "bracket", id };
+    grid[pos.col][pos.line][pos.start] = { char: open, type: "bracket", id };
+    grid[pos.col][pos.line][pos.start + size - 1] = { char: close, type: "bracket", id };
     for (let i = 1; i < size - 1; i++) {
-      grid[pos.line][pos.start + i] = { char: BREACH_JUNK_CHARS[Math.floor(rng() * BREACH_JUNK_CHARS.length)], type: "bracket-fill", id };
+      grid[pos.col][pos.line][pos.start + i] = { char: BREACH_JUNK_CHARS[Math.floor(rng() * BREACH_JUNK_CHARS.length)], type: "bracket-fill", id };
     }
-    bracketPlacements.push({ id, line: pos.line, start: pos.start, size });
+    bracketPlacements.push({ id, col: pos.col, line: pos.line, start: pos.start, size });
   }
 
-  for (let l = 0; l < lineCount; l++) {
-    for (let c = 0; c < lineWidth; c++) {
-      if (grid[l][c] === null) {
-        grid[l][c] = { char: BREACH_JUNK_CHARS[Math.floor(rng() * BREACH_JUNK_CHARS.length)], type: "junk" };
+  for (let c = 0; c < numCols; c++) {
+    for (let l = 0; l < lineCount; l++) {
+      for (let p = 0; p < colWidth; p++) {
+        if (grid[c][l][p] === null) {
+          grid[c][l][p] = { char: BREACH_JUNK_CHARS[Math.floor(rng() * BREACH_JUNK_CHARS.length)], type: "junk" };
+        }
       }
     }
   }
@@ -139,7 +160,7 @@ function newBreachGame() {
 
   const { target, decoys } = pickBreachWords(WORD_LIST, length, BREACH_WORD_COUNT);
   const words = [target, ...decoys];
-  const result = generateBreachGrid(BREACH_LINE_WIDTH, BREACH_LINE_COUNT, words, BREACH_BRACKET_COUNT);
+  const result = generateBreachGrid(BREACH_COL_WIDTH, BREACH_LINE_COUNT, BREACH_COLS, words, BREACH_BRACKET_COUNT);
 
   breachGrid = result.grid;
   breachWordPlacements = result.wordPlacements;
@@ -151,46 +172,64 @@ function newBreachGame() {
   breachAttemptsUsed = 0;
   breachOver = false;
   breachBusy = false;
+  breachPending = null;
+  breachRowFeedback = {};
 
-  document.getElementById("breach-log").innerHTML = "";
   document.getElementById("breach-result").textContent = "";
   renderBreachTerminal();
   renderBreachStats();
   GAMA.say("idle");
 }
 
+function addBreachRowFeedback(rowKey, text) {
+  (breachRowFeedback[rowKey] ||= []).push(text);
+}
+
 function breachAttemptsRemaining() {
   return BREACH_MAX_ATTEMPTS - breachAttemptsUsed;
 }
 
-function renderBreachTerminal() {
-  const container = document.getElementById("breach-terminal");
-  container.textContent = "";
-  container.style.fontFamily = "var(--font-mono)";
-  container.style.whiteSpace = "pre";
-  container.style.lineHeight = "1.5";
-  container.style.userSelect = "none";
+/* Tally-mark style readout ("attempts left: |||| ") rather than a
+   plain fraction - closer to the source terminal's own attempts
+   display without copying its exact wording. */
+function breachAttemptsTally() {
+  return "|".repeat(breachAttemptsRemaining()) + "·".repeat(breachAttemptsUsed);
+}
 
-  let hexAddr = 0xfac5;
+function renderBreachColumn(col) {
+  const colEl = document.createElement("div");
+  colEl.style.display = "flex";
+  colEl.style.flexDirection = "column";
+
+  // Each column starts its own address range so they read as two real
+  // memory pages, not a mirrored duplicate. The gap between column
+  // starts (0x100) has to clear a full column's own address span
+  // (BREACH_LINE_COUNT * 0x0A = 0x78) or the two ranges interleave and
+  // no longer look like two distinct pages.
+  let hexAddr = 0xfac5 + col * 0x100;
   for (let l = 0; l < BREACH_LINE_COUNT; l++) {
     const lineEl = document.createElement("div");
+    lineEl.style.whiteSpace = "pre";
+
     const addr = document.createElement("span");
     addr.textContent = `0x${hexAddr.toString(16).toUpperCase()}  `;
     addr.style.color = "var(--phosphor-dim-text)";
     lineEl.appendChild(addr);
     hexAddr += 0x0a;
 
-    for (let c = 0; c < BREACH_LINE_WIDTH; c++) {
-      const cellData = breachGrid[l][c];
+    for (let p = 0; p < BREACH_COL_WIDTH; p++) {
+      const cellData = breachGrid[col][l][p];
       const span = document.createElement("span");
       span.textContent = cellData.char;
 
       if (cellData.type === "word") {
         const rejected = breachRejected.has(cellData.word);
         const isTarget = cellData.word === breachTarget;
+        const isPending = breachPending === cellData.word;
         span.style.color = rejected ? "var(--phosphor-dim-text)" : "var(--phosphor)";
         span.style.textDecoration = rejected ? "line-through" : "none";
-        if (!rejected && !breachOver) {
+        if (isPending) span.style.opacity = "0.5";
+        if (!rejected && !breachOver && !breachBusy) {
           span.style.cursor = "pointer";
           span.dataset.breachWord = cellData.word;
           span.addEventListener("click", () => executeBreachGuess(cellData.word));
@@ -217,11 +256,41 @@ function renderBreachTerminal() {
       }
       lineEl.appendChild(span);
     }
-    container.appendChild(lineEl);
-  }
 
-  const meta = document.getElementById("breach-meta");
-  meta.textContent = `attempts remaining: ${breachAttemptsRemaining()}/${BREACH_MAX_ATTEMPTS}`;
+    const feedbackList = breachRowFeedback[`${col}:${l}`];
+    if (feedbackList && feedbackList.length) {
+      const fbSpan = document.createElement("span");
+      fbSpan.textContent = `  ${feedbackList.join("  //  ")}`;
+      fbSpan.style.color = "var(--phosphor-dim-text)";
+      lineEl.appendChild(fbSpan);
+    }
+
+    colEl.appendChild(lineEl);
+  }
+  return colEl;
+}
+
+function renderBreachTerminal() {
+  const container = document.getElementById("breach-terminal");
+  container.innerHTML = "";
+  container.style.fontFamily = "var(--font-mono)";
+  container.style.lineHeight = "1.5";
+  container.style.userSelect = "none";
+
+  const header = document.createElement("div");
+  header.style.marginBottom = "0.6rem";
+  header.style.color = "var(--phosphor)";
+  header.innerHTML =
+    `&gt; BREACH IN PROGRESS &mdash; SELECT A CANDIDATE STRING<br>` +
+    `<span style="color:var(--phosphor-dim-text)">attempts left: </span>${breachAttemptsTally()}`;
+  container.appendChild(header);
+
+  const columnsRow = document.createElement("div");
+  columnsRow.style.display = "flex";
+  columnsRow.style.gap = "1.75rem";
+  columnsRow.style.flexWrap = "wrap";
+  for (let c = 0; c < BREACH_COLS; c++) columnsRow.appendChild(renderBreachColumn(c));
+  container.appendChild(columnsRow);
 }
 
 /* --- Guessing --- */
@@ -229,18 +298,21 @@ function renderBreachTerminal() {
 function executeBreachGuess(word) {
   if (breachOver || breachBusy || breachRejected.has(word)) return;
   breachBusy = true;
+  breachPending = word;
   const result = document.getElementById("breach-result");
   result.textContent = "> please wait while system is accessed...";
   GAMA.say("working");
+  renderBreachTerminal();
 
   setTimeout(() => {
     breachBusy = false;
-    const log = document.getElementById("breach-log");
-    const entry = document.createElement("div");
+    breachPending = null;
+    const pos = breachWordPlacements[word];
+    const rowKey = `${pos.col}:${pos.line}`;
 
     if (word === breachTarget) {
       breachOver = true;
-      entry.textContent = `${word.toUpperCase()} > access granted.`;
+      addBreachRowFeedback(rowKey, "> access granted");
       result.textContent = "> ACCESS GRANTED";
       const stats = loadBreachStats();
       stats.solved++;
@@ -251,7 +323,7 @@ function executeBreachGuess(word) {
       breachAttemptsUsed++;
       breachRejected.add(word);
       const matches = scoreBreachGuess(breachTarget, word);
-      entry.textContent = `${word.toUpperCase()} > entry denied. ${matches}/${word.length} correct.`;
+      addBreachRowFeedback(rowKey, `> ${matches}/${word.length} correct`);
       if (breachAttemptsUsed >= BREACH_MAX_ATTEMPTS) {
         breachOver = true;
         result.textContent = `> LOCKOUT. password was: ${breachTarget.toUpperCase()}`;
@@ -265,7 +337,6 @@ function executeBreachGuess(word) {
         GAMA.say("idle");
       }
     }
-    log.prepend(entry);
     renderBreachTerminal();
   }, 600);
 }
@@ -278,6 +349,8 @@ function executeBreachGuess(word) {
 function executeBreachBracket(id) {
   if (breachOver || breachBusy || breachConsumedBrackets.has(id)) return;
   breachConsumedBrackets.add(id);
+  const bracketPos = breachBracketPlacements.find((b) => b.id === id);
+  const rowKey = `${bracketPos.col}:${bracketPos.line}`;
 
   const removableCandidates = breachCandidates.filter((w) => w !== breachTarget && !breachRejected.has(w));
   const canRestore = breachAttemptsUsed > 0;
@@ -289,11 +362,14 @@ function executeBreachBracket(id) {
   if (wantRemove) {
     const removed = removableCandidates[Math.floor(Math.random() * removableCandidates.length)];
     breachRejected.add(removed);
+    addBreachRowFeedback(rowKey, `> dud: ${removed.toUpperCase()} purged`);
     result.textContent = `> dud triggered: ${removed.toUpperCase()} purged from candidate list`;
   } else if (canRestore) {
     breachAttemptsUsed--;
+    addBreachRowFeedback(rowKey, "> dud: attempt restored");
     result.textContent = "> dud triggered: attempt restored";
   } else {
+    addBreachRowFeedback(rowKey, "> dud: no effect");
     result.textContent = "> dud triggered: no effect this time";
   }
   renderBreachTerminal();

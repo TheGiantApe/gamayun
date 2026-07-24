@@ -577,12 +577,6 @@ const TOOL_LIST = [
     "url": "pages/sudoku.html"
   },
   {
-    "title": "Vault Breach",
-    "desc": "Terminal-styled sibling to Password Breach - crack a hidden numeric code with plain in-position/wrong-spot feedback, no bulls-and-cows jargon. Length, digit range, repeats, and attempts all adjustable.",
-    "code": "VAULT_BREACH",
-    "url": "pages/vault-breach.html"
-  },
-  {
     "title": "Team/Group Picker",
     "desc": "Random groups or shuffle order, with an optional 'keep these two apart' constraint most simple pickers can't honor.",
     "code": "TEAM_PICKER",
