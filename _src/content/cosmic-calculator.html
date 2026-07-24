@@ -1,0 +1,24 @@
+            <section class="tool-card">
+                <h2>&gt; COSMIC_CALCULATOR</h2>
+                <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">Western zodiac, Chinese zodiac, numerology life path, and a compatibility read - all real traditional systems with accurate date ranges and calculations, presented honestly as folklore, not science. Nothing here predicts anything.</p>
+                <div class="tool-workspace">
+                    <label style="font-size:0.85rem; color:var(--phosphor-dim-text); width:100%;">MODE
+                        <select id="cosmic-mode" onchange="cosmicModeChanged()" style="width:100%; margin-top:0.25rem;">
+                            <option value="western">Western Zodiac</option>
+                            <option value="chinese">Chinese Zodiac</option>
+                            <option value="numerology">Numerology (Life Path)</option>
+                            <option value="compatibility">Compatibility (for fun only)</option>
+                        </select>
+                    </label>
+                </div>
+                <div class="tool-workspace">
+                    <label style="font-size:0.85rem; color:var(--phosphor-dim-text);" id="cosmic-date1-label">birth date
+                        <input type="date" id="cosmic-date1" oninput="executeCosmicCalculator()">
+                    </label>
+                    <label style="font-size:0.85rem; color:var(--phosphor-dim-text); display:none;" id="cosmic-date2-wrap">second birth date
+                        <input type="date" id="cosmic-date2" oninput="executeCosmicCalculator()">
+                    </label>
+                </div>
+                <div class="result-block" id="cosmic-result" style="font-size:1.05rem;"></div>
+            </section>
+            <p style="padding:0 1.5rem; font-size:0.85rem;"><span style="color: var(--phosphor-dim-text)">See also:</span> <a href="fate-draw.html">Fate Draw</a> &middot; <a href="divine-oracle.html">Divine Oracle</a></p>

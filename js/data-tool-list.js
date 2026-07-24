@@ -541,6 +541,12 @@ const TOOL_LIST = [
     "url": "pages/fate-draw.html"
   },
   {
+    "title": "Cosmic Calculator",
+    "desc": "Western zodiac, Chinese zodiac, numerology life path, and a compatibility read - accurate traditional calculations, framed honestly as folklore.",
+    "code": "COSMIC_CALCULATOR",
+    "url": "pages/cosmic-calculator.html"
+  },
+  {
     "title": "Pick One",
     "desc": "Coin, dice, spinner, or a raffle draw with a proof log - every 'just choose for me' tool on this site in one place.",
     "code": "PICK_ONE",

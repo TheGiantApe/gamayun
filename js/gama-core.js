@@ -144,6 +144,7 @@ const GAMA = (() => {
     RUNES: ["> cast. an alphabet older than most of your excuses."],
     DIVINE_ORACLE: ["> consulted. the oracle has spoken. take it exactly as seriously as it deserves."],
     FATE_DRAW: ["> drawn. make of it what you will. i certainly won't."],
+    COSMIC_CALCULATOR: ["> calculated. the math is real. what it means is entirely up to you."],
     PICK_ONE: [
       "> flipped. heads, tails, or the universe just felt like it.",
       "> rolled. pure chance, no weighting, no mercy.",
