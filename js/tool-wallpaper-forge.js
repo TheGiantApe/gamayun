@@ -29,11 +29,11 @@ function wpLoadAssets(cb) {
   wpRavenImg = new Image();
   wpRavenImg.onload = done;
   wpRavenImg.onerror = done;
-  wpRavenImg.src = root + "assets/raven-key-seal.png";
+  wpRavenImg.src = root + "assets/raven-key-seal.webp";
   wpWordmarkImg = new Image();
   wpWordmarkImg.onload = done;
   wpWordmarkImg.onerror = done;
-  wpWordmarkImg.src = root + "assets/gama-wordmark-logo-green.png";
+  wpWordmarkImg.src = root + "assets/gama-wordmark-logo-green.webp";
 }
 
 function wpPalette(name) {
