@@ -292,7 +292,7 @@
             <div class="breadcrumb">&gt; <a href="../index.html">DECK_LAUNCHER</a> <span class="breadcrumb-sep">/</span> PAINT LOCKER <span class="breadcrumb-sep">/</span> COLOR_CONVERTER</div>
             <section class="tool-card">
                 <h1>&gt; COLOR_<wbr>CONVERTER</h1>
-                <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">Hex, RGB integer, RGB float (0-1, for shaders/OpenGL), and HSL, all at once.</p>
+                <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">Paste any color in any of four formats - hex, RGB integer (0-255), RGB float (0-1, the range shaders/OpenGL/Unity actually expect instead of 0-255), or HSL - and get all four back at once. The float format specifically is the one most color-picker tools skip entirely, which means a real gap for anyone working in a graphics pipeline that doesn't speak 0-255.</p>
                 <div class="tool-workspace">
                     <input type="text" id="color-input" placeholder="#935757 or 147,87,87" oninput="executeColorConvert()">
                     <div id="color-swatch" style="width:40px; height:40px; border:1px solid var(--phosphor-dim); flex-shrink:0;"></div>
