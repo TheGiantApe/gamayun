@@ -1,6 +1,6 @@
             <section class="tool-card tool-card--wide">
                 <h2>&gt; PIG_LATIN</h2>
-                <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">English &gt; Pig Latin. Consonant clusters (qu counts as one) move to the end plus "ay"; words starting with a vowel just get "way" tacked on.</p>
+                <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">English to Pig Latin, following the actual traditional rule rather than a rough approximation: the whole leading consonant cluster moves to the end before adding "ay" ("string" becomes "ingstray," not "tringsay"), "qu" is treated as one unbreakable unit so it doesn't get split awkwardly, and a word that already starts with a vowel just gets "way" tacked on. Works on full sentences, not just single words - punctuation and capitalization are preserved.</p>
                 <div class="tool-workspace">
                     <textarea id="pig-latin-input" placeholder="text to translate..." oninput="executePigLatin()"></textarea>
                 </div>
