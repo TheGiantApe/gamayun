@@ -38,6 +38,28 @@ CATEGORIES = [
     ("STUDY_HALL", "STUDY_HALL"),
 ]
 
+# Wiki topic display order + labels, same shape/role as CATEGORIES but for
+# wiki_entries() instead of tool pages - a page's "wiki_topic" field must be
+# one of these keys (or None, which buckets it under UNSORTED so a missing
+# field is loud, not silently dropped - see wiki_entries_by_topic()).
+# Deliberately plain-English and terse, not the CATEGORIES ops-code style -
+# these are essay titles a first-time visitor scans, not a tool shorthand.
+WIKI_TOPICS = [
+    ("TIME", "Time & Calendars"),
+    ("ETYMOLOGY", "Etymology"),
+    ("NUMBERS", "Numbers"),
+    ("SCIENCE", "Science Quirks"),
+    ("BODY", "The Body"),
+    ("SPACE", "Space"),
+    ("HISTORY", "History"),
+    ("NATURE", "Nature & Geography"),
+    ("FOOD", "Food & Objects"),
+    ("OLD_TECH", "Obsolete Tech"),
+    ("CODES", "Codes & Secrets"),
+    ("PRIVACY", "Privacy & OSINT"),
+    ("UNSORTED", "Unsorted"),
+]
+
 # Top-level tab bar (site sections), separate from CATEGORIES above (which
 # are TOOLS-only sub-groups shown in the sidebar). Each tuple is
 # (section key, tab label, link target - relative to site root). A 5th
@@ -83,6 +105,19 @@ def wiki_entries():
     """All individual wiki pages, in PAGES order - single source of truth
     for both the hub page's card list and the WIKI sidebar list."""
     return [p for p in PAGES if p.get("wiki_entry")]
+
+
+def wiki_entries_by_topic():
+    """wiki_entries() grouped into WIKI_TOPICS order, each group in PAGES
+    order. A page with no wiki_topic (or one not in WIKI_TOPICS) lands in
+    UNSORTED rather than being dropped - shared by the hub page and the
+    sidebar nav so the two can never drift out of sync with each other."""
+    valid_keys = {key for key, _ in WIKI_TOPICS}
+    groups = {key: [] for key, _ in WIKI_TOPICS}
+    for p in wiki_entries():
+        key = p.get("wiki_topic")
+        groups[key if key in valid_keys else "UNSORTED"].append(p)
+    return [(key, label, groups[key]) for key, label in WIKI_TOPICS if groups[key]]
 
 # Each page: out (output path), fragment (content file), title, desc,
 # root (path prefix back to site root), code (short nav/breadcrumb label,
@@ -535,7 +570,7 @@ PAGES = [
          desc="GAMA⁺, in her own words. Not exactly a straight answer.",
          root="../", code="ABOUT", category=None, js=[]),
     dict(out="pages/wiki-index.html", fragment="wiki-index.html", title="GAMA+ Wiki",
-         desc="Technical trivia, privacy/OSINT reference entries, and dumb conversation-enders, filed as they get salvaged.",
+         desc="Etymology, science, history, codes, privacy/OSINT, and every other rabbit hole worth falling into - real citations, filed as they get salvaged.",
          root="../", code="GAMA_WIKI", category=None, breadcrumb_cat="WIKI", js=[]),
 
     # Individual wiki entries - each its own page (not h2 sections on one
@@ -544,40 +579,58 @@ PAGES = [
     # that links to all of them, built by build_wiki_index_html().
     dict(out="pages/wiki-time.html", fragment="wiki-time.html", title="On Time, and Why It's Hard",
          desc="The Unix epoch, the Year 2038 problem, timezones, leap seconds, and why cron starts the week on Sunday.",
-         root="../", code=None, category=None, wiki_entry=True, breadcrumb_cat="WIKI", js=[]),
+         root="../", code=None, category=None, wiki_entry=True, wiki_topic="TIME", breadcrumb_cat="WIKI", js=[]),
     dict(out="pages/wiki-calendars.html", fragment="wiki-calendars.html", title="Calendars Are Political",
          desc="Ten lost days in 1582, Sweden's February 30th, the thirteenth zodiac sign that never left, and why Kodak ran on its own 13-month year.",
-         root="../", code=None, category=None, wiki_entry=True, breadcrumb_cat="WIKI", js=[]),
+         root="../", code=None, category=None, wiki_entry=True, wiki_topic="TIME", breadcrumb_cat="WIKI", js=[]),
     dict(out="pages/wiki-foobar.html", fragment="wiki-foobar.html", title="Where \"Foo\" and \"Bar\" Came From",
          desc="The FUBAR-to-hacker-culture etymology the Jargon File itself settles on.",
-         root="../", code=None, category=None, wiki_entry=True, breadcrumb_cat="WIKI", js=[]),
+         root="../", code=None, category=None, wiki_entry=True, wiki_topic="ETYMOLOGY", breadcrumb_cat="WIKI", js=[]),
     dict(out="pages/wiki-uuid-odds.html", fragment="wiki-uuid-odds.html", title="The Odds a UUID Ever Repeats",
          desc="122 random bits, 2.71 quintillion UUIDs before a 50% collision chance - why they're functionally unique.",
-         root="../", code=None, category=None, wiki_entry=True, breadcrumb_cat="WIKI", js=[]),
+         root="../", code=None, category=None, wiki_entry=True, wiki_topic="NUMBERS", breadcrumb_cat="WIKI", js=[]),
     dict(out="pages/wiki-fingerprinting.html", fragment="wiki-fingerprinting.html", title="Browser Fingerprinting",
          desc="How sites track you with zero cookies, and why clearing cookies doesn't touch it.",
-         root="../", code=None, category=None, wiki_entry=True, breadcrumb_cat="WIKI", js=[]),
+         root="../", code=None, category=None, wiki_entry=True, wiki_topic="PRIVACY", breadcrumb_cat="WIKI", js=[]),
     dict(out="pages/wiki-osint.html", fragment="wiki-osint.html", title="OSINT (Open Source Intelligence)",
          desc="The real difference between checking if you were exposed and trafficking in stolen data.",
-         root="../", code=None, category=None, wiki_entry=True, breadcrumb_cat="WIKI", js=[]),
+         root="../", code=None, category=None, wiki_entry=True, wiki_topic="PRIVACY", breadcrumb_cat="WIKI", js=[]),
     dict(out="pages/wiki-reverse-image.html", fragment="wiki-reverse-image.html", title="Reverse Image Search & Metadata",
          desc="EXIF data, and how reverse image search actually debunks \"this old photo is new\" claims.",
-         root="../", code=None, category=None, wiki_entry=True, breadcrumb_cat="WIKI", js=[]),
+         root="../", code=None, category=None, wiki_entry=True, wiki_topic="PRIVACY", breadcrumb_cat="WIKI", js=[]),
     dict(out="pages/wiki-tos.html", fragment="wiki-tos.html", title="Terms of Service (and Why Nobody Reads Them)",
          desc="Why ToS;DR exists, and what actually matters before you sign up for something.",
-         root="../", code=None, category=None, wiki_entry=True, breadcrumb_cat="WIKI", js=[]),
+         root="../", code=None, category=None, wiki_entry=True, wiki_topic="PRIVACY", breadcrumb_cat="WIKI", js=[]),
     dict(out="pages/wiki-link-rot.html", fragment="wiki-link-rot.html", title="Digital Preservation & Link Rot",
          desc="Why the average webpage doesn't survive long, and what the Wayback Machine actually does about it.",
-         root="../", code=None, category=None, wiki_entry=True, breadcrumb_cat="WIKI", js=[]),
+         root="../", code=None, category=None, wiki_entry=True, wiki_topic="PRIVACY", breadcrumb_cat="WIKI", js=[]),
     dict(out="pages/wiki-google-dorking.html", fragment="wiki-google-dorking.html", title="Google Dorking",
          desc="Advanced search operators that surface technically-public content nobody meant to be found.",
-         root="../", code=None, category=None, wiki_entry=True, breadcrumb_cat="WIKI", js=[]),
+         root="../", code=None, category=None, wiki_entry=True, wiki_topic="PRIVACY", breadcrumb_cat="WIKI", js=[]),
     dict(out="pages/wiki-paywall.html", fragment="wiki-paywall.html", title="Why There's No Paywall-Bypass Tool Here",
          desc="A deliberate line, not an oversight.",
-         root="../", code=None, category=None, wiki_entry=True, breadcrumb_cat="WIKI", js=[]),
+         root="../", code=None, category=None, wiki_entry=True, wiki_topic="PRIVACY", breadcrumb_cat="WIKI", js=[]),
     dict(out="pages/wiki-steganography.html", fragment="wiki-steganography.html", title="Steganography",
          desc="Hiding that a message exists at all, from a tattooed scalp to least-significant-bit encoding.",
-         root="../", code=None, category=None, wiki_entry=True, breadcrumb_cat="WIKI", js=[]),
+         root="../", code=None, category=None, wiki_entry=True, wiki_topic="CODES", breadcrumb_cat="WIKI", js=[]),
+    dict(out="pages/wiki-ok.html", fragment="wiki-ok.html", title="OK: The Word Everyone Uses and Nobody Can Agree On",
+         desc="A 1839 newspaper joke, a presidential campaign, and why every other origin story for the world's most-used word doesn't hold up.",
+         root="../", code=None, category=None, wiki_entry=True, wiki_topic="ETYMOLOGY", breadcrumb_cat="WIKI", js=[]),
+    dict(out="pages/wiki-dord.html", fragment="wiki-dord.html", title="Dord: The Word the Dictionary Invented by Accident",
+         desc="A misread index card put a word that never existed into a real dictionary for thirteen years - plus the deliberate fake word Oxford still keeps.",
+         root="../", code=None, category=None, wiki_entry=True, wiki_topic="ETYMOLOGY", breadcrumb_cat="WIKI", js=[]),
+    dict(out="pages/wiki-glass-myth.html", fragment="wiki-glass-myth.html", title="The Myth of Flowing Glass",
+         desc="Why old cathedral windows are really thicker at the bottom - and it has nothing to do with glass secretly being a liquid.",
+         root="../", code=None, category=None, wiki_entry=True, wiki_topic="SCIENCE", breadcrumb_cat="WIKI", js=[]),
+    dict(out="pages/wiki-mpemba.html", fragment="wiki-mpemba.html", title="The Mpemba Effect: When Hot Water Freezes First",
+         desc="The still-unsolved physics behind why hot water sometimes beats cold water to the freezer, and the teenager who wouldn't drop it.",
+         root="../", code=None, category=None, wiki_entry=True, wiki_topic="SCIENCE", breadcrumb_cat="WIKI", js=[]),
+    dict(out="pages/wiki-voynich.html", fragment="wiki-voynich.html", title="The Voynich Manuscript Nobody Can Read",
+         desc="240 pages of undeciphered script and impossible plants, dated to the 1400s, that every codebreaker who's tried has failed to crack.",
+         root="../", code=None, category=None, wiki_entry=True, wiki_topic="CODES", breadcrumb_cat="WIKI", js=[]),
+    dict(out="pages/wiki-kryptos.html", fragment="wiki-kryptos.html", title="Kryptos: The Puzzle the CIA Still Hasn't Confirmed",
+         desc="A CIA-headquarters sculpture that stumped cryptanalysts for 30 years - and the 2025 twist that still hasn't been officially confirmed.",
+         root="../", code=None, category=None, wiki_entry=True, wiki_topic="CODES", breadcrumb_cat="WIKI", js=[]),
     dict(out="pages/log.html", fragment="log.html", title="Log",
          desc="GAMA⁺'s own transmissions, mixed with what actually shipped - newest first.",
          root="../", code="LOG_FEED", category=None, breadcrumb_cat="LOG",
@@ -640,10 +693,12 @@ def build_nav_html(current_out, root, current_section):
     No standalone home/DECK_LAUNCHER link here anymore - the header
     logo is the home link now (see base.html), same as most real navbars.
     Categories are TOOLS-only sub-groups, so outside the tools section
-    this renders nothing at all, except on Wiki pages specifically,
-    where it's a flat list of every wiki entry (titles, not short codes -
-    they don't have one) so you can jump between entries without going
-    back to the hub every time.
+    this renders nothing at all, except on Wiki pages specifically, where
+    it's the same WIKI_TOPICS-grouped <details> disclosure pattern as the
+    tools branch just below (titles, not short codes - wiki entries don't
+    have one), so you can jump between entries without going back to the
+    hub every time, and scanning by subject stays workable as the entry
+    count grows past a flat list's reach.
 
     Returns the whole <nav class="terminal-nav"> wrapper (or an empty
     string) rather than just its contents - on sections with nothing to
@@ -651,9 +706,15 @@ def build_nav_html(current_out, root, current_section):
     all, instead of an empty shell that looked like a rendering bug."""
     lines = []
     if current_section == "wiki":
-        for p in wiki_entries():
-            active = " active" if p["out"] == current_out else ""
-            lines.append(f'                <a href="{root}{p["out"]}" class="nav-link{active}">&gt;&nbsp;<span class="nav-link-label">{p["title"]}</span></a>')
+        for topic_key, topic_label, entries in wiki_entries_by_topic():
+            has_active = any(p["out"] == current_out for p in entries)
+            open_attr = " open" if has_active else ""
+            lines.append(f'                <details class="nav-section"{open_attr}>')
+            lines.append(f'                    <summary class="nav-section-label">{topic_label}</summary>')
+            for p in entries:
+                active = " active" if p["out"] == current_out else ""
+                lines.append(f'                    <a href="{root}{p["out"]}" class="nav-link{active}">&gt;&nbsp;<span class="nav-link-label">{p["title"]}</span></a>')
+            lines.append(f'                </details>')
     elif current_section == "tools":
         for cat_key, cat_label in CATEGORIES:
             pages_in_cat = [p for p in PAGES if p.get("category") == cat_key]
@@ -755,19 +816,26 @@ def build_tool_grid_html():
 
 
 def build_wiki_index_html():
-    """Wiki hub page: a card per entry (title + teaser), same visual
-    pattern as the tool grid so it doesn't need new CSS vocabulary. This
+    """Wiki hub page: a card per entry (title + teaser), grouped under a
+    .grid-section-label per WIKI_TOPICS - same visual pattern as
+    build_tool_grid_html() so it doesn't need new CSS vocabulary. This
     replaced an old design where every entry was just another <h2> on one
-    ever-growing page - each entry is real page now (see wiki_entries())."""
-    items = []
-    for p in wiki_entries():
-        items.append(
-            f'                <a class="tool-grid-item" href="{os.path.basename(p["out"])}">\n'
-            f'                    <div class="tool-name">&gt; {p["title"]}</div>\n'
-            f'                    <div class="tool-desc">{p["desc"]}</div>\n'
-            f'                </a>'
+    ever-growing page - each entry is a real page now (see wiki_entries())."""
+    sections = []
+    for _key, label, entries in wiki_entries_by_topic():
+        items = []
+        for p in entries:
+            items.append(
+                f'                <a class="tool-grid-item" href="{os.path.basename(p["out"])}">\n'
+                f'                    <div class="tool-name">&gt; {p["title"]}</div>\n'
+                f'                    <div class="tool-desc">{p["desc"]}</div>\n'
+                f'                </a>'
+            )
+        sections.append(
+            f'                <div class="grid-section-label">{label}</div>\n'
+            f'                <div class="tool-grid-row">\n' + "\n".join(items) + "\n                </div>"
         )
-    return '                <div class="tool-grid-row">\n' + "\n".join(items) + "\n                </div>"
+    return "\n".join(sections)
 
 
 # ---- Field Manuals (instructables): GAMA-voice step-by-step guides ----
