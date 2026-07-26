@@ -24,8 +24,16 @@
   --antique-silver: #C8D5C0;
 
   --font-display: 'Eurostile', 'Bank Gothic', 'Arial Black', sans-serif;
-  --font-mono: 'VT323', 'IBM Plex Mono', 'Courier New', monospace;
-  --font-body: 'IBM Plex Mono', 'Courier New', monospace;
+  /* Native OS monospace stack, no web font. VT323 (the original pick) is
+     a pixel-styled bitmap font that's genuinely hard to read at body
+     copy sizes and gets worse under the CRT scanline filter - swapped
+     out per Vin's direct call plus the GAMA BIBLE's own already-stated
+     "native stack only, no web fonts" spec that this had never actually
+     matched. Same stack for --font-mono and --font-body now that neither
+     needs a distinct webfont identity; kept as two variables in case a
+     future pass wants to split them again. */
+  --font-mono: ui-monospace, 'SF Mono', SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace;
+  --font-body: ui-monospace, 'SF Mono', SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace;
   --font-jp: 'Noto Sans JP', sans-serif;
 
   --header-h: 3rem;
@@ -1479,6 +1487,13 @@ button:hover, .btn:hover {
    absurdly large for a single short reference page. Fixed sizes instead. */
 .prose h1 { font-family: var(--font-display); font-size: 1.5rem; margin-top: 0; }
 .prose h2 { font-family: var(--font-display); font-size: 1.15rem; }
+/* Full-bright --phosphor reads fine for short titles/labels/accents, but
+   it's too hot to read comfortably across a whole paragraph of running
+   prose (worse still under the CRT scanline filter) - dimmed to the
+   same already-AA-compliant tone used for secondary UI text elsewhere,
+   per Vin's direct call. Headings above stay at the inherited bright
+   phosphor on purpose. */
+.prose p, .prose li { color: var(--phosphor-dim-text); }
 .prose p { margin: 1em 0; }
 /* .prose's reading-sized type is right for flowing paragraphs (About,
    Wiki, Legal) but was absurd for dense reference lists like the
@@ -1489,6 +1504,10 @@ button:hover, .btn:hover {
 
 /* ---- Wiki hub (index of individual entry pages) ---- */
 .wiki-grid { padding: 0 1.5rem 1.5rem; }
+/* Entry preview cards run near-full-width here (unlike the denser
+   multi-column homepage tool grid) - one card per row, since a wiki
+   teaser needs more room to actually read than a short tool label does. */
+.wiki-grid .tool-grid-row { grid-template-columns: 1fr; }
 
 /* ---- Card grid, generic (external-link pages, OSINT/course directories) -
    same padding/rhythm as .wiki-grid, neutral name since it's not wiki-

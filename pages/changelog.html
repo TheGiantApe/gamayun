@@ -53,7 +53,7 @@
     <meta name="twitter:description" content="GAMA⁺'s patch history - what got added or changed, and when.">
     <meta name="twitter:image" content="https://gamayun.site/assets/og-image.png">
     <link rel="canonical" href="https://gamayun.site/pages/changelog.html">
-    <link href="https://fonts.googleapis.com/css2?family=VT323&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/gama.min.css">
     <link rel="manifest" href="/manifest.json">
     <!-- Default/no-JS favicon. gama-core.js's updateFavicon() swaps this
@@ -140,13 +140,13 @@
 
                 <h2>2026-07-13</h2>
                 <ul>
-                    <li>Fixed two real layout bugs the previous entry's fixes didn't actually finish (both confirmed live in a browser this time, not just reasoned through): her fixed corner box was landing directly on top of the sitewide ad-leaderboard unit at full scroll — clearance was only measuring the ticker + footer, not the ad unit stacked above them — and her dialogue box (which grows and shrinks with every line she says) could grow tall enough to cover the nav's own text, since the nav's scroll cap was computed once on page load instead of every time she spoke.</li>
+                    <li>Fixed two real layout bugs the previous entry's fixes didn't actually finish (both confirmed live in a browser this time, not just reasoned through): her fixed corner box was landing directly on top of the sitewide ad-leaderboard unit at full scroll (clearance was only measuring the ticker + footer, not the ad unit stacked above them), and her dialogue box (which grows and shrinks with every line she says) could grow tall enough to cover the nav's own text, since the nav's scroll cap was computed once on page load instead of every time she spoke.</li>
                     <li>Added <code>PIG_LATIN</code>, <code>NATO_PHONETIC</code> (both directions, digits included), <code>ANAGRAM_SOLVER</code> (exact anagrams plus sub-word matches, reusing the 52,000-word dictionary <code>LETTER_RACK_SOLVER</code> and <code>NUM_SPELL</code> already had loaded), and <code>WU_NAME</code> (deterministic first-letter name generator).</li>
                     <li><strong>Live at gamayun.site.</strong> Deployed via GitHub Pages, HTTPS enforced, custom domain pointed correctly at the root (not www).</li>
-                    <li>Added Google AdSense verification, <code>ads.txt</code>, and Google Analytics — all live sitewide.</li>
+                    <li>Added Google AdSense verification, <code>ads.txt</code>, and Google Analytics, all live sitewide.</li>
                     <li>Updated the privacy copy to match reality now that analytics/ads exist: dropped the "no tracking" claim that stopped being true, kept the one that's still true and matters more (your tool input never leaves your browser), and named Analytics/AdSense explicitly on the Legal &amp; Privacy page instead of staying quiet about it.</li>
-                    <li>Set the contact page's email — it had been sitting live with a literal "set a contact address before launch" placeholder.</li>
-                    <li>Desktop layout rework: the ticker, footer, nav, and side deck are now a fixed frame that doesn't move — only the actual tool content scrolls. Simplified GAMA<sup>+</sup>'s own positioning code in the process (she no longer needs to react to scroll position at all).</li>
+                    <li>Set the contact page's email. It had been sitting live with a literal "set a contact address before launch" placeholder.</li>
+                    <li>Desktop layout rework: the ticker, footer, nav, and side deck are now a fixed frame that doesn't move; only the actual tool content scrolls. Simplified GAMA<sup>+</sup>'s own positioning code in the process (she no longer needs to react to scroll position at all).</li>
                     <li><code>DATE_STAMP_RECON</code> now converts in reverse too (a bare number is read as a Unix epoch) and loads showing the current moment instead of an empty form.</li>
                     <li><code>COOL_TEXT</code>: added Strikethrough and Underline.</li>
                     <li>Rewrote the Origin Log in her own voice. If you're looking for the old explanation of where she came from, that's on purpose - it's not there anymore.</li>
@@ -154,7 +154,7 @@
 
                 <h2>2026-07-12</h2>
                 <ul>
-                    <li>Added <code>QR_GEN</code>: a real ISO 18004 QR encoder (GF(256) Reed-Solomon error correction, BCH format/version info, all 8 mask patterns scored to pick the best one) — versions 1 through 40, all four error-correction levels. Not a wrapper around somebody else's image API.</li>
+                    <li>Added <code>QR_GEN</code>: a real ISO 18004 QR encoder (GF(256) Reed-Solomon error correction, BCH format/version info, all 8 mask patterns scored to pick the best one), versions 1 through 40, all four error-correction levels. Not a wrapper around somebody else's image API.</li>
                     <li>Added <code>URL_CODEC</code> (percent-encode/decode) and <code>HTML_ENTITY_CODEC</code> (escape/unescape, decode via a detached DOMParser document so nothing in the input ever executes).</li>
                     <li>Added <code>PASSWORD_GEN</code>: rejection-sampled <code>crypto.getRandomValues</code> so character-set selection stays unbiased, plus a live entropy estimate.</li>
                     <li>Added <code>TEXT_DIFF</code>: line-by-line comparison via classic LCS.</li>
@@ -169,23 +169,23 @@
 
                 <h2>2026-07-11</h2>
                 <ul>
-                    <li>Added 3 new lookup tools: Symbol Index (rebuilt from the old Symbol Glossary — 349 symbols, searchable by name/glyph/codepoint), Emoji Index (816 emoji, searchable by name), Acronym Index (chat/dev jargon plus fact-checked fictional acronyms — yes, NERV really isn't a backronym).</li>
+                    <li>Added 3 new lookup tools: Symbol Index (rebuilt from the old Symbol Glossary, 349 symbols, searchable by name/glyph/codepoint), Emoji Index (816 emoji, searchable by name), Acronym Index (chat/dev jargon plus fact-checked fictional acronyms; yes, NERV really isn't a backronym).</li>
                     <li>Added Image Salvage, the site's first file-processing tool: reads EXIF metadata (camera make/model, GPS coordinates) out of a photo before stripping it, plus resize and format conversion. Everything via Canvas/File API, nothing leaves the browser.</li>
                     <li>Rebuilt ASCII_BANNER as a real FIGlet-style renderer (SmSlant font, proper glyph kerning) instead of canvas pixel-density sampling.</li>
                     <li>Nav and the homepage tool grid are now grouped into categories (RECON_OPS, TEXT_OPS, NUMBER_CRUNCH, LOOKUP_DECK, FILE_SALVAGE, DEV_VAULT, GAMES_&amp;_CURIOS, SHIP'S LOG) generated from one source of truth instead of a flat hand-maintained list. Every page now has a breadcrumb trail. <code>pages/sitemap.html</code> is auto-generated too now.</li>
                     <li>Reworked the hero banner (real wordmark logo art instead of a CSS text glitch effect), the raven-and-key seal (now a page watermark instead of a small nav icon), and GAMA<sup>+</sup>'s on-page presence (no border/box, sits bottom-left with her dialogue above her).</li>
-                    <li>Fixed body-text contrast — secondary/dim text was only hitting ~3:1 against the void background, under the 4.5:1 AA floor.</li>
+                    <li>Fixed body-text contrast: secondary/dim text was only hitting ~3:1 against the void background, under the 4.5:1 AA floor.</li>
                     <li>Branding: she's <code>GAMA⁺</code> / <code>GAMAYUN⁺</code> now, not <code>G.A.M.A.</code></li>
-                    <li>Added a real corner-idle mascot: floating animation, and a genuine impatience system — 25 seconds of no interaction and she shakes and switches to irritated dialogue.</li>
-                    <li>Added the glitch page-transition — internal links now trigger a brief filtered "signal interruption" overlay using AI-animated footage before landing on the next page (now gated to ~35% of navigations instead of every single one). Skips for external links and respects reduced-motion.</li>
+                    <li>Added a real corner-idle mascot: floating animation, and a genuine impatience system: 25 seconds of no interaction and she shakes and switches to irritated dialogue.</li>
+                    <li>Added the glitch page-transition: internal links now trigger a brief filtered "signal interruption" overlay using AI-animated footage before landing on the next page (now gated to ~35% of navigations instead of every single one). Skips for external links and respects reduced-motion.</li>
                     <li>Added this changelog.</li>
                 </ul>
 
                 <h2>2026-07-10</h2>
                 <ul>
                     <li>Added 10 tools: Letter Rack Solver, Case Converter, Letter/Word Counter, Cool Text Generator, 4 calculators (BMI/Percentage/Tip/Age), Base64 Codec, ASCII Banner Generator, Symbol Glossary.</li>
-                    <li>Added real <code>sitemap.xml</code> and <code>robots.txt</code> — auto-generated from the page list so they can't drift out of sync.</li>
-                    <li>Pulled the actual brand palette and fonts from the official brand kit (phosphor green, indigo, copper, wordmark-red accent, Eurostile/VT323) — replacing earlier improvised colors.</li>
+                    <li>Added real <code>sitemap.xml</code> and <code>robots.txt</code>, auto-generated from the page list so they can't drift out of sync.</li>
+                    <li>Pulled the actual brand palette and fonts from the official brand kit (phosphor green, indigo, copper, wordmark-red accent, Eurostile/VT323), replacing earlier improvised colors.</li>
                     <li>Added the real raven-and-key seal graphic, replacing the placeholder glyph.</li>
                     <li>Added <code>NUM_SPELL</code> (what does your number spell), checked against a 52,000-word dictionary.</li>
                     <li>Fixed body-copy readability (font size, line height, softened the scanline overlay).</li>
@@ -195,7 +195,7 @@
 
             </div>
             <div class="ad-leaderboard">
-                <div class="wireframe-header">&#9888; INTERCEPTED CORPORATE DEBRIS — WIDE-BAND TRANSMISSION</div>
+                <div class="wireframe-header">&#9888; INTERCEPTED CORPORATE DEBRIS // WIDE-BAND TRANSMISSION</div>
                 <div class="adsense-slot"><ins class="adsbygoogle"
                         style="display:block; width:100%"
                         data-ad-client="ca-pub-9022981185791469"
