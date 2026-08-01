@@ -493,6 +493,12 @@ const TOOL_LIST = [
     "url": "pages/anagram-solver.html"
   },
   {
+    "title": "Clue Solver",
+    "desc": "Real constraint-propagation deduction tracker for Clue/Cluedo - mark what you know, the solver proves the rest and flags contradictions. Independent tool, not affiliated with or endorsed by Hasbro.",
+    "code": "CLUE_SOLVER",
+    "url": "pages/clue-solver.html"
+  },
+  {
     "title": "Name Generator",
     "desc": "Classic first-letter-indexed name generator - deterministic, not random.",
     "code": "WU_NAME",

@@ -1609,3 +1609,60 @@ button:hover, .btn:hover {
   margin-bottom: 0.4rem;
 }
 .log-entry-text { margin: 0; line-height: 1.5; }
+
+/* CLUE_SOLVER — a static table grid (no per-keystroke reflow like Sudoku's
+   selection/notes-mode grid needs), so plain CSS classes are simpler here
+   than building it via createElement + inline .style assignments. */
+.clue-grid { border-collapse: collapse; font-size: 0.85rem; }
+.clue-grid th, .clue-grid td {
+  border: 1px solid var(--phosphor-dim);
+  padding: 0.3rem 0.5rem;
+  text-align: center;
+}
+.clue-grid thead th {
+  color: var(--phosphor);
+  white-space: nowrap;
+  font-weight: normal;
+}
+.clue-cat-row th {
+  background: var(--void-raised);
+  color: var(--phosphor-dim-text);
+  text-align: left;
+  letter-spacing: 0.1em;
+}
+.clue-card-name { text-align: left; white-space: nowrap; color: var(--phosphor); }
+.clue-cell { cursor: pointer; min-width: 2.2rem; user-select: none; }
+.clue-cell.clue-unknown { color: var(--phosphor-dim-text); }
+.clue-cell.clue-yes { background: var(--phosphor-faint); color: var(--phosphor); font-weight: bold; }
+.clue-cell.clue-no { color: var(--phosphor-dim-text); opacity: 0.5; }
+.clue-cell.clue-auto { border-style: dashed; cursor: not-allowed; }
+.clue-player-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  border: 1px solid var(--phosphor-dim);
+  padding: 0.2rem 0.5rem;
+  font-size: 0.85rem;
+}
+.clue-player-chip button {
+  background: none;
+  border: none;
+  color: var(--phosphor-dim-text);
+  cursor: pointer;
+  font-size: 1rem;
+  line-height: 1;
+  padding: 0;
+}
+.clue-player-chip button:hover { color: #ff4d4d; }
+.clue-disjunction-item {
+  font-size: 0.85rem;
+  padding: 0.3rem 0;
+  border-bottom: 1px solid var(--phosphor-faint);
+}
+.clue-disjunction-item button {
+  background: none;
+  border: none;
+  color: var(--phosphor-dim-text);
+  cursor: pointer;
+  margin-left: 0.4rem;
+}

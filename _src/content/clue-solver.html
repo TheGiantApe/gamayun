@@ -1,0 +1,57 @@
+            <section class="tool-card tool-card--wide">
+                <h2>&gt; CLUE SOLVER</h2>
+                <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">Real constraint propagation, not just a marked-up grid: mark a card YES or NO for any player or the Case File and the solver fills in everything it can prove from that - a card confirmed for one owner clears it everywhere else, a card cleared for every player locks it into the Case File, and a category down to one remaining candidate gets solved automatically. Auto-deduced cells are locked (dimmed border) so a stray click can't fight the logic - click a manual cell to cycle unknown &rarr; yes &rarr; no. Independent tool, not affiliated with or endorsed by Hasbro or the Clue/Cluedo board game.</p>
+
+                <div class="tool-workspace control-row" style="flex-wrap:wrap; gap:0.6rem;">
+                    <input type="text" id="clue-new-player-name" placeholder="add player name" style="width:12rem;" onkeydown="if(event.key==='Enter')clueAddPlayer()">
+                    <button onclick="clueAddPlayer()">&gt; ADD PLAYER</button>
+                    <button onclick="clueReset()">&gt; RESET BOARD</button>
+                </div>
+                <div id="clue-player-list" style="margin:0.6rem 0; display:flex; flex-wrap:wrap; gap:0.4rem;"></div>
+
+                <div id="clue-grid" style="margin-top:0.75rem; overflow-x:auto;"></div>
+                <div id="clue-status" style="margin-top:0.75rem; font-size:0.95rem;"></div>
+
+                <h2 style="margin-top:1.5rem;">&gt; SUGGESTION RESULTS</h2>
+                <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">When you make a suggestion and someone shows you a card without saying which one, record the three cards you named here - the solver resolves it automatically the moment only one of the three is still possible for that player.</p>
+                <div class="tool-workspace control-row" style="flex-wrap:wrap; gap:0.6rem;">
+                    <select id="clue-disjunction-player"></select>
+                </div>
+                <div class="tool-workspace" style="flex-wrap:wrap; gap:1.5rem; margin-top:0.6rem; font-size:0.85rem;">
+                    <div>
+                        <div style="color:var(--phosphor-dim-text); margin-bottom:0.3rem;">WHO</div>
+                        <label style="display:block;"><input type="checkbox" class="clue-disjunction-card" value="Green"> Green</label>
+                        <label style="display:block;"><input type="checkbox" class="clue-disjunction-card" value="Mustard"> Mustard</label>
+                        <label style="display:block;"><input type="checkbox" class="clue-disjunction-card" value="Orchid"> Orchid</label>
+                        <label style="display:block;"><input type="checkbox" class="clue-disjunction-card" value="Peacock"> Peacock</label>
+                        <label style="display:block;"><input type="checkbox" class="clue-disjunction-card" value="Plum"> Plum</label>
+                        <label style="display:block;"><input type="checkbox" class="clue-disjunction-card" value="Scarlet"> Scarlet</label>
+                    </div>
+                    <div>
+                        <div style="color:var(--phosphor-dim-text); margin-bottom:0.3rem;">WHAT</div>
+                        <label style="display:block;"><input type="checkbox" class="clue-disjunction-card" value="Candlestick"> Candlestick</label>
+                        <label style="display:block;"><input type="checkbox" class="clue-disjunction-card" value="Dagger"> Dagger</label>
+                        <label style="display:block;"><input type="checkbox" class="clue-disjunction-card" value="Lead Pipe"> Lead Pipe</label>
+                        <label style="display:block;"><input type="checkbox" class="clue-disjunction-card" value="Revolver"> Revolver</label>
+                        <label style="display:block;"><input type="checkbox" class="clue-disjunction-card" value="Rope"> Rope</label>
+                        <label style="display:block;"><input type="checkbox" class="clue-disjunction-card" value="Wrench"> Wrench</label>
+                    </div>
+                    <div>
+                        <div style="color:var(--phosphor-dim-text); margin-bottom:0.3rem;">WHERE</div>
+                        <label style="display:block;"><input type="checkbox" class="clue-disjunction-card" value="Ballroom"> Ballroom</label>
+                        <label style="display:block;"><input type="checkbox" class="clue-disjunction-card" value="Billiard Room"> Billiard Room</label>
+                        <label style="display:block;"><input type="checkbox" class="clue-disjunction-card" value="Conservatory"> Conservatory</label>
+                        <label style="display:block;"><input type="checkbox" class="clue-disjunction-card" value="Dining Room"> Dining Room</label>
+                        <label style="display:block;"><input type="checkbox" class="clue-disjunction-card" value="Hall"> Hall</label>
+                        <label style="display:block;"><input type="checkbox" class="clue-disjunction-card" value="Kitchen"> Kitchen</label>
+                        <label style="display:block;"><input type="checkbox" class="clue-disjunction-card" value="Library"> Library</label>
+                        <label style="display:block;"><input type="checkbox" class="clue-disjunction-card" value="Lounge"> Lounge</label>
+                        <label style="display:block;"><input type="checkbox" class="clue-disjunction-card" value="Study"> Study</label>
+                    </div>
+                </div>
+                <div class="tool-workspace control-row" style="margin-top:0.6rem;">
+                    <button onclick="clueAddDisjunction()">&gt; ADD (must check exactly 3)</button>
+                </div>
+                <div id="clue-disjunction-list" style="margin-top:0.6rem;"></div>
+            </section>
+            <p style="padding:0 1.5rem; font-size:0.85rem;"><span style="color: var(--phosphor-dim-text)">See also:</span> <a href="tic-tac-toe.html">Tic-Tac-Toe</a> &middot; <a href="crossword-helper.html">Crossword Clue Helper</a></p>
