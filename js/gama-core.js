@@ -364,11 +364,142 @@ const GAMA = (() => {
   // which measurement the negotiation used. Removed the negotiation
   // instead of refining it further.
 
+  // Random-tool keystone: on hover/focus, the static SVG die swaps for a
+  // cycling unicode die face (⚀-⚅) so the icon itself looks like it's
+  // rolling before you commit to the click - the button already promises
+  // "random," this just lets it perform that for a second first.
+  function initRandomToolKeystone() {
+    const btn = document.querySelector(".nav-alpha-keystone");
+    const svg = btn && btn.querySelector(".dice-icon");
+    if (!btn || !svg) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    const FACES = ["⚀", "⚁", "⚂", "⚃", "⚄", "⚅"];
+    let timer = null;
+    let rollFaceEl = null;
+
+    function startRoll() {
+      if (timer) return;
+      rollFaceEl = document.createElement("span");
+      rollFaceEl.className = "dice-roll-face";
+      rollFaceEl.setAttribute("aria-hidden", "true");
+      rollFaceEl.textContent = FACES[0];
+      svg.style.display = "none";
+      btn.insertBefore(rollFaceEl, svg);
+      let i = 1;
+      timer = setInterval(() => {
+        rollFaceEl.textContent = FACES[i % FACES.length];
+        i++;
+      }, 90);
+    }
+    function stopRoll() {
+      if (timer) { clearInterval(timer); timer = null; }
+      if (rollFaceEl) { rollFaceEl.remove(); rollFaceEl = null; }
+      svg.style.display = "";
+    }
+    btn.addEventListener("mouseenter", startRoll);
+    btn.addEventListener("mouseleave", stopRoll);
+    btn.addEventListener("focus", startRoll);
+    btn.addEventListener("blur", stopRoll);
+  }
+
+  // Curated tip/salvage-suggestion bank for the "> next" button in her
+  // speech bubble - separate from say()'s mood-driven lines above. One
+  // slot is always a real tool pulled from TOOL_LIST (data-tool-list.js,
+  // built from PAGES), not a hand-picked favorite, so it can't go stale
+  // as the catalog grows and actually samples the whole site.
+  function buildTransmissionLines() {
+    const lines = [
+      "nothing typed into any tool here leaves your browser. there's no server on the other end to send it to.",
+      "the wiki's filed under WIKI, not TOOLS. short entries. i wrote them, so blame me for the tone.",
+      "type into the search slot up top. i index everything by name and by what it actually does.",
+      "sift what feels random for long enough and it starts looking like a signal. that's the theory, anyway.",
+    ];
+    if (typeof TOOL_LIST !== "undefined" && TOOL_LIST.length && typeof resolveToolUrl === "function") {
+      const tool = TOOL_LIST[Math.floor(Math.random() * TOOL_LIST.length)];
+      lines.push(
+        `salvage suggestion: <a href="${resolveToolUrl(tool.url)}">${tool.code}</a>. ${tool.desc}`
+      );
+    }
+    return lines;
+  }
+
+  function initTransmissionCycle() {
+    const nextBtn = document.getElementById("gama-next-tip");
+    if (!nextBtn) return;
+    let lines = null;
+    let idx = -1;
+    nextBtn.addEventListener("click", () => {
+      if (!lines) lines = buildTransmissionLines();
+      idx = (idx + 1) % lines.length;
+      if (speechEl) speechEl.innerHTML = "&gt; " + lines[idx];
+    });
+  }
+
+  // Bumper-bar mode (see the max-width:480px block in gama.css) makes the
+  // whole box a tap target instead of a floating corner box. Guarded so a
+  // tap inside the open dialogue (the next-tip button, a suggested-tool
+  // link) doesn't also close the panel it just came from.
+  function initMascotBarToggle() {
+    const box = document.querySelector(".gama-mascot-box");
+    if (!box) return;
+    box.addEventListener("click", (e) => {
+      if (e.target.closest(".gama-dialogue")) return;
+      box.classList.toggle("gama-open");
+    });
+  }
+
+  // Mobile-only, once-per-session greeting: front and centre for a beat,
+  // then dismisses into the bumper bar. Built and mounted here rather
+  // than living as static (usually-hidden) markup in base.html, since
+  // it's a temporary takeover, not part of normal page chrome. Checked
+  // once at load, not a live matchMedia listener - consistent with how
+  // the rest of this file treats viewport checks (see the reduced-motion
+  // check on the hero glitch below).
+  function initMobileMascotIntro() {
+    if (!window.matchMedia("(max-width: 480px)").matches) return;
+    const INTRO_KEY = "gama_mobile_intro_shown";
+    try {
+      if (sessionStorage.getItem(INTRO_KEY)) return;
+    } catch (e) {
+      return; // can't track "once per session" without it - skip rather than nag every load
+    }
+    const portrait = document.getElementById("gama-portrait");
+    if (!portrait) return;
+
+    const overlay = document.createElement("div");
+    overlay.className = "gama-mobile-intro";
+    const dismissBtn = document.createElement("button");
+    dismissBtn.type = "button";
+    dismissBtn.className = "gama-mobile-intro-dismiss";
+    dismissBtn.setAttribute("aria-label", "Dismiss GAMA+ greeting");
+    dismissBtn.innerHTML =
+      `<img class="gama-mobile-intro-portrait" src="${portrait.src}" alt="">` +
+      `<p>&gt; GAMA<sup>+</sup> awake. need something salvaged?</p>` +
+      `<span class="gama-mobile-intro-tap">TAP TO CONTINUE</span>`;
+    overlay.appendChild(dismissBtn);
+    document.body.appendChild(overlay);
+
+    let dismissed = false;
+    function dismiss() {
+      if (dismissed) return;
+      dismissed = true;
+      overlay.remove();
+      try { sessionStorage.setItem(INTRO_KEY, "1"); } catch (e) { /* ignore */ }
+    }
+    dismissBtn.addEventListener("click", dismiss);
+    setTimeout(dismiss, 4200);
+  }
+
   function init() {
     logEl = document.getElementById("log-stream-feed");
     faceEl = document.querySelector(".aperture-eye");
     speechEl = document.getElementById("gama-speech");
     say("idle");
+    initRandomToolKeystone();
+    initTransmissionCycle();
+    initMascotBarToggle();
+    initMobileMascotIntro();
     const visits = bumpReturnVisits();
     if (visits > 1 && speechEl) {
       speechEl.textContent = `> welcome back. this is visit number ${visits}, not that i'm counting. (i'm counting.)`;

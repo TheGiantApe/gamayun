@@ -273,6 +273,17 @@ a:hover, a:focus {
 }
 .nav-alpha-keystone:hover { color: var(--phosphor); background: var(--phosphor-faint); }
 .nav-alpha-keystone .dice-icon { width: 1.2rem; height: 1.2rem; margin: 0; }
+/* Swapped in over the SVG on hover/focus by initRandomToolKeystone() in
+   gama-core.js - cycles ⚀-⚅ so the icon reads as rolling. */
+.dice-roll-face { font-size: 1.2rem; line-height: 1; }
+/* ASCII fallback label, icon-only below 901px (matches the
+   command-bridge-grid breakpoint) same as every other tab in the bar -
+   width:auto only kicks in once there's a label to make room for. */
+.dice-roll-label { display: none; font-size: 0.7rem; letter-spacing: 0.15em; margin-left: 0.4rem; }
+@media (min-width: 901px) {
+  .nav-alpha-keystone { width: auto; padding: 0 0.9rem; }
+  .dice-roll-label { display: inline; }
+}
 
 /* ---- Command bridge grid: 3-column desktop deck ---- */
 .command-bridge-grid {
@@ -420,6 +431,7 @@ a:hover, a:focus {
   border: 1px solid var(--phosphor-faint);
   background: var(--void-raised);
   padding: 0.75rem;
+  box-shadow: 0 0 12px rgba(0, 255, 102, 0.1);
 }
 /* Desktop: the nav can list every tool grouped by category, which can run
    long. Give it its own internal scroll region so a long list never
@@ -600,6 +612,12 @@ a:hover, a:focus {
   margin-bottom: var(--space-4);
   background: var(--void-raised);
   max-width: 640px;
+  /* Same soft phosphor glow as .mission-tablet's solid-border panels -
+     sitewide pass to close a real gap against Lovable's own design
+     system, where every solid-bordered panel carries this glow. Dashed
+     "placeholder"/"future slot" boxes stay glow-free on purpose so a
+     real panel still reads as more present than a dashed one. */
+  box-shadow: 0 0 12px rgba(0, 255, 102, 0.1);
 }
 .tool-card--wide { max-width: none; }
 
@@ -830,7 +848,41 @@ button:hover, .btn:hover {
   pointer-events: none;
 }
 @media (max-width: 480px) {
-  .gama-mascot-box { width: 140px; left: 0.75rem; padding: 0.5rem; }
+  /* Bumper-bar mode: a small floating corner box is easy to miss or to
+     mistake for decoration on a phone screen; a full-width strip pinned
+     above the ticker reads as a real, tappable piece of chrome instead.
+     Still a true fixed overlay per the reasoning above .gama-mascot-box
+     - full-width/bottom:0-anchored needs no measurement against nav or
+     the footer, so this doesn't reopen that already-closed problem, it
+     just swaps which flavor of "fixed, uncoordinated" she uses. Opened/
+     closed via .gama-open, toggled by initMascotBarToggle() in
+     gama-core.js. */
+  .gama-mascot-box {
+    left: 0;
+    right: 0;
+    bottom: var(--ticker-height, 2rem);
+    width: auto;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.4rem 0.75rem;
+    text-align: left;
+    background: var(--void);
+    border-top: 1px solid var(--phosphor-dim);
+    pointer-events: auto;
+    cursor: pointer;
+  }
+  .gama-portrait { width: 40px; max-width: 40px; margin: 0; flex-shrink: 0; }
+  .gama-mascot-box .aperture-eye { display: none; }
+  .gama-dialogue {
+    display: none;
+    position: fixed;
+    left: 0.5rem;
+    right: 0.5rem;
+    bottom: calc(var(--ticker-height, 2rem) + 3.1rem);
+  }
+  .gama-mascot-box.gama-open .gama-dialogue { display: flex; }
+  .gama-dialogue::after, .gama-dialogue::before { display: none; }
 }
 .gama-portrait {
   width: 100%;
@@ -904,13 +956,34 @@ button:hover, .btn:hover {
      none, doesn't affect nav or anything else on the page - see
      .gama-mascot-box) so there's nothing wrong with letting the bubble be
      exactly as tall as its message, however long that turns out to be.
-     Flex + center keeps short messages looking centered instead of
-     glued to one edge. */
+     Column flex (was row) now that there are two children (message +
+     the next-transmission button below it) - still sizes purely to
+     content, same reasoning as above, just stacked instead of centered
+     side by side. */
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 0.35rem;
   box-shadow: 0 0 10px rgba(0, 255, 102, 0.15);
 }
+.gama-dialogue #gama-speech { margin: 0; }
+/* Cycles through GAMA_TRANSMISSION_LINES in gama-core.js - a curated tip/
+   salvage-suggestion bank, separate from the mood-driven speech that
+   say() sets. Small and secondary on purpose: the bubble's real job is
+   still reacting to what you're doing, this is just an opt-in extra. */
+.gama-next-tip {
+  align-self: flex-end;
+  background: transparent;
+  border: none;
+  color: var(--phosphor-dim-text);
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  padding: 0;
+  pointer-events: auto;
+}
+.gama-next-tip:hover { color: var(--phosphor); }
 .gama-dialogue::after,
 .gama-dialogue::before {
   content: "";
@@ -923,10 +996,63 @@ button:hover, .btn:hover {
 .gama-dialogue::after { bottom: -11px; border-top: 11px solid var(--phosphor); }
 .gama-dialogue::before { bottom: -8px; border-top: 9px solid var(--void-raised); z-index: 1; }
 
+/* Mobile-only, once-per-session greeting - built and mounted entirely by
+   initMobileMascotIntro() in gama-core.js (not static markup here) since
+   it's a temporary full-screen takeover, not part of the normal page
+   chrome. Front-and-centre for a beat, then dismisses into the bumper
+   bar above (see the max-width:480px .gama-mascot-box block). */
+.gama-mobile-intro {
+  position: fixed;
+  inset: 0;
+  z-index: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(10, 10, 10, 0.9);
+}
+.gama-mobile-intro-dismiss {
+  background: transparent;
+  border: none;
+  color: var(--phosphor);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1.5rem;
+  cursor: pointer;
+}
+.gama-mobile-intro-portrait {
+  width: 40vw;
+  max-width: 180px;
+  filter: drop-shadow(0 0 12px rgba(0,255,102,0.4));
+  animation: gama-idle-float 4s ease-in-out infinite;
+}
+.gama-mobile-intro-dismiss p {
+  border: 2px solid var(--phosphor);
+  background: var(--void-raised);
+  padding: 0.6rem 0.9rem;
+  font-size: 0.85rem;
+  max-width: 26rem;
+  text-align: center;
+}
+.gama-mobile-intro-tap {
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+  color: var(--phosphor-dim-text);
+}
+@media (prefers-reduced-motion: reduce) {
+  .gama-mobile-intro-portrait { animation: none; }
+}
+
 .corporate-debris-billboard {
   border: 1px dashed var(--amber);
   padding: 0.5rem;
 }
+/* Homepage in-grid variant, built by build_tool_grid_html() - a marked
+   future slot, not a live ad (no adsbygoogle script here), so it just
+   needs a real footprint instead of collapsing to the header's height
+   alone. */
+.ad-inline-placeholder { margin: 1.5rem 0; min-height: 4rem; display: flex; flex-direction: column; align-items: center; justify-content: center; }
 .wireframe-header {
   font-size: 0.7rem;
   color: var(--amber);
@@ -941,6 +1067,7 @@ button:hover, .btn:hover {
   padding: 0.75rem;
   margin-bottom: 1rem;
   font-size: 0.85rem;
+  box-shadow: 0 0 12px rgba(0, 255, 102, 0.1);
 }
 .site-updates-box .wireframe-header {
   color: var(--phosphor);
@@ -956,6 +1083,18 @@ button:hover, .btn:hover {
 }
 .update-entry p { margin: 0; line-height: 1.4; color: var(--phosphor-dim-text); }
 .updates-link { font-size: 0.8rem; display: inline-block; }
+/* Right-deck "SECTIONS" (wiki index) / "ON THIS PAGE" (wiki entries) jump
+   nav - build_wiki_sections_nav_html() / build_on_this_page_nav_html()
+   in build.py. Plain stacked links, same size/color family as
+   .updates-link, prefixed the same "&gt;" way every other nav list on
+   the site already uses instead of introducing a new marker style. */
+.on-page-nav { display: flex; flex-direction: column; gap: 0.35rem; }
+.on-page-nav a {
+  font-size: 0.8rem;
+  color: var(--phosphor-dim-text);
+}
+.on-page-nav a:hover { color: var(--phosphor); }
+.on-page-nav a::before { content: "\3e\a0"; color: var(--phosphor-dim); }
 /* Was Ko-fi's own embedded widget (storage.ko-fi.com/cdn/widget/Widget_2.js)
    - a live third-party script that draws its own button in Ko-fi's default
    blue with an animated red heart, neither of which is themeable from here
@@ -1305,6 +1444,7 @@ button:hover, .btn:hover {
   display: block;
   overflow-wrap: break-word;
   min-width: 0;
+  box-shadow: 0 0 12px rgba(0, 255, 102, 0.1);
 }
 .tool-grid-item:hover { background: var(--phosphor-faint); color: var(--phosphor); border-bottom: 1px solid var(--phosphor-dim); }
 .tool-grid-item .tool-name { font-family: var(--font-mono); font-size: 1.1rem; }

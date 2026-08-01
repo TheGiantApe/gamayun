@@ -798,9 +798,15 @@ def build_breadcrumb_html(page, root):
 
 
 def build_tool_grid_html():
-    """Homepage tool grid, grouped into the same categories as the nav."""
+    """Homepage tool grid, grouped into the same categories as the nav.
+    A single dashed placeholder slot (not a live AdSense unit - no
+    adsbygoogle script, no ad request) is dropped in after the 2nd
+    category, marking a future in-grid ad spot without touching the
+    standing AdSense re-approval freeze. Reuses the existing corporate-
+    debris-billboard/wireframe-header look rather than inventing new
+    CSS vocabulary for it."""
     sections = []
-    for cat_key, cat_label in CATEGORIES:
+    for i, (cat_key, cat_label) in enumerate(CATEGORIES):
         pages_in_cat = [p for p in PAGES if p.get("category") == cat_key]
         if not pages_in_cat:
             continue
@@ -816,7 +822,17 @@ def build_tool_grid_html():
             f'                <div class="grid-section-label">{cat_label}</div>\n'
             f'                <div class="tool-grid-row">\n' + "\n".join(items) + "\n                </div>"
         )
+        if i == 1:
+            sections.append(
+                '                <div class="corporate-debris-billboard ad-inline-placeholder">\n'
+                '                    <div class="wireframe-header">&#9888; INTERCEPTED CORPORATE DEBRIS // FUTURE SLOT</div>\n'
+                '                </div>'
+            )
     return "\n".join(sections)
+
+
+def wiki_topic_anchor(key):
+    return f"wiki-topic-{key.lower().replace('_', '-')}"
 
 
 def build_wiki_index_html():
@@ -824,9 +840,13 @@ def build_wiki_index_html():
     .grid-section-label per WIKI_TOPICS - same visual pattern as
     build_tool_grid_html() so it doesn't need new CSS vocabulary. This
     replaced an old design where every entry was just another <h2> on one
-    ever-growing page - each entry is a real page now (see wiki_entries())."""
+    ever-growing page - each entry is a real page now (see wiki_entries()).
+    Each section label carries a real id now (wiki_topic_anchor()) so
+    build_wiki_sections_nav_html() can jump straight to it - the right-
+    deck "SECTIONS" rail this session's Lovable-prototype dig-in flagged
+    as genuinely missing for a hub page long enough to need one."""
     sections = []
-    for _key, label, entries in wiki_entries_by_topic():
+    for key, label, entries in wiki_entries_by_topic():
         items = []
         for p in entries:
             items.append(
@@ -836,10 +856,45 @@ def build_wiki_index_html():
                 f'                </a>'
             )
         sections.append(
-            f'                <div class="grid-section-label">{label}</div>\n'
+            f'                <div class="grid-section-label" id="{wiki_topic_anchor(key)}">{label}</div>\n'
             f'                <div class="tool-grid-row">\n' + "\n".join(items) + "\n                </div>"
         )
     return "\n".join(sections)
+
+
+def build_wiki_sections_nav_html():
+    """Right-deck 'SECTIONS' jump-nav, wiki index page only - one link per
+    WIKI_TOPICS group actually in use, anchored to build_wiki_index_html()'s
+    own section ids so the two can't drift apart."""
+    links = "\n".join(
+        f'                    <a href="#{wiki_topic_anchor(key)}">{label}</a>'
+        for key, label, _entries in wiki_entries_by_topic()
+    )
+    return (
+        '            <div class="site-updates-box">\n'
+        '                <div class="wireframe-header">// SECTIONS</div>\n'
+        '                <nav class="on-page-nav">\n' + links + "\n                </nav>\n"
+        '            </div>'
+    )
+
+
+def build_on_this_page_nav_html(has_see_also):
+    """Right-deck 'ON THIS PAGE' jump-nav, individual wiki entries only.
+    Our wiki entries ship full prose (not Lovable's stub-plus-source-link
+    shape), so an 'ENTRY BODY' link would just point at the top of a page
+    you're already on - skipped as dead weight rather than padded in to
+    match the original 1:1. SEE ALSO is the one real jump target when a
+    page has related links; entries with none get no panel at all."""
+    if not has_see_also:
+        return ""
+    return (
+        '            <div class="site-updates-box">\n'
+        '                <div class="wireframe-header">// ON THIS PAGE</div>\n'
+        '                <nav class="on-page-nav">\n'
+        '                    <a href="#see-also">See Also</a>\n'
+        "                </nav>\n"
+        "            </div>"
+    )
 
 
 # ---- Field Manuals (instructables): GAMA-voice step-by-step guides ----
@@ -1124,6 +1179,39 @@ def build_human_sitemap_html():
     return "\n".join(sections)
 
 
+def upgrade_related_block_to_cards(content, pages_by_basename):
+    """Turns a fragment's hand-authored one-line "RELATED: <a>...</a>
+    &middot; <a>...</a>" paragraph (used across wiki entries and
+    instructables) into a real SEE_ALSO card grid - same .tool-grid-item
+    look the homepage and wiki index already use. Title/desc are pulled
+    live from PAGES rather than duplicated as new copy in each of the
+    ~20 fragments that carry a related-block, so a card's text can't
+    drift out of sync with the page it links to. Falls back to the
+    anchor's own link text (no description line) if an href doesn't
+    resolve against PAGES."""
+    match = re.search(r'<p class="related-block">.*?</p>', content, flags=re.DOTALL)
+    if not match:
+        return content
+    links = re.findall(r'<a href="([^"]+)">([^<]*)</a>', match.group(0))
+    if not links:
+        return content
+    cards = []
+    for href, label in links:
+        page = pages_by_basename.get(href)
+        title = page["title"] if page else label
+        desc_line = f'\n                    <div class="tool-desc">{page["desc"]}</div>' if page else ""
+        cards.append(
+            f'                <a class="tool-grid-item" href="{href}">\n'
+            f'                    <div class="tool-name">&gt; {title}</div>{desc_line}\n'
+            f'                </a>'
+        )
+    replacement = (
+        '                <div class="grid-section-label" id="see-also">SEE_ALSO</div>\n'
+        '                <div class="tool-grid-row">\n' + "\n".join(cards) + "\n                </div>"
+    )
+    return content[:match.start()] + replacement + content[match.end():]
+
+
 def promote_page_title_heading(content):
     """Every page needs exactly one <h1> for real SEO/accessibility, but
     ~110 tool-page content fragments open with <h2> as their only heading
@@ -1164,6 +1252,7 @@ def build():
     tool_grid_html = build_tool_grid_html()
     human_sitemap_html = build_human_sitemap_html()
     wiki_index_html = build_wiki_index_html()
+    wiki_sections_nav_html = build_wiki_sections_nav_html()
     osint_directory_html = build_osint_directory_html()
     free_courses_html = build_free_courses_html()
     instructable_html_by_out = {
@@ -1172,6 +1261,7 @@ def build():
     link_page_html_by_out = {
         f"pages/links-{t['topic']}.html": build_link_page_html(t) for t in EXTERNAL_LINKS
     }
+    pages_by_basename = {os.path.basename(p["out"]): p for p in PAGES}
     for page in PAGES:
         with open(os.path.join(SRC, "content", page["fragment"]), encoding="utf-8") as f:
             content = f.read()
@@ -1184,9 +1274,18 @@ def build():
         content = content.replace("{{COURSES_CONTENT}}", free_courses_html)
         content = content.replace("{{HOWTO_CONTENT}}", instructable_html_by_out.get(page["out"], ""))
         content = content.replace("{{LINKS_CONTENT}}", link_page_html_by_out.get(page["out"], ""))
+        content = upgrade_related_block_to_cards(content, pages_by_basename)
+
+        if page["out"] == "pages/wiki-index.html":
+            right_deck_extra = wiki_sections_nav_html
+        elif page.get("wiki_entry"):
+            right_deck_extra = build_on_this_page_nav_html('id="see-also"' in content)
+        else:
+            right_deck_extra = ""
 
         section = page_section(page)
         out = BASE
+        out = out.replace("{{RIGHT_DECK_EXTRA}}", right_deck_extra)
         out = out.replace("{{TITLE}}", page["title"])
         out = out.replace("{{DESCRIPTION}}", page["desc"])
         out = out.replace("{{JSONLD}}", build_jsonld_html(page))

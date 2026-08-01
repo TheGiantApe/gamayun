@@ -101,7 +101,7 @@
          - the keystone and search stay put rather than potentially
          scrolling out of reach. -->
     <nav class="terminal-tabs">
-        <button class="nav-alpha-keystone" onclick="goToRandomTool()" title="Jump to a random tool"><svg class="dice-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="8" cy="8" r="1.3" fill="currentColor" stroke="none"/><circle cx="16" cy="8" r="1.3" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.3" fill="currentColor" stroke="none"/><circle cx="8" cy="16" r="1.3" fill="currentColor" stroke="none"/><circle cx="16" cy="16" r="1.3" fill="currentColor" stroke="none"/></svg></button>
+        <button class="nav-alpha-keystone" onclick="goToRandomTool()" title="Jump to a random tool"><svg class="dice-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="8" cy="8" r="1.3" fill="currentColor" stroke="none"/><circle cx="16" cy="8" r="1.3" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.3" fill="currentColor" stroke="none"/><circle cx="8" cy="16" r="1.3" fill="currentColor" stroke="none"/><circle cx="16" cy="16" r="1.3" fill="currentColor" stroke="none"/></svg><span class="dice-roll-label">ROLL</span></button>
         <div class="tab-scroll-row">
                     <a href="../index.html" class="tab-btn" data-tab="tools">TOOLS</a>
                     <a href="../pages/wiki-index.html" class="tab-btn active" data-tab="wiki">WIKI</a>
@@ -191,7 +191,17 @@
 
                 <h2>Why this matters more than it used to</h2>
                 <p>"Just don't sign up" used to be real advice. It's a lot less practical when the alternative to a service's terms is often no functional equivalent at all - a bank, an employer's required software, a landlord's payment portal. Knowing what you're actually agreeing to doesn't always come with a real choice to walk away, but it does mean you're not finding out the hard way, and it's the entire reason a plain-language second opinion on the document is worth having before you click "I agree," not after.</p>
-                <p class="related-block">RELATED: <a href="tos-scan.html">ToS Red-Flag Scanner</a> &middot; <a href="wiki-paywall.html">Why There's No Paywall-Bypass Tool Here</a></p>
+                                <div class="grid-section-label" id="see-also">SEE_ALSO</div>
+                <div class="tool-grid-row">
+                <a class="tool-grid-item" href="tos-scan.html">
+                    <div class="tool-name">&gt; ToS Red-Flag Scanner</div>
+                    <div class="tool-desc">Paste any Terms of Service or contract text, flag common problematic clause patterns with plain-English explanations.</div>
+                </a>
+                <a class="tool-grid-item" href="wiki-paywall.html">
+                    <div class="tool-name">&gt; Why There's No Paywall-Bypass Tool Here</div>
+                    <div class="tool-desc">A deliberate line, not an oversight.</div>
+                </a>
+                </div>
             </article>
 
             </div>
@@ -275,6 +285,8 @@
                     <div class="trust-block">
                         <span title="Runs in your browser. No accounts. No telemetry.">100% client-side</span>
                         <span>no accounts, ever</span>
+                        <span title="Nothing you paste or upload here is sent anywhere.">no uploads leave your browser</span>
+                        <span>free forever</span>
                     </div>
                     <div class="footer-copyright">&copy; 2026 GAMAYUN.SITE</div>
                 </div>
@@ -282,6 +294,12 @@
         </main>
 
         <aside class="right-deck">
+            <div class="site-updates-box">
+                <div class="wireframe-header">// ON THIS PAGE</div>
+                <nav class="on-page-nav">
+                    <a href="#see-also">See Also</a>
+                </nav>
+            </div>
             <div class="site-updates-box">
                 <div class="wireframe-header">// QUICK ACCESS</div>
                 <p style="margin:0 0 0.6rem; color:var(--phosphor-dim-text); font-size:0.85rem;">Skip the tab bar next time:</p>
@@ -345,6 +363,7 @@
     <div class="gama-mascot-box">
         <div class="gama-dialogue">
             <p id="gama-speech">&gt; awaiting input...</p>
+            <button type="button" id="gama-next-tip" class="gama-next-tip" aria-label="Next transmission">&gt; next &rsaquo;</button>
         </div>
         <picture>
             <source srcset="../assets/gama-corner-mascot.webp" type="image/webp">

@@ -101,7 +101,7 @@
          - the keystone and search stay put rather than potentially
          scrolling out of reach. -->
     <nav class="terminal-tabs">
-        <button class="nav-alpha-keystone" onclick="goToRandomTool()" title="Jump to a random tool"><svg class="dice-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="8" cy="8" r="1.3" fill="currentColor" stroke="none"/><circle cx="16" cy="8" r="1.3" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.3" fill="currentColor" stroke="none"/><circle cx="8" cy="16" r="1.3" fill="currentColor" stroke="none"/><circle cx="16" cy="16" r="1.3" fill="currentColor" stroke="none"/></svg></button>
+        <button class="nav-alpha-keystone" onclick="goToRandomTool()" title="Jump to a random tool"><svg class="dice-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="8" cy="8" r="1.3" fill="currentColor" stroke="none"/><circle cx="16" cy="8" r="1.3" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.3" fill="currentColor" stroke="none"/><circle cx="8" cy="16" r="1.3" fill="currentColor" stroke="none"/><circle cx="16" cy="16" r="1.3" fill="currentColor" stroke="none"/></svg><span class="dice-roll-label">ROLL</span></button>
         <div class="tab-scroll-row">
                     <a href="../index.html" class="tab-btn" data-tab="tools">TOOLS</a>
                     <a href="../pages/wiki-index.html" class="tab-btn active" data-tab="wiki">WIKI</a>
@@ -180,7 +180,21 @@
                 <p><strong>The calendar Kodak actually ran on.</strong> The International Fixed Calendar - 13 months of exactly 28 days (four even weeks each), plus one or two days a year that belong to no month or week at all - was pitched across the late 1800s and early 1900s as a genuinely better structure: every date lands on the same weekday every year, forever, no more "what day of the week is the 15th" lookup. It never got adopted nationally anywhere. Kodak's George Eastman liked it enough to run the company's entire internal payroll and production calendar on it from 1928 to 1989, one of the only large-scale real-world trials the design ever got. It died with a business decision, not a technical flaw - shipping software and international customers were increasingly unwilling to talk to a company running a private 13-month year.</p>
                 <p><strong>The ten-hour day.</strong> Revolutionary France didn't stop at replacing the monarchy. The French Republican Calendar (1793-1805) rebuilt the year into twelve 30-day months with poetic, season-based names (Thermidor, "heat," Brumaire, "fog") plus 5-6 leftover days, and briefly mandated decimal time alongside it: 10 hours a day, 100 minutes an hour, 100 seconds a minute, so midnight was 0 and noon was exactly 5. It required manufacturing new clock faces and lasted about two years in practice before quietly getting dropped - the metric system's meter and kilogram survived the Revolution; the ten-hour day didn't, because nobody was going to re-machine every clock in the country to accommodate an act of ideology. Switzerland's Swatch tried a much smaller version of the same idea in 1998: <strong>Internet Time</strong>, dividing the day into 1,000 ".beats" with no timezones at all, beat 0 fixed to midnight in Biel, Switzerland, home of Swatch's headquarters. It got real dot-com-era press coverage and a handful of websites that displayed the current .beat as a novelty. It solved a coordination problem nobody actually had (global chat and gaming already just used UTC) and quietly disappeared once the hype cycle that birthed it did too.</p>
                 <p><strong>The throughline.</strong> A pope fixing Easter math, a monarchy erasing itself down to the clock face, a film-processing company running its factories on a calendar built for evenly-spaced paydays, a watch brand trying to make Swiss time the world's time - none of these were really about time. They were about who gets to decide what time it is for everyone else. The Gregorian calendar won not because it was more correct than the alternatives on offer (the International Fixed Calendar arguably solves more real annoyances) but because it had a 350-year head start and an empire's worth of trade routes behind it.</p>
-                <p class="related-block">RELATED: <a href="wiki-time.html">On Time, and Why It's Hard</a> &middot; <a href="calc-age.html">Age Calculator</a> &middot; <a href="time-logic.html">Date Stamp Recon</a></p>
+                                <div class="grid-section-label" id="see-also">SEE_ALSO</div>
+                <div class="tool-grid-row">
+                <a class="tool-grid-item" href="wiki-time.html">
+                    <div class="tool-name">&gt; On Time, and Why It's Hard</div>
+                    <div class="tool-desc">The Unix epoch, the Year 2038 problem, timezones, leap seconds, and why cron starts the week on Sunday.</div>
+                </a>
+                <a class="tool-grid-item" href="calc-age.html">
+                    <div class="tool-name">&gt; Age Calculator</div>
+                    <div class="tool-desc">Exact age in years, months, and days from a birthdate.</div>
+                </a>
+                <a class="tool-grid-item" href="time-logic.html">
+                    <div class="tool-name">&gt; Date Stamp Recon</div>
+                    <div class="tool-desc">Convert human timestamps to ISO 8601, Unix epoch, filename-safe stamps.</div>
+                </a>
+                </div>
             </article>
 
             </div>
@@ -264,6 +278,8 @@
                     <div class="trust-block">
                         <span title="Runs in your browser. No accounts. No telemetry.">100% client-side</span>
                         <span>no accounts, ever</span>
+                        <span title="Nothing you paste or upload here is sent anywhere.">no uploads leave your browser</span>
+                        <span>free forever</span>
                     </div>
                     <div class="footer-copyright">&copy; 2026 GAMAYUN.SITE</div>
                 </div>
@@ -271,6 +287,12 @@
         </main>
 
         <aside class="right-deck">
+            <div class="site-updates-box">
+                <div class="wireframe-header">// ON THIS PAGE</div>
+                <nav class="on-page-nav">
+                    <a href="#see-also">See Also</a>
+                </nav>
+            </div>
             <div class="site-updates-box">
                 <div class="wireframe-header">// QUICK ACCESS</div>
                 <p style="margin:0 0 0.6rem; color:var(--phosphor-dim-text); font-size:0.85rem;">Skip the tab bar next time:</p>
@@ -334,6 +356,7 @@
     <div class="gama-mascot-box">
         <div class="gama-dialogue">
             <p id="gama-speech">&gt; awaiting input...</p>
+            <button type="button" id="gama-next-tip" class="gama-next-tip" aria-label="Next transmission">&gt; next &rsaquo;</button>
         </div>
         <picture>
             <source srcset="../assets/gama-corner-mascot.webp" type="image/webp">

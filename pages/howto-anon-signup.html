@@ -101,7 +101,7 @@
          - the keystone and search stay put rather than potentially
          scrolling out of reach. -->
     <nav class="terminal-tabs">
-        <button class="nav-alpha-keystone" onclick="goToRandomTool()" title="Jump to a random tool"><svg class="dice-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="8" cy="8" r="1.3" fill="currentColor" stroke="none"/><circle cx="16" cy="8" r="1.3" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.3" fill="currentColor" stroke="none"/><circle cx="8" cy="16" r="1.3" fill="currentColor" stroke="none"/><circle cx="16" cy="16" r="1.3" fill="currentColor" stroke="none"/></svg></button>
+        <button class="nav-alpha-keystone" onclick="goToRandomTool()" title="Jump to a random tool"><svg class="dice-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="8" cy="8" r="1.3" fill="currentColor" stroke="none"/><circle cx="16" cy="8" r="1.3" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.3" fill="currentColor" stroke="none"/><circle cx="8" cy="16" r="1.3" fill="currentColor" stroke="none"/><circle cx="16" cy="16" r="1.3" fill="currentColor" stroke="none"/></svg><span class="dice-roll-label">ROLL</span></button>
         <div class="tab-scroll-row">
                     <a href="../index.html" class="tab-btn active" data-tab="tools">TOOLS</a>
                     <a href="../pages/wiki-index.html" class="tab-btn" data-tab="wiki">WIKI</a>
@@ -301,7 +301,17 @@
                     <li>If a form demands a name/address for something genuinely low-stakes (testing a checkout flow, filling a form that doesn't need to be real), a fake-identity generator exists for exactly that - not for anything that involves an actual transaction or contract.</li>
                     <li>None of this applies to anything with real legal or financial weight - this is for throwaway signups, not for lying on anything that matters.<div class="field-note">Worth being explicit about the line here, since the underlying tools could be misused past that point.</div></li>
                 </ol>
-                <p class="related-block">RELATED: <a href="password-gen.html">Password Generator</a> &middot; <a href="wiki-fingerprinting.html">Browser Fingerprinting</a></p>
+                                <div class="grid-section-label" id="see-also">SEE_ALSO</div>
+                <div class="tool-grid-row">
+                <a class="tool-grid-item" href="password-gen.html">
+                    <div class="tool-name">&gt; Password Generator</div>
+                    <div class="tool-desc">Cryptographically random passwords with configurable length and character sets.</div>
+                </a>
+                <a class="tool-grid-item" href="wiki-fingerprinting.html">
+                    <div class="tool-name">&gt; Browser Fingerprinting</div>
+                    <div class="tool-desc">How sites track you with zero cookies, and why clearing cookies doesn't touch it.</div>
+                </a>
+                </div>
             </article>
 
 
@@ -386,6 +396,8 @@
                     <div class="trust-block">
                         <span title="Runs in your browser. No accounts. No telemetry.">100% client-side</span>
                         <span>no accounts, ever</span>
+                        <span title="Nothing you paste or upload here is sent anywhere.">no uploads leave your browser</span>
+                        <span>free forever</span>
                     </div>
                     <div class="footer-copyright">&copy; 2026 GAMAYUN.SITE</div>
                 </div>
@@ -393,6 +405,7 @@
         </main>
 
         <aside class="right-deck">
+
             <div class="site-updates-box">
                 <div class="wireframe-header">// QUICK ACCESS</div>
                 <p style="margin:0 0 0.6rem; color:var(--phosphor-dim-text); font-size:0.85rem;">Skip the tab bar next time:</p>
@@ -456,6 +469,7 @@
     <div class="gama-mascot-box">
         <div class="gama-dialogue">
             <p id="gama-speech">&gt; awaiting input...</p>
+            <button type="button" id="gama-next-tip" class="gama-next-tip" aria-label="Next transmission">&gt; next &rsaquo;</button>
         </div>
         <picture>
             <source srcset="../assets/gama-corner-mascot.webp" type="image/webp">
