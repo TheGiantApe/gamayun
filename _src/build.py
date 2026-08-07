@@ -17,9 +17,15 @@ SRC = os.path.dirname(os.path.abspath(__file__))
 ROOT_DIR = os.path.dirname(SRC)
 
 # Canonical URL / OG / sitemap / robots.txt base domain for this build.
-# Single source of truth so the shipped host can be swapped (e.g. for a
-# deploy to a different subdomain) without hunting down every literal.
-SITE_URL = "https://tools.gamayun.site"
+# Single source of truth so the shipped host can be swapped without hunting
+# down every literal. Defaults to the live apex, since this repo + GitHub
+# Pages is still what serves gamayun.site until the Phase 5 cutover to
+# Hostinger (see brain/decisions/gamayun-hosting-architecture-decision.md) -
+# an ordinary `python3 _src/build.py` here must not silently ship the wrong
+# canonical/OG/sitemap domain to the live site. Override for one-off deploys
+# to a different subdomain (e.g. the tools.gamayun.site deploy 2026-08-06)
+# with: GAMAYUN_SITE_URL=https://tools.gamayun.site python3 _src/build.py
+SITE_URL = os.environ.get("GAMAYUN_SITE_URL", "https://gamayun.site")
 
 with open(os.path.join(SRC, "templates", "base.html"), encoding="utf-8") as f:
     BASE = f.read()
