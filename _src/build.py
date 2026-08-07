@@ -16,6 +16,11 @@ import re
 SRC = os.path.dirname(os.path.abspath(__file__))
 ROOT_DIR = os.path.dirname(SRC)
 
+# Canonical URL / OG / sitemap / robots.txt base domain for this build.
+# Single source of truth so the shipped host can be swapped (e.g. for a
+# deploy to a different subdomain) without hunting down every literal.
+SITE_URL = "https://tools.gamayun.site"
+
 with open(os.path.join(SRC, "templates", "base.html"), encoding="utf-8") as f:
     BASE = f.read()
 
@@ -760,7 +765,7 @@ def build_jsonld_html(page):
     separate content to keep in sync."""
     if not page.get("category"):
         return ""
-    domain = "https://gamayun.site"
+    domain = SITE_URL
     data = {
         "@context": "https://schema.org",
         "@type": "WebApplication",
@@ -1286,12 +1291,13 @@ def build():
         section = page_section(page)
         out = BASE
         out = out.replace("{{RIGHT_DECK_EXTRA}}", right_deck_extra)
+        out = out.replace("{{SITE_URL}}", SITE_URL)
         out = out.replace("{{TITLE}}", page["title"])
         out = out.replace("{{DESCRIPTION}}", page["desc"])
         out = out.replace("{{JSONLD}}", build_jsonld_html(page))
         canonical_path = "" if page["out"] == "index.html" else page["out"]
-        out = out.replace("{{OG_URL}}", f'https://gamayun.site/{canonical_path}')
-        out = out.replace("{{OG_IMAGE}}", "https://gamayun.site/assets/og-image.png")
+        out = out.replace("{{OG_URL}}", f'{SITE_URL}/{canonical_path}')
+        out = out.replace("{{OG_IMAGE}}", f'{SITE_URL}/assets/og-image.png')
         out = out.replace("{{ROOT}}", page["root"])
         out = out.replace("{{TABS}}", build_tabs_html(section, page["root"]))
         out = out.replace("{{NAV}}", build_nav_html(page["out"], page["root"], section))
@@ -1366,7 +1372,7 @@ def build_sitemap_xml():
     human-readable pages/sitemap.html. Auto-derived from PAGES so it can't
     drift out of sync. This is the exact thing the yoyotools.com creator
     skipped and then couldn't get indexed for 3 months."""
-    domain = "https://gamayun.site"
+    domain = SITE_URL
     urls = []
     for page in PAGES:
         if page["out"].endswith("404.html") or page["out"].endswith("gndn.html") or page["out"].endswith("scrapbook.html"):
@@ -1390,7 +1396,7 @@ def build_robots_txt():
         "Allow: /\n"
         "Disallow: /pages/gndn.html\n"
         "Disallow: /pages/scrapbook.html\n"
-        "Sitemap: https://gamayun.site/sitemap.xml\n"
+        f"Sitemap: {SITE_URL}/sitemap.xml\n"
     )
     with open(os.path.join(ROOT_DIR, "robots.txt"), "w", encoding="utf-8") as f:
         f.write(content)
