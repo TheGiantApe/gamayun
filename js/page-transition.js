@@ -12,18 +12,31 @@
   if (REDUCE_MOTION) return;
 
   const TRANSITION_CHANCE = 0.35; // ~1 in 3 internal navigations
-  const CLIPS = ["gama-transition.mp4", "gama-transition-2.mp4", "gama-transition-3.mp4", "gama-transition-4.mp4"];
-  /* gama-transition-4.mp4 is already color-graded and scanlined at the
-     source (hand-made, not raw footage - GAMA's drone eye playing a
-     scanline-filtered Karate Champ (1984) sprite), so it skips the CSS
-     filter chain below that the other three (unfiltered raw clips) rely
-     on to get that look live. Stacking the live filter on top of an
-     already-graded clip double-processes it (the hue-rotate especially
-     fights its baked-in green). Only 3s long and video-only (no audio
-     track) since the overlay is only ever visible for 550ms - trimmed
-     from a 20s 1080p source instead of shipping the full file for a
-     fraction of a second anyone actually sees. */
-  const PREFILTERED_CLIPS = new Set(["gama-transition-4.mp4"]);
+  const CLIPS = [
+    "gama-transition.mp4", "gama-transition-2.mp4", "gama-transition-3.mp4",
+    "gama-transition-4.mp4", "gama-transition-5.mp4", "gama-transition-6.mp4", "gama-transition-7.mp4",
+  ];
+  /* gama-transition-4 through -7.mp4 are 4 different 3s windows (offsets
+     0s/2.5s/5s/7s) cut from the same 20s source (a 10s sequence played
+     twice) - GAMA's drone eye playing a scanline-filtered Karate Champ
+     (1984) sprite, already color-graded at the source, not raw footage.
+     Since the overlay only ever shows a clip's first ~550ms (see the
+     setTimeout below - playback always starts at 0:00 of whichever file
+     loads, never seeks), one fixed clip would show the same 550ms slice
+     every time; 4 separate files with different start offsets means a
+     different moment of the source plays each time one of them gets
+     picked, without any runtime seeking (seeking during a 550ms window
+     risks a blank/dropped frame right when it matters most - a static
+     file per offset avoids that entirely). All 4 skip the CSS filter
+     chain below that the other 3 (raw, unfiltered) clips rely on to get
+     that look live - stacking it on top of an already-graded clip
+     double-processes the color (the hue-rotate especially fights the
+     baked-in green). Video-only (no audio track, the overlay is muted
+     anyway) and downscaled to 720p to match the other clips' footprint -
+     each is under 200KB versus the 11.8MB 1080p source. */
+  const PREFILTERED_CLIPS = new Set([
+    "gama-transition-4.mp4", "gama-transition-5.mp4", "gama-transition-6.mp4", "gama-transition-7.mp4",
+  ]);
 
   function buildOverlay() {
     const overlay = document.createElement("div");
