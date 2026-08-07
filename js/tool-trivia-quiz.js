@@ -108,7 +108,7 @@ function renderTriviaQuestion() {
 
 function renderTriviaScoreLine() {
   const stats = getTriviaStats();
-  document.getElementById("trivia-score").textContent = `score: ${triviaScore}/${triviaQueue.length} this round &middot; best: ${stats.best} &middot; streak: ${stats.streak}`;
+  document.getElementById("trivia-score").textContent = `score: ${triviaScore}/${triviaQueue.length} this round · best: ${stats.best} · streak: ${stats.streak}`;
 }
 
 function executeTriviaAnswer(btn, isCorrect) {
