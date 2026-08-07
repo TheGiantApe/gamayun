@@ -12,7 +12,18 @@
   if (REDUCE_MOTION) return;
 
   const TRANSITION_CHANCE = 0.35; // ~1 in 3 internal navigations
-  const CLIPS = ["gama-transition.mp4", "gama-transition-2.mp4", "gama-transition-3.mp4"];
+  const CLIPS = ["gama-transition.mp4", "gama-transition-2.mp4", "gama-transition-3.mp4", "gama-transition-4.mp4"];
+  /* gama-transition-4.mp4 is already color-graded and scanlined at the
+     source (hand-made, not raw footage - GAMA's drone eye playing a
+     scanline-filtered Karate Champ (1984) sprite), so it skips the CSS
+     filter chain below that the other three (unfiltered raw clips) rely
+     on to get that look live. Stacking the live filter on top of an
+     already-graded clip double-processes it (the hue-rotate especially
+     fights its baked-in green). Only 3s long and video-only (no audio
+     track) since the overlay is only ever visible for 550ms - trimmed
+     from a 20s 1080p source instead of shipping the full file for a
+     fraction of a second anyone actually sees. */
+  const PREFILTERED_CLIPS = new Set(["gama-transition-4.mp4"]);
 
   function buildOverlay() {
     const overlay = document.createElement("div");
@@ -27,9 +38,12 @@
     video.src = (document.body.dataset.root || "") + "assets/" + clip;
     video.muted = true;
     video.playsInline = true;
+    const liveFilter = PREFILTERED_CLIPS.has(clip)
+      ? ""
+      : "filter: grayscale(0.6) brightness(0.9) contrast(1.3) sepia(0.3) hue-rotate(60deg) saturate(3);";
     video.style.cssText = `
       width: 100%; height: 100%; object-fit: cover;
-      filter: grayscale(0.6) brightness(0.9) contrast(1.3) sepia(0.3) hue-rotate(60deg) saturate(3);
+      ${liveFilter}
       mix-blend-mode: screen;
     `;
     const scan = document.createElement("div");
