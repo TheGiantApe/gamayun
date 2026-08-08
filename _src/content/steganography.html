@@ -1,6 +1,6 @@
             <section class="tool-card tool-card--wide">
                 <h2>&gt; STEGANOGRAPHY</h2>
-                <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">Hide a text message inside an image's pixel data (LSB encoding - one bit per color channel, invisible to the eye). Output is always PNG: JPEG's lossy recompression destroys the hidden bits, so re-saving or re-uploading a stego image anywhere that re-encodes it as JPEG will wipe the message. Nothing is uploaded anywhere - the image never leaves your browser.</p>
+                <p style="color: var(--phosphor-dim-text); font-size:0.85rem;">Hide a text message inside an image's pixel data (LSB encoding - one bit per color channel, invisible to the eye). Output is always PNG: JPEG's lossy recompression destroys the hidden bits, so re-saving or re-uploading a stego image anywhere that re-encodes it as JPEG will wipe the message. Transparent or semi-transparent pixels can't reliably hold data either (browsers round color values during alpha blending) - only fully-opaque pixels are used, so a carrier with real transparency has less capacity than its pixel count suggests. Nothing is uploaded anywhere - the image never leaves your browser.</p>
 
                 <h3 style="font-family:var(--font-display); font-size:1rem; margin:1.5rem 0 0.5rem;">&gt; EMBED</h3>
                 <div class="img-dropzone" id="stego-encode-dropzone">

@@ -1,9 +1,23 @@
 /* STEGANOGRAPHY — LSB (least-significant-bit) encoding. A 32-bit length
    header (message byte count) followed by the UTF-8 message bytes, one bit
-   per R/G/B channel (alpha untouched). Output is always PNG - JPEG's lossy
-   recompression destroys single-bit precision, so encoding into or
-   re-sharing as JPEG silently breaks the hidden message. That's a property
-   of LSB stego generally, not a bug here, but the UI warns about it. */
+   per R/G/B channel. Output is always PNG - JPEG's lossy recompression
+   destroys single-bit precision, so encoding into or re-sharing as JPEG
+   silently breaks the hidden message. That's a property of LSB stego
+   generally, not a bug here, but the UI warns about it.
+
+   2026-08-07 fix: only fully-opaque pixels (alpha === 255) carry data.
+   Found via a real manual click-through (embed, download, re-upload,
+   extract - "no message found" on a genuinely just-encoded image) that
+   partially-transparent pixels don't round-trip. Root cause: browsers
+   premultiply RGB by alpha internally and un-premultiply on readback -
+   for any pixel with 0 < alpha < 255 that's a lossy round-trip that can
+   flip exactly the low bit this tool depends on, even before any
+   download/re-save. Fully-opaque pixels have nothing to premultiply
+   against (factor of 1), so they're unaffected - confirmed by testing
+   against both a partially-transparent carrier (failed) and a fully
+   opaque one (round-tripped byte-for-byte). Skipping non-opaque pixels
+   entirely (not just the alpha channel) fixes this instead of just
+   documenting it as a limitation. */
 
 const STEGO_HEADER_BITS = 32;
 
@@ -25,14 +39,25 @@ function bitsToBytes(bits) {
   return bytes;
 }
 
-function stegoCapacityBytes(width, height) {
-  const totalBits = width * height * 3;
+// Counts only fully-opaque pixels (alpha === 255) - see the file-header
+// note on why partial transparency isn't safe to use for storage.
+function stegoOpaquePixelCount(pixels) {
+  let count = 0;
+  for (let i = 3; i < pixels.length; i += 4) {
+    if (pixels[i] === 255) count++;
+  }
+  return count;
+}
+
+function stegoCapacityBytes(pixels) {
+  const totalBits = stegoOpaquePixelCount(pixels) * 3;
   const usableBits = totalBits - STEGO_HEADER_BITS;
   return Math.max(0, Math.floor(usableBits / 8));
 }
 
 // pixels: Uint8ClampedArray in RGBA order (canvas ImageData.data). Mutates
-// in place. messageBytes: Uint8Array. Throws if it won't fit.
+// in place. messageBytes: Uint8Array. Throws if it won't fit. Only writes
+// into R/G/B of pixels whose alpha is exactly 255 - see file header.
 function encodeLsb(pixels, messageBytes) {
   const lengthBits = bytesToBits(new Uint8Array([
     (messageBytes.length >>> 24) & 0xff,
@@ -45,47 +70,63 @@ function encodeLsb(pixels, messageBytes) {
   allBits.set(lengthBits, 0);
   allBits.set(messageBits, lengthBits.length);
 
-  const numPixelChannels = pixels.length; // includes alpha, but we skip every 4th
   let bitIndex = 0;
-  for (let i = 0; i < numPixelChannels && bitIndex < allBits.length; i++) {
-    if ((i + 1) % 4 === 0) continue; // skip alpha channel
-    pixels[i] = (pixels[i] & 0xfe) | allBits[bitIndex];
-    bitIndex++;
+  for (let p = 0; p * 4 < pixels.length && bitIndex < allBits.length; p++) {
+    const base = p * 4;
+    if (pixels[base + 3] !== 255) continue; // not fully opaque, skip the whole pixel
+    for (let ch = 0; ch < 3 && bitIndex < allBits.length; ch++) {
+      pixels[base + ch] = (pixels[base + ch] & 0xfe) | allBits[bitIndex];
+      bitIndex++;
+    }
   }
   if (bitIndex < allBits.length) {
-    throw new Error("Message doesn't fit in this image - use a larger image or a shorter message.");
+    throw new Error("Message doesn't fit in this image's opaque pixels - use a larger or more opaque image, or a shorter message.");
   }
 }
 
-// pixels: Uint8ClampedArray RGBA. Returns the decoded Uint8Array message bytes.
+// pixels: Uint8ClampedArray RGBA. Returns the decoded Uint8Array message
+// bytes. Only reads from R/G/B of fully-opaque pixels - see file header.
+//
+// Reads via one continuous generator rather than two separate loops (one
+// for the header, one for the message) - the header is 32 bits, which
+// isn't a multiple of 3 channels-per-opaque-pixel, so a naive second loop
+// restarting at the next whole pixel silently drops whatever fraction of
+// the boundary pixel the header read didn't consume. encodeLsb never had
+// this problem since it writes header+message as one unbroken bitstream
+// with no loop boundary between them - the reader needs the same property.
+function* opaquePixelBits(pixels) {
+  for (let p = 0; p * 4 < pixels.length; p++) {
+    const base = p * 4;
+    if (pixels[base + 3] !== 255) continue;
+    for (let ch = 0; ch < 3; ch++) yield pixels[base + ch] & 1;
+  }
+}
+
 function decodeLsb(pixels) {
+  const bitGen = opaquePixelBits(pixels);
   const headerBits = new Uint8Array(STEGO_HEADER_BITS);
-  let bitIndex = 0;
-  let i = 0;
-  for (; i < pixels.length && bitIndex < STEGO_HEADER_BITS; i++) {
-    if ((i + 1) % 4 === 0) continue;
-    headerBits[bitIndex] = pixels[i] & 1;
-    bitIndex++;
+  for (let i = 0; i < STEGO_HEADER_BITS; i++) {
+    const next = bitGen.next();
+    if (next.done) throw new Error("No hidden message found in this image (or it wasn't encoded by this tool).");
+    headerBits[i] = next.value;
   }
   const headerBytes = bitsToBytes(headerBits);
   const messageLength = (headerBytes[0] << 24) | (headerBytes[1] << 16) | (headerBytes[2] << 8) | headerBytes[3];
   // A plain (non-stego) image's low bits are effectively random, so the
   // "length" read out of one is garbage - bound it against what this image
   // could actually hold instead of trying to allocate/read a bogus size.
-  const maxPossibleBytes = Math.floor((pixels.length * 3) / 4 / 8);
+  const maxPossibleBytes = stegoCapacityBytes(pixels) + Math.ceil(STEGO_HEADER_BITS / 8);
   if (messageLength < 0 || messageLength > maxPossibleBytes) {
     throw new Error("No hidden message found in this image (or it wasn't encoded by this tool).");
   }
   const messageBitCount = messageLength * 8;
   const messageBits = new Uint8Array(messageBitCount);
-  let mIndex = 0;
-  for (; i < pixels.length && mIndex < messageBitCount; i++) {
-    if ((i + 1) % 4 === 0) continue;
-    messageBits[mIndex] = pixels[i] & 1;
-    mIndex++;
-  }
-  if (mIndex < messageBitCount) {
-    throw new Error("Couldn't read a complete message from this image - it may not contain one, or it's been recompressed since encoding.");
+  for (let i = 0; i < messageBitCount; i++) {
+    const next = bitGen.next();
+    if (next.done) {
+      throw new Error("Couldn't read a complete message from this image - it may not contain one, or it's been recompressed since encoding.");
+    }
+    messageBits[i] = next.value;
   }
   return bitsToBytes(messageBits);
 }
@@ -108,9 +149,23 @@ async function handleStegoEncodeFile(file) {
   stegoEncodeFile = file;
   document.getElementById("stego-encode-filename").textContent = `${file.name} (${(file.size / 1024).toFixed(0)} KB)`;
   const img = await loadImageFromFile(file);
-  const cap = stegoCapacityBytes(img.naturalWidth, img.naturalHeight);
+  // Capacity now depends on how many pixels are actually fully opaque
+  // (see the encodeLsb/decodeLsb header note), not just width*height - has
+  // to be read off real pixel data, not just the image's dimensions.
+  const canvas = document.createElement("canvas");
+  canvas.width = img.naturalWidth;
+  canvas.height = img.naturalHeight;
+  const ctx = canvas.getContext("2d");
+  ctx.drawImage(img, 0, 0);
+  const pixels = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+  const cap = stegoCapacityBytes(pixels);
+  const opaqueCount = stegoOpaquePixelCount(pixels);
+  const totalCount = img.naturalWidth * img.naturalHeight;
+  const transparencyNote = opaqueCount < totalCount
+    ? ` (${Math.round(100 * (1 - opaqueCount / totalCount))}% of this image is transparent and can't hold data)`
+    : "";
   document.getElementById("stego-capacity").textContent =
-    `${img.naturalWidth}×${img.naturalHeight} - up to ~${cap.toLocaleString()} bytes of message capacity`;
+    `${img.naturalWidth}×${img.naturalHeight} - up to ~${cap.toLocaleString()} bytes of message capacity${transparencyNote}`;
   URL.revokeObjectURL(img.src);
 }
 

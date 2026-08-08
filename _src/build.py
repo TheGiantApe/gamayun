@@ -328,6 +328,10 @@ PAGES = [
          desc="50 modern slang terms with plain-English definitions and rough era tags, searchable by term or meaning.",
          root="../", code="SLANG_DICTIONARY", category="LOOKUP_DECK",
          js=["tool-slang-dictionary.js"]),
+    dict(out="pages/standard-sizes.html", fragment="standard-sizes.html", title="Standard Sizes Reference",
+         desc="Social media banner/post dimensions, print paper sizes, screen resolutions, and icon/favicon sizes, searchable, click to copy.",
+         root="../", code="STANDARD_SIZES", category="LOOKUP_DECK",
+         js=["data-sizes.js", "tool-standard-sizes.js"]),
 
     dict(out="pages/image-tools.html", fragment="image-tools.html", title="Image Salvage",
          desc="Read EXIF metadata (including GPS location) before it leaks, then strip it, resize, and convert format.",
@@ -761,14 +765,21 @@ def nav_link_label(code):
     return f'&gt;&nbsp;<span class="nav-link-label">{wrapped}</span>'
 
 
-def build_jsonld_html(page):
+def build_jsonld_html(page, instructable=None):
     """schema.org/WebApplication block for real tool pages (anything with
     a category - the actual utilities, not wiki/log/about/legal pages).
     Per GAMA BIBLE section G: wins "People Also Ask" / rich-result boxes
     without writing blogspam. validate.py's scan_jsonld_required_keys()
     already enforces @context/@type/name on any block that exists - this
     is what actually populates them. Uses the page's own title/desc, no
-    separate content to keep in sync."""
+    separate content to keep in sync.
+
+    2026-08-07 addition: Section G also specifically named HowTo/FAQ
+    schema, not just WebApplication - the Field Manuals are genuine
+    step-by-step instructional content and were shipping with only the
+    generic WebApplication block. When `instructable` (an INSTRUCTABLES
+    entry) is passed, emit a second HowTo block built straight from its
+    real steps - no separate content to keep in sync there either."""
     if not page.get("category"):
         return ""
     domain = SITE_URL
@@ -783,7 +794,25 @@ def build_jsonld_html(page):
         "isAccessibleForFree": True,
         "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"},
     }
-    return f'    <script type="application/ld+json">{json.dumps(data)}</script>'
+    blocks = [f'    <script type="application/ld+json">{json.dumps(data)}</script>']
+    if instructable:
+        howto = {
+            "@context": "https://schema.org",
+            "@type": "HowTo",
+            "name": instructable["title"],
+            "description": instructable["hook"],
+            "totalTime": f'PT{instructable["est_minutes"]}M',
+            "step": [
+                {
+                    "@type": "HowToStep",
+                    "position": s["n"],
+                    "text": s["instruction"],
+                }
+                for s in instructable["steps"]
+            ],
+        }
+        blocks.append(f'    <script type="application/ld+json">{json.dumps(howto)}</script>')
+    return "\n".join(blocks)
 
 
 def build_breadcrumb_html(page, root):
@@ -1269,6 +1298,9 @@ def build():
     instructable_html_by_out = {
         f"pages/howto-{e['slug']}.html": build_instructable_html(e) for e in INSTRUCTABLES
     }
+    instructable_by_out = {
+        f"pages/howto-{e['slug']}.html": e for e in INSTRUCTABLES
+    }
     link_page_html_by_out = {
         f"pages/links-{t['topic']}.html": build_link_page_html(t) for t in EXTERNAL_LINKS
     }
@@ -1300,7 +1332,7 @@ def build():
         out = out.replace("{{SITE_URL}}", SITE_URL)
         out = out.replace("{{TITLE}}", page["title"])
         out = out.replace("{{DESCRIPTION}}", page["desc"])
-        out = out.replace("{{JSONLD}}", build_jsonld_html(page))
+        out = out.replace("{{JSONLD}}", build_jsonld_html(page, instructable_by_out.get(page["out"])))
         canonical_path = "" if page["out"] == "index.html" else page["out"]
         out = out.replace("{{OG_URL}}", f'{SITE_URL}/{canonical_path}')
         out = out.replace("{{OG_IMAGE}}", f'{SITE_URL}/assets/og-image.png')

@@ -67,6 +67,34 @@ html.theme-amber {
   --void-raised: #1a130a;
 }
 
+/* Real, accessible high-readability theme (see .theme-toggle-btn in the
+   footer and initHighContrastTheme() in gama-core.js) - not a hidden
+   reward like amber, a genuine alternate for anyone who finds the dark
+   CRT look hard to read. Off-white rather than pure white (less glare),
+   dark forest green rather than black (keeps the brand's own color
+   family instead of abandoning it entirely). Every color sitewide is one
+   of these custom properties (checked, same as the amber block above),
+   so this reskins the whole site from four overrides.
+   --void/--void-raised flip here too (amber didn't need to, since it
+   kept the dark background) - a "light theme" that stayed on a black
+   background wouldn't actually solve the readability problem this
+   exists for. */
+html.theme-highcontrast {
+  --void: #F4F3EE;
+  --void-raised: #FFFFFF;
+  --phosphor: #0B3D0B;
+  --phosphor-dim: rgba(11, 61, 11, 0.5);
+  --phosphor-faint: rgba(11, 61, 11, 0.18);
+  --phosphor-dim-text: #3F6B3F;
+}
+/* The scanline/vignette overlay is a deliberate dark-theme flourish, not
+   a real reading aid - on a light background it just cuts contrast for
+   exactly the users this theme is for. Off entirely here. */
+html.theme-highcontrast .crt-screen::before,
+html.theme-highcontrast .crt-screen::after {
+  display: none;
+}
+
 * { box-sizing: border-box; }
 
 /* Form fields don't inherit page background/color by default - browsers
@@ -353,6 +381,30 @@ a:hover, a:focus {
   z-index: 0;
   pointer-events: none;
 }
+/* Occasional randomly-placed ASCII art box (see gama-core.js showAsciiBox).
+   Pure CSS fade, no GIF, pointer-events:none so it never blocks a click -
+   same fixed-overlay treatment as the raven watermark above. */
+.gama-ascii-drift {
+  position: fixed;
+  z-index: 5;
+  margin: 0;
+  padding: 0.6rem 0.9rem;
+  color: var(--phosphor);
+  background: rgba(0, 0, 0, 0.55);
+  border: 1px solid var(--phosphor-faint);
+  font-family: inherit;
+  font-size: 0.75rem;
+  line-height: 1.2;
+  white-space: pre;
+  opacity: 0;
+  transition: opacity 1.1s ease;
+  pointer-events: none;
+}
+.gama-ascii-drift.visible { opacity: 0.55; }
+@media (prefers-reduced-motion: reduce) {
+  .gama-ascii-drift { transition: none; }
+}
+
 @media (max-width: 900px) {
   .raven-watermark { width: 40vw; right: 1vw; bottom: 1vw; opacity: 0.18; }
 }
@@ -1217,6 +1269,26 @@ button:hover, .btn:hover {
   padding: 0.15rem 0.5rem;
   letter-spacing: 0.02em;
 }
+/* Real accessibility toggle, styled to match the trust badges next to it
+   (same border/padding/letter-spacing) but a real <button>, not a span -
+   this one does something. See initHighContrastTheme() in gama-core.js. */
+.theme-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3em;
+  border: 1px solid var(--phosphor-dim);
+  padding: 0.15rem 0.5rem;
+  letter-spacing: 0.02em;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: 0.75rem;
+  cursor: pointer;
+}
+.theme-toggle-btn[aria-pressed="true"] {
+  border-color: var(--phosphor);
+  color: var(--phosphor);
+}
 
 /* Column layout: brand/social + link columns, same shape as a normal
    corporate footer (brand blurb, sections, legal) instead of one row
@@ -1307,6 +1379,25 @@ button:hover, .btn:hover {
   gap: var(--space-2) var(--space-3);
 }
 .footer-copyright { color: var(--phosphor-dim-text); }
+/* Rotating fake talk-show topic line - full width of its own row so it
+   doesn't fight the trust-block/copyright for space. Deliberately the
+   same dim color as everything else down here, not called out visually -
+   it's a find, not an announcement. */
+.footer-topic-line {
+  flex-basis: 100%;
+  color: var(--phosphor-dim-text);
+  font-size: 0.7rem;
+  font-style: italic;
+  opacity: 0.7;
+}
+/* Footer version string easter egg (see gama-core.js triggerEgg("footer_version")) -
+   a real cursor + underline on hover so it reads as clickable, not just
+   decorative text sitting next to the copyright line. */
+.footer-version {
+  cursor: pointer;
+  text-decoration: underline dotted;
+  text-underline-offset: 2px;
+}
 @media (max-width: 500px) {
   .footer-bottom { justify-content: center; text-align: center; }
 }

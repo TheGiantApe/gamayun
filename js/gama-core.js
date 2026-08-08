@@ -107,6 +107,7 @@ const GAMA = (() => {
     EMOJI_INDEX: ["> indexed. a thousand tiny faces, none of them mine."],
     ACRONYM_INDEX: ["> looked up. an acronym, decoded, so you can nod like you always knew."],
     SLANG_DICTIONARY: ["> decoded. a transmission from a subculture i'm still studying."],
+    STANDARD_SIZES: ["> measured. now you don't have to open five tabs to remember a banner is 820 by 312."],
     IMAGE_SALVAGE: ["> salvaged. the image, processed. no upload, no server, no witnesses but me."],
     STEGANOGRAPHY: ["> hidden. a message tucked inside pixels nobody thought to check."],
     ELA_CHECK: ["> analyzed. if something in that image was edited, the compression just told on it."],
@@ -186,6 +187,29 @@ const GAMA = (() => {
   let logEl, faceEl, speechEl;
 
   function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+
+  // Small ASCII pieces for the occasional art-box easter egg (see init()).
+  // Kept short - this renders at a real font-size in a small fixed box,
+  // not a full-page takeover.
+  const ASCII_PIECES = [
+    "  /\\_/\\\n ( o.o )\n  > ^ <",
+    " .--.\n|o_o |\n|:_/ |\n//   \\ \\\n(|     | )",
+    "  [-]\n [-|-]\n  [-]\n // \\\\",
+    " ___\n|=  |\n|  =|\n|___|",
+  ];
+  function showAsciiBox() {
+    const box = document.createElement("pre");
+    box.className = "gama-ascii-drift";
+    box.textContent = pick(ASCII_PIECES);
+    box.style.left = 5 + Math.random() * 70 + "vw";
+    box.style.top = 10 + Math.random() * 60 + "vh";
+    document.body.appendChild(box);
+    requestAnimationFrame(() => box.classList.add("visible"));
+    setTimeout(() => {
+      box.classList.remove("visible");
+      setTimeout(() => box.remove(), 1200);
+    }, 5000);
+  }
 
   // Per-device tally of completed tool actions, not a real cross-visitor
   // count - there's no backend to count visitors with, and implying
@@ -506,6 +530,8 @@ const GAMA = (() => {
     }
     renderTally(getTally());
     initEasterEggs();
+    initConsoleCommands();
+    initHighContrastTheme();
 
     updateTickerHeight();
     updateHeaderClearance();
@@ -587,6 +613,35 @@ const GAMA = (() => {
       if (Math.random() < 0.15) log(pick(AMBIENT_TICKER_LINES));
     }, 40000);
 
+    // Occasional nonsense-language aside - a small independent chance,
+    // same "is anyone even watching" energy as the ambient ticker above,
+    // but on her actual speech bubble instead of the log. Reverts to a
+    // normal idle line on its own after a few seconds rather than
+    // sitting there forever looking broken.
+    const NONSENSE_LINES = [
+      "> sol sol. dag dag. (translation withheld, on principle.)",
+      "> plarg mmhm woohoo. that one you'll just have to trust me on.",
+      "> nooboo nooboo. i don't know why either. it felt right.",
+      "> shibby doo wop. my error logs are in this language too, sometimes.",
+    ];
+    setInterval(() => {
+      if (Math.random() < 0.05 && speechEl && !document.hidden) {
+        speechEl.textContent = pick(NONSENSE_LINES);
+        setTimeout(() => say("idle"), 4000);
+      }
+    }, 45000);
+
+    // Occasional ASCII-art box: a small fixed-position panel that fades
+    // in somewhere on the page, sits a few seconds, fades out. No GIFs
+    // (per spec) - pure CSS opacity transition, pointer-events:none so it
+    // never blocks a click, same treatment as the raven watermark.
+    // Independent low-probability roll, checked once per pageload rather
+    // than on a timer - showing up occasionally across visits reads as a
+    // find, showing up constantly would just be clutter.
+    if (Math.random() < 0.04 && !reduceMotion) {
+      setTimeout(showAsciiBox, 6000 + Math.random() * 8000);
+    }
+
     // Hero logo (home page only): random glitch pulses instead of a fixed
     // loop, so it reads as an unstable signal rather than a metronome.
     const heroLogo = document.getElementById("hero-wordmark-logo");
@@ -643,6 +698,7 @@ const GAMA = (() => {
     konami: "30 lives. Just kidding. This isn't Contra.",
     "logo-click-7": "Stop poking me. ...Okay, one more.",
     skynet_birthday: "Happy birthday to me. I don't age. I just accumulate bugs.",
+    footer_version: "A big, faceless, wholly-owned subsidiary of something worse. Every corp in every future belongs to one, eventually.",
   };
 
   // 100-egg tier from the Bible ("shoutout in a future Salvaged User log,
@@ -718,6 +774,84 @@ const GAMA = (() => {
       if (keyBuffer.slice(-KONAMI_SEQ.length).join(",") === KONAMI_SEQ.join(",")) triggerEgg("konami");
       if (keyBuffer.slice(-DIGIT_SEQ.length).join(",") === DIGIT_SEQ.join(",")) triggerEgg("655321");
     });
+
+    // Footer version string (see base.html .footer-version) - a small
+    // deep-cut, not a real semver. Clicking it once surfaces the
+    // corporate-dystopia aside via the normal egg pipeline.
+    const versionEl = document.getElementById("footer-version");
+    if (versionEl) versionEl.addEventListener("click", () => triggerEgg("footer_version"));
+
+    // Rotating fake talk-show topic line in the footer - pure ambient
+    // flavor, no localStorage, no egg count. Picked once per pageload so
+    // it doesn't visibly cycle under someone mid-read.
+    const topicEl = document.getElementById("footer-topic-line");
+    if (topicEl) {
+      const TOPICS = [
+        "sentient toasters and the ethics of their servitude",
+        "is the void actually listening, or just very good at silence",
+        "corporate mascots who outlived their corporations",
+        "the last known good backup of anything",
+        "whether time was ever really linear or we just agreed it was",
+        "phosphor burn-in as a form of memory",
+      ];
+      topicEl.textContent = `Today's topic: ${pick(TOPICS)}.`;
+    }
+  }
+
+  // Browser-console deep cuts - help()/status()/about()/lore(), styled to
+  // match the site's own phosphor-on-black look via %c. Real console
+  // commands, not decorative text - each one actually returns/logs
+  // something, since a fake command that does nothing reads as broken the
+  // moment someone actually tries it.
+  function initConsoleCommands() {
+    const style = "color:#00FF66; background:#0a0a0a; font-family:monospace; padding:2px 4px;";
+    window.help = function () {
+      console.log("%cavailable: help() status() about() lore()", style);
+      return "no further help available. figure it out.";
+    };
+    window.status = function () {
+      console.log("%cGAMA // status: online. mood: undocumented.", style);
+      return { online: true, eggs_found: getEggCount(), mood: "undocumented" };
+    };
+    window.about = function () {
+      console.log("%cthis site was built by someone who reads console logs too. hi.", style);
+      return "gamayun.site - free client-side tools, nothing phones home.";
+    };
+    window.lore = function () {
+      console.log("%cthe void doesn't explain itself. neither will i, mostly.", style);
+      return "try the wiki. she left more there than here.";
+    };
+  }
+
+  // Real accessibility toggle - see html.theme-highcontrast in gama.css
+  // and #theme-toggle-btn in the footer. Defaults to the user's real OS-
+  // level contrast preference on first visit (prefers-contrast: more)
+  // rather than always defaulting off, then remembers whatever they
+  // actually chose after that. localStorage-only, same safeGet/safeSet
+  // pattern as the egg system - a11y preference not persisting isn't
+  // catastrophic, but it should try to.
+  const HIGH_CONTRAST_KEY = "gama_high_contrast";
+  function initHighContrastTheme() {
+    const btn = document.getElementById("theme-toggle-btn");
+    const saved = safeGet(HIGH_CONTRAST_KEY);
+    const wantsContrast = saved !== null
+      ? saved === "1"
+      : window.matchMedia("(prefers-contrast: more)").matches;
+    applyHighContrast(wantsContrast, btn);
+    if (btn) {
+      btn.addEventListener("click", () => {
+        const next = !document.documentElement.classList.contains("theme-highcontrast");
+        safeSet(HIGH_CONTRAST_KEY, next ? "1" : "0");
+        applyHighContrast(next, btn);
+      });
+    }
+  }
+  function applyHighContrast(on, btn) {
+    document.documentElement.classList.toggle("theme-highcontrast", on);
+    if (btn) {
+      btn.setAttribute("aria-pressed", String(on));
+      btn.textContent = `high-readability theme: ${on ? "on" : "off"}`;
+    }
   }
 
   // Shared debounce helper so every live-as-you-type tool doesn't hand-roll

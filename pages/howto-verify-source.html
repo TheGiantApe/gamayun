@@ -64,6 +64,7 @@
     <link rel="icon" id="favicon-link" href="/assets/icons/favicon-mascot.ico">
     <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
     <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "Verify a Source Before You Share It", "description": "Reverse-image search, account age, dead-link sourcing, and why a screenshot alone proves nothing.", "url": "https://gamayun.site/pages/howto-verify-source.html", "applicationCategory": "UtilitiesApplication", "operatingSystem": "Any (runs in browser)", "isAccessibleForFree": true, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}}</script>
+    <script type="application/ld+json">{"@context": "https://schema.org", "@type": "HowTo", "name": "Verify a Source Before You Share It", "description": "Five minutes of checking beats being the reason something fake went around again.", "totalTime": "PT5M", "step": [{"@type": "HowToStep", "position": 1, "text": "Reverse-image-search the photo (TinEye or a similar tool) to see if it's actually old, or from a different event entirely."}, {"@type": "HowToStep", "position": 2, "text": "Check the account that posted it - when was it created, does it post about anything else, or is this the only thing it exists to spread."}, {"@type": "HowToStep", "position": 3, "text": "If there's a claimed article/source behind it, check whether that source still exists or has been archived - a dead link claiming to back up a claim is not a source."}, {"@type": "HowToStep", "position": 4, "text": "If it's a screenshot of a chat/message, remember screenshot generators exist purely to fabricate exactly this kind of \"evidence\" - a screenshot alone proves nothing."}]}</script>
 </head>
 <body class="crt-screen" data-root="../">
 
@@ -196,6 +197,7 @@
                     <a href="../pages/emoji-index.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">EMOJI_<wbr>INDEX</span></a>
                     <a href="../pages/acronym-index.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">ACRONYM_<wbr>INDEX</span></a>
                     <a href="../pages/slang-dictionary.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">SLANG_<wbr>DICTIONARY</span></a>
+                    <a href="../pages/standard-sizes.html" class="nav-link">&gt;&nbsp;<span class="nav-link-label">STANDARD_<wbr>SIZES</span></a>
                 </details>
                 <details class="nav-section">
                     <summary class="nav-section-label">FILE_SALVAGE</summary>
@@ -359,7 +361,7 @@
                             <a href="https://www.instagram.com/project.gamayun/" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.75" fill="currentColor" stroke="none"/></svg>
                             </a>
-                            <a href="https://www.facebook.com/profile.php?id=61592013055899" target="_blank" rel="noopener" aria-label="Facebook" title="Facebook">
+                            <a href="https://www.facebook.com/Project.GAMAYUN/" target="_blank" rel="noopener" aria-label="Facebook" title="Facebook">
                                 <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M14 9h3V5h-3c-2.2 0-4 1.8-4 4v2H7v4h3v7h4v-7h3l1-4h-4V9c0-.6.4-1 1-1z"/></svg>
                             </a>
                             <a href="https://www.youtube.com/@Project.GAMAYUN" target="_blank" rel="noopener" aria-label="YouTube" title="YouTube">
@@ -397,9 +399,11 @@
                         <span title="Runs in your browser. No accounts. No telemetry.">100% client-side</span>
                         <span>no accounts, ever</span>
                         <span title="Nothing you paste or upload here is sent anywhere.">no uploads leave your browser</span>
-                        <span>free forever</span>
+                        <span title="Can't stop the signal.">free forever</span>
+                        <button type="button" id="theme-toggle-btn" class="theme-toggle-btn" aria-pressed="false">high-readability theme: off</button>
                     </div>
-                    <div class="footer-copyright">&copy; 2026 GAMAYUN.SITE</div>
+                    <div id="footer-topic-line" class="footer-topic-line"></div>
+                    <div class="footer-copyright">&copy; 2026 GAMAYUN.SITE <span id="footer-version" class="footer-version" title="a build number, allegedly">v2.71828</span></div>
                 </div>
             </footer>
         </main>

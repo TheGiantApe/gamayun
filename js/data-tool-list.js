@@ -319,6 +319,12 @@ const TOOL_LIST = [
     "url": "pages/slang-dictionary.html"
   },
   {
+    "title": "Standard Sizes Reference",
+    "desc": "Social media banner/post dimensions, print paper sizes, screen resolutions, and icon/favicon sizes, searchable, click to copy.",
+    "code": "STANDARD_SIZES",
+    "url": "pages/standard-sizes.html"
+  },
+  {
     "title": "Image Salvage",
     "desc": "Read EXIF metadata (including GPS location) before it leaks, then strip it, resize, and convert format.",
     "code": "IMAGE_SALVAGE",
