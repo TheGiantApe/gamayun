@@ -981,43 +981,6 @@ button:hover, .btn:hover {
   z-index: 500;
   pointer-events: none;
 }
-@media (max-width: 480px) {
-  /* Bumper-bar mode: a small floating corner box is easy to miss or to
-     mistake for decoration on a phone screen; a full-width strip pinned
-     above the ticker reads as a real, tappable piece of chrome instead.
-     Still a true fixed overlay per the reasoning above .gama-mascot-box
-     - full-width/bottom:0-anchored needs no measurement against nav or
-     the footer, so this doesn't reopen that already-closed problem, it
-     just swaps which flavor of "fixed, uncoordinated" she uses. Opened/
-     closed via .gama-open, toggled by initMascotBarToggle() in
-     gama-core.js. */
-  .gama-mascot-box {
-    left: 0;
-    right: 0;
-    bottom: var(--ticker-height, 2rem);
-    width: auto;
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
-    padding: 0.4rem 0.75rem;
-    text-align: left;
-    background: var(--void);
-    border-top: 1px solid var(--phosphor-dim);
-    pointer-events: auto;
-    cursor: pointer;
-  }
-  .gama-portrait { width: 40px; max-width: 40px; margin: 0; flex-shrink: 0; }
-  .gama-mascot-box .aperture-eye { display: none; }
-  .gama-dialogue {
-    display: none;
-    position: fixed;
-    left: 0.5rem;
-    right: 0.5rem;
-    bottom: calc(var(--ticker-height, 2rem) + 3.1rem);
-  }
-  .gama-mascot-box.gama-open .gama-dialogue { display: flex; }
-  .gama-dialogue::after, .gama-dialogue::before { display: none; }
-}
 .gama-portrait {
   width: 100%;
   max-width: 160px;
@@ -1129,6 +1092,59 @@ button:hover, .btn:hover {
 }
 .gama-dialogue::after { bottom: -11px; border-top: 11px solid var(--phosphor); }
 .gama-dialogue::before { bottom: -8px; border-top: 9px solid var(--void-raised); z-index: 1; }
+
+/* ---- Phone: bumper-bar mode ----
+   A small floating corner box is easy to miss or to mistake for
+   decoration on a phone screen; a full-width strip pinned above the
+   ticker reads as a real, tappable piece of chrome instead. Still a true
+   fixed overlay per the reasoning above .gama-mascot-box - full-width/
+   bottom:0-anchored needs no measurement against nav or the footer, so
+   this doesn't reopen that already-closed problem, it just swaps which
+   flavor of "fixed, uncoordinated" she uses. Opened/closed via
+   .gama-open, toggled by initMascotBarToggle() in gama-core.js.
+
+   POSITION MATTERS - DO NOT MOVE THIS BLOCK ABOVE .gama-portrait /
+   .gama-dialogue (2026-08-11). It used to sit directly after
+   .gama-mascot-box, i.e. BEFORE the .gama-portrait, .aperture-eye and
+   .gama-dialogue base rules. A media query adds no specificity, so at
+   equal specificity source order decides - every override in here that
+   the base rules below also declared was silently dead on phones:
+   the portrait stayed width:100%/max-width:160px instead of 40px, and
+   .gama-dialogue kept display:flex + position:absolute instead of
+   display:none + fixed, so the speech bubble was permanently open and
+   the .gama-open toggle was a no-op. Net effect on a real phone: GAMA
+   rendered as a ~180px-tall black band with a huge portrait and a stuck
+   bubble, covering the content and making the page hard to use. Only
+   .gama-mascot-box's own overrides worked, because its base rule is
+   above. Keep this block last. */
+@media (max-width: 480px) {
+  .gama-mascot-box {
+    left: 0;
+    right: 0;
+    bottom: var(--ticker-height, 2rem);
+    width: auto;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.4rem 0.75rem;
+    text-align: left;
+    background: var(--void);
+    border-top: 1px solid var(--phosphor-dim);
+    pointer-events: auto;
+    cursor: pointer;
+  }
+  .gama-portrait { width: 40px; max-width: 40px; margin: 0; flex-shrink: 0; }
+  .gama-mascot-box .aperture-eye { display: none; }
+  .gama-dialogue {
+    display: none;
+    position: fixed;
+    left: 0.5rem;
+    right: 0.5rem;
+    bottom: calc(var(--ticker-height, 2rem) + 3.1rem);
+  }
+  .gama-mascot-box.gama-open .gama-dialogue { display: flex; }
+  .gama-dialogue::after, .gama-dialogue::before { display: none; }
+}
 
 /* Mobile-only, once-per-session greeting - built and mounted entirely by
    initMobileMascotIntro() in gama-core.js (not static markup here) since
