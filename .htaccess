@@ -1,0 +1,29 @@
+# GAMAYUN+ static site — web server config for the Hostinger docroot.
+#
+# Why this file exists (2026-08-11): GitHub Pages serves a repo's 404.html
+# automatically, with no config. LiteSpeed does not - it needs an explicit
+# ErrorDocument. Moving the apex off GitHub Pages onto Hostinger therefore
+# silently regressed 404s: a missing page under gamayun.site fell through to
+# the default handler and rendered a WordPress-flavoured error page
+# (confirmed live via the RDFa doctype in the response body) instead of the
+# site's own branded pages/404.html ("Signal Lost // GAMAYUN+").
+#
+# NOTE: Hostinger runs LiteSpeed, not Apache (Server: LiteSpeed). The first
+# version of this file scoped the ErrorDocument to the apex/tools hosts with
+# an Apache 2.4 <If "%{HTTP_HOST} =~ ..."> block, to avoid the directive
+# being inherited by the wiki/, blog/ and shop/ subdomain docroots that live
+# under this same parent directory. LiteSpeed silently IGNORES <If> blocks -
+# no error, the directive just never applies, and the 404 stayed broken.
+# Verified both ways against the live server before settling on this.
+#
+# Unscoped is fine in practice: MediaWiki and WordPress both route unknown
+# paths through their own index.php and return their own 404 responses, so
+# the server never generates the error that would trigger this directive.
+# It can only fire for a genuinely missing static file under those trees,
+# where /pages/404.html resolves against that vhost's own docroot, doesn't
+# exist, and LiteSpeed falls back to its default 404. No harm either way.
+#
+# Deliberately NOT doing an HTTP->HTTPS redirect here: Hostinger's hPanel
+# owns forced HTTPS, and adding a redirect before the apex SSL cert has been
+# issued would take the site down rather than secure it.
+ErrorDocument 404 /pages/404.html
