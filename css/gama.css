@@ -1452,6 +1452,22 @@ button:hover, .btn:hover {
    separator approach would have needed to know which item is *actually*
    last given one can be hidden, a leading one only cares that it isn't
    first, which never changes. */
+/* The mascot mark shown inside the QUICK ACCESS drag target. This is a
+   VISUAL affordance only - it shows you which site the chip belongs to
+   before you drag it. It does NOT set the icon the bookmark ends up
+   with: a dragged bookmark takes its icon from the browser's own favicon
+   store for the target URL, which no markup on this page can influence.
+   alt is empty and draggable is off on purpose - the image must not
+   contribute text to the link (link text becomes the bookmark title) and
+   must not hijack the drag with an image-drag of its own. */
+.bookmark-favicon {
+  width: 16px;
+  height: 16px;
+  margin-right: 0.45rem;
+  vertical-align: -3px;
+  image-rendering: pixelated;
+}
+
 /* A real vertical list as of 2026-08-13 (Vin: "this should be a list").
    It was a wrapping flex ROW with interpunct separators between links -
    which is a fine pattern in a wide footer strip, but these columns are
