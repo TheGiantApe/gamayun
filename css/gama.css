@@ -307,6 +307,22 @@ a:hover, a:focus {
   font-size: 0.8rem;
   color: var(--phosphor-dim-text);
 }
+/* Applied by js/boot-sequence.js only while the homepage boot script is
+   playing, then removed. The header is a space-between flex row whose
+   min-height grows if this text wraps - and updateHeaderClearance()
+   feeds that height into .terminal-tabs's sticky offset, so a wrapping
+   status line would shove the tab bar down on every beat of the script.
+   Pinning to one line and clipping makes that shift structurally
+   impossible instead of just unlikely. min-width:0 is what actually lets
+   a flex item shrink below its content width; without it the ellipsis
+   never engages and the row overflows instead. */
+.terminal-header .system-status.booting {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+  text-align: right;
+}
 
 /* ---- Top-level section tabs (TOOLS/WIKI/LOG/ABOUT), plus the keystone
    RANDOM_TOOL button and search box that used to live stacked above
@@ -383,14 +399,14 @@ a:hover, a:focus {
 /* Swapped in over the SVG on hover/focus by initRandomToolKeystone() in
    gama-core.js - cycles ⚀-⚅ so the icon reads as rolling. */
 .dice-roll-face { font-size: 1.2rem; line-height: 1; }
-/* ASCII fallback label, icon-only below 901px (matches the
-   command-bridge-grid breakpoint) same as every other tab in the bar -
-   width:auto only kicks in once there's a label to make room for. */
-.dice-roll-label { display: none; font-size: 0.7rem; letter-spacing: 0.15em; margin-left: 0.4rem; }
-@media (min-width: 901px) {
-  .nav-alpha-keystone { width: auto; padding: 0 0.9rem; }
-  .dice-roll-label { display: inline; }
-}
+/* The "ROLL" text label that used to sit beside the die is gone (Vin
+   2026-08-13: "this doesn't need to be here, the dice is obvious"), and
+   .dice-roll-label went with it. The desktop `width: auto; padding: 0
+   0.9rem` override went too - it existed only to make room for that
+   label, so leaving it would have stretched a now-icon-only button into a
+   wide empty slab above 901px. The button keeps its 3rem square footprint
+   at every breakpoint instead, and its accessible name now comes from an
+   explicit aria-label on the button rather than from the removed text. */
 
 /* ---- Command bridge grid: 3-column desktop deck ---- */
 .command-bridge-grid {
@@ -1040,6 +1056,15 @@ button:hover, .btn:hover {
   bottom: calc(100% + 0.5rem);
   background: var(--void-raised);
   border: 2px solid var(--phosphor);
+  /* The only rounded corners on the entire site, deliberately (Vin
+     2026-08-13: "this should be the only thing with rounded corners" -
+     the chat bubble specifically, nothing else). Everything else is
+     hard-edged terminal chrome; she's the one thing that talks, so the
+     one soft shape reads as speech rather than as inconsistency. Safe
+     against the tail below: ::before/::after sit outside the box at
+     bottom center with no overflow clamp, so a corner radius never
+     clips or detaches them. */
+  border-radius: 10px;
   padding: 0.6rem 0.7rem;
   font-size: 0.85rem;
   line-height: 1.4;
@@ -1427,17 +1452,23 @@ button:hover, .btn:hover {
    separator approach would have needed to know which item is *actually*
    last given one can be hidden, a leading one only cares that it isn't
    first, which never changes. */
+/* A real vertical list as of 2026-08-13 (Vin: "this should be a list").
+   It was a wrapping flex ROW with interpunct separators between links -
+   which is a fine pattern in a wide footer strip, but these columns are
+   ~155px, so it wrapped into a ragged near-column where the separators
+   landed at the start of wrapped lines instead of between items. It read
+   as a broken list rather than a deliberate inline row. Now it's an
+   actual <ul>: one item per line, no separators, list markers stripped
+   since the column label already frames the group. */
 .footer-links-row {
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+  flex-direction: column;
   row-gap: 0.4rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
-.footer-links-row a:not(:first-child)::before {
-  content: "\00b7";
-  margin: 0 0.6rem;
-  color: var(--phosphor-dim-text);
-}
+.footer-links-row li { margin: 0; }
 .footer-col-label {
   font-size: 0.7rem;
   color: var(--phosphor);
@@ -1584,16 +1615,58 @@ button:hover, .btn:hover {
   color: var(--phosphor-dim-text);
   font-size: 0.95rem;
 }
-/* Plain functional sentence (.hero-tagline) leads, GAMA-voice flourish
-   (.hero-subtagline) follows smaller/dimmer underneath it - the 60/40
-   pattern from GAMAYUN_tactics_strategy_bulletproofing.md section 7,
-   applied to the very first thing anyone reads on the site. */
+/* ORDER REVERSED 2026-08-13 on Vin's direct instruction ("move this up"):
+   .hero-subtagline now sits above .hero-tagline, directly under the
+   wordmark, carrying a presence dot as an online indicator.
+
+   This knowingly departs from the 60/40 pattern in
+   GAMAYUN_tactics_strategy_bulletproofing.md section 7, which had the
+   plain functional sentence leading and the GAMA-voice flourish
+   following smaller/dimmer underneath. Noting the departure rather than
+   quietly deleting the reasoning: the doc still says what it says, and
+   if the hero ever gets revisited this is the decision to re-examine.
+   The status line stays smaller and dimmer than the tagline even in
+   front position, so the 60/40 weighting survives the reordering even
+   though the sequence doesn't. */
 .hero-subtagline {
-  margin-top: 0.4rem;
+  margin-top: 0.5rem;
   padding: 0 1.5rem;
   color: var(--phosphor-dim-text);
   font-size: 0.85rem;
   opacity: 0.85;
+}
+/* Presence dot - the "this person is online" convention, in phosphor.
+   Two layers: the solid dot itself, and a ::after ring that expands and
+   fades on a loop, which is what makes it read as a live signal rather
+   than a bullet point. Animation is opt-out under prefers-reduced-motion
+   (site convention), where it degrades to a plain steady dot - still a
+   correct status indicator, just not a pulsing one. */
+.presence-dot {
+  position: relative;
+  display: inline-block;
+  width: 0.5rem;
+  height: 0.5rem;
+  margin-right: 0.5rem;
+  border-radius: 50%;
+  background: var(--phosphor);
+  vertical-align: middle;
+  flex-shrink: 0;
+}
+.presence-dot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: var(--phosphor);
+  animation: presence-pulse 2s ease-out infinite;
+}
+@keyframes presence-pulse {
+  0%   { transform: scale(1);   opacity: 0.7; }
+  70%  { transform: scale(2.6); opacity: 0; }
+  100% { transform: scale(2.6); opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .presence-dot::after { animation: none; display: none; }
 }
 @keyframes flicker-in {
   0% { opacity: 0; text-shadow: none; }

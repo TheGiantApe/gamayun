@@ -73,13 +73,24 @@ WIKI_TOPICS = [
 
 # Top-level tab bar (site sections), separate from CATEGORIES above (which
 # are TOOLS-only sub-groups shown in the sidebar). Each tuple is
-# (section key, tab label, link target - relative to site root). A 5th
-# ARTICLES tab is deliberately not here yet (explicitly deferred, "near
-# future stuff" per Vin) - adding one later is just one more tuple plus a
-# page, the tab bar itself doesn't need to change.
+# (section key, tab label, link target). A target starting with "http" is
+# an absolute cross-property link and is emitted as-is; anything else is
+# relative to site root and gets `root` prefixed. An ARTICLES tab is
+# deliberately not here yet (explicitly deferred, "near future stuff" per
+# Vin) - adding one later is just one more tuple plus a page, the tab bar
+# itself doesn't need to change.
+#
+# SHOP and RADIO live on their own subdomains (WooCommerce and a static
+# page respectively), not in this static build, so they're absolute. They
+# sit before LOG per Vin 2026-08-13: until this, the homepage had zero
+# links to either one, which made the shop unreachable from the front
+# door. RADIO currently resolves to an "under construction" stub - that's
+# a real page, not a 404, but it is an empty room and Vin knows it.
 SECTIONS = [
     ("tools", "TOOLS", "index.html"),
     ("wiki", "WIKI", "pages/wiki-index.html"),
+    ("shop", "SHOP", "https://shop.gamayun.site/"),
+    ("radio", "RADIO", "https://radio.gamayun.site/"),
     ("log", "LOG", "pages/log.html"),
     ("about", "ABOUT", "pages/about.html"),
     ("contact", "CONTACT", "pages/contact.html"),
@@ -138,7 +149,8 @@ def wiki_entries_by_topic():
 PAGES = [
     dict(out="index.html", fragment="home.html", title="Orbital Salvage Archive",
          desc="Free client-side web tools. Your input never leaves your browser. No accounts, nothing for sale.",
-         root="", code="DECK_LAUNCHER", category=None, js=[]),
+         root="", code="DECK_LAUNCHER", category=None,
+         js=["data-boot-scripts.js", "boot-sequence.js"]),
 
     dict(out="pages/links.html", fragment="links.html", title="Link Purge",
          desc="Strip tracking parameters from any URL, entirely client-side.",
@@ -689,6 +701,22 @@ PAGES = [
 ]
 
 
+def bookmark_noun(page, section):
+    """What the QUICK ACCESS box calls the thing you're about to bookmark.
+
+    "Bookmark this tool" on a tool page, "this article" in the wiki, "this
+    site" on the homepage. Generic "page" is the fallback rather than the
+    default - it's the least useful word of the four, so it should only
+    show up where nothing more specific is true."""
+    if page["out"] == "index.html":
+        return "site"
+    if page.get("wiki_entry"):
+        return "article"
+    if section == "tools" and page.get("category"):
+        return "tool"
+    return "page"
+
+
 def build_tabs_html(current_section, root):
     """Top-level tab bar - real links to each section's landing page (not
     client-side show/hide), so every page keeps its own crawlable URL.
@@ -696,7 +724,8 @@ def build_tabs_html(current_section, root):
     lines = []
     for key, label, target in SECTIONS:
         active = " active" if key == current_section else ""
-        lines.append(f'                    <a href="{root}{target}" class="tab-btn{active}" data-tab="{key}">{label}</a>')
+        href = target if target.startswith("http") else f"{root}{target}"
+        lines.append(f'                    <a href="{href}" class="tab-btn{active}" data-tab="{key}">{label}</a>')
     return "\n".join(lines)
 
 
@@ -1331,6 +1360,7 @@ def build():
         out = out.replace("{{RIGHT_DECK_EXTRA}}", right_deck_extra)
         out = out.replace("{{SITE_URL}}", SITE_URL)
         out = out.replace("{{TITLE}}", page["title"])
+        out = out.replace("{{BOOKMARK_NOUN}}", bookmark_noun(page, section))
         out = out.replace("{{DESCRIPTION}}", page["desc"])
         out = out.replace("{{JSONLD}}", build_jsonld_html(page, instructable_by_out.get(page["out"])))
         canonical_path = "" if page["out"] == "index.html" else page["out"]

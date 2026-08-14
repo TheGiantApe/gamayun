@@ -719,8 +719,15 @@ const GAMA = (() => {
   }
 
   function revealScrapbookLink() {
+    // The footer columns became real <ul> lists on 2026-08-13, so the
+    // hidden state moved from the <a> up to its wrapping <li> - unhiding
+    // the anchor alone would leave the list item still display:none and
+    // the egg reward silently unclaimable. Prefer the <li>, fall back to
+    // the anchor so this keeps working if the markup ever flattens again.
+    const item = document.getElementById("scrapbook-footer-item");
     const link = document.getElementById("scrapbook-footer-link");
-    if (link) link.style.display = "";
+    const target = item || link;
+    if (target) target.style.display = "";
   }
 
   function triggerEgg(id) {
