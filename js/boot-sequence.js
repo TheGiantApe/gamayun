@@ -1,16 +1,30 @@
-/* Header boot sequence - homepage only, once per session.
+/* Header boot sequence - homepage only, every load.
    Walks one script from js/data-boot-scripts.js through the header's
    .system-status slot a line at a time, then settles back to the resting
    line ("LINK: STABLE // MAG-LOCK: ENGAGED") and leaves it there.
 
-   WHY IT'S GATED THE WAY IT IS
+   IT IS DECOR. IT NEVER ASKS THE USER FOR ANYTHING.
+
+   Vin, 2026-08-13: "the script that runs in the top right should run
+   automatically and shouldnt be a complication for the user. its just
+   moving decor. so they should be able to scroll the page and it will
+   still keep running."
+
+   Consequences of that, spelled out so they don't get re-gated later:
+   - No once-per-session guard. It ran once per session until Vin saw it
+     and corrected the call he'd made the day before; ambient decor that
+     shows up one time in ten page loads isn't ambient, it's a rumour.
+   - Nothing here listens for scroll, keypress, click or focus, and
+     nothing cancels the sequence. It is timers only, so scrolling cannot
+     interrupt it. .terminal-header is `position: sticky; top: 0`, so the
+     slot also stays on screen the whole way down the page.
+   - No dismiss control, no "press any key", nothing to acknowledge.
+     That's the separate pre-landing boot overlay's job, not this one's.
 
    Homepage only: .system-status lives in base.html, so it renders on all
    ~150 pages. A 25-second monologue in the header of a tool page is
-   noise while you're trying to use the tool. Vin picked homepage-only,
-   once per session (2026-08-13); this file is only loaded on index.html
-   (see the `js` list on the home entry in _src/build.py), and the
-   sessionStorage guard below covers same-session returns to the homepage.
+   noise while you're trying to use the tool. This file is only loaded on
+   index.html (see the `js` list on the home entry in _src/build.py).
 
    Never wraps: the header is `justify-content: space-between` with a
    min-height that grows when the status text wraps - and gama-core.js's
@@ -39,7 +53,6 @@
   "use strict";
 
   var RESTING_LINE = "LINK: STABLE // MAG-LOCK: ENGAGED";
-  var SESSION_KEY = "gama_boot_played";
   var LAST_SCRIPT_KEY = "gama_boot_last_script";
   var MIN_WIDTH = 901;
 
@@ -59,26 +72,12 @@
     );
   }
 
-  /* sessionStorage throws in some privacy modes rather than just being
-     empty, and this is decorative - a storage failure must not take the
-     header with it. On failure we report "already played" so the
-     sequence silently declines to run instead of replaying every load. */
-  function alreadyPlayedThisSession() {
-    try {
-      return window.sessionStorage.getItem(SESSION_KEY) === "1";
-    } catch (e) {
-      return true;
-    }
-  }
-
-  function markPlayed() {
-    try {
-      window.sessionStorage.setItem(SESSION_KEY, "1");
-    } catch (e) {
-      /* no-op - see above */
-    }
-  }
-
+  /* localStorage throws outright in some privacy modes rather than just
+     being empty. This is decor, so a storage failure must never take the
+     header with it - and unlike the old session guard, failing here costs
+     nothing: the only thing stored is which script played last, used to
+     avoid immediate repeats. No storage just means the anti-repeat is
+     best-effort, never that the sequence declines to run. */
   function readLastScriptId() {
     try {
       return window.localStorage.getItem(LAST_SCRIPT_KEY);
@@ -166,12 +165,10 @@
     if (typeof GAMA_BOOT_SCRIPTS === "undefined" || !GAMA_BOOT_SCRIPTS.length) return;
     if (window.innerWidth < MIN_WIDTH) return;
     if (prefersReducedMotion()) return;
-    if (alreadyPlayedThisSession()) return;
 
     var script = chooseScript(GAMA_BOOT_SCRIPTS, new Date());
     if (!script) return;
 
-    markPlayed();
     writeLastScriptId(script.id);
     play(statusEl, script);
   }
